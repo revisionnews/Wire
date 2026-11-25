@@ -3301,7 +3301,7 @@ function fitDate() {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(qrSnap, 60));
 window.addEventListener('load', () => setTimeout(qrSnap, 300));
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
-const RN = 40, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
+const RN = (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 14 : 40, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
@@ -3517,7 +3517,7 @@ function openStory(card, id, instant) {
 // Eyes take turns: each tick opens the visible story whose eye has waited longest, so every story gets a turn before any repeats
 const EYE_LAST = {};
 setInterval(() => {
-  if (TVMODE || POP || document.hidden) return;
+  if (TVMODE || POP || document.hidden || dragY !== null || Math.abs(vel) > 40) return;
   const vt = view.getBoundingClientRect(), now = performance.now();
   const eyes = [...track.querySelectorAll('.copy .qb')].filter(e => { const r = e.getBoundingClientRect(); return !e._open && r.top > vt.top + 20 && r.bottom < vt.bottom - 10; });
   if (!eyes.length) return;
