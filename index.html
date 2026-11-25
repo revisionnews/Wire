@@ -572,7 +572,7 @@ html.one .arch > ol{column-count:1}
 html.pub .qr{display:flex !important}
 html.pub .qb{width:calc(var(--u)*3.2) !important;height:calc(var(--u)*3.2) !important;padding:0 !important;margin:0 calc(var(--u)*1.2) 0 0;border:0 !important;background:transparent !important;color:inherit !important;cursor:pointer;display:block !important;position:relative;flex:none}
 html.one.pub .qb{width:calc(var(--u)*4.6) !important;height:calc(var(--u)*4.6) !important}
-html.pub .qb svg{display:none !important}
+html.pub .qb svg:not(.eye){display:none !important}
 html.pub .qb::before,html.pub .qb::after{content:'';position:absolute;inset:0;background:currentColor;transition:opacity .12s ease}
 html.pub .qb::after{opacity:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M1.6 14.2Q12 4.4 22.4 14.2Q12 24 1.6 14.2ZM12 10.9a3.3 3.3 0 1 0 0 6.6a3.3 3.3 0 1 0 0-6.6Z'/%3E%3Cg stroke='black' stroke-width='1.7' stroke-linecap='butt' fill='none'%3E%3Cpath d='M12 1v3M6.4 2.3l1.3 2.6M17.6 2.3l-1.3 2.6M1.9 5.6l2 1.9M22.1 5.6l-2 1.9'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M1.6 14.2Q12 4.4 22.4 14.2Q12 24 1.6 14.2ZM12 10.9a3.3 3.3 0 1 0 0 6.6a3.3 3.3 0 1 0 0-6.6Z'/%3E%3Cg stroke='black' stroke-width='1.7' stroke-linecap='butt' fill='none'%3E%3Cpath d='M12 1v3M6.4 2.3l1.3 2.6M17.6 2.3l-1.3 2.6M1.9 5.6l2 1.9M22.1 5.6l-2 1.9'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
 html.pub .qb::before{opacity:1;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='black' stroke-width='2' fill='none'%3E%3Cpath d='M2.5 9.5Q12 18.5 21.5 9.5'/%3E%3Cpath stroke-width='1.7' d='M12 17.5v3.5M7 16.4l-1.3 2.7M17 16.4l1.3 2.7M3.6 13.6l-2 2M20.4 13.6l2 2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='black' stroke-width='2' fill='none'%3E%3Cpath d='M2.5 9.5Q12 18.5 21.5 9.5'/%3E%3Cpath stroke-width='1.7' d='M12 17.5v3.5M7 16.4l-1.3 2.7M17 16.4l1.3 2.7M3.6 13.6l-2 2M20.4 13.6l2 2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
@@ -587,6 +587,12 @@ html.pub #track .copy .mason > *:has(.qb[data-u]),html.pub #track .copy > .arch{
 html.one,html.one body{background:var(--paper);height:100lvh;min-height:100lvh;overflow:hidden;margin:0;overscroll-behavior:none}
 html.one .stage{position:absolute !important;top:0 !important;left:0 !important}
 html.one .popx{bottom:calc(var(--u)*3 + env(safe-area-inset-bottom))}
+</style><style>
+html.pub .qb::before,html.pub .qb::after{content:none !important}
+html.pub .qb svg.eye{display:block !important;width:100%;height:100%;overflow:visible}
+html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
+.popdim.now,.popwrap.now .popsrc{transition:none !important}
+.popsrc{transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -3333,7 +3339,7 @@ function render() {
   track.innerHTML = one; alignText(); cmpSizeAll(); measure();
   if (!track.children.length || !copyH) dbgShow('empty feed: copyH=' + copyH + ' view=' + view.clientWidth + 'x' + view.clientHeight + ' stage=' + stage.clientWidth + 'x' + stage.clientHeight);
   const need = Math.min(4, Math.max(2, Math.ceil(view.clientHeight / Math.max(copyH, 1)) + 1));
-  track.innerHTML = one.repeat(need); measure(); qrSnap(); rollIndex();
+  track.innerHTML = one.repeat(need); measure(); qrSnap(); rollIndex(); addEyes(track); setTimeout(openFromHash, 0);
   off = 0;
   const al = document.getElementById('alert');
   if (data.alert) { al.textContent = data.alert; al.classList.add('on'); } else { al.classList.remove('on'); }
@@ -3406,57 +3412,80 @@ function storyRefs(id) {
   if (/^k\d+$/.test(id)) { const c = CMPS.find(x => x.qid === id); if (c) return c.hs.filter(h => h.k !== 'AI').map(h => ({ n: h.src, t: h.headline, d: h.d, k: h.lean || h.k, url: h.u ? (/^https?:/.test(h.u) ? h.u : 'https://' + h.u) : '' })); }
   return REFS[id] || [];
 }
-function openStory(card, id) {
+// Eye: closed by default; the lashes swipe up and the lid opens to reveal the eye
+const EYE_O = 'M1.8 13.5Q12 3.8 22.2 13.5Q12 23.2 1.8 13.5ZM12 10.1A3.4 3.4 0 1 0 12 16.9A3.4 3.4 0 1 0 12 10.1Z';
+const EYE_C = 'M1.8 11Q12 20 22.2 11Q12 22.6 1.8 11ZM12 16.9A0 0 0 1 0 12 16.9A0 0 0 1 0 12 16.9Z';
+const EYE_SVG = `<svg class="eye" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="${EYE_C}"><animate class="ao" attributeName="d" begin="indefinite" dur=".55s" fill="freeze" calcMode="spline" keySplines=".3 0 .2 1" keyTimes="0;1" values="${EYE_C};${EYE_O}"/><animate class="ac" attributeName="d" begin="indefinite" dur=".55s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1" values="${EYE_O};${EYE_C}"/></path><g transform="translate(0 11.6)"><g transform="scale(1 -1)"><animateTransform class="lo" attributeName="transform" type="scale" begin="indefinite" dur=".55s" fill="freeze" calcMode="spline" keySplines=".3 0 .2 1" keyTimes="0;1" values="1 -1;1 1"/><animateTransform class="lc" attributeName="transform" type="scale" begin="indefinite" dur=".55s" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1" values="1 1;1 -1"/><g class="lash0"><path transform="translate(0 -11.6)" stroke="currentColor" stroke-width="1.7" fill="none" d="M12 .8v3M6.4 2.2l1.3 2.6M17.6 2.2l-1.3 2.6M1.8 5.6l2 1.9M22.2 5.6l-2 1.9"/></g></g></g></svg>`;
+function eyeOpen(q, on) {
+  const s = q && q.querySelector('svg.eye'); if (!s) return;
+  if (!!q._open === on) return; q._open = on;
+  try { s.querySelector(on ? '.ao' : '.ac').beginElement(); s.querySelector(on ? '.lo' : '.lc').beginElement(); } catch (e) {}
+}
+function addEyes(root) { if (TVMODE) return; root.querySelectorAll('.qb').forEach(q => { if (!q.querySelector('svg.eye')) q.insertAdjacentHTML('beforeend', EYE_SVG); }); }
+function glideTo(target, ms, done) {
+  const from = off, t0 = performance.now();
+  const step = now => { const k = Math.min(1, (now - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; off = from + (target - from) * e; if (k < 1) requestAnimationFrame(step); else done && done(); };
+  if (ms <= 0) { off = target; done && done(); } else requestAnimationFrame(step);
+}
+function openStory(card, id, instant) {
   if (POP || !card) return;
-  const stage = document.getElementById('stage'), cr = card.getBoundingClientRect(), vr = view.getBoundingClientRect();
-  const u = U, mL = vr.left + u * 2.2, mW = vr.width - u * 4.4, top = document.querySelector('.mast').getBoundingClientRect().bottom + u * 1.2;
+  const stage = document.getElementById('stage'), u = U, vr = view.getBoundingClientRect();
   const keep = speed; speed = 0; vel = 0; tvel = 0;
-  const dim = document.createElement('div'); dim.className = 'popdim'; stage.appendChild(dim);
-  const wrap = document.createElement('div'); wrap.className = 'popwrap';
-  let host = wrap; [card.closest('.copy'), card.parentElement].forEach(a => { if (!a || a === card) return; const c = a.cloneNode(false); c.removeAttribute('id'); c.style.cssText = 'column-count:1;margin:0;padding:0;transform:none;position:static;height:auto'; host.appendChild(c); host = c; });
-  card.querySelectorAll('.qb').forEach(e => e.classList.add('wide'));
-  const clone = card.cloneNode(true); clone.style.margin = '0'; clone.style.width = '100%'; clone.style.breakInside = 'avoid'; host.appendChild(clone);
-  const refs = storyRefs(id);
-  const src = document.createElement('div'); src.className = 'popsrc';
-  src.innerHTML = `<div class="ph">Sources<em>${refs.length}</em></div>` + (refs.length ? refs.map((r, i) => `<a class="ps" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="b"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i><small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small></span></a>`).join('') : '<p class="ps0">No source links for this item.</p>');
-  host.appendChild(src);
-  Object.assign(wrap.style, { left: cr.left + 'px', top: cr.top + 'px', width: cr.width + 'px', maxHeight: (innerHeight - top - u * 6) + 'px' });
-  stage.appendChild(wrap);
-  const close = document.createElement('button'); close.className = 'popx'; close.textContent = 'Back to Wire'; stage.appendChild(close);
-  POP = { dim, wrap, close, keep, timer: 0, id };
-  const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
-  requestAnimationFrame(() => { dim.classList.add('on'); close.classList.add('on'); });
-  setTimeout(() => { if (POP) Object.assign(wrap.style, { left: mL + 'px', width: mW + 'px', top: top + 'px' }); }, 240);
-  setTimeout(() => { if (POP) { wrap.classList.add('srcs'); wrap.style.overflowY = 'auto'; } }, 700);
-  arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
-  dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory);
-  clone.addEventListener('click', closeStory);
+  POP = { keep, id, timer: 0, dim: null, wrap: null, close: null };
+  const dim = document.createElement('div'); dim.className = 'popdim' + (instant ? ' on now' : ''); stage.appendChild(dim); POP.dim = dim;
+  if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
+  // bring the story into view first, then open it downward from where it sits
+  const want = off + card.getBoundingClientRect().top - vr.top - u * 2.4;
+  glideTo(want, instant ? 0 : 420, () => {
+    if (!POP) return;
+    track.style.transform = 'translateY(' + (-Math.round(off * DPR) / DPR) + 'px)';
+    const c = card.isConnected ? card : (cardFor(id) || card), cr = c.getBoundingClientRect();
+    const wrap = document.createElement('div'); wrap.className = 'popwrap';
+    let host = wrap; [c.closest('.copy'), c.parentElement].forEach(a => { if (!a || a === c) return; const x = a.cloneNode(false); x.removeAttribute('id'); x.style.cssText = 'column-count:1;margin:0;padding:0;transform:none;position:static;height:auto'; host.appendChild(x); host = x; });
+    const clone = c.cloneNode(true); clone.style.margin = '0'; clone.style.width = '100%'; clone.style.breakInside = 'avoid'; host.appendChild(clone);
+    const refs = storyRefs(id), src = document.createElement('div'); src.className = 'popsrc';
+    src.innerHTML = `<div class="ph">Sources<em>${refs.length}</em></div>` + (refs.length ? refs.map((r, i) => `<a class="ps" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="b"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i><small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small></span></a>`).join('') : '<p class="ps0">No source links for this item.</p>');
+    host.appendChild(src);
+    Object.assign(wrap.style, { left: cr.left + 'px', top: cr.top + 'px', width: cr.width + 'px', maxHeight: (innerHeight - cr.top - u * 6) + 'px' });
+    stage.appendChild(wrap); POP.wrap = wrap;
+    const close = document.createElement('button'); close.className = 'popx' + (instant ? ' on' : ''); close.textContent = 'Back to Wire'; stage.appendChild(close); POP.close = close;
+    if (!instant) requestAnimationFrame(() => close.classList.add('on'));
+    const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 60); }
+    if (instant) { wrap.classList.add('srcs', 'now'); wrap.style.overflowY = 'auto'; }
+    else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); setTimeout(() => { wrap.style.overflowY = 'auto'; }, 520); }));
+    const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
+    arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
+    dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory); clone.addEventListener('click', closeStory);
+  });
   try { history.replaceState(null, '', location.pathname + location.search + '#' + id); } catch (e) {}
 }
-
-// Blink a few random eyes so people know they can tap a story
+// Every so often one random eye slowly opens, holds, then closes, so people know they can tap a story
 if (!TVMODE) setInterval(() => {
   if (POP || document.hidden) return;
-  const vt = view.getBoundingClientRect(), eyes = [...track.querySelectorAll('.copy .qb')].filter(e => { const r = e.getBoundingClientRect(); return r.top > vt.top + 20 && r.bottom < vt.bottom - 10; });
-  for (let k = 0; k < Math.min(1, eyes.length); k++) { const e = eyes[Math.floor(Math.random() * eyes.length)]; e.classList.remove('blink'); void e.offsetWidth; e.classList.add('blink'); setTimeout(() => e.classList.remove('blink'), 4300); }
-}, 2600);
-
+  const vt = view.getBoundingClientRect(), eyes = [...track.querySelectorAll('.copy .qb')].filter(e => { const r = e.getBoundingClientRect(); return !e._open && r.top > vt.top + 20 && r.bottom < vt.bottom - 10; });
+  if (!eyes.length) return; const e = eyes[Math.floor(Math.random() * eyes.length)];
+  eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2600);
+}, 3200);
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
-  track.querySelectorAll('.qb.wide').forEach(e => e.classList.remove('wide'));
-  p.dim.classList.remove('on'); p.close.classList.remove('on'); p.wrap.classList.add('off');
-  setTimeout(() => { [p.dim, p.wrap, p.close].forEach(e => e.remove()); speed = p.keep; }, 380);
+  if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); }
+  setTimeout(() => { p.dim && p.dim.classList.remove('on', 'now'); p.close && p.close.classList.remove('on'); p.wrap && p.wrap.classList.add('off'); }, 260);
+  setTimeout(() => { [p.dim, p.wrap, p.close].forEach(e => e && e.remove()); speed = p.keep; }, 640);
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
 }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
 document.querySelector('.mast .ctr').addEventListener('click', () => { if (POP) closeStory(); off = 0; vel = 0; tvel = 0; if (location.hash) try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
-function cardFor(id) { const q = [...track.querySelectorAll('.copy [data-u]')].find(x => x.dataset.u.split('#')[1] === id); return q && q.closest('.mason > *, .copy > .arch'); }
+function cardFor(id) { const qs = [...track.querySelectorAll('.copy [data-u]')].filter(x => x.dataset.u.split('#')[1] === id); return qs[0] && qs[0].closest('.mason > *, .copy > .arch'); }
+// A scanned QR lands straight on its story: the feed stays hidden until that story is open
+const BOOT_ID = TVMODE ? '' : decodeURIComponent((location.hash || '').slice(1));
+if (BOOT_ID && BOOT_ID !== 'archive' && !BOOT_ID.startsWith('a-')) document.documentElement.classList.add('boot');
+else if (BOOT_ID === 'archive' || BOOT_ID.startsWith('a-')) location.replace(SITE + 'm/#' + BOOT_ID);
+let bootTries = 0;
 function openFromHash() {
-  const id = decodeURIComponent((location.hash || '').slice(1)); if (!id || TVMODE) return;
-  if (id === 'archive' || id.startsWith('a-')) { location.replace(SITE + 'm/#' + id); return; }
-  const c = cardFor(id); if (!c) return;
-  const vt = view.getBoundingClientRect().top; off += c.getBoundingClientRect().top - vt - U * 4; if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
-  setTimeout(() => { const c2 = cardFor(id); if (c2) openStory(c2, id); }, 350);
+  if (!document.documentElement.classList.contains('boot')) return;
+  const c = cardFor(BOOT_ID);
+  if (c) { openStory(c, BOOT_ID, true); requestAnimationFrame(() => document.documentElement.classList.remove('boot')); return; }
+  if (++bootTries > 8) document.documentElement.classList.remove('boot');
 }
 
 function wireTap() {
@@ -3473,7 +3502,6 @@ function wireTap() {
     if (card.classList.contains('arch')) { location.href = SITE + 'm/#archive'; return; }
     openStory(card, id);
   }, true);
-  setTimeout(openFromHash, 1200);
 }
 wireTap();
 requestAnimationFrame(tick);
