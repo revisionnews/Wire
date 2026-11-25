@@ -1,5 +1,5 @@
 {
- "edition": "Nov 25 afternoon refresh",
+ "edition": "Nov 25 midafternoon refresh",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
@@ -9,7 +9,7 @@
    "domain": "ksat.com",
    "kind": "News",
    "status": "Used",
-   "note": "Local page read; shooting, weather, rodeo, Ready to Work, SAISD and ICE stories opened"
+   "note": "Local page read; murder suicide, 1969 case, online solicitation and South Side shooting stories opened"
   },
   {
    "name": "News 4 San Antonio",
@@ -23,7 +23,7 @@
    "domain": "foxsanantonio.com",
    "kind": "News",
    "status": "Used",
-   "note": "Local page read; South Side shooting and freeze warning opened"
+   "note": "Local page read; murder suicide, North Side standoff and hit and run update opened"
   },
   {
    "name": "San Antonio Report",
@@ -37,21 +37,21 @@
    "domain": "tpr.org",
    "kind": "News",
    "status": "Used",
-   "note": "Home page and politics page read; tpr.org/local would not load"
+   "note": "Home page read; Pearl tree lighting story opened"
   },
   {
    "name": "San Antonio Current",
    "domain": "sacurrent.com",
    "kind": "News",
    "status": "Used",
-   "note": "News page read; VIA, ICE and BermudAir stories opened"
+   "note": "News page read; zoo jaguar, ICE identification, nonprofits and ACS stories opened"
   },
   {
    "name": "City of San Antonio",
    "domain": "sa.gov",
    "kind": "Official",
    "status": "Used",
-   "note": "News releases, council memo table, bond release and holiday release read"
+   "note": "News releases and council memo table read; CCR 2026-0044 and SMR 2026-0047 added"
   },
   {
    "name": "Bexar County",
@@ -93,7 +93,7 @@
    "domain": "kens5.com",
    "kind": "News",
    "status": "Checked",
-   "note": "Search only; no new dated headline confirmed"
+   "note": "Search only; Nov West Side officer shooting headline seen, no readable confirmation used"
   },
   {
    "name": "Express-News",
@@ -301,7 +301,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T13:11:00-06:00",
+ "generated_at": "2026-11-25T14:20:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -925,6 +925,25 @@
  ],
  "community": [
   {
+   "headline": "San Antonio Zoo welcomes Mary Pat, an eight month old jaguar",
+   "summary": "The San Antonio Zoo has a new eight month old female jaguar named Mary Pat, who came from Wildlife World Zoo, Aquarium and Safari Park in Arizona. Keepers are working one on one with her to build trust, and she could make her first public appearance as soon as Thanksgiving Day. The zoo is open 11 a.m. to 9 p.m. on Thanksgiving, and she joins resident male jaguar B'alam.",
+   "when": "Nov 25",
+   "pillar": "C",
+   "kind": "Announcement",
+   "status": "Reported",
+   "first_seen": "2026-11-25T14:20:00-06:00",
+   "refs": [
+    {
+     "n": "San Antonio Current",
+     "t": "San Antonio Zoo welcomes eight-month-old female jaguar",
+     "d": "Nov 25, 2026",
+     "u": "sacurrent.com",
+     "k": "News",
+     "url": "https://www.sacurrent.com/arts/things-to-do/san-antonio-zoo-welcomes-eight-month-old-female-jaguar/"
+    }
+   ]
+  },
+  {
    "headline": "Airport expects about 130,000 passengers over Thanksgiving week",
    "summary": "San Antonio International expects about 130,380 passengers from Sunday, Nov 22, through Sunday, Nov 29. The busiest days should be Wednesday, Nov 25, with about 17,800, and Sunday, Nov 29, with about 20,000. Travelers should arrive two hours before domestic flights and three hours before international ones.",
    "when": "Nov 22 to 29",
@@ -1349,6 +1368,33 @@
  ],
  "safety": [
   {
+   "headline": "Woman and her boyfriend found dead in a far West Side home in an apparent murder suicide",
+   "summary": "Deputies called about 3 a.m. Wednesday to a home off Frontier Eagle near Loop 1604 found a woman in her mid 30s and a man in his 40s dead upstairs with gunshot wounds. Sheriff Javier Salazar said investigators believe, in preliminary findings, that the woman shot her boyfriend and then herself, and that a 12 year old found them. Six adults and seven children were in the home, and neither adult has been publicly identified.",
+   "when": "Nov 25",
+   "pillar": "C",
+   "kind": "Update",
+   "status": "Verified",
+   "first_seen": "2026-11-25T14:20:00-06:00",
+   "refs": [
+    {
+     "n": "FOX 29 San Antonio",
+     "t": "12-year-old discovers mother, boyfriend dead in apparent murder-suicide",
+     "d": "Nov 25, 2026",
+     "u": "foxsanantonio.com",
+     "k": "News",
+     "url": "https://foxsanantonio.com/news/local/watch-it-live-shooting-on-far-west-side"
+    },
+    {
+     "n": "KSAT",
+     "t": "BCSO to provide details on shooting on far West Side",
+     "d": "Nov 25, 2026",
+     "u": "ksat.com",
+     "k": "News",
+     "url": "https://www.ksat.com/news/local/2026/11/25/bcso-to-provide-details-on-shooting-on-far-west-side/"
+    }
+   ]
+  },
+  {
    "headline": "Driver still sought after 15 year old on a scooter was killed in a hit and run",
    "summary": "The Bexar County Sheriff's Office is still looking for the driver who hit and killed a 15 year old girl riding an electric scooter about 8:20 p.m. Sunday, Nov 22, at W.T. Montgomery Road and Century Tree Drive. The girl, who was riding home from a friend's house, died at University Hospital and has since been identified. Investigators believe the vehicle is a 2011 to 2016 Ford F-250 or F-350 with front passenger side damage, and tips can go to BCSOTrafficHomicide@bexar.org.",
    "when": "Nov 23",
@@ -1380,25 +1426,6 @@
      "u": "ksat.com",
      "k": "News",
      "url": "https://www.ksat.com/news/local/2026/11/24/girl-riding-electric-scooter-killed-in-hit-and-run-bcso-looking-for-driver/"
-    }
-   ]
-  },
-  {
-   "headline": "Man found with critical head injuries on a West Side road",
-   "summary": "A man in his 50s or 60s was found lying on the side of the road in the 3100 block of West Commerce Street, near Elmendorf Lake Park, just before 9 a.m. Tuesday. A San Antonio police park officer found him, and he was taken to a hospital in critical condition. Police have not said whether he was hit by a vehicle or assaulted, and no suspects or arrests have been reported.",
-   "when": "Nov 24",
-   "pillar": "C",
-   "kind": "Update",
-   "status": "Reported",
-   "first_seen": "2026-11-24T14:55:00-06:00",
-   "refs": [
-    {
-     "n": "KSAT",
-     "t": "Man found with critical head injuries on side of West Side road, SAPD says",
-     "d": "Nov 24, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/24/man-found-with-critical-head-injuries-on-side-of-west-side-road-sapd-says/"
     }
    ]
   },
@@ -1616,6 +1643,44 @@
      "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
     }
    ]
+  },
+  {
+   "headline": "CCR asks for a study of what legal cannabis would mean for San Antonio",
+   "summary": "Councilman Jalen McKee-Rodriguez filed CCR 2026-0044 asking for an economic impact analysis of cannabis legalization and a regulated cannabis industry in San Antonio and Texas. The city's memo table lists it as pending in the Governance Committee.",
+   "when": "Pending",
+   "pillar": "P",
+   "kind": "CCR",
+   "status": "Verified",
+   "first_seen": "2026-11-25T14:20:00-06:00",
+   "refs": [
+    {
+     "n": "City of San Antonio",
+     "t": "2026 Council Memos",
+     "d": "",
+     "u": "sa.gov",
+     "k": "Official",
+     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+    }
+   ]
+  },
+  {
+   "headline": "Five council members seek a standing budget and finance committee",
+   "summary": "Council members Marc Whyte, Misty Spears, Marina Alderete Gavito, Edward Mungia and Sukh Kaur filed SMR 2026-0047 to create a standing City Council Budget and Finance Committee. The city's memo table lists it as pending in the Governance Committee.",
+   "when": "Pending",
+   "pillar": "P",
+   "kind": "Memo",
+   "status": "Verified",
+   "first_seen": "2026-11-25T14:20:00-06:00",
+   "refs": [
+    {
+     "n": "City of San Antonio",
+     "t": "2026 Council Memos",
+     "d": "",
+     "u": "sa.gov",
+     "k": "Official",
+     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+    }
+   ]
   }
  ],
  "events": [
@@ -1770,6 +1835,25 @@
    "status": "Upcoming",
    "kind": "Event",
    "headline": "H-E-B Christmas Tree Lighting"
+  },
+  {
+   "headline": "Pearl tree lighting with TEAMability",
+   "summary": "TEAMability, a San Antonio group serving children with disabilities and their families, will light the Pearl's tree at 303 Pearl Parkway. More than 12 of its families are registered to take part, and Pearl's ice rink is open 4 to 10 p.m. that day.",
+   "when": "Fri Nov 27, 5:45 PM",
+   "pillar": "C",
+   "kind": "Event",
+   "status": "Upcoming",
+   "first_seen": "2026-11-25T14:20:00-06:00",
+   "refs": [
+    {
+     "n": "Texas Public Radio",
+     "t": "San Antonio's TEAMability lights up the Historic Pearl in tree lighting ceremony",
+     "d": "Nov 24, 2026",
+     "u": "tpr.org",
+     "k": "News",
+     "url": "https://www.tpr.org/news/2026-11-24/san-antonios-teamability-lights-up-the-historic-pearl-in-tree-lighting-ceremony"
+    }
+   ]
   },
   {
    "summary": "The ticketed parade starts at the Tobin Center at 6 p.m. A live broadcast runs at 7:05 p.m. from the Arneson River Theatre at La Villita.",
@@ -2288,9 +2372,34 @@
  "unions": [],
  "neighborhoods": [],
  "archive": {
-  "total": 28,
+  "total": 29,
   "since": "Nov 23",
   "items": [
+   {
+    "id": "A0096",
+    "sec": "Safety",
+    "h": "Man found with critical head injuries on a West Side road",
+    "p": "C",
+    "d": "Nov 24, 2026",
+    "left": "Nov 25",
+    "kind": "Update",
+    "status": "Reported",
+    "when": "Nov 24",
+    "summary": "A man in his 50s or 60s was found lying on the side of the road in the 3100 block of West Commerce Street, near Elmendorf Lake Park, just before 9 a.m. Tuesday. A San Antonio police park officer found him, and he was taken to a hospital in critical condition. Police have not said whether he was hit by a vehicle or assaulted, and no suspects or arrests have been reported.",
+    "refs": [
+     {
+      "n": "KSAT",
+      "t": "Man found with critical head injuries on side of West Side road, SAPD says",
+      "d": "Nov 24, 2026",
+      "u": "ksat.com",
+      "k": "News",
+      "url": "https://www.ksat.com/news/local/2026/11/24/man-found-with-critical-head-injuries-on-side-of-west-side-road-sapd-says/"
+     }
+    ],
+    "t": "",
+    "s": "KSAT",
+    "u": "https://www.ksat.com/news/local/2026/11/24/man-found-with-critical-head-injuries-on-side-of-west-side-road-sapd-says/"
+   },
    {
     "id": "A0001",
     "sec": "Safety",
