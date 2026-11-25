@@ -624,7 +624,7 @@ html.one .popsrc.cmpx .ps .cs{font-size:calc(var(--u)*3.4)}
 .popsrc.arx2 .ar-more a b{font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-right:calc(var(--u)*.4)}
 html.one .popsrc.arx2 .ar-bar button,html.one .popsrc.arx2 .ar-bar input{font-size:calc(var(--u)*2.8)}
 html.one .popsrc.arx2 .ar-more .cs,html.one .popsrc.arx2 .ar-more a{font-size:calc(var(--u)*3.3)}
-/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
+</style><style>.mason > [data-cb]{break-before:column;-webkit-column-break-before:always}/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
 html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the roller so the two never leave a hairline between them */
@@ -3167,28 +3167,29 @@ function buildCopy(d) {
   // Compare blocks are the special teaching blocks: each one once, spread evenly through the feed
   const cmpBase = Q.cmp.splice(0), cmpQ = [];
   cmpBase.forEach(h => cmpQ.push(h)); // every compare story once, never repeated
-  const rnd = seeded(d.generated_at), memoQ = Q.memo.splice(0), keys = Object.keys(Q);
+  // Curated order: top stories 1 to 10 mark the way down the feed. Between each pair, an even share of everything else,
+  // with special blocks (compare, memos, meetings, events, breaking) set between regular stories so no two of a kind touch.
+  const rnd = seeded(d.generated_at);
   const shuf = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   shuf(Q.spark);
-  let prev = ''; const feed = [];
-  for (;;) {
-    const live = keys.filter(k => Q[k].length);
-    if (!live.length) break;
-    let pool = live.filter(k => k !== prev); if (!pool.length) pool = live;
-    const tot = pool.reduce((n, k) => n + Q[k].length, 0); let r = rnd() * tot, pick = pool[0];
-    for (const k of pool) { r -= Q[k].length; if (r <= 0) { pick = k; break; } }
-    feed.push({ k: pick, h: Q[pick].shift() }); prev = pick;
-  }
-  // Memos and CCRs are the items that can become policy, so they are spaced evenly through the feed
-  memoQ.forEach((h, i) => { feed.splice(Math.min(feed.length, Math.floor((i + 1) * feed.length / (memoQ.length + 1)) + i), 0, { k: 'memo', h }); });
-  // Compare blocks sit close together near the start of each loop (about every 10 stories) so several are on screen in the same stretch
-  // Compare blocks spread evenly through the whole feed, never next to each other
-  { const n0 = feed.length; cmpQ.forEach((h, i) => feed.splice(Math.min(feed.length, Math.round((i + .5) * n0 / cmpQ.length) + i), 0, { k: 'cmp', h })); }
-  // Breaking never sits next to another breaking: one in the first part of the feed (left column), one in the last part (right column)
-  if (brk.length) {
-    const n = feed.length, p1 = 1 + Math.floor(rnd() * Math.max(1, Math.floor(n * 0.3)));
-    feed.splice(Math.min(p1, n), 0, { k: 'brk', h: brk[0] });
-    if (brk[1]) feed.splice(Math.min(feed.length, Math.floor(n * 0.62) + Math.floor(rnd() * Math.max(1, Math.floor(n * 0.25)))), 0, { k: 'brk', h: brk[1] });
+  const tops = Q.top.splice(0), segs = Math.max(1, tops.length);
+  const share = (arr, i) => arr.slice(Math.floor(i * arr.length / segs), Math.floor((i + 1) * arr.length / segs));
+  const cats = { cmp: cmpQ, memo: Q.memo, meet: Q.meet, ev: Q.ev };
+  const feed = [];
+  for (let i = 0; i < segs; i++) {
+    if (tops[i]) feed.push({ k: 'top', h: tops[i] });
+    // specials for this stretch, interleaved so the same kind is never back to back
+    const pools = Object.keys(cats).map(k => share(cats[k], i).map(h => ({ k, h }))).filter(p => p.length);
+    if (i === 0 && brk[0]) pools.unshift([{ k: 'brk', h: brk[0] }]);
+    if (brk[1] && i === Math.floor(segs / 2)) pools.unshift([{ k: 'brk', h: brk[1] }]);
+    const spec = []; let last = '';
+    while (pools.some(p => p.length)) { const p = pools.filter(q => q.length && q[0].k !== last).sort((x, y) => y.length - x.length)[0] || pools.find(q => q.length); const x = p.shift(); spec.push(x); last = x.k; }
+    const sp = share(Q.spark, i).map(h => ({ k: 'spark', h }));
+    // alternate: a regular story, then a special, so specials are always separated by at least one story
+    const out = sp.slice();
+    // specials spread evenly among the regular stories of this stretch, never two in a row while stories remain
+    spec.forEach((x, j) => { const at = Math.min(out.length, Math.round((j + 1) * (sp.length + spec.length) / (spec.length + 1))); out.splice(at, 0, x); });
+    feed.push(...out);
   }
   FEED = feed;
   return wrapFeed();
@@ -3205,7 +3206,7 @@ function archBlock() {
     `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div><div class="ad">Search every story by date, SPARC letter or storyline</div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
 }
 let FEED = [];
-function wrapFeed() { return '<div class="mason">' + FEED.map(f => f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
+function wrapFeed() { return '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
 
 
 // Layout rule: the same kind of box (breaking, top, coverage, meetings, events, memos) never sits beside or directly under itself
@@ -3231,6 +3232,19 @@ function placeCmp() {
   const kids = [...track.querySelectorAll('.copy .mason > *')], x0 = kids.length ? kids[0].getBoundingClientRect().left : 0;
   let start = kids.findIndex(e => e.getBoundingClientRect().left > x0 + 20); if (start < 0) start = FEED.length;
   if (half < cm.length) put(FEED, start + 1, cm.slice(half));
+}
+// Two columns, read top to bottom: each story goes to the shorter column in feed order, so rank 1 to 10 runs down the board
+let COLBRK = -1;
+function balanceCols() {
+  COLBRK = -1;
+  if (document.documentElement.classList.contains('one') || FEED.length < 2) { track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>'; return; }
+  track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>';
+  const kids = [...track.querySelectorAll('.copy .mason > *')];
+  const hts = kids.map(e => { const cs = getComputedStyle(e); return e.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom); });
+  const L = [], R = []; let hl = 0, hr = 0;
+  FEED.forEach((f, i) => { if (hl <= hr) { L.push(f); hl += hts[i] || 0; } else { R.push(f); hr += hts[i] || 0; } });
+  FEED = L.concat(R); COLBRK = R.length ? L.length : -1;
+  track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>';
 }
 function deconflict(rnd) {
   track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>';
@@ -3395,7 +3409,7 @@ function render() {
   readU();
   if (!data) return;
   speed = Number(data.scroll_speed) || 1.1;
-  buildCopy(data); deconflict(seeded('dc' + data.generated_at));
+  buildCopy(data); balanceCols();
   const one = `<div class="copy">${wrapFeed()}</div>`;
   track.innerHTML = one; alignText(); cmpSizeAll(); measure();
   if (!track.children.length || !copyH) dbgShow('empty feed: copyH=' + copyH + ' view=' + view.clientWidth + 'x' + view.clientHeight + ' stage=' + stage.clientWidth + 'x' + stage.clientHeight);
