@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta charset="utf-8"><meta name="theme-color" content="#D4D4D4"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Revision Wire</title>
 <style>
@@ -585,7 +585,9 @@ html.pub .qr{height:100%;align-self:stretch;display:flex !important;align-items:
 .refs.top::before{right:0 !important;left:0 !important}
 html.pub #track .copy .mason > *:has(.qb[data-u]),html.pub #track .copy > .arch{cursor:pointer}
 /* Phones: run the feed under Safari's toolbar */
-html.one,html.one body{background:var(--paper);height:100lvh;min-height:100lvh;overflow:hidden;margin:0;overscroll-behavior:none}
+html.one,html.one body{background:var(--paper);margin:0}
+html.one body{min-height:calc(100lvh + 2px);overflow-x:hidden}
+html.one #view{touch-action:none}
 html.one .stage{position:absolute !important;top:0 !important;left:0 !important}
 html.one .popx{bottom:calc(var(--u)*3 + env(safe-area-inset-bottom))}
 </style><style>
@@ -2999,6 +3001,8 @@ if (IN_ART) { try { TVMODE = sessionStorage.getItem('wireMode') === 'tv'; } catc
 document.documentElement.classList.add(TVMODE ? 'tvm' : 'pub');
 const SITE = 'https://wire.revision.news/';
 const REFS = {};
+// Story ids come from the story itself, not its position, so a QR scanned from any copy of the board always opens the same story
+function sid(pre, it) { const t = String((it && (it.headline || it.title || it.topic || it.h)) || '') + '|' + String(((it && it.refs) || [])[0] ? (it.refs[0].url || it.refs[0].t || '') : ''); let h = 5381; for (let k = 0; k < t.length; k++) h = ((h * 33) ^ t.charCodeAt(k)) >>> 0; return pre + '_' + h.toString(36); }
 function phoneUrl(id) { return id ? SITE + '#' + id : ''; }
 function refBlock(refs, id, extra, top, tag) {
   refs = refs || [];
@@ -3030,7 +3034,7 @@ const tagHtml = (type, st) => `<b>${esc(type)}</b><i>${esc(STW[st] || st)}</i>`;
 function rows(list, color, pre, type, lay) {
   return (list || []).map((i, ix) => {
     const x = `${i.when ? `<span class="meta">${esc(i.when)}</span>` : ''}${agePill(i)}`;
-    return `<div class="row ${lay || ''}" style="--c:${STC[statusOf(i)]}">${lay === 'l-ev' ? sparcBox(i.pillar, 'C') : ''}${lay === 'l-ev' && i.when ? calStub(i.when, data && data.generated_at) : ''}<div class="rh"><div class="tt">${esc(i.title)}</div></div>${imgBlock(i.image)}<div class="rb">${esc(i.summary)}</div>${refBlock(i.refs, pre + (ix + 1), x, true, tagHtml(type === 'Event' ? 'Event' : kindOf(i, 'Update'), statusOf(i)))}</div>`;
+    return `<div class="row ${lay || ''}" style="--c:${STC[statusOf(i)]}">${lay === 'l-ev' ? sparcBox(i.pillar, 'C') : ''}${lay === 'l-ev' && i.when ? calStub(i.when, data && data.generated_at) : ''}<div class="rh"><div class="tt">${esc(i.title)}</div></div>${imgBlock(i.image)}<div class="rb">${esc(i.summary)}</div>${refBlock(i.refs, sid(pre, i), x, true, tagHtml(type === 'Event' ? 'Event' : kindOf(i, 'Update'), statusOf(i)))}</div>`;
   }).join('');
 }
 
@@ -3053,7 +3057,7 @@ function spark(i, k, ix) {
   const on = new Set(); rawP.split(/[\s,\/&+]+/).filter(Boolean).forEach(t => { const u = t.toUpperCase(); if (t.length === 1 && 'SPARC'.includes(u)) on.add(u); else if (PW[t.toLowerCase()]) on.add(PW[t.toLowerCase()]); });
   if (!on.size) on.add(PD[k]);
   const letters = 'SPARC'.split('').map(l => `<b${on.has(l) ? ' class="on"' : ''}>${l}</b>`).join('');
-  return `<article class="story sp" style="--c:${STC[statusOf(i)]}"><div class="spl">${letters}</div>${imgBlock(i.image)}<h3>${esc(i.title)}</h3><p class="sum">${esc(i.summary)}</p>${refBlock(i.refs, PREFIX[k] + (ix + 1), x, true, tagHtml(kindOf(i, 'Update'), statusOf(i)))}</article>`;
+  return `<article class="story sp" style="--c:${STC[statusOf(i)]}"><div class="spl">${letters}</div>${imgBlock(i.image)}<h3>${esc(i.title)}</h3><p class="sum">${esc(i.summary)}</p>${refBlock(i.refs, sid(PREFIX[k], i), x, true, tagHtml(kindOf(i, 'Update'), statusOf(i)))}</article>`;
 }
 function calStub(w, genAt) {
   w = String(w || '');
@@ -3082,7 +3086,7 @@ function cmpStrip(c, hs, j, qid) {
 }
 function cmpCard(c, ix) {
   const hs = (c.headlines || []).slice(0, 8); if (hs.length < 2) return '';
-  const qid = 'k' + (ix + 1), id = CMPS.push({ c, hs, qid }) - 1;
+  const qid = sid('k', c), id = CMPS.push({ c, hs, qid }) - 1;
   const s0 = cmpStrip(c, hs, 0, qid);
   return `<article class="story sp cmp" style="--c:var(--pur)" data-cmp="${id}" data-qid="${qid}">${sparcBox(c.pillar, 'P')}<div class="cmt"><h3><span class="cmh">${esc(hs[0].headline)}</span></h3><p class="sum"><span class="cms">${esc(hs[0].summary)}</span></p></div>${s0.html}</article>`;
 }
@@ -3117,17 +3121,17 @@ function startCmp() {
 function buildCopy(d) {
   const S = stats(d); let h = '<div class="mason">';
   // Breaking: solid red blocks, spread through the feed, never stacked
-  const brk = (d.breaking || []).slice(0, 2).map((s, ix) => `<article class="story brk"><h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, 'b' + (ix + 1), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml('Breaking', statusOf(s)))}</article>`);
+  const brk = (d.breaking || []).slice(0, 2).map((s, ix) => `<article class="story brk"><h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('b', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml('Breaking', statusOf(s)))}</article>`);
   // Everything else is one mixed feed: no sections, the shape of each box says what it is
   CMPS.length = 0;
   const Q = { top: [], spark: [], ev: [], memo: [], meet: [], cmp: [] };
   (d.compare || []).forEach((c, ix) => { const h = cmpCard(c, ix); if (h) Q.cmp.push(h); });
-  (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, 't' + (ix + 1), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
+  (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('t', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
   Object.keys(PIL).forEach(k => (d[k] || []).forEach((i, ix) => Q.spark.push(spark(i, k, ix))));
-  (d.events || []).forEach((e, ix) => Q.ev.push(rows([{ title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar }], 'var(--ink)', 'e', 'Event', 'l-ev').replace(/"e1"/g, '"e' + (ix + 1) + '"')));
+  (d.events || []).forEach((e, ix) => Q.ev.push(rows([{ title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar }], 'var(--ink)', 'e', 'Event', 'l-ev')));
   (d.memos || []).forEach((m, ix) => Q.memo.push(rows([m], 'var(--ink)', 'm', 'Memo', 'l-memo')));
   const groups = (d.meeting_groups && d.meeting_groups.length) ? d.meeting_groups : ((d.meetings || []).length ? [{ title: '2027 bond committees', meetings: d.meetings, note: d.meetings_note, refs: d.meetings_refs }] : []);
-  groups.forEach((g, gi) => { if ((g.meetings || []).length) Q.meet.push(`<div class="row l-meet" style="--c:${STC[statusOf({ refs: g.refs })]}"><div class="mt"><b>Meetings for ${esc(g.title)}</b><span>${g.meetings.length} meetings</span></div><div class="tiles">` + g.meetings.map(m => `<div class="tile"><div class="d"><i>${esc(m.dow)}</i><b>${esc(m.day)}</b><i>${esc(m.mon)}</i></div><div class="x"><b>${esc(m.title)}</b><span>${esc(m.note)}</span></div></div>`).join('') + `</div>${g.note ? `<div class="rb">${esc(g.note)}</div>` : ''}${refBlock(g.refs, 'g' + (gi + 1), `<span class="meta">${g.meetings.length} meetings</span>`, true, tagHtml('Meeting', statusOf({ refs: g.refs })))}</div>`); });
+  groups.forEach((g, gi) => { if ((g.meetings || []).length) Q.meet.push(`<div class="row l-meet" style="--c:${STC[statusOf({ refs: g.refs })]}"><div class="mt"><b>Meetings for ${esc(g.title)}</b><span>${g.meetings.length} meetings</span></div><div class="tiles">` + g.meetings.map(m => `<div class="tile"><div class="d"><i>${esc(m.dow)}</i><b>${esc(m.day)}</b><i>${esc(m.mon)}</i></div><div class="x"><b>${esc(m.title)}</b><span>${esc(m.note)}</span></div></div>`).join('') + `</div>${g.note ? `<div class="rb">${esc(g.note)}</div>` : ''}${refBlock(g.refs, sid('g', g), `<span class="meta">${g.meetings.length} meetings</span>`, true, tagHtml('Meeting', statusOf({ refs: g.refs })))}</div>`); });
   // Compare blocks are the special teaching blocks: each one once, spread evenly through the feed
   const cmpBase = Q.cmp.splice(0), cmpQ = [];
   cmpBase.forEach(h => cmpQ.push(h)); // every compare story once, never repeated
@@ -3396,7 +3400,7 @@ async function load() {
     if (!r.ok) throw new Error('bad status');
     const d = await r.json();
     if (!d || !d.generated_at || !Array.isArray(d.top)) throw new Error('data.json is not a dispatch file');
-    if (!data || d.generated_at !== data.generated_at) { data = norm(d); render(); }
+    { const sig = JSON.stringify(d).length + ':' + d.generated_at; if (!data || sig !== window.__dsig) { window.__dsig = sig; data = norm(d); if (!POP) render(); else window.__pendRender = 1; } }
   } catch (e) {
     if (data) dbgShow('render: ' + (e && e.stack || e));
     if (!data && FALLBACK) { try { data = norm(FALLBACK); render(); } catch (e2) { dbgShow('fallback: ' + (e2 && e2.stack || e2)); } }
@@ -3420,7 +3424,7 @@ view.addEventListener('pointerup', endDrag); view.addEventListener('pointercance
 // One link: wire.revision.news is the public feed (tap a story to open its sources), wire.revision.news/code is the office TV (QR codes, no tapping)
 let POP = null;
 function storyRefs(id) {
-  if (/^k\d+$/.test(id)) { const c = CMPS.find(x => x.qid === id); if (c) return c.hs.filter(h => h.k !== 'AI').map(h => ({ n: h.src, t: h.headline, d: h.d, k: h.lean || h.k, url: h.u ? (/^https?:/.test(h.u) ? h.u : 'https://' + h.u) : '' })); }
+  if (/^k_/.test(id)) { const c = CMPS.find(x => x.qid === id); if (c) return c.hs.filter(h => h.k !== 'AI').map(h => ({ n: h.src, t: h.headline, d: h.d, k: h.lean || h.k, url: h.u ? (/^https?:/.test(h.u) ? h.u : 'https://' + h.u) : '' })); }
   return REFS[id] || [];
 }
 // Eye: closed by default; the lashes swipe up and the lid opens to reveal the eye
@@ -3498,7 +3502,7 @@ function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
   if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); }
   setTimeout(() => { p.dim && p.dim.classList.remove('on', 'now'); p.close && p.close.classList.remove('on'); p.wrap && p.wrap.classList.add('off'); }, 260);
-  setTimeout(() => { [p.dim, p.wrap, p.close].forEach(e => e && e.remove()); speed = p.keep; }, 640);
+  setTimeout(() => { [p.dim, p.wrap, p.close].forEach(e => e && e.remove()); speed = p.keep; if (window.__pendRender) { window.__pendRender = 0; render(); } }, 640);
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
 }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
