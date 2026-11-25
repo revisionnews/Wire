@@ -1,120 +1,71 @@
 {
- "edition": "Nov 25 afternoon full refresh",
+ "edition": "Nov 25 midafternoon refresh",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
  "source_log": [
   {
-   "name": "KSAT local",
-   "domain": "ksat.com",
+   "name": "FOX 29 San Antonio",
+   "domain": "foxsanantonio.com",
    "kind": "News",
    "status": "Used",
-   "note": "Local page read; murder suicide, 1969 case, online solicitation and South Side shooting stories opened"
+   "note": "Local page read; BermudAir, standoff, rail, airport travel, I-35 closures, South Side shooting and drainage ditch stories opened"
   },
   {
    "name": "News 4 San Antonio",
    "domain": "news4sanantonio.com",
    "kind": "News",
    "status": "Used",
-   "note": "Local page read; hit and run, drainage ditch, BermudAir and rail stories opened; ICE waste site page would not open"
+   "note": "Local page read; gas prices, Fredericksburg Road shooting and big rig stories opened"
   },
   {
-   "name": "FOX 29 San Antonio",
-   "domain": "foxsanantonio.com",
+   "name": "KSAT local",
+   "domain": "ksat.com",
    "kind": "News",
-   "status": "Used",
-   "note": "Local page read; murder suicide, North Side standoff and hit and run update opened"
+   "status": "Failed",
+   "note": "Fetch permission not answered this run; no KSAT pages opened"
   },
   {
    "name": "San Antonio Report",
    "domain": "sanantonioreport.org",
    "kind": "News",
-   "status": "Used",
-   "note": "Feed read; Alamo, BermudAir and veteran stories opened; Dilley story blocked"
+   "status": "Failed",
+   "note": "Feed fetch permission not answered this run"
   },
   {
    "name": "Texas Public Radio",
    "domain": "tpr.org",
    "kind": "News",
-   "status": "Used",
-   "note": "Home page read; Pearl tree lighting story opened"
+   "status": "Failed",
+   "note": "Home page fetch permission not answered this run"
   },
   {
    "name": "San Antonio Current",
    "domain": "sacurrent.com",
    "kind": "News",
-   "status": "Used",
-   "note": "News page read; zoo jaguar, ICE identification, nonprofits and ACS stories opened"
+   "status": "Failed",
+   "note": "News page fetch permission not answered this run"
   },
   {
    "name": "City of San Antonio",
    "domain": "sa.gov",
    "kind": "Official",
-   "status": "Used",
-   "note": "News releases and council memo table read; CCR 2026-0044 and SMR 2026-0047 added"
-  },
-  {
-   "name": "Bexar County",
-   "domain": "bexar.org",
-   "kind": "Official",
-   "status": "Used",
-   "note": "Commissioners Court calendar shows Dec 15; latest agenda Nov 17"
-  },
-  {
-   "name": "UTSA Athletics",
-   "domain": "goutsa.com",
-   "kind": "Official",
-   "status": "Used",
-   "note": "Home page, Tulsa fan information and basketball schedules read"
-  },
-  {
-   "name": "San Antonio FC",
-   "domain": "sanantoniofc.com",
-   "kind": "Official",
-   "status": "Used",
-   "note": "Taintor extension"
-  },
-  {
-   "name": "Spurs",
-   "domain": "nba.com",
-   "kind": "Official",
-   "status": "Checked",
-   "note": "Spurs beat Kings 123 to 107 Nov 23; no recap with stats, so no new Spurs item"
-  },
-  {
-   "name": "National Weather Service",
-   "domain": "weather.gov",
-   "kind": "Official",
-   "status": "Checked",
-   "note": "Page was last updated Tuesday night, so not cited"
+   "status": "Failed",
+   "note": "News releases, council memo table, CCR table and meetings page fetch permission not answered this run"
   },
   {
    "name": "KENS 5",
    "domain": "kens5.com",
    "kind": "News",
    "status": "Checked",
-   "note": "Search only; Nov West Side officer shooting headline seen, no readable confirmation used"
+   "note": "Search only; West Side officer shooting headline seen, no readable confirmation"
   },
   {
    "name": "Express-News",
    "domain": "expressnews.com",
    "kind": "News",
    "status": "Checked",
-   "note": "Search only; no dated headline confirmed"
-  },
-  {
-   "name": "SASpeakUp",
-   "domain": "saspeakup.com",
-   "kind": "Official",
-   "status": "Failed",
-   "note": "Page would not open"
-  },
-  {
-   "name": "VIA Metropolitan Transit",
-   "domain": "viainfo.net",
-   "kind": "Official",
-   "status": "Used",
-   "note": "News page read; Rosa Parks fare free day opened"
+   "note": "Search only; no dated headline returned"
   }
  ],
  "compare": [
@@ -308,7 +259,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T14:25:00-06:00",
+ "generated_at": "2026-11-25T15:10:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -334,6 +285,33 @@
      "u": "foxsanantonio.com",
      "k": "News",
      "url": "https://foxsanantonio.com/news/local/watch-it-live-police-investigate-shooting-on-southeast-side"
+    }
+   ]
+  },
+  {
+   "headline": "Thanksgiving travel rush hits San Antonio's airport, with about 130,000 flying this week",
+   "summary": "San Antonio International expects about 130,380 passengers from Sunday, Nov 22, through Sunday, Nov 29, with Wednesday, Nov 25, and Sunday, Nov 29, the busiest days. FOX 29 reported Wednesday morning that thousands of travelers were heading through the airport the day before Thanksgiving. Travelers should arrive two hours before domestic flights and three hours before international ones, and updates are at FlySanAntonio.com.",
+   "when": "Nov 22 to 29",
+   "pillar": "C",
+   "kind": "Warning",
+   "status": "Verified",
+   "first_seen": "2026-11-25T13:05:00-06:00",
+   "refs": [
+    {
+     "n": "City of San Antonio",
+     "t": "San Antonio International Airport Kicks Off the Holiday Season",
+     "d": "Nov 20, 2026",
+     "u": "sa.gov",
+     "k": "Official",
+     "url": "https://www.sa.gov/Directory/News-Releases/San-Antonio-International-Airport-Kicks-Off-the-Holiday-Season"
+    },
+    {
+     "n": "FOX 29 San Antonio",
+     "t": "POLL: How far are you traveling for Thanksgiving this year?",
+     "d": "Nov 25, 2026",
+     "u": "foxsanantonio.com",
+     "k": "News",
+     "url": "https://foxsanantonio.com/news/local/thanksgiving-travel-rush-brings-nearly-20000-passengers-to-san-antonio-airport-today-texas-airlines-flights-boarding-time-international-domestic"
     }
    ]
   }
@@ -365,33 +343,6 @@
    "pillar": "PC",
    "kind": "Update",
    "status": "Reported"
-  },
-  {
-   "headline": "SAWS is back to Stage 2 watering rules",
-   "summary": "Rain and cooler weather lifted the Edwards Aquifer's 10 day average above the 640 foot Stage 3 trigger, so Stage 3 ended Monday, Nov 23. Sprinkler watering stays once a week on your day, 5 to 10 a.m. and 9 p.m. to midnight. Hand watering with a hose is allowed any time.",
-   "when": "Nov 23",
-   "pillar": "C",
-   "kind": "Update",
-   "status": "Verified",
-   "first_seen": "2026-11-23T09:45:00-06:00",
-   "refs": [
-    {
-     "n": "San Antonio Water System",
-     "t": "Rising Aquifer Levels Prompts Return to Stage 2 Watering Rules",
-     "d": "Nov 20, 2026",
-     "u": "saws.org",
-     "k": "Official",
-     "url": "https://www.saws.org/rising-aquifer-levels-prompts-return-to-stage-2-watering-rules/"
-    },
-    {
-     "n": "Texas Public Radio",
-     "t": "SAWS ends Stage 3 water restrictions",
-     "d": "Nov 20, 2026",
-     "u": "tpr.org",
-     "k": "News",
-     "url": "https://www.tpr.org/news/2026-11-20/saws-ends-stage-3-water-restictions"
-    }
-   ]
   },
   {
    "summary": "ICE detained a 54 year old man, named by ICE as Edgar Mortera Ambrosio Jr., at the city owned Culebra Bulky Waste Collection Center around 9 a.m. Thursday, Nov 19. Councilman Ric Galvan calls it likely the first ICE enforcement operation on city property, and Mayor Gina Ortiz Jones said in a KSAT interview that the arrest involved no city association. ICE says it did not choose the site and the man pulled in after agents stopped his vehicle, while Galvan says camera footage showed an unmarked vehicle stopping the family there. The footage has not been released, so where the stop began is not confirmed.",
@@ -437,6 +388,60 @@
    "headline": "Mayor says ICE arrest at a city waste site had no city involvement"
   },
   {
+   "headline": "SAWS is back to Stage 2 watering rules",
+   "summary": "Rain and cooler weather lifted the Edwards Aquifer's 10 day average above the 640 foot Stage 3 trigger, so Stage 3 ended Monday, Nov 23. Sprinkler watering stays once a week on your day, 5 to 10 a.m. and 9 p.m. to midnight. Hand watering with a hose is allowed any time.",
+   "when": "Nov 23",
+   "pillar": "C",
+   "kind": "Update",
+   "status": "Verified",
+   "first_seen": "2026-11-23T09:45:00-06:00",
+   "refs": [
+    {
+     "n": "San Antonio Water System",
+     "t": "Rising Aquifer Levels Prompts Return to Stage 2 Watering Rules",
+     "d": "Nov 20, 2026",
+     "u": "saws.org",
+     "k": "Official",
+     "url": "https://www.saws.org/rising-aquifer-levels-prompts-return-to-stage-2-watering-rules/"
+    },
+    {
+     "n": "Texas Public Radio",
+     "t": "SAWS ends Stage 3 water restrictions",
+     "d": "Nov 20, 2026",
+     "u": "tpr.org",
+     "k": "News",
+     "url": "https://www.tpr.org/news/2026-11-20/saws-ends-stage-3-water-restictions"
+    }
+   ]
+  },
+  {
+   "summary": "Four community input committees each meet three times for the proposed 2027 to 2032 bond, which invests $442 million in everything but drainage. Meetings run 6 to 8:30 p.m. and stream on the city's YouTube channel. Final recommendations go to Council on Jan 21, and voters would see the bond in May.",
+   "when": "Nov 13",
+   "refs": [
+    {
+     "n": "City of San Antonio",
+     "t": "Join The 2027 Bond Conversation",
+     "d": "Nov 13, 2026",
+     "u": "sa.gov",
+     "k": "Official",
+     "url": "https://www.sa.gov/Directory/News-Releases/Join-The-2027-Bond-Conversation"
+    },
+    {
+     "n": "Texas Public Radio",
+     "t": "City Council came together to shape 2027 bond valued at $442M plus $208M for flood control",
+     "d": "Oct 30, 2026",
+     "u": "tpr.org",
+     "k": "News",
+     "url": "https://www.tpr.org/government-politics/2026-10-30/city-council-came-together-to-shape-2027-bond-valued-at-442m-plus-208m-for-flood-control"
+    }
+   ],
+   "first_seen": "2026-11-23T08:00:00-06:00",
+   "pillar": "PC",
+   "kind": "Meeting",
+   "status": "Reported",
+   "headline": "2027 bond committees meet through Dec 17"
+  },
+  {
    "headline": "45 apply to replace the retiring Bexar County manager",
    "summary": "The county received 45 applications before the window closed Tuesday. Commissioners unanimously named Deputy County Manager Thomas Guevara interim manager, even though David Smith stays through year end. Smith has held the job since it was created in 2011 and earns about $313,000. No selection timeline is set, and incoming Judge Ron Nirenberg has criticized the late process for limiting public input.",
    "when": "Nov 20",
@@ -462,6 +467,76 @@
    "pillar": "P",
    "kind": "Update",
    "status": "Reported"
+  },
+  {
+   "summary": "Councilwoman Marina Alderete Gavito's CCR 2026-0049 asks the city to bring Bexar County, transportation agencies and rail advocates together to study an I-35 line from San Antonio to Austin and on to Dallas. The city's memo table lists it as pending in the Governance Committee, and FOX 29 reports it is expected there in January. The request backs House Bill 270 by Rep. John H. Bucy III, and the Texas Legislature convenes Jan. 12.",
+   "when": "Nov 16",
+   "refs": [
+    {
+     "n": "City of San Antonio",
+     "t": "2026 Council Memos",
+     "d": "",
+     "u": "sa.gov",
+     "k": "Official",
+     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+    },
+    {
+     "n": "News 4 San Antonio",
+     "t": "Blue wave spurs hope for Texas high-speed rail among state and local leaders",
+     "d": "Nov 24, 2026",
+     "u": "news4sanantonio.com",
+     "k": "News",
+     "url": "https://news4sanantonio.com/news/local/blue-wave-spurs-hope-for-texas-high-speed-rail-among-state-and-local-leaders"
+    },
+    {
+     "n": "KENS 5",
+     "t": "San Antonio councilwoman pushes for high-speed rail connection to Austin",
+     "d": "Nov 17, 2026",
+     "u": "yahoo.com",
+     "k": "News",
+     "url": "https://www.yahoo.com/news/politics/articles/san-antonio-councilwoman-pushes-high-030431606.html"
+    },
+    {
+     "n": "FOX 29 San Antonio",
+     "t": "Blue wave spurs hope for Texas high-speed rail among state and local leaders",
+     "d": "Nov 24, 2026",
+     "u": "foxsanantonio.com",
+     "k": "News",
+     "url": "https://foxsanantonio.com/news/local/blue-wave-spurs-hope-for-texas-high-speed-rail-among-state-and-local-leaders"
+    }
+   ],
+   "first_seen": "2026-11-23T08:00:00-06:00",
+   "pillar": "PC",
+   "kind": "Update",
+   "status": "Verified",
+   "headline": "Council member's high speed rail push along I-35 heads to committee in January"
+  },
+  {
+   "summary": "The Fiesta Flambeau Parade Association picked Saucedo, a 1995 Uvalde High School graduate, to lead the 79th parade, themed Cosmic Nights, A Universe of Lights. The parade runs Saturday, April 24, 2027, during Fiesta, April 15 to 25.",
+   "when": "Nov 20",
+   "refs": [
+    {
+     "n": "KSAT",
+     "t": "Fiesta Flambeau Parade Association names NASA engineer as 2027 grand marshal",
+     "d": "Nov 20, 2026",
+     "u": "ksat.com",
+     "k": "News",
+     "url": "https://www.ksat.com/news/local/2026/11/20/fiesta-flambeau-parade-association-to-announce-2027-grand-marshal/"
+    },
+    {
+     "n": "Fiesta San Antonio Commission",
+     "t": "Fiesta San Antonio Commission 2026 27 Leadership",
+     "d": "Aug 31, 2026",
+     "u": "fiestasanantonio.org",
+     "k": "Official",
+     "url": "https://fiestasanantonio.org/2026/08/31/fiesta-san-antonio-commission-2026-27-leadership/"
+    }
+   ],
+   "first_seen": "2026-11-23T08:00:00-06:00",
+   "pillar": "AC",
+   "kind": "Update",
+   "status": "Verified",
+   "headline": "NASA engineer Luis Saucedo named 2027 Flambeau grand marshal"
   }
  ],
  "sports": [
@@ -682,33 +757,6 @@
    "headline": "Three Texas executions set for 2027 tie back to Bexar County"
   },
   {
-   "summary": "Four community input committees each meet three times for the proposed 2027 to 2032 bond, which invests $442 million in everything but drainage. Meetings run 6 to 8:30 p.m. and stream on the city's YouTube channel. Final recommendations go to Council on Jan 21, and voters would see the bond in May.",
-   "when": "Nov 13",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "Join The 2027 Bond Conversation",
-     "d": "Nov 13, 2026",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/News-Releases/Join-The-2027-Bond-Conversation"
-    },
-    {
-     "n": "Texas Public Radio",
-     "t": "City Council came together to shape 2027 bond valued at $442M plus $208M for flood control",
-     "d": "Oct 30, 2026",
-     "u": "tpr.org",
-     "k": "News",
-     "url": "https://www.tpr.org/government-politics/2026-10-30/city-council-came-together-to-shape-2027-bond-valued-at-442m-plus-208m-for-flood-control"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "PC",
-   "kind": "Meeting",
-   "status": "Reported",
-   "headline": "2027 bond committees meet through Dec 17"
-  },
-  {
    "summary": "The city told Hemisfair's park leaders it will take over the ground lease of a three quarter acre parcel known as D5, on South Alamo Street beside the Monarch Hotel. Park leaders say the move could have major repercussions, while the city says housing discussions are very early. The park's leaders say Council approval is required. Separately, the $43 million GrayStreet project at 550 Market Street has pushed its construction start to January 2027.",
    "when": "Nov 23",
    "pillar": "PC",
@@ -844,33 +892,6 @@
    "headline": "Guayabera Fest takes over La Villita for four nights in April"
   },
   {
-   "summary": "The Fiesta Flambeau Parade Association picked Saucedo, a 1995 Uvalde High School graduate, to lead the 79th parade, themed Cosmic Nights, A Universe of Lights. The parade runs Saturday, April 24, 2027, during Fiesta, April 15 to 25.",
-   "when": "Nov 20",
-   "refs": [
-    {
-     "n": "KSAT",
-     "t": "Fiesta Flambeau Parade Association names NASA engineer as 2027 grand marshal",
-     "d": "Nov 20, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/20/fiesta-flambeau-parade-association-to-announce-2027-grand-marshal/"
-    },
-    {
-     "n": "Fiesta San Antonio Commission",
-     "t": "Fiesta San Antonio Commission 2026 27 Leadership",
-     "d": "Aug 31, 2026",
-     "u": "fiestasanantonio.org",
-     "k": "Official",
-     "url": "https://fiestasanantonio.org/2026/08/31/fiesta-san-antonio-commission-2026-27-leadership/"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "AC",
-   "kind": "Update",
-   "status": "Verified",
-   "headline": "NASA engineer Luis Saucedo named 2027 Flambeau grand marshal"
-  },
-  {
    "summary": "The College of Education and Human Development now sits together in the Durango Building at the Downtown Campus for the first time. It enrolled nearly 1,700 students in fall 2025. A VIA shuttle runs the 15 miles between campuses, and student services are moving downtown over the next year.",
    "when": "Nov 22",
    "refs": [
@@ -970,6 +991,25 @@
  ],
  "community": [
   {
+   "headline": "Nightly I-35 lane closures near Frost Bank Center start Sunday",
+   "summary": "TxDOT will close the southbound I-35 inside and center lanes from George Beach Avenue to Frost Bank Center Drive nightly from 9 p.m. to 5 a.m., Sunday, Nov 29, through Monday, Dec 7. The northbound outside lane and entrance ramp also close nightly in that window. The northbound right turn lane to Frost Bank Center Drive closes around the clock from Nov 29 to Dec 18 for gas line work, part of the I-35 Northeast Expansion.",
+   "when": "Nov 29 to Dec 18",
+   "pillar": "C",
+   "kind": "Warning",
+   "status": "Reported",
+   "first_seen": "2026-11-25T15:10:00-06:00",
+   "refs": [
+    {
+     "n": "FOX 29 San Antonio",
+     "t": "NIGHTLY ROAD CLOSURES: Southbound I-35 lanes, frontage roads near Frost Bank Center",
+     "d": "Nov 24, 2026",
+     "u": "foxsanantonio.com",
+     "k": "News",
+     "url": "https://foxsanantonio.com/news/local/nightly-road-closures-southbound-i-35-lanes-frontage-roads-near-frost-bank-center"
+    }
+   ]
+  },
+  {
    "headline": "San Antonio Zoo welcomes Mary Pat, an eight month old jaguar",
    "summary": "The San Antonio Zoo has a new eight month old female jaguar named Mary Pat, who came from Wildlife World Zoo, Aquarium and Safari Park in Arizona. Keepers are working one on one with her to build trust, and she could make her first public appearance as soon as Thanksgiving Day. The zoo is open 11 a.m. to 9 p.m. on Thanksgiving, and she joins resident male jaguar B'alam.",
    "when": "Nov 25",
@@ -985,25 +1025,6 @@
      "u": "sacurrent.com",
      "k": "News",
      "url": "https://www.sacurrent.com/arts/things-to-do/san-antonio-zoo-welcomes-eight-month-old-female-jaguar/"
-    }
-   ]
-  },
-  {
-   "headline": "Airport expects about 130,000 passengers over Thanksgiving week",
-   "summary": "San Antonio International expects about 130,380 passengers from Sunday, Nov 22, through Sunday, Nov 29. The busiest days should be Wednesday, Nov 25, with about 17,800, and Sunday, Nov 29, with about 20,000. Travelers should arrive two hours before domestic flights and three hours before international ones.",
-   "when": "Nov 22 to 29",
-   "pillar": "C",
-   "kind": "Announcement",
-   "status": "Verified",
-   "first_seen": "2026-11-25T13:05:00-06:00",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "San Antonio International Airport Kicks Off the Holiday Season",
-     "d": "Nov 20, 2026",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/News-Releases/San-Antonio-International-Airport-Kicks-Off-the-Holiday-Season"
     }
    ]
   },
@@ -1200,6 +1221,25 @@
  ],
  "business": [
   {
+   "headline": "San Antonio gas prices fall nearly 20 cents a gallon ahead of Thanksgiving",
+   "summary": "GasBuddy puts San Antonio's average for regular at $2.80 a gallon, down 19.4 cents in a week and 79 cents in a month, while AAA's local figure is $2.92. AAA expects 5.3 million Texans to drive 50 miles or more for the holiday.",
+   "when": "Nov 23",
+   "pillar": "C",
+   "kind": "Update",
+   "status": "Reported",
+   "first_seen": "2026-11-25T15:10:00-06:00",
+   "refs": [
+    {
+     "n": "News 4 San Antonio",
+     "t": "San Antonio gas prices fall nearly 20 cents ahead of Thanksgiving",
+     "d": "Nov 23, 2026",
+     "u": "news4sanantonio.com",
+     "k": "News",
+     "url": "https://news4sanantonio.com/news/local/san-antonio-gas-prices-fall-nearly-20-cents-ahead-of-thanksgiving"
+    }
+   ]
+  },
+  {
    "headline": "Ready to Work reports 6,500 job placements as poverty report says 44% can't afford essentials",
    "summary": "About 18,000 people have joined the city's Ready to Work program since it began almost four years ago, and about 6,500 have landed approved jobs, 43% of the program's goal. Leaders say average participant income rises from about $11,000 to about $45,000. The city's Status of Poverty report says 44% of Bexar County can't afford essentials. The program is funded by a one eighth cent sales tax voters approved in 2020.",
    "when": "Nov 24",
@@ -1274,25 +1314,6 @@
    "kind": "Update",
    "status": "Reported",
    "headline": "JCB nears opening of its $184 million Southside plant"
-  },
-  {
-   "summary": "A nearly mile long tunnel will link Morgan's Hotel and Wonderland across the Inclusion Campus on the Northeast Side. The Prufrock 5 boring machine arrived Oct 14, and an anonymous private donor funds the project.",
-   "when": "Nov 10",
-   "refs": [
-    {
-     "n": "KSAT",
-     "t": "Elon Musk's Boring Company to begin underground tunnel construction at Morgan's Wonderland",
-     "d": "Nov 10, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/10/elon-musks-boring-company-to-begin-underground-tunnel-construction-at-morgans-wonderland/"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "C",
-   "kind": "Update",
-   "status": "Reported",
-   "headline": "Boring Company starts a tunnel at Morgan's Wonderland"
   },
   {
    "summary": "The arena would seat 17,000 to 18,500 and include a 1,500 vehicle garage. A city study found downtown's problems go beyond parking, so no new Alamodome garage is recommended. Officials are leaning on a proposed bond with $34.2 million for roads and VIA's Green Line in April 2028.",
@@ -1551,144 +1572,6 @@
   }
  ],
  "memos": [
-  {
-   "summary": "Castillo, McKee Rodriguez and Galvan asked Nov 6 for a special meeting on an ordinance, modeled on Houston, limiting when SAPD contacts ICE. They withdrew the request Nov 14 to revise and strengthen it. Attorney General Ken Paxton has since sued Houston over the policy that inspired it. A separate SAPD reporting proposal goes to the full Council Dec 3.",
-   "when": "Nov 14",
-   "refs": [
-    {
-     "n": "San Antonio Report",
-     "t": "San Antonio takes another look at police's ICE policy, following Austin and Houston",
-     "d": "Nov 11, 2026",
-     "u": "sanantonioreport.org",
-     "k": "News",
-     "url": "https://sanantonioreport.org/san-antonio-council-members-reconsider-sapd-ice-policy/"
-    },
-    {
-     "n": "KSAT",
-     "t": "Councilmembers withdraw request for meeting on SAPD cooperation with ICE",
-     "d": "Nov 14, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/14/councilmembers-withdraw-request-for-meeting-on-sapd-cooperation-with-ice/"
-    }
-   ],
-   "first_seen": "2026-11-23T09:45:00-06:00",
-   "pillar": "PR",
-   "kind": "Memo",
-   "status": "Reported",
-   "headline": "ICE meeting request withdrawn to strengthen the proposal"
-  },
-  {
-   "summary": "Councilwoman Sukh Kaur's request would require permits, navigation app updates and text alerts for closures lasting more than a week. It heads to staff review, then the governance committee.",
-   "when": "Nov 14",
-   "refs": [
-    {
-     "n": "KSAT",
-     "t": "San Antonio councilwoman proposes requiring construction updates to be sent to your phone",
-     "d": "Nov 14, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/15/san-antonio-councilwoman-proposes-requiring-construction-updates-to-be-sent-to-your-phone/"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "P",
-   "kind": "CCR",
-   "status": "Reported",
-   "headline": "CCR asks for a no surprises construction policy"
-  },
-  {
-   "summary": "Councilwoman Marina Alderete Gavito's CCR 2026-0049 asks the city to bring Bexar County, transportation agencies and rail advocates together to study an I-35 line from San Antonio to Austin and on to Dallas. The city's memo table lists it as pending in the Governance Committee, and News 4 reports it goes there in January.",
-   "when": "Nov 16",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "2026 Council Memos",
-     "d": "",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
-    },
-    {
-     "n": "News 4 San Antonio",
-     "t": "Blue wave spurs hope for Texas high-speed rail among state and local leaders",
-     "d": "Nov 24, 2026",
-     "u": "news4sanantonio.com",
-     "k": "News",
-     "url": "https://news4sanantonio.com/news/local/blue-wave-spurs-hope-for-texas-high-speed-rail-among-state-and-local-leaders"
-    },
-    {
-     "n": "KENS 5",
-     "t": "San Antonio councilwoman pushes for high-speed rail connection to Austin",
-     "d": "Nov 17, 2026",
-     "u": "yahoo.com",
-     "k": "News",
-     "url": "https://www.yahoo.com/news/politics/articles/san-antonio-councilwoman-pushes-high-030431606.html"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "PC",
-   "kind": "CCR",
-   "status": "Verified",
-   "headline": "CCR asks the city to explore high speed rail to Austin"
-  },
-  {
-   "headline": "CCR asks for foster care fee relief",
-   "summary": "Councilwoman Teri Castillo filed CCR 2026-0043, Family Foster Care Fee Relief. The city's memo table lists it before the Governance Committee on Nov 18.",
-   "when": "Nov 18",
-   "pillar": "P",
-   "kind": "CCR",
-   "status": "Verified",
-   "first_seen": "2026-11-25T13:05:00-06:00",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "2026 Council Memos",
-     "d": "",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
-    }
-   ]
-  },
-  {
-   "headline": "CCR seeks rules for sober living homes",
-   "summary": "Councilwoman Misty Spears filed CCR 2026-0048 on sober living residence public safety and neighborhood accountability. The city's memo table lists it as pending in the Governance Committee.",
-   "when": "Pending",
-   "pillar": "P",
-   "kind": "CCR",
-   "status": "Verified",
-   "first_seen": "2026-11-25T13:05:00-06:00",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "2026 Council Memos",
-     "d": "",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
-    }
-   ]
-  },
-  {
-   "headline": "CCR proposes a library access agreement with other governments",
-   "summary": "Councilman Jalen McKee-Rodriguez filed CCR 2026-0050 for an interlocal agreement framework for public library access. The city's memo table lists it as pending in the Governance Committee.",
-   "when": "Pending",
-   "pillar": "P",
-   "kind": "CCR",
-   "status": "Verified",
-   "first_seen": "2026-11-25T13:05:00-06:00",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "2026 Council Memos",
-     "d": "",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
-    }
-   ]
-  },
   {
    "headline": "CCR asks for a study of what legal cannabis would mean for San Antonio",
    "summary": "Councilman Jalen McKee-Rodriguez filed CCR 2026-0044 asking for an economic impact analysis of cannabis legalization and a regulated cannabis industry in San Antonio and Texas. The city's memo table lists it as pending in the Governance Committee.",
@@ -2436,9 +2319,192 @@
  "unions": [],
  "neighborhoods": [],
  "archive": {
-  "total": 29,
+  "total": 36,
   "since": "Nov 23",
   "items": [
+   {
+    "id": "A0031",
+    "sec": "Business",
+    "h": "Boring Company starts a tunnel at Morgan's Wonderland",
+    "p": "C",
+    "d": "Nov 10, 2026",
+    "left": "Nov 25",
+    "kind": "Update",
+    "status": "Reported",
+    "when": "Nov 10",
+    "summary": "A nearly mile long tunnel will link Morgan's Hotel and Wonderland across the Inclusion Campus on the Northeast Side. The Prufrock 5 boring machine arrived Oct 14, and an anonymous private donor funds the project.",
+    "refs": [
+     {
+      "n": "KSAT",
+      "t": "Elon Musk's Boring Company to begin underground tunnel construction at Morgan's Wonderland",
+      "d": "Nov 10, 2026",
+      "u": "ksat.com",
+      "k": "News",
+      "url": "https://www.ksat.com/news/local/2026/11/10/elon-musks-boring-company-to-begin-underground-tunnel-construction-at-morgans-wonderland/"
+     }
+    ],
+    "t": "",
+    "s": "KSAT",
+    "u": "https://www.ksat.com/news/local/2026/11/10/elon-musks-boring-company-to-begin-underground-tunnel-construction-at-morgans-wonderland/"
+   },
+   {
+    "id": "A0116",
+    "sec": "Memos",
+    "h": "CCR proposes a library access agreement with other governments",
+    "p": "P",
+    "d": "",
+    "left": "Nov 25",
+    "kind": "CCR",
+    "status": "Verified",
+    "when": "Pending",
+    "summary": "Councilman Jalen McKee-Rodriguez filed CCR 2026-0050 for an interlocal agreement framework for public library access. The city's memo table lists it as pending in the Governance Committee.",
+    "refs": [
+     {
+      "n": "City of San Antonio",
+      "t": "2026 Council Memos",
+      "d": "",
+      "u": "sa.gov",
+      "k": "Official",
+      "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+     }
+    ],
+    "t": "",
+    "s": "City of San Antonio",
+    "u": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+   },
+   {
+    "id": "A0115",
+    "sec": "Memos",
+    "h": "CCR seeks rules for sober living homes",
+    "p": "P",
+    "d": "",
+    "left": "Nov 25",
+    "kind": "CCR",
+    "status": "Verified",
+    "when": "Pending",
+    "summary": "Councilwoman Misty Spears filed CCR 2026-0048 on sober living residence public safety and neighborhood accountability. The city's memo table lists it as pending in the Governance Committee.",
+    "refs": [
+     {
+      "n": "City of San Antonio",
+      "t": "2026 Council Memos",
+      "d": "",
+      "u": "sa.gov",
+      "k": "Official",
+      "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+     }
+    ],
+    "t": "",
+    "s": "City of San Antonio",
+    "u": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+   },
+   {
+    "id": "A0114",
+    "sec": "Memos",
+    "h": "CCR asks for foster care fee relief",
+    "p": "P",
+    "d": "",
+    "left": "Nov 25",
+    "kind": "CCR",
+    "status": "Verified",
+    "when": "Nov 18",
+    "summary": "Councilwoman Teri Castillo filed CCR 2026-0043, Family Foster Care Fee Relief. The city's memo table lists it before the Governance Committee on Nov 18.",
+    "refs": [
+     {
+      "n": "City of San Antonio",
+      "t": "2026 Council Memos",
+      "d": "",
+      "u": "sa.gov",
+      "k": "Official",
+      "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+     }
+    ],
+    "t": "",
+    "s": "City of San Antonio",
+    "u": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+   },
+   {
+    "id": "A0043",
+    "sec": "Memos",
+    "h": "CCR asks for a no surprises construction policy",
+    "p": "P",
+    "d": "Nov 14, 2026",
+    "left": "Nov 25",
+    "kind": "CCR",
+    "status": "Reported",
+    "when": "Nov 14",
+    "summary": "Councilwoman Sukh Kaur's request would require permits, navigation app updates and text alerts for closures lasting more than a week. It heads to staff review, then the governance committee.",
+    "refs": [
+     {
+      "n": "KSAT",
+      "t": "San Antonio councilwoman proposes requiring construction updates to be sent to your phone",
+      "d": "Nov 14, 2026",
+      "u": "ksat.com",
+      "k": "News",
+      "url": "https://www.ksat.com/news/local/2026/11/15/san-antonio-councilwoman-proposes-requiring-construction-updates-to-be-sent-to-your-phone/"
+     }
+    ],
+    "t": "",
+    "s": "KSAT",
+    "u": "https://www.ksat.com/news/local/2026/11/15/san-antonio-councilwoman-proposes-requiring-construction-updates-to-be-sent-to-your-phone/"
+   },
+   {
+    "id": "A0042",
+    "sec": "Memos",
+    "h": "ICE meeting request withdrawn to strengthen the proposal",
+    "p": "PR",
+    "d": "Nov 11, 2026",
+    "left": "Nov 25",
+    "kind": "Memo",
+    "status": "Reported",
+    "when": "Nov 14",
+    "summary": "Castillo, McKee Rodriguez and Galvan asked Nov 6 for a special meeting on an ordinance, modeled on Houston, limiting when SAPD contacts ICE. They withdrew the request Nov 14 to revise and strengthen it. Attorney General Ken Paxton has since sued Houston over the policy that inspired it. A separate SAPD reporting proposal goes to the full Council Dec 3.",
+    "refs": [
+     {
+      "n": "San Antonio Report",
+      "t": "San Antonio takes another look at police's ICE policy, following Austin and Houston",
+      "d": "Nov 11, 2026",
+      "u": "sanantonioreport.org",
+      "k": "News",
+      "url": "https://sanantonioreport.org/san-antonio-council-members-reconsider-sapd-ice-policy/"
+     },
+     {
+      "n": "KSAT",
+      "t": "Councilmembers withdraw request for meeting on SAPD cooperation with ICE",
+      "d": "Nov 14, 2026",
+      "u": "ksat.com",
+      "k": "News",
+      "url": "https://www.ksat.com/news/local/2026/11/14/councilmembers-withdraw-request-for-meeting-on-sapd-cooperation-with-ice/"
+     }
+    ],
+    "t": "",
+    "s": "San Antonio Report",
+    "u": "https://sanantonioreport.org/san-antonio-council-members-reconsider-sapd-ice-policy/"
+   },
+   {
+    "id": "A0033",
+    "sec": "Schools",
+    "h": "NEISD closes three elementary schools in a 4 to 3 vote",
+    "p": "C",
+    "d": "Nov 16, 2026",
+    "left": "Nov 25",
+    "kind": "Vote",
+    "status": "Reported",
+    "when": "Nov 16",
+    "summary": "The North East ISD board voted to close Montgomery, Dellview and Oak Grove elementaries to help close a $20 million deficit driven by falling enrollment. The district expects to save $4.06 million, and students will move to Windcrest, Colonial Hills and Regency Place. Attendance boundaries were adjusted for the receiving schools. Closures take effect next school year, with transition meetings planned and no layoffs at the affected campuses.",
+    "refs": [
+     {
+      "n": "News 4 San Antonio",
+      "t": "NEISD votes to close three elementary schools amid $20 million shortfall",
+      "d": "Nov 16",
+      "u": "news4sanantonio.com",
+      "k": "News",
+      "url": "https://news4sanantonio.com/news/local/northeast-isd-board-to-vote-tonight-on-proposal-to-close-three-elementary-schools-education-crisis-in-the-classroom"
+     }
+    ],
+    "t": "",
+    "s": "News 4 San Antonio",
+    "u": "https://news4sanantonio.com/news/local/northeast-isd-board-to-vote-tonight-on-proposal-to-close-three-elementary-schools-education-crisis-in-the-classroom"
+   },
    {
     "id": "A0096",
     "sec": "Safety",
