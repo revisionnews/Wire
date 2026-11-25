@@ -1,5 +1,5 @@
 {
- "edition": "Nov 25 afternoon top stories refresh",
+ "edition": "Nov 25 links cleanup",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
@@ -280,7 +280,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T14:42:00-06:00",
+ "generated_at": "2026-11-25T16:05:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -493,14 +493,6 @@
    "summary": "Councilwoman Marina Alderete Gavito's CCR 2026-0049 asks the city to bring Bexar County, transportation agencies and rail advocates together to study an I-35 line from San Antonio to Austin and on to Dallas. The city's memo table lists it as pending in the Governance Committee, and FOX 29 reports it is expected there in January. The request backs House Bill 270 by Rep. John H. Bucy III, and the Texas Legislature convenes Jan. 12.",
    "when": "Nov 16",
    "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "2026 Council Memos",
-     "d": "",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
-    },
     {
      "n": "News 4 San Antonio",
      "t": "Blue wave spurs hope for Texas high-speed rail among state and local leaders",
@@ -1620,11 +1612,11 @@
    "refs": [
     {
      "n": "City of San Antonio",
-     "t": "2026 Council Memos",
+     "t": "City Council Consideration Request",
      "d": "",
-     "u": "sa.gov",
+     "u": "webapp9.sanantonio.gov",
      "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+     "url": "https://webapp9.sanantonio.gov/ArchiveSearch/Viewer2.aspx?Id=%7b86D0FDEC-7989-4301-89CB-B700B18D00E0%7d&DocTitle=City%20Council%20Consideration%20Request:%20Councilmember%20Jalen%20McKee-Rodriguez&PageNo=&TotalPages=&MimeType=application/pdf&RelatedDocs="
     }
    ],
    "doc": "https://webapp9.sanantonio.gov/ArchiveSearch/Viewer2.aspx?Id=%7b86D0FDEC-7989-4301-89CB-B700B18D00E0%7d&DocTitle=City%20Council%20Consideration%20Request:%20Councilmember%20Jalen%20McKee-Rodriguez&PageNo=&TotalPages=&MimeType=application/pdf&RelatedDocs="
@@ -1640,11 +1632,11 @@
    "refs": [
     {
      "n": "City of San Antonio",
-     "t": "2026 Council Memos",
+     "t": "City Council memo",
      "d": "",
-     "u": "sa.gov",
+     "u": "webapp9.sanantonio.gov",
      "k": "Official",
-     "url": "https://www.sa.gov/Directory/Departments/OCC/Government/City-Council-Action-Request-Memos/2026-Council-Memos"
+     "url": "https://webapp9.sanantonio.gov/ArchiveSearch/Viewer2.aspx?Id=%7b5052D5A1-0000-C51A-A636-A7FAF3E9EE59%7d&DocTitle=Request%20for%20Special%20Session:%20Councilmembers%20Marc%20K.%20Whyte,%20Misty%20Spears,%20Marina%20Alderete%20Gavito,%20Edward%20Mungia,%20and%20Dr.%20Sukh%20Kaur&PageNo=&TotalPages=&MimeType=application/pdf&RelatedDocs="
     }
    ],
    "doc": "https://webapp9.sanantonio.gov/ArchiveSearch/Viewer2.aspx?Id=%7b5052D5A1-0000-C51A-A636-A7FAF3E9EE59%7d&DocTitle=Request%20for%20Special%20Session:%20Councilmembers%20Marc%20K.%20Whyte,%20Misty%20Spears,%20Marina%20Alderete%20Gavito,%20Edward%20Mungia,%20and%20Dr.%20Sukh%20Kaur&PageNo=&TotalPages=&MimeType=application/pdf&RelatedDocs="
@@ -1687,7 +1679,8 @@
      "k": "Official",
      "url": "https://www.sa.gov/Directory/News-Releases/Shop-For-Love-This-Black-“Furday”-at-Animal-Care-Services"
     }
-   ]
+   ],
+   "doc": "https://www.sa.gov/Directory/News-Releases/Shop-For-Love-This-Black-“Furday”-at-Animal-Care-Services"
   },
   {
    "headline": "Christmas in the Plaza at the Alamo",
@@ -1801,7 +1794,8 @@
    "pillar": "C",
    "status": "Upcoming",
    "kind": "Event",
-   "headline": "San Antonio Food Bank Turkey Trot 5K"
+   "headline": "San Antonio Food Bank Turkey Trot 5K",
+   "doc": "https://safoodbank.org/turkeytrot/"
   },
   {
    "summary": "Free at Travis Park, 301 E. Travis St., from 4 to 7 p.m., with the tree lighting at 6 p.m.",
@@ -2273,14 +2267,6 @@
      "u": "sa.gov",
      "k": "Official",
      "url": "https://www.sa.gov/Directory/News-Releases/Join-The-2027-Bond-Conversation"
-    },
-    {
-     "n": "City of San Antonio",
-     "t": "2027 to 2032 Bond: Community Input Committees",
-     "d": "",
-     "u": "sa.gov/2027Bond",
-     "k": "Official",
-     "url": "https://www.sa.gov/2027bond"
     }
    ],
    "doc": "https://www.sa.gov/Directory/Departments/CDD/Bond-Programs/2027-Bond/Committees"
@@ -2337,14 +2323,6 @@
      "u": "bexar.org",
      "k": "Official",
      "url": "https://www.bexar.org/DocumentCenter/View/459/Commissioners-Court-Calendar"
-    },
-    {
-     "n": "Bexar County",
-     "t": "Agenda Center: 2026 Commissioners Court agendas and posting dates",
-     "d": "",
-     "u": "bexar.org/AgendaCenter",
-     "k": "Official",
-     "url": "https://www.bexar.org/AgendaCenter"
     }
    ],
    "first_seen": "2026-11-23T09:45:00-06:00",
