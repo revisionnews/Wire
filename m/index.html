@@ -207,7 +207,15 @@ function letters(p, def) {
   if (!on.size) on.add(def || 'P'); return on;
 }
 const sbox = (on, small) => `<div class="spl${small ? ' s' : ''}">` + 'SPARC'.split('').map(l => `<b${on.has(l) ? ' class="on"' : ''}>${l}</b>`).join('') + '</div>';
+// Every story keeps a title: the robot sometimes writes "headline" and sometimes "title", so each item gets both
+function fixHeads(d) {
+  if (!d || typeof d !== 'object') return d;
+  Object.keys(d).forEach(k => { const v = d[k]; if (Array.isArray(v)) v.forEach(i => { if (i && typeof i === 'object' && !Array.isArray(i)) { if (!i.title && i.headline) i.title = i.headline; if (!i.headline && i.title) i.headline = i.title; } }); });
+  if (d.archive && Array.isArray(d.archive.items)) d.archive.items.forEach(i => { if (i && !i.h && (i.headline || i.title)) i.h = i.headline || i.title; });
+  return d;
+}
 function norm(d) {
+  fixHeads(d);
   const o = Object.assign({}, d);
   const L = (l, label, color) => (l || []).map(i => Object.assign({}, label ? { label } : {}, color ? { color } : {}, i));
   const byNew = l => l.map((i, n) => [i, n]).sort((a, b) => String(b[0].first_seen || '').localeCompare(String(a[0].first_seen || '')) || a[1] - b[1]).map(x => x[0]);

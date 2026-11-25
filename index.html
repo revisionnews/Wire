@@ -532,7 +532,7 @@ html body #view.view{top:calc(var(--u)*14) !important}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
 .roll3d .sin{position:absolute;left:0;right:0;top:0;height:0;transform-origin:0 0}
 .roll3d .sin .mason{position:relative;height:0}
-.roll3d .sin .mason > *{position:absolute !important;margin:0 !important}
+.roll3d .sin .mason > *,.roll3d .sin .copy > :not(.mason){position:absolute !important;margin:0 !important}
 .roll3d *,.roll3d *::before,.roll3d *::after{animation:none !important;transition:none !important}
 .roll3d .w{opacity:1 !important;transform:none !important}
 </style>
@@ -2884,7 +2884,15 @@ function layout() {
 const SECTIONS = [['sports','Sports','s','var(--orange)','Spurs, San Antonio FC, Missions, UTSA, high school'],['politics','Politics','c','var(--teal)','City Hall, Bexar County, CCRs'],['artistry','Art','a','var(--red)','Arts, music, film and culture'],['revolution','Revolution','r','var(--green)','Labor, movements and change'],['community','Community','n','var(--grey)','Neighborhoods and people'],['business','Business and utilities','y','var(--ink)','CPS Energy, SAWS, big employers'],['schools','Schools','o','var(--ink)','SAISD and Bexar County'],['safety','Public safety','p','var(--ink)','Crime, crashes, fire'],['weather','Weather','w','var(--ink)','San Antonio and Bexar County']];
 
 // Map older data keys into the SPARC sections so old and new data both render
+// Every story keeps a title: the robot sometimes writes "headline" and sometimes "title", so each item gets both
+function fixHeads(d) {
+  if (!d || typeof d !== 'object') return d;
+  Object.keys(d).forEach(k => { const v = d[k]; if (Array.isArray(v)) v.forEach(i => { if (i && typeof i === 'object' && !Array.isArray(i)) { if (!i.title && i.headline) i.title = i.headline; if (!i.headline && i.title) i.headline = i.title; } }); });
+  if (d.archive && Array.isArray(d.archive.items)) d.archive.items.forEach(i => { if (i && !i.h && (i.headline || i.title)) i.h = i.headline || i.title; });
+  return d;
+}
 function norm(d) {
+  fixHeads(d);
   const o = Object.assign({}, d);
   const L = (l, label, color) => (l || []).map(i => Object.assign({}, label ? { label } : {}, color ? { color } : {}, i));
   const byNew = l => l.map((i, n) => [i, n]).sort((a, b) => String(b[0].first_seen || '').localeCompare(String(a[0].first_seen || '')) || a[1] - b[1]).map(x => x[0]);
@@ -3195,7 +3203,8 @@ function rollDrum(c) {
     e.style.opacity = Math.max(0, 1 - Math.pow((i + 1) / RN, 1.4)).toFixed(3);   // fully gone by the time it reaches the line, never a hard edge
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track';
     const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
-    const k = rollClean(c.el.cloneNode(true)); k.style.left = '0px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px'; ms.appendChild(k);
+    const k = rollClean(c.el.cloneNode(true)); k.style.left = '0px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px';
+    (c.el.parentElement && c.el.parentElement.classList.contains('mason') ? ms : cp).appendChild(k);   // the archive list and end line roll too
     e.appendChild(inn); d.appendChild(e); sl.push({ inn, k, a1, sy: chord / arc });
   }
   box.appendChild(d);
@@ -3206,7 +3215,7 @@ function rollIndex() {
   const tr = track.getBoundingClientRect(), box = document.getElementById('roll3d');
   rollUnhook(); if (box) box.innerHTML = '';
   RH = box ? box.clientHeight : 0; RW = box ? box.clientWidth : 0; RR = RH / Math.sin(RPHI);
-  RC = []; track.querySelectorAll('.copy .mason > *').forEach(el => { const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
+  RC = []; track.querySelectorAll('.copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
 }
 function rollRefresh() {
   if (!RC.length) return;
