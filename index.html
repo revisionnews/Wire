@@ -3245,12 +3245,13 @@ function buildCopy(d) {
     while (pools.some(p => p.length)) { const p = pools.filter(q => q.length && q[0].k !== last).sort((x, y) => y.length - x.length)[0] || pools.find(q => q.length); const x = p.shift(); spec.push(x); last = x.k; }
     const sp = share(Q.spark, i).map(h => ({ k: 'spark', h }));
     // alternate: a regular story, then a special, so specials are always separated by at least one story
-    const out = sp.slice();
-    // specials spread evenly among the regular stories of this stretch, never two in a row while stories remain
-    spec.forEach((x, j) => { const at = Math.min(out.length, Math.round((j + 1) * (sp.length + spec.length) / (spec.length + 1))); out.splice(at, 0, x); });
+    // specials spread evenly among the regular stories of this stretch: special j goes after floor((j+1)(n+1)/(m+1)) stories
+    const out = [], n = sp.length, m = spec.length; let used = 0;
+    spec.forEach((x, j) => { const want = Math.min(n, Math.floor((j + 1) * (n + 1) / (m + 1))); while (used < want) out.push(sp[used++]); out.push(x); });
+    while (used < n) out.push(sp[used++]);
     feed.push(...out);
   }
-  FEED = feed;
+  FEED = noTouch(feed);
   return wrapFeed();
 }
 
@@ -3294,6 +3295,16 @@ function placeCmp() {
 }
 // Two columns, read top to bottom: each story goes to the shorter column in feed order, so rank 1 to 10 runs down the board
 let COLBRK = -1;
+// No two blocks of the same kind may touch: when two match, the next block of another kind (never a top story, so the ranks stay in order) moves up between them
+function noTouch(list) {
+  const a = list.slice();
+  for (let i = 1; i < a.length; i++) {
+    if (a[i].k === 'spark' || a[i].k !== a[i - 1].k) continue;
+    let j = i + 1; while (j < a.length && (a[j].k === a[i].k || a[j].k === 'top')) j++;
+    if (j < a.length) { const [x] = a.splice(j, 1); a.splice(i, 0, x); }
+  }
+  return a;
+}
 function balanceCols() {
   COLBRK = -1;
   if (document.documentElement.classList.contains('one') || FEED.length < 2) { track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>'; return; }
@@ -3302,7 +3313,7 @@ function balanceCols() {
   const hts = kids.map(e => { const cs = getComputedStyle(e); return e.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom); });
   const L = [], R = []; let hl = 0, hr = 0;
   FEED.forEach((f, i) => { if (hl <= hr) { L.push(f); hl += hts[i] || 0; } else { R.push(f); hr += hts[i] || 0; } });
-  FEED = L.concat(R); COLBRK = R.length ? L.length : -1;
+  FEED = noTouch(L).concat(noTouch(R)); COLBRK = R.length ? L.length : -1;
   track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>';
 }
 function deconflict(rnd) {
