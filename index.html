@@ -3403,7 +3403,7 @@ function rollIndex() {
   const tr = track.getBoundingClientRect(), box = document.getElementById('roll3d');
   rollUnhook(); if (box) box.innerHTML = '';
   RH = box ? box.clientHeight : 0; RW = box ? box.clientWidth : 0; RR = RH / Math.sin(RPHI);
-  RC = []; track.querySelectorAll('.copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
+  RC = []; track.querySelectorAll('.copy > .wsearch, .copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
 }
 function rollRefresh() {
   if (!RC.length) return;
