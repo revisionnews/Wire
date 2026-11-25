@@ -3607,6 +3607,7 @@ function glideTo(target, ms, done) {
 }
 function openStory(card, id, instant) {
   if (POP || !card) return;
+  { const t = id === 'archive' ? 'Archive' : cardTitle(card); setTimeout(() => gc((BOOT_ID && BOOT_ID === id ? 'qr-scan/' : BOOT_S ? 'shared-link/' : 'open/') + (id === 'archive' ? 'archive' : slugOf(t)), t), 1500); }
   pinWin();
   const stage = document.getElementById('stage'), u = U, vr = view.getBoundingClientRect();
   const keep = speed; speed = 0; vel = 0; tvel = 0;
@@ -3666,7 +3667,7 @@ function openStory(card, id, instant) {
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
     shb.addEventListener('click', e => {
-      e.stopPropagation(); if (POP) clearTimeout(POP.timer);
+      e.stopPropagation(); if (POP) clearTimeout(POP.timer); gc('share/' + slugOf(cardTitle(card)), 'Share: ' + cardTitle(card));
       const title = cardTitle(card) || 'Revision Wire', sl = slugOf(title), url = sl ? SITE + 's/' + sl + '/' : SITE + '#' + encodeURIComponent(id);
       const done2 = t => { shb.textContent = t; setTimeout(() => { shb.textContent = 'Share'; }, 1800); };
       if (navigator.share) { navigator.share({ url }).catch(() => {}); return; }
@@ -3808,6 +3809,7 @@ function wsApply(instant) {
 }
 function wsOpen() {
   if (TVMODE) return;
+  if (!WSH) gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
   if (!WSH) {
     const st = document.getElementById('stage'), rl = document.getElementById('roll3d');
@@ -3826,6 +3828,7 @@ function wsOpen() {
     WSH.querySelector('.wsc').addEventListener('click', e => { e.preventDefault(); wsClose(); });
     WSH.querySelector('.wtags').addEventListener('click', e => {
       const bt = e.target.closest('button'); if (!bt) return;
+      gc('search/filter/' + (bt.dataset.f || bt.dataset.p), 'Filter: ' + bt.textContent.trim());
       if (bt.dataset.f) { WF = WF === bt.dataset.f ? '' : bt.dataset.f; WSH.querySelectorAll('[data-f]').forEach(x => x.classList.toggle('on', x.dataset.f === WF)); }
       if (bt.dataset.p) { WP = WP === bt.dataset.p ? '' : bt.dataset.p; WSH.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('on', x.dataset.p === WP)); }
       wsApply(false);
@@ -3863,6 +3866,13 @@ track.addEventListener('mousedown', wsDown);
 // While typing, the phone keyboard must not push the board up and out of view
 window.addEventListener('scroll', () => { if (wsFocused() || POP) pinWin(); }, { passive: true });
 if (window.visualViewport) visualViewport.addEventListener('resize', () => { if (wsFocused()) pinWin(); });
+// Visitor counts (GoatCounter, revisionnews.goatcounter.com): page views split into the TV and the regular Wire,
+// plus events for story opens, QR scans, shared links, shares, searches and filters. Never counted inside the artifact.
+function gc(path, title) { try { if (window.goatcounter && goatcounter.count) goatcounter.count({ path: path, title: title || path, event: true }); } catch (e) {} }
+if (!IN_ART) {
+  window.goatcounter = { path: () => TVMODE ? '/tv' : (location.pathname || '/') };
+  const g = document.createElement('script'); g.async = true; g.src = 'https://gc.zgo.at/count.js'; g.dataset.goatcounter = 'https://revisionnews.goatcounter.com/count'; document.head.appendChild(g);
+}
 function wireTap() {
   let sx = 0, sy = 0, st = 0, moving = false, lastDrag = 0;
   view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); moving = Math.abs(vel) > 60 || Math.abs(tvel) > 60 || st - lastDrag < 350; }, true);
