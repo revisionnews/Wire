@@ -596,7 +596,29 @@ html.pub .qb svg.eye{display:block !important;width:100%;height:100%;overflow:vi
 html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
 .popdim.now,.popwrap.now .popsrc,.popwrap.glide{transition:none !important}
 .popsrc{transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
-</style><style>.endcap .vt{display:block;margin-top:calc(var(--u)*1.2);text-decoration:underline;text-underline-offset:.2em;cursor:pointer;opacity:.8}/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
+</style><style>.endcap .vt{display:block;margin-top:calc(var(--u)*1.2);text-decoration:underline;text-underline-offset:.2em;cursor:pointer;opacity:.8}</style><style>
+/* Opened compare block: the full comparison, built for reading rather than the feed */
+.popsrc.cmpx{border:var(--b) solid #A21CAF;background:var(--paper)}
+.cmpx .cx-ai{background:#A21CAF;color:#fff;padding:calc(var(--u)*1.6) calc(var(--u)*1.8) calc(var(--u)*1.8)}
+.cmpx .cx-tag{display:block;font:900 calc(var(--u)*1.3)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:calc(var(--u)*1)}
+.cmpx .cx-tag i{font-style:normal;opacity:.75;margin-left:calc(var(--u)*.6)}
+.cmpx .cx-ai h3{font:900 calc(var(--u)*3.2)/1.12 'Hando',sans-serif;margin:0 0 calc(var(--u)*.8);padding:0}
+.cmpx .cx-ai p{font:400 calc(var(--u)*2)/1.42 'Hando',sans-serif;margin:0;padding:0}
+.cmpx .ph{background:var(--ink)}
+.cmpx .cx-o{display:block;padding:calc(var(--u)*1.4) calc(var(--u)*1.8);border-top:var(--b) solid var(--ink);color:var(--ink);text-decoration:none;background:var(--paper)}
+.cmpx .cx-o:nth-child(odd){background:var(--fig)}
+.cmpx .cx-src{display:flex;align-items:baseline;gap:calc(var(--u)*.8);margin-bottom:calc(var(--u)*.6)}
+.cmpx .cx-src .n{font:900 calc(var(--u)*1.4)/1 'Hando',sans-serif}
+.cmpx .cx-src b{font:900 calc(var(--u)*1.4)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase;background:#A21CAF;color:#fff;padding:calc(var(--u)*.3) calc(var(--u)*.6)}
+.cmpx .cx-src i{font:700 calc(var(--u)*1.15)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.12em;text-transform:uppercase;opacity:.65}
+.cmpx .cx-o h4{font:900 calc(var(--u)*2.4)/1.18 'Hando',sans-serif;margin:0 0 calc(var(--u)*.5);text-decoration:underline;text-underline-offset:.14em;text-decoration-thickness:.06em}
+.cmpx .cx-o p{font:400 calc(var(--u)*1.85)/1.42 'Hando',sans-serif;margin:0}
+html.one .cmpx .cx-tag,html.one .cmpx .cx-src b,html.one .cmpx .cx-src .n{font-size:calc(var(--u)*2.6)}
+html.one .cmpx .cx-src i{font-size:calc(var(--u)*2.2)}
+html.one .cmpx .cx-ai h3{font-size:calc(var(--u)*5.6)}
+html.one .cmpx .cx-ai p,html.one .cmpx .cx-o p{font-size:calc(var(--u)*3.6)}
+html.one .cmpx .cx-o h4{font-size:calc(var(--u)*4.4)}
+/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
 html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the roller so the two never leave a hairline between them */
@@ -3455,6 +3477,15 @@ function openStory(card, id, instant) {
   const clone = c.cloneNode(true); clone.style.margin = '0'; clone.style.width = '100%'; clone.style.breakInside = 'avoid'; host.appendChild(clone);
   const refs = storyRefs(id), src = document.createElement('div'); src.className = 'popsrc';
   src.innerHTML = `<div class="psi"><div class="ph">Sources<em>${refs.length}</em></div>` + (refs.length ? refs.map((r, i) => `<a class="ps" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="b"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i><small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small></span></a>`).join('') : '<p class="ps0">No source links for this item.</p>') + '</div>';
+  // A compare block opens into the full comparison: Claudia's overview first, then every outlet's own headline and description
+  const CE = /^k_/.test(id) ? CMPS.find(x => x.qid === id) : null;
+  if (CE) {
+    clone.style.display = 'none'; src.classList.add('cmpx');
+    const ai = CE.hs.find(h => h.k === 'AI'), outs = CE.hs.filter(h => h.k !== 'AI');
+    src.innerHTML = '<div class="psi">' + (ai ? `<div class="cx-ai"><span class="cx-tag">✦ Claudia <i>AI overview${ai.d ? ' / ' + esc(ai.d) : ''}</i></span><h3>${esc(ai.headline || '')}</h3><p>${esc(ai.summary || '')}</p></div>` : '') +
+      `<div class="ph">Compare the coverage<em>${outs.length} outlets</em></div>` +
+      outs.map((h, i) => { const url = h.u ? (/^https?:/.test(h.u) ? h.u : 'https://' + h.u) : '#'; return `<a class="cx-o" href="${esc(url)}" target="_blank" rel="noopener"><span class="cx-src"><span class="n">${i + 1}</span><b>${esc(h.src || '')}</b><i>${esc([h.lean, h.d].filter(Boolean).join(' / '))}</i></span><h4>${esc(h.headline || '')}</h4><p>${esc(h.summary || '')}</p></a>`; }).join('') + '</div>';
+  }
   host.appendChild(src);
   const pad = Math.round(u * 1.4); // room above the card so tags that sit on its top edge are never clipped
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px' });
