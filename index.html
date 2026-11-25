@@ -656,6 +656,9 @@ html.tvm .wsearch{display:none}
 
 /* locked search: box and tags sit at the top; stories roll off beneath them */
 #track.wsm .wsearch{display:none}
+.wsh:not(.open) .wtags{display:none}
+.wsh:not(.open) .wsearch .wsc{visibility:hidden !important}
+.wsh .wsearch{cursor:text}
 .wsh{position:absolute;left:0;right:0;z-index:6;padding:0 calc(var(--u)*2.2)}
 .wsh .wsearch{margin:0 0 calc(var(--u)*.9);will-change:transform}
 .wsh .wsearch input:placeholder-shown ~ .wsc{visibility:visible}
@@ -3277,7 +3280,7 @@ function archBlock() {
     `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
 }
 let FEED = [];
-function wrapFeed() { return (TVMODE ? '' : '<label class="wsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg><input type="search" placeholder="Search the board" readonly tabindex="-1"></label>') + '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
+function wrapFeed() { return '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
 
 
 // Layout rule: the same kind of box (breaking, top, coverage, meetings, events, memos) never sits beside or directly under itself
@@ -3506,7 +3509,7 @@ function render() {
     [...tail.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap')].reverse().forEach(el => { if (el.getBoundingClientRect().top - tt > lim) el.remove(); });
   } else track.innerHTML = one.repeat(need);
   measure(); qrSnap(); rollIndex(); addEyes(track); setTimeout(openFromHash, 0);
-  if (wsOn()) { track.classList.add('wsm'); wsApply(true); }
+  wsPlace(); if (wsAny()) wsApply(true);
   off = 0;
   const al = document.getElementById('alert');
   if (data.alert) { al.textContent = data.alert; al.classList.add('on'); } else { al.classList.remove('on'); }
@@ -3532,7 +3535,7 @@ function tick(ts) {
   vel += (tvel - vel) * (1 - Math.exp(-dt * 3));
   const idle = (ts - lastIn) / 1000 - 1.2, k = dragY !== null ? 0 : Math.max(0, Math.min(1, idle / 2.2)), auto = k * k * (3 - 2 * k);
   off += speed * u * auto * dt + vel * dt;
-  if (wsOn()) { const mx = Math.max(0, copyH - view.clientHeight + U * 6); if (off < 0 || off > mx) { off = Math.max(0, Math.min(off, mx)); vel = 0; tvel = 0; } }
+  if (track.classList.contains('wsm')) { const mx = Math.max(0, copyH - view.clientHeight + U * 6); if (off < 0 || off > mx) { off = Math.max(0, Math.min(off, mx)); vel = 0; tvel = 0; } }
   else if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
   // Whole device pixels only, so fine detail like QR codes never shimmers between pixels
   track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
@@ -3763,9 +3766,10 @@ function openFromHash() {
 
 // Search the board: the feed stays the same endless scroll; typing fades away every story that does not match,
 // the matches slide up under the box, and clearing the box brings everything back
-// Search the board. Tapping the box in the feed lifts it out of the Wire and locks it at the top with filter tags;
-// the matching stories scroll and roll off beneath that locked area. The X or Back to Wire returns to the regular Wire.
-let WQ = '', WF = '', WP = '', wsKeep = null, wsTimer = 0, WSH = null, WSX = null, WSTOP = null;
+// Search the board. On the regular view the box is always locked at the top and the feed scrolls and rolls off beneath it.
+// Tapping it only unfolds the filter tags; the feed stays exactly as it was until someone types or picks a tag.
+// Closing folds the tags away, and only if a search was showing does the full feed come back from the top.
+let WQ = '', WF = '', WP = '', wsKeep = null, WSH = null, WSX = null, WSOPEN = false, WSD = 0, wsBusy = false;
 const WTAGS = [['top', 'Top stories'], ['brk', 'Breaking'], ['cmp', 'Compare'], ['ev', 'Events'], ['memo', 'Memos and CCRs'], ['meet', 'Meetings']];
 const WICON = {
   top: '<path d="M3 21V13h5v8zM9.5 21V5h5v16zM16 21v-6h5v6z" fill="currentColor"/>',
@@ -3784,10 +3788,45 @@ function wsText(card) {
 }
 function wsKind(c) { const k = c.classList; return k.contains('top') ? 'top' : k.contains('brk') ? 'brk' : k.contains('cmp') ? 'cmp' : k.contains('l-ev') ? 'ev' : k.contains('l-memo') ? 'memo' : k.contains('l-meet') ? 'meet' : 'story'; }
 function wsLetters(c) { if (c.__wl !== undefined) return c.__wl; const sp = c.querySelector('.spl'); return (c.__wl = sp ? [...sp.querySelectorAll('b.on')].map(x => x.textContent).join('') : String(c.dataset.p || '').toUpperCase()); }
-function wsOn() { return !TVMODE && !!WSH; }
+function wsOn() { return !TVMODE && WSOPEN; }
+function wsAny() { return !!(WQ || WF || WP); }
 function wsFocused() { const a = document.activeElement; return !!(a && a.closest && a.closest('.wsh')); }
 function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); }
-function setOff(v) { off = v; if (copyH && !wsOn()) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); }
+function setOff(v) { off = v; if (copyH && !track.classList.contains('wsm')) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); }
+// Place the locked box (and the tags when open) between the masthead and the roll-off
+function wsPlace() {
+  const rl = document.getElementById('roll3d');
+  if (TVMODE) { if (WSH) { WSH.remove(); WSH = null; } WSOPEN = false; view.style.removeProperty('top'); if (rl) rl.style.removeProperty('top'); return; }
+  if (!WSH) wsBuild();
+  view.style.removeProperty('top'); if (rl) rl.style.removeProperty('top');
+  const vb = view.offsetTop, rb = rl ? rl.offsetTop : vb;
+  WSH.style.top = rb + 'px';
+  const box = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags');
+  const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight : 0);
+  WSD = h;
+  view.style.setProperty('top', (vb + h) + 'px', 'important'); if (rl) rl.style.setProperty('top', (rb + h) + 'px', 'important');
+}
+function wsBuild() {
+  WSH = document.createElement('div'); WSH.className = 'wsh';
+  WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><em class="wsn"></em><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
+    + `<div class="wtags">${WTAGS.map(([k, l]) => `<button type="button" class="wtg wt-${k}" data-f="${k}"><i><svg viewBox="0 0 24 24" aria-hidden="true">${WICON[k]}</svg></i><span>${l}</span></button>`).join('')}<div class="wt2">${'SPARC'.split('').map(l => `<button type="button" data-p="${l}">${l}</button>`).join('')}</div></div>`;
+  document.getElementById('stage').appendChild(WSH);
+  const inp = WSH.querySelector('input');
+  inp.addEventListener('focus', () => wsOpen());
+  inp.addEventListener('input', () => { WQ = inp.value.trim(); wsApply(false); });
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); if (e.key === 'Escape') wsClose(); });
+  WSH.querySelector('.wsc').addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); wsClose(); });
+  WSH.querySelector('.wtags').addEventListener('pointerdown', e => { if (e.target.closest('button')) e.preventDefault(); });
+  WSH.querySelector('.wtags').addEventListener('click', e => {
+    const bt = e.target.closest('button'); if (!bt) return;
+    gc('search/filter/' + (bt.dataset.f || bt.dataset.p), 'Filter: ' + bt.textContent.trim());
+    if (bt.dataset.f) { WF = WF === bt.dataset.f ? '' : bt.dataset.f; WSH.querySelectorAll('[data-f]').forEach(x => x.classList.toggle('on', x.dataset.f === WF)); }
+    if (bt.dataset.p) { WP = WP === bt.dataset.p ? '' : bt.dataset.p; WSH.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('on', x.dataset.p === WP)); }
+    wsApply(false);
+  });
+}
+// Only typing or a tag changes the feed: it fades out, the matches are laid out from the top, the roll-off is rebuilt, it fades in
+let wsTimer = 0;
 function wsApply(instant) {
   clearTimeout(wsTimer);
   const res = WQ.toLowerCase().split(/\s+/).filter(Boolean).map(w => new RegExp('(^|[^a-z0-9])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
@@ -3795,86 +3834,51 @@ function wsApply(instant) {
   const cards = [...track.querySelectorAll('.copy:not(.tail) .mason > *, .copy:not(.tail) > .arch')];
   const keep = new Set(cards.filter(c => !any || (!c.classList.contains('arch') && (!WF || wsKind(c) === WF) && (!WP || wsLetters(c).includes(WP)) && res.every(r => r.test(wsText(c))))));
   if (WSH) { const em = WSH.querySelector('.wsn'); if (em) em.textContent = any ? keep.size + (keep.size === 1 ? ' story' : ' stories') : ''; }
-  // Repopulate, never slide: the list fades out, the matches are laid out fresh from the top, the roll-off is rebuilt, then it fades in
   const apply = () => {
+    track.classList.toggle('wsm', any);
     cards.forEach(c => { const on = keep.has(c); c.classList.toggle('wsoff', !on); c.classList.toggle('wsgone', !on); c.style.transform = ''; c.style.transition = ''; });
     if ([...keep].some(c => c.classList.contains('cmp'))) { try { cmpSizeAll(); } catch (x) {} }
     measure(); vel = 0; tvel = 0; setOff(0);
     if (typeof rollIndex === 'function') rollIndex();
     if (typeof rollSync === 'function') rollSync(0);
   };
-  if (instant || !wsOn()) { apply(); track.style.opacity = ''; return; }
+  if (instant) { apply(); track.style.opacity = ''; return; }
   track.style.transition = 'opacity .16s ease'; track.style.opacity = '0';
   wsTimer = setTimeout(() => { apply(); requestAnimationFrame(() => { track.style.transition = 'opacity .28s ease'; track.style.opacity = ''; }); }, 170);
 }
+// Open: the board stops drifting, the tags unfold under the box, and the stories stay right where they were
 function wsOpen() {
-  if (TVMODE || WSCLOSING) return;
-  if (!WSH) gc('search/open', 'Search opened');
+  if (TVMODE || WSOPEN || wsBusy || !WSH) return;
+  gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
-  if (!WSH) {
-    const st = document.getElementById('stage'), rl = document.getElementById('roll3d');
-    const fb = [...track.querySelectorAll('.wsearch')].find(x => { const r = x.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; }), r0 = fb ? fb.getBoundingClientRect() : null;
-    WSTOP = { v: view.offsetTop, r: rl ? rl.offsetTop : view.offsetTop };
-    WSH = document.createElement('div'); WSH.className = 'wsh';
-    WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><em class="wsn"></em><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
-      + `<div class="wtags">${WTAGS.map(([k, l]) => `<button type="button" class="wtg wt-${k}" data-f="${k}"><i><svg viewBox="0 0 24 24" aria-hidden="true">${WICON[k]}</svg></i><span>${l}</span></button>`).join('')}<div class="wt2">${'SPARC'.split('').map(l => `<button type="button" data-p="${l}">${l}</button>`).join('')}</div></div>`;
-    WSH.style.top = WSTOP.r + 'px'; st.appendChild(WSH);
-    const h = WSH.offsetHeight;
-    view.style.setProperty('top', (WSTOP.v + h) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSTOP.r + h) + 'px', 'important');
-    track.classList.add('wsm');
-    const inp = WSH.querySelector('input');
-    inp.addEventListener('input', () => { WQ = inp.value.trim(); wsApply(false); });
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); if (e.key === 'Escape') wsClose(); });
-    WSH.querySelector('.wsc').addEventListener('click', e => { e.preventDefault(); wsClose(); });
-    WSH.querySelector('.wtags').addEventListener('click', e => {
-      const bt = e.target.closest('button'); if (!bt) return;
-      gc('search/filter/' + (bt.dataset.f || bt.dataset.p), 'Filter: ' + bt.textContent.trim());
-      if (bt.dataset.f) { WF = WF === bt.dataset.f ? '' : bt.dataset.f; WSH.querySelectorAll('[data-f]').forEach(x => x.classList.toggle('on', x.dataset.f === WF)); }
-      if (bt.dataset.p) { WP = WP === bt.dataset.p ? '' : bt.dataset.p; WSH.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('on', x.dataset.p === WP)); }
-      wsApply(false);
-    });
-    measure(); setOff(0); if (typeof rollIndex === 'function') rollIndex();
-    { const lb = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags'), r1 = lb.getBoundingClientRect();
-      if (r0) { lb.style.transition = 'none'; lb.style.transform = `translate(${r0.left - r1.left}px, ${r0.top - r1.top}px)`; }
-      tg.style.transition = 'none'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-14px)'; track.style.transition = 'none'; track.style.opacity = '0';
-      lb.getBoundingClientRect();
-      requestAnimationFrame(() => { lb.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1)'; lb.style.transform = '';
-        tg.style.transition = 'opacity .35s ease .18s, transform .45s cubic-bezier(.2,.7,.2,1) .18s'; tg.style.opacity = ''; tg.style.transform = '';
-        track.style.transition = 'opacity .4s ease .3s'; track.style.opacity = ''; setTimeout(() => { track.style.transition = ''; }, 800); }); }
-    try { inp.focus({ preventScroll: true }); } catch (x) { inp.focus(); }
-    pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
-  }
+  WSOPEN = true; WSH.classList.add('open');
+  const d0 = WSD; wsPlace(); const dd = WSD - d0;
+  setOff(off + dd);                      // the feed keeps its place on screen; what sat under the tags rolls off
+  if (typeof rollIndex === 'function') rollIndex();
+  const tg = WSH.querySelector('.wtags');
+  tg.style.transition = 'none'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-12px)'; tg.getBoundingClientRect();
+  requestAnimationFrame(() => { tg.style.transition = 'opacity .3s ease, transform .4s cubic-bezier(.2,.7,.2,1)'; tg.style.opacity = ''; tg.style.transform = ''; });
+  pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
 }
-let WSCLOSING = false;
+// Close: the tags fold away; only if a search or filter was showing does the full feed come back, from the top
 function wsClose() {
+  if (!WSH || !WSOPEN || wsBusy) { const a = document.activeElement; if (a && a.closest && a.closest('.wsh')) a.blur(); return; }
+  wsBusy = true;
   const a = document.activeElement; if (a && a.closest && a.closest('.wsh')) a.blur();
-  WQ = ''; WF = ''; WP = '';
-  const h = WSH; WSH = null;
-  const restore = () => {
-    view.style.removeProperty('top'); const rl = document.getElementById('roll3d'); if (rl) rl.style.removeProperty('top');
-    track.classList.remove('wsm'); wsApply(true); setOff(0); pinWin();
-  };
-  if (wsKeep !== null) { speed = 0; }
-  if (!h) { restore(); if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } return; }
-  // Leaving search: the tags fold away, the stories fade, the box glides back to its place in the feed, then the feed fades in
-  WSCLOSING = true;
-  const lb = h.querySelector('.wsearch'), tg = h.querySelector('.wtags');
-  tg.style.transition = 'opacity .22s ease, transform .3s cubic-bezier(.4,0,.2,1)'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-14px)';
-  track.style.transition = 'opacity .2s ease'; track.style.opacity = '0';
+  const had = wsAny();
+  WQ = ''; WF = ''; WP = ''; const inp = WSH.querySelector('input'); if (inp) inp.value = '';
+  WSH.querySelectorAll('.wtags .on').forEach(x => x.classList.remove('on')); { const em = WSH.querySelector('.wsn'); if (em) em.textContent = ''; }
+  const tg = WSH.querySelector('.wtags');
+  tg.style.transition = 'opacity .22s ease, transform .3s cubic-bezier(.4,0,.2,1)'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-12px)';
+  if (had) { track.style.transition = 'opacity .2s ease'; track.style.opacity = '0'; }
   setTimeout(() => {
-    const r0 = lb.getBoundingClientRect();
-    restore(); track.style.transition = 'none'; track.style.opacity = '0';
-    { const n = lb.querySelector('.wsn'), x = lb.querySelector('.wsc'); if (n) n.textContent = ''; if (x) x.style.visibility = 'hidden'; }
-    const fb = track.querySelector('.copy .wsearch'), r1 = fb ? fb.getBoundingClientRect() : r0;
-    lb.style.transition = 'transform .45s cubic-bezier(.2,.7,.2,1)'; lb.style.transform = `translate(${r1.left - r0.left}px, ${r1.top - r0.top}px)`;
-    const inp = lb.querySelector('input'); if (inp) inp.value = '';
-    setTimeout(() => {
-      h.remove(); WSCLOSING = false;
-      track.style.transition = 'opacity .3s ease'; track.style.opacity = '';
-      setTimeout(() => { track.style.transition = ''; }, 350);
-      if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000;
-    }, 470);
-  }, 240);
+    const d0 = WSD; WSOPEN = false; WSH.classList.remove('open'); tg.style.transition = 'none'; tg.style.opacity = ''; tg.style.transform = '';
+    wsPlace(); const dd = WSD - d0;
+    if (had) { wsApply(true); track.style.transition = 'none'; track.style.opacity = '0'; requestAnimationFrame(() => { track.style.transition = 'opacity .3s ease'; track.style.opacity = ''; }); }
+    else { setOff(off + dd); if (typeof rollIndex === 'function') rollIndex(); }
+    pinWin(); wsBusy = false;
+    if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000;
+  }, 260);
 }
 function wsBack() { wsClose(); }
 function wsUI() {
@@ -3882,10 +3886,6 @@ function wsUI() {
   if (on && !WSX) { WSX = document.createElement('div'); WSX.className = 'popx wsx'; WSX.innerHTML = '<button class="px-b">Back to Wire</button>'; document.getElementById('stage').appendChild(WSX); WSX.addEventListener('click', e => { e.stopPropagation(); wsClose(); }); requestAnimationFrame(() => WSX && WSX.classList.add('on')); }
   else if (!on && WSX) { const x = WSX; WSX = null; x.classList.remove('on'); setTimeout(() => x.remove(), 300); }
 }
-// the box in the feed only opens the locked search
-const wsDown = e => { const box = e.target.closest && e.target.closest('#track .wsearch'); if (!box) return; e.preventDefault(); wsOpen(); };
-track.addEventListener('touchend', wsDown, { passive: false });
-track.addEventListener('mousedown', wsDown);
 // While typing, the phone keyboard must not push the board up and out of view
 window.addEventListener('scroll', () => { if (wsFocused() || POP) pinWin(); }, { passive: true });
 if (window.visualViewport) visualViewport.addEventListener('resize', () => { if (wsFocused()) pinWin(); });
