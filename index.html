@@ -604,6 +604,11 @@ html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
 .popsrc.cmpx .ps b{background:#A21CAF;color:#fff;padding:calc(var(--u)*.3) calc(var(--u)*.6);align-self:flex-start}
 .popsrc.cmpx .ps.ai b{color:#fff}
 html.one .popsrc.cmpx .ps .cs{font-size:calc(var(--u)*3.4)}
+</style><style>
+/* Compare blocks: title and description capped at three lines each so cycling never leaves empty space */
+.story.cmp h3 .cmh,.story.cmp p.sum .cms{display:-webkit-box !important;-webkit-box-orient:vertical !important;-webkit-line-clamp:3 !important;overflow:hidden !important}
+.story.cmp.cmp-open h3 .cmh,.story.cmp.cmp-open p.sum .cms{-webkit-line-clamp:unset !important;display:block !important}
+.story.cmp.cmp-open .cmt{height:auto !important}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -3103,18 +3108,9 @@ function flapFill(el, txt) {
 }
 let cmpTimer = [];
 function cmpFit(card) {
-  // The box is sized to the longest outlet slide; a longer slide (usually Claudia's overview) shrinks its text a little to fit, so the box never sits half empty
+  // Text never changes size: titles and descriptions are capped at three lines, and the box fits the tallest capped slide
   const h = card.querySelector('h3'), p = card.querySelector('p.sum'), box = card.querySelector('.cmt');
-  if (!h || !p) return;
-  h.style.cssText = ''; p.style.cssText = ''; if (!box) return;
-  const ph = parseFloat(getComputedStyle(p).fontSize), hh = parseFloat(getComputedStyle(h).fontSize);
-  box.style.removeProperty('height');
-  let k = 1; while (box.scrollHeight > box.clientHeight + 1 && k > .5) { k -= .04; p.style.fontSize = (ph * k).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.max(k, .82)).toFixed(2) + 'px'; }
-  // still too long (usually Claudia's overview on a phone): let the box grow for this slide so the title is never cut off
-  if (box.scrollHeight > box.clientHeight + 1) box.style.setProperty('height', box.scrollHeight + 'px', 'important');
-  // a short slide grows its text to fill the box instead of leaving empty space
-  if (k === 1) { let g = 1; const fits = () => box.scrollHeight <= box.clientHeight + 1;
-    while (g < 1.9) { const n = g + .03; p.style.fontSize = (ph * n).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(n, 1.45)).toFixed(2) + 'px'; if (!fits()) { p.style.fontSize = (ph * g).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(g, 1.45)).toFixed(2) + 'px'; break; } g = n; } }
+  if (h) h.style.cssText = ''; if (p) p.style.cssText = ''; if (box) box.style.removeProperty('height');
 }
 function startCmp() {
   cmpTimer.forEach(x => { clearTimeout(x); clearInterval(x); }); cmpTimer = [];
@@ -3248,14 +3244,11 @@ function cmpSizeAll() {
     h.style.cssText = ''; p.style.cssText = ''; box.style.cssText = ''; // measure at the normal text size, never a size left over from filling a short slide
     box.style.height = 'auto'; h.style.height = 'auto'; p.style.height = 'auto'; h.style.overflow = 'visible'; p.style.overflow = 'visible';
     let need = 0; const hts = [];
-    const outlets = E.hs.some(y => y.k !== 'AI');
     E.hs.forEach(x => {
-      if (outlets && x.k === 'AI') return;
       hs.textContent = x.headline || ''; ss.textContent = x.summary || '';
       hts.push(box.scrollHeight);
     });
-    // box fits the typical slide: longer slides shrink their text, shorter ones grow, so no slide leaves a big gap
-    hts.sort((a, b) => a - b); need = hts.length ? hts[Math.floor((hts.length - 1) / 2)] + 0.6 * u : 0;
+    need = hts.length ? Math.max(...hts) + 0.4 * u : 0;
     hs.textContent = keep[0]; ss.textContent = keep[1];
     box.style.height = ''; h.style.cssText = ''; p.style.cssText = '';
     css += `.story.cmp[data-cmp="${card.dataset.cmp}"] .cmt{height:${Math.ceil(need)}px !important}`;
@@ -3482,7 +3475,9 @@ function openStory(card, id, instant) {
   if (CE) {
     // Same card, same place; the sources panel lists every slide the block cycles through: Claudia first, then each outlet's headline and description
     src.classList.add('cmpx');
-    src.innerHTML = '<div class="psi"><div class="ph">Compare the coverage<em>' + CE.hs.length + ' slides</em></div>' + CE.hs.map((h, i) => {
+    const ai0 = CE.hs.find(h => h.k === 'AI'), outs = CE.hs.filter(h => h.k !== 'AI');
+    if (ai0) { const hh = clone.querySelector('.cmh'), ss = clone.querySelector('.cms'); if (hh) hh.textContent = ai0.headline || ''; if (ss) ss.textContent = ai0.summary || ''; clone.classList.add('cmp-open'); const j0 = CE.hs.indexOf(ai0), st0 = cmpStrip(CE.c, CE.hs, j0, CE.qid), tmp0 = document.createElement('div'); tmp0.innerHTML = st0.html; const rl = clone.querySelector('.rl'), rl0 = tmp0.querySelector('.rl'); if (rl && rl0) rl.innerHTML = rl0.innerHTML; }
+    src.innerHTML = '<div class="psi"><div class="ph">Compare the coverage<em>' + outs.length + ' outlets</em></div>' + outs.map((h, i) => {
       const ai = h.k === 'AI', url = h.u ? (/^https?:/.test(h.u) ? h.u : 'https://' + h.u) : '';
       const inner = `<span class="n">${i + 1}</span><span class="b"><b>${ai ? '✦ Claudia' : esc(h.src || '')}</b><i>${esc(h.headline || '')}</i><span class="cs">${esc(h.summary || '')}</span><small>${esc([ai ? 'AI overview' : h.lean, h.d].filter(Boolean).join(' / '))}</small></span>`;
       return url ? `<a class="ps${ai ? ' ai' : ''}" href="${esc(url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="ps${ai ? ' ai' : ''}">${inner}</div>`;
