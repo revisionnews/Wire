@@ -3123,6 +3123,9 @@ function cmpFit(card) {
   h.style.cssText = ''; p.style.cssText = ''; if (!box) return;
   const ph = parseFloat(getComputedStyle(p).fontSize), hh = parseFloat(getComputedStyle(h).fontSize);
   let k = 1; while (box.scrollHeight > box.clientHeight + 1 && k > .62) { k -= .04; p.style.fontSize = (ph * k).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.max(k, .82)).toFixed(2) + 'px'; }
+  // a short slide grows its text to fill the box instead of leaving empty space
+  if (k === 1) { let g = 1; const fits = () => box.scrollHeight <= box.clientHeight + 1;
+    while (g < 1.7) { const n = g + .04; p.style.fontSize = (ph * n).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(n, 1.25)).toFixed(2) + 'px'; if (!fits()) { p.style.fontSize = (ph * g).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(g, 1.25)).toFixed(2) + 'px'; break; } g = n; } }
 }
 function startCmp() {
   cmpTimer.forEach(x => { clearTimeout(x); clearInterval(x); }); cmpTimer = [];
@@ -3171,7 +3174,8 @@ function buildCopy(d) {
   }
   // Memos and CCRs are the items that can become policy, so they are spaced evenly through the feed
   memoQ.forEach((h, i) => { feed.splice(Math.min(feed.length, Math.floor((i + 1) * feed.length / (memoQ.length + 1)) + i), 0, { k: 'memo', h }); });
-  { const n0 = feed.length; cmpQ.forEach((h, i) => { feed.splice(Math.min(feed.length, Math.floor((i + .5) * n0 / cmpQ.length) + i), 0, { k: 'cmp', h }); }); }
+  // Compare blocks sit close together near the start of each loop (about every 10 stories) so several are on screen in the same stretch
+  { const gap = Math.max(6, Math.min(10, Math.floor(feed.length / Math.max(1, cmpQ.length)))); cmpQ.forEach((h, i) => { feed.splice(Math.min(feed.length, 2 + i * (gap + 1)), 0, { k: 'cmp', h }); }); }
   // Breaking never sits next to another breaking: one in the first part of the feed (left column), one in the last part (right column)
   if (brk.length) {
     const n = feed.length, p1 = 1 + Math.floor(rnd() * Math.max(1, Math.floor(n * 0.3)));
