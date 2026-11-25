@@ -594,7 +594,7 @@ html.pub .qb svg.eye{display:block !important;width:100%;height:100%;overflow:vi
 html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
 .popdim.now,.popwrap.now .popsrc,.popwrap.glide{transition:none !important}
 .popsrc{transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
-/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
+</style><style>.endcap .vt{display:block;margin-top:calc(var(--u)*1.2);text-decoration:underline;text-underline-offset:.2em;cursor:pointer;opacity:.8}/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
 html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the roller so the two never leave a hairline between them */
@@ -3089,10 +3089,12 @@ function flapFill(el, txt) {
 }
 let cmpTimer = [];
 function cmpFit(card) {
-  // Same text size as every other story; the box is already sized to the longest slide
-  const h = card.querySelector('h3'), p = card.querySelector('p.sum');
+  // The box is sized to the longest outlet slide; a longer slide (usually Claudia's overview) shrinks its text a little to fit, so the box never sits half empty
+  const h = card.querySelector('h3'), p = card.querySelector('p.sum'), box = card.querySelector('.cmt');
   if (!h || !p) return;
-  h.style.cssText = ''; p.style.cssText = '';
+  h.style.cssText = ''; p.style.cssText = ''; if (!box) return;
+  const ph = parseFloat(getComputedStyle(p).fontSize), hh = parseFloat(getComputedStyle(h).fontSize);
+  let k = 1; while (box.scrollHeight > box.clientHeight + 1 && k > .62) { k -= .04; p.style.fontSize = (ph * k).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.max(k, .82)).toFixed(2) + 'px'; }
 }
 function startCmp() {
   cmpTimer.forEach(x => { clearTimeout(x); clearInterval(x); }); cmpTimer = [];
@@ -3163,7 +3165,7 @@ function archBlock() {
     `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div><div class="ad">Search every story by date, SPARC letter or storyline</div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
 }
 let FEED = [];
-function wrapFeed() { return '<div class="mason">' + FEED.map(f => f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio</div>'; }
+function wrapFeed() { return '<div class="mason">' + FEED.map(f => f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
 
 
 // Layout rule: the same kind of box (breaking, top, coverage, meetings, events, memos) never sits beside or directly under itself
@@ -3220,7 +3222,9 @@ function cmpSizeAll() {
     const keep = [hs.textContent, ss.textContent];
     box.style.height = 'auto'; h.style.height = 'auto'; p.style.height = 'auto'; h.style.overflow = 'visible'; p.style.overflow = 'visible';
     let need = 0;
+    const outlets = E.hs.some(y => y.k !== 'AI');
     E.hs.forEach(x => {
+      if (outlets && x.k === 'AI') return;
       hs.textContent = x.headline || ''; ss.textContent = x.summary || '';
       need = Math.max(need, box.scrollHeight + 1.6 * u);
     });
@@ -3496,6 +3500,8 @@ function closeStory() {
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
 }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
+view.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.vt'); if (!t) return; location.href = TVMODE ? location.pathname.replace(/code\/?$/, '') : location.pathname + '?tv=1'; }, true);
+view.addEventListener('pointerup', e => { const el = document.elementFromPoint(e.clientX, e.clientY), t = el && el.closest('.vt'); if (t) location.href = TVMODE ? location.pathname.replace(/code\/?$/, '') : location.pathname + '?tv=1'; }, true);
 document.querySelector('.mast .ctr').addEventListener('click', () => { if (POP) closeStory(); off = 0; vel = 0; tvel = 0; if (location.hash) try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
 function cardFor(id) { const qs = [...track.querySelectorAll('.copy [data-u]')].filter(x => x.dataset.u.split('#')[1] === id); return qs[0] && qs[0].closest('.mason > *, .copy > .arch'); }
 // A scanned QR lands straight on its story: the feed stays hidden until that story is open
