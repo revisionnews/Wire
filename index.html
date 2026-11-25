@@ -657,21 +657,30 @@ html.tvm .wsearch{display:none}
 /* locked search: box and tags sit at the top; stories roll off beneath them */
 #track.wsm .wsearch{display:none}
 .wsh{position:absolute;left:0;right:0;z-index:6;padding:0 calc(var(--u)*2.2)}
-.wsh .wsearch{margin:0 0 calc(var(--u)*.9)}
-.wsh .wsearch input:placeholder-shown + .wsc{visibility:visible}
-.wtags{display:flex;flex-direction:column;gap:calc(var(--u)*.7);padding-bottom:calc(var(--u)*1)}
-.wt1,.wt2{display:flex;gap:calc(var(--u)*.6);align-items:center}
-.wt1{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.wt1::-webkit-scrollbar{display:none}
-.wtags button{flex:none;font:900 calc(var(--u)*1.3)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase;border:var(--b) solid var(--ink);background:var(--paper);color:var(--ink);padding:calc(var(--u)*.7) calc(var(--u)*1);border-radius:0;cursor:pointer;white-space:nowrap}
-.wtags button.on{background:var(--ink);color:var(--paper)}
-.wt2 button{width:calc(var(--u)*3.4);padding-left:0;padding-right:0}
-.wt2 em{margin-left:auto;font:700 calc(var(--u)*1.2)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-html.one .wtags button{font-size:calc(var(--u)*2.4);padding:calc(var(--u)*1.3) calc(var(--u)*1.8)}
-html.one .wt2 button{width:calc(var(--u)*6.4);padding-left:0;padding-right:0}
-html.one .wt2 em{font-size:calc(var(--u)*2.2)}
-html.one .wtags{gap:calc(var(--u)*1.2)}
-html.one .wt1,html.one .wt2{gap:calc(var(--u)*1.1)}
+.wsh .wsearch{margin:0 0 calc(var(--u)*.9);will-change:transform}
+.wsh .wsearch input:placeholder-shown ~ .wsc{visibility:visible}
+.wsh .wsn{flex:none;font:700 calc(var(--u)*1.2)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:#4a4a4a}
+.wtags{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*.7);padding-bottom:calc(var(--u)*1.1)}
+.wtg{display:flex;align-items:stretch;gap:0;border:var(--b) solid var(--ink);background:var(--paper);color:var(--ink);padding:0;border-radius:0;cursor:pointer;text-align:left;min-width:0;--tb:var(--blk);--tf:var(--onblk)}
+.wtg i{flex:none;display:flex;align-items:center;justify-content:center;width:calc(var(--u)*3.6);background:var(--tb);color:var(--tf)}
+.wtg i svg{width:58%;height:58%}
+.wtg span{flex:1;min-width:0;display:flex;align-items:center;padding:calc(var(--u)*.8) calc(var(--u)*.9);font:900 calc(var(--u)*1.25)/1.1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.wtg.on{background:var(--tb);color:var(--tf)}
+.wtg.on i{background:transparent}
+.wt-top{--tb:var(--blk);--tf:var(--onblk)}
+.wt-brk{--tb:var(--red);--tf:#fff}
+.wt-cmp{--tb:#A21CAF;--tf:#fff}
+.wt-ev{--tb:var(--teal);--tf:#fff}
+.wt-memo{--tb:var(--mus2);--tf:var(--musink)}
+.wt-meet{--tb:var(--orange);--tf:#fff}
+.wt2{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:calc(var(--u)*.7)}
+.wt2 button{font:900 calc(var(--u)*1.5)/1 'Hando',sans-serif;letter-spacing:.12em;border:var(--b) solid var(--ink);background:var(--paper);color:var(--ink);padding:calc(var(--u)*.8) 0;border-radius:0;cursor:pointer}
+.wt2 button.on{background:var(--ink);color:var(--paper)}
+html.one .wsh .wsn{font-size:calc(var(--u)*2.2)}
+html.one .wtags,html.one .wt2{gap:calc(var(--u)*1.2)}
+html.one .wtg i{width:calc(var(--u)*6.4)}
+html.one .wtg span{font-size:calc(var(--u)*2.2);padding:calc(var(--u)*1.4) calc(var(--u)*1.2)}
+html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -3329,11 +3338,13 @@ function measure() {
 
 // Size each compare box to its longest slide so no headline or description is ever cut off
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(() => { try { cmpSizeAll(); } catch (e) {} }, 100));
+const CMPH = {};
 function cmpSizeAll() {
   let css = '';
   const u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10;
   track.querySelectorAll('.story.cmp').forEach(card => {
     const E = CMPS[card.dataset.cmp]; if (!E) return;
+    if (!card.offsetParent) return; // a hidden copy (search, lead-in) can't be measured; keep the size it already has
     const box = card.querySelector('.cmt'), h = card.querySelector('h3'), p = card.querySelector('p.sum'), hs = card.querySelector('.cmh'), ss = card.querySelector('.cms');
     const keep = [hs.textContent, ss.textContent];
     h.style.cssText = ''; p.style.cssText = ''; box.style.cssText = ''; // measure at the normal text size, never a size left over from filling a short slide
@@ -3346,8 +3357,9 @@ function cmpSizeAll() {
     need = hts.length ? Math.max(...hts) + 0.4 * u : 0;
     hs.textContent = keep[0]; ss.textContent = keep[1];
     box.style.height = ''; h.style.cssText = ''; p.style.cssText = '';
-    css += `.story.cmp[data-cmp="${card.dataset.cmp}"] .cmt{height:${Math.ceil(need)}px !important}`;
+    if (need > u * 4) CMPH[card.dataset.cmp] = Math.max(CMPH[card.dataset.cmp] || 0, Math.ceil(need));
   });
+  Object.keys(CMPH).forEach(k => { css += `.story.cmp[data-cmp="${k}"] .cmt{height:${CMPH[k]}px !important}`; });
   let st = document.getElementById('cmpH'); if (!st) { st = document.createElement('style'); st.id = 'cmpH'; document.head.appendChild(st); }
   st.textContent = css;
 }
@@ -3461,7 +3473,7 @@ function render() {
   speed = Number(data.scroll_speed) || 1.1;
   buildCopy(data); balanceCols();
   const one = `<div class="copy">${wrapFeed()}</div>`;
-  track.innerHTML = one; alignText(); cmpSizeAll(); measure();
+  track.innerHTML = one; alignText(); Object.keys(CMPH).forEach(k => delete CMPH[k]); cmpSizeAll(); measure();
   if (!track.children.length || !copyH) dbgShow('empty feed: copyH=' + copyH + ' view=' + view.clientWidth + 'x' + view.clientHeight + ' stage=' + stage.clientWidth + 'x' + stage.clientHeight);
   const need = Math.min(4, Math.max(2, Math.ceil(view.clientHeight / Math.max(copyH, 1)) + 1));
   track.innerHTML = one; copyH = track.firstElementChild.offsetHeight;
@@ -3732,6 +3744,14 @@ function openFromHash() {
 // the matching stories scroll and roll off beneath that locked area. The X or Back to Wire returns to the regular Wire.
 let WQ = '', WF = '', WP = '', wsKeep = null, wsTimer = 0, WSH = null, WSX = null, WSTOP = null;
 const WTAGS = [['top', 'Top stories'], ['brk', 'Breaking'], ['cmp', 'Compare'], ['ev', 'Events'], ['memo', 'Memos and CCRs'], ['meet', 'Meetings']];
+const WICON = {
+  top: '<path d="M3 21V13h5v8zM9.5 21V5h5v16zM16 21v-6h5v6z" fill="currentColor"/>',
+  brk: '<path d="M13.5 2L4 14h6.5L9 22l11-13h-6.8z" fill="currentColor"/>',
+  cmp: '<rect x="2.5" y="7" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="9.5" y="3" width="12" height="12" fill="currentColor"/>',
+  ev: '<rect x="3" y="5" width="18" height="16" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M3 10.5h18M8 2.5v5M16 2.5v5" stroke="currentColor" stroke-width="2.4"/>',
+  memo: '<path d="M5 2.5h10l4.5 4.5v14.5H5z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M8.5 11.5h7.5M8.5 15.5h7.5" stroke="currentColor" stroke-width="2.2"/>',
+  meet: '<path d="M2.5 9L12 3.5 21.5 9zM5 11v7.5M9.7 11v7.5M14.3 11v7.5M19 11v7.5M2.5 21h19" stroke="currentColor" stroke-width="2.2" fill="none"/>'
+};
 const WS_GLASS = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>';
 function wsText(card) {
   if (card.__wt) return card.__wt;
@@ -3754,9 +3774,10 @@ function wsApply(instant) {
   const keep = cards.filter(c => !any || (!c.classList.contains('arch') && (!WF || wsKind(c) === WF) && (!WP || wsLetters(c).includes(WP)) && res.every(r => r.test(wsText(c)))));
   const before = new Map(); keep.forEach(c => { const r = c.getBoundingClientRect(); if (r.bottom > vr.top - 300 && r.top < vr.bottom + 300) before.set(c, r.top); });
   cards.forEach(c => { const on = keep.includes(c); c.classList.toggle('wsoff', !on); if (on) c.classList.remove('wsgone'); });
-  if (WSH) { const em = WSH.querySelector('.wt2 em'); if (em) em.textContent = any ? keep.length + (keep.length === 1 ? ' story' : ' stories') : ''; }
+  if (WSH) { const em = WSH.querySelector('.wsn'); if (em) em.textContent = any ? keep.length + (keep.length === 1 ? ' story' : ' stories') : ''; }
   const settle = () => {
     cards.forEach(c => { if (c.classList.contains('wsoff')) c.classList.add('wsgone'); });
+    if (keep.some(c => c.classList.contains('cmp'))) { try { cmpSizeAll(); } catch (x) {} }
     measure(); if (wsOn()) setOff(0);
     before.forEach((t, c) => { const d = t - c.getBoundingClientRect().top; if (Math.abs(d) < 1) return; c.style.transition = 'none'; c.style.transform = `translateY(${d}px)`; c.getBoundingClientRect(); c.style.transition = 'transform .45s cubic-bezier(.2,.7,.2,1), opacity .35s ease'; c.style.transform = ''; setTimeout(() => { c.style.transition = ''; }, 500); });
     if (typeof rollIndex === 'function') rollIndex();
@@ -3768,10 +3789,11 @@ function wsOpen() {
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
   if (!WSH) {
     const st = document.getElementById('stage'), rl = document.getElementById('roll3d');
+    const fb = [...track.querySelectorAll('.wsearch')].find(x => { const r = x.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; }), r0 = fb ? fb.getBoundingClientRect() : null;
     WSTOP = { v: view.offsetTop, r: rl ? rl.offsetTop : view.offsetTop };
     WSH = document.createElement('div'); WSH.className = 'wsh';
-    WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
-      + `<div class="wtags"><div class="wt1">${WTAGS.map(([k, l]) => `<button type="button" data-f="${k}">${l}</button>`).join('')}</div><div class="wt2">${'SPARC'.split('').map(l => `<button type="button" data-p="${l}">${l}</button>`).join('')}<em></em></div></div>`;
+    WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><em class="wsn"></em><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
+      + `<div class="wtags">${WTAGS.map(([k, l]) => `<button type="button" class="wtg wt-${k}" data-f="${k}"><i><svg viewBox="0 0 24 24" aria-hidden="true">${WICON[k]}</svg></i><span>${l}</span></button>`).join('')}<div class="wt2">${'SPARC'.split('').map(l => `<button type="button" data-p="${l}">${l}</button>`).join('')}</div></div>`;
     WSH.style.top = WSTOP.r + 'px'; st.appendChild(WSH);
     const h = WSH.offsetHeight;
     view.style.setProperty('top', (WSTOP.v + h) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSTOP.r + h) + 'px', 'important');
@@ -3787,6 +3809,13 @@ function wsOpen() {
       wsApply(false);
     });
     measure(); setOff(0); if (typeof rollIndex === 'function') rollIndex();
+    { const lb = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags'), r1 = lb.getBoundingClientRect();
+      if (r0) { lb.style.transition = 'none'; lb.style.transform = `translate(${r0.left - r1.left}px, ${r0.top - r1.top}px)`; }
+      tg.style.transition = 'none'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-14px)'; track.style.transition = 'none'; track.style.opacity = '0';
+      lb.getBoundingClientRect();
+      requestAnimationFrame(() => { lb.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1)'; lb.style.transform = '';
+        tg.style.transition = 'opacity .35s ease .18s, transform .45s cubic-bezier(.2,.7,.2,1) .18s'; tg.style.opacity = ''; tg.style.transform = '';
+        track.style.transition = 'opacity .4s ease .3s'; track.style.opacity = ''; setTimeout(() => { track.style.transition = ''; }, 800); }); }
     try { inp.focus({ preventScroll: true }); } catch (x) { inp.focus(); }
     pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
   }
