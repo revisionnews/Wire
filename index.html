@@ -530,7 +530,7 @@ html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the
 html,body{background:var(--paper) !important}
 .roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 1px);height:calc(var(--u)*4);-webkit-mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.4) 35%,rgba(0,0,0,.08) 70%,transparent 90%);mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.4) 35%,rgba(0,0,0,.08) 70%,transparent 90%);overflow:hidden;pointer-events:none;z-index:5}
 .roll3d .drum{position:absolute;top:0;bottom:0}
-.roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:0 0}
+.roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:50% 0}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
 .roll3d .sin{position:absolute;left:0;right:0;top:0;height:0;transform-origin:0 0}
 .roll3d .sin .mason{position:relative;height:0}
@@ -3202,7 +3202,8 @@ function rollDrum(c) {
     // one shared vanishing point (screen center, bottom of the roller) written into each face, so every browser draws it the same
     const hh = chord + 0.6, ox = RW / 2 - c.l, oy = hh, P = U * 100000;
     const m = (a0 + a1) / 2;
-    e.style.transform = `translateY(${(-RR * Math.sin(a0) + hh).toFixed(3)}px) scaleY(${Math.cos(m).toFixed(5)}) translateY(${(-hh).toFixed(3)}px)`;   // flat 2D curl: no horizontal shift at all
+    const sx = 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62));   // slight inward pull toward the screen center as the paper falls away
+    e.style.transform = `translateY(${(-RR * Math.sin(a0) + hh).toFixed(3)}px) scale(${sx.toFixed(5)},${Math.cos(m).toFixed(5)}) translateY(${(-hh).toFixed(3)}px)`;
 
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track';
     const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
