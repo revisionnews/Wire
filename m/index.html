@@ -185,9 +185,23 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.33;ba
 .card.ev .stub.cb .wt em{font:900 19px/1.1 'Hando';font-style:normal;letter-spacing:.04em;text-transform:uppercase;color:#0D0F12;margin:0}
 .card.ev .stub.cb .mo{order:0 !important}.card.ev .stub.cb b{order:1 !important}.card.ev .stub.cb .wt{order:2 !important}
 .card.ev .stub.cb .wt em.rg{font-size:16px}
+</style><style>
+/* Header: same as the TV page. Date left, revision logo over WIRE center, clock right, page gray, one dark line */
+:root{--hu:calc(min(100vw,600px)/92)}
+.mast{position:relative;display:grid !important;grid-template-columns:1fr auto 1fr;align-items:center;height:calc(var(--hu)*10);box-sizing:border-box;padding:0 calc(var(--hu)*2.2) !important;background:var(--paper) !important;color:var(--ink);border:0 !important;gap:0}
+.mast::after{content:"";position:absolute;left:calc(var(--hu)*2.2);right:calc(var(--hu)*2.2);bottom:0;height:4px;background:var(--ink)}
+.mast i{width:auto;height:auto;background:none}
+.mast #date{justify-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--hu)*.3);font:900 calc(var(--hu)*3 - 1px)/1.1 'Hando',sans-serif;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.mast #date i{font-style:normal;font-weight:900}
+.mast .ctr{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:calc(var(--hu)*.7)}
+.mast .logo{display:block;background:var(--ink)}
+.mast .ws{font:900 calc(var(--hu)*4.6)/.9 'Hando',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.mast .who{justify-self:end;white-space:nowrap}
+.mast .who b{font:900 calc(var(--hu)*6)/1 'Hando',sans-serif}
+.mast .upd{display:none !important}
 </style></head>
 <body>
-<div class="mast"><b>Wire</b><i></i><span class="logo" role="img" aria-label="Revision"></span><span class="upd" id="upd"></span></div>
+<header class="mast"><span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div><div class="who"><b id="time">--:--</b></div><span class="upd" id="upd" hidden></span></header>
 <div id="list"></div>
 <div class="end">Wire / Revision News / San Antonio</div>
 <script>
@@ -336,4 +350,9 @@ function show(d) {
 }
 window.addEventListener('hashchange', () => { if (DATA) show(DATA); });
 fetch('../data.json', { cache: 'no-store' }).then(r => r.json()).then(show).catch(() => { if (FALLBACK) show(FALLBACK); else document.getElementById('list').innerHTML = '<div class="band">Could not load stories</div>'; });
+</script><script>
+(function(){const TZ='America/Chicago';
+function hdr(){const n=new Date();const t=document.getElementById('time');if(!t)return;t.textContent=n.toLocaleTimeString('en-US',{timeZone:TZ,hour:'numeric',minute:'2-digit'});document.getElementById('dow').textContent=n.toLocaleDateString('en-US',{timeZone:TZ,weekday:'long'});document.getElementById('md').textContent=n.toLocaleDateString('en-US',{timeZone:TZ,month:'long',day:'numeric'});}
+function fit(){const w=document.querySelector('.mast .ws'),l=document.querySelector('.mast .logo');if(!w||!l||!w.offsetWidth)return;const x=w.offsetWidth*.8;l.style.width=x.toFixed(2)+'px';l.style.height=(x*.14).toFixed(2)+'px';}
+hdr();fit();setInterval(hdr,1000);addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);addEventListener('load',fit);})();
 </script></body></html>
