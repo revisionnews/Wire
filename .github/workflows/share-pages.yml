@@ -1,0 +1,22 @@
+name: Share pages
+on:
+  push:
+    branches: [main]
+    paths: [data.json]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: share-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/share_pages.py
+      - run: |
+          git config user.name "Revision Wire robot"
+          git config user.email "noreply@anthropic.com"
+          git add s
+          git diff --cached --quiet || (git commit -m "Share pages for the latest stories" && git pull --rebase origin main && git push origin HEAD:main)

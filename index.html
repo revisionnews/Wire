@@ -653,6 +653,25 @@ html.tvm .wsearch{display:none}
 #track .wsgone{display:none !important}
 
 #track.wsm .copy.tail{display:none}
+
+/* locked search: box and tags sit at the top; stories roll off beneath them */
+#track.wsm .wsearch{display:none}
+.wsh{position:absolute;left:0;right:0;z-index:6;padding:0 calc(var(--u)*2.2)}
+.wsh .wsearch{margin:0 0 calc(var(--u)*.9)}
+.wsh .wsearch input:placeholder-shown + .wsc{visibility:visible}
+.wtags{display:flex;flex-direction:column;gap:calc(var(--u)*.7);padding-bottom:calc(var(--u)*1)}
+.wt1,.wt2{display:flex;gap:calc(var(--u)*.6);align-items:center}
+.wt1{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.wt1::-webkit-scrollbar{display:none}
+.wtags button{flex:none;font:900 calc(var(--u)*1.3)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase;border:var(--b) solid var(--ink);background:var(--paper);color:var(--ink);padding:calc(var(--u)*.7) calc(var(--u)*1);border-radius:0;cursor:pointer;white-space:nowrap}
+.wtags button.on{background:var(--ink);color:var(--paper)}
+.wt2 button{width:calc(var(--u)*3.4);padding-left:0;padding-right:0}
+.wt2 em{margin-left:auto;font:700 calc(var(--u)*1.2)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+html.one .wtags button{font-size:calc(var(--u)*2.4);padding:calc(var(--u)*1.3) calc(var(--u)*1.8)}
+html.one .wt2 button{width:calc(var(--u)*6.4);padding-left:0;padding-right:0}
+html.one .wt2 em{font-size:calc(var(--u)*2.2)}
+html.one .wtags{gap:calc(var(--u)*1.2)}
+html.one .wt1,html.one .wt2{gap:calc(var(--u)*1.1)}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -3188,7 +3207,7 @@ function buildCopy(d) {
   CMPS.length = 0;
   const Q = { top: [], spark: [], ev: [], memo: [], meet: [], cmp: [] };
   (d.compare || []).forEach((c, ix) => { const h = cmpCard(c, ix); if (h) Q.cmp.push(h); });
-  (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('t', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
+  (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" data-p="${esc(String(s.pillar || ''))}" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('t', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
   Object.keys(PIL).forEach(k => (d[k] || []).forEach((i, ix) => Q.spark.push(spark(i, k, ix))));
   staleBrk.forEach((i, ix) => Q.spark.push(spark(Object.assign({ pillar: 'C', kind: 'Update' }, i, { kind: i.kind === 'Breaking' ? 'Update' : i.kind }), PIL.safety ? 'safety' : Object.keys(PIL)[0], 900 + ix)));
   (d.events || []).forEach((e, ix) => Q.ev.push(rows([{ title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar, doc: e.doc }], 'var(--ink)', 'e', 'Event', 'l-ev')));
@@ -3237,7 +3256,7 @@ function archBlock() {
     `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
 }
 let FEED = [];
-function wrapFeed() { return (TVMODE ? '' : '<label class="wsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg><input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><button type="button" class="wsc" aria-label="Clear search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>') + '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
+function wrapFeed() { return (TVMODE ? '' : '<label class="wsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg><input type="search" placeholder="Search the board" readonly tabindex="-1"></label>') + '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
 
 
 // Layout rule: the same kind of box (breaking, top, coverage, meetings, events, memos) never sits beside or directly under itself
@@ -3453,7 +3472,7 @@ function render() {
     [...tail.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap')].reverse().forEach(el => { if (el.getBoundingClientRect().top - tt > lim) el.remove(); });
   } else track.innerHTML = one.repeat(need);
   measure(); qrSnap(); rollIndex(); addEyes(track); setTimeout(openFromHash, 0);
-  if (WQ) { track.querySelectorAll('.wsearch input').forEach(i => { i.value = WQ; }); wsApply(true); }
+  if (wsOn()) { track.classList.add('wsm'); wsApply(true); }
   off = 0;
   const al = document.getElementById('alert');
   if (data.alert) { al.textContent = data.alert; al.classList.add('on'); } else { al.classList.remove('on'); }
@@ -3479,7 +3498,7 @@ function tick(ts) {
   vel += (tvel - vel) * (1 - Math.exp(-dt * 3));
   const idle = (ts - lastIn) / 1000 - 1.2, k = dragY !== null ? 0 : Math.max(0, Math.min(1, idle / 2.2)), auto = k * k * (3 - 2 * k);
   off += speed * u * auto * dt + vel * dt;
-  if (track.classList.contains('wsm')) { const mx = Math.max(0, copyH - view.clientHeight + U * 6); if (off < 0 || off > mx) { off = Math.max(0, Math.min(off, mx)); vel = 0; tvel = 0; } }
+  if (wsOn()) { const mx = Math.max(0, copyH - view.clientHeight + U * 6); if (off < 0 || off > mx) { off = Math.max(0, Math.min(off, mx)); vel = 0; tvel = 0; } }
   else if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
   // Whole device pixels only, so fine detail like QR codes never shimmers between pixels
   track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
@@ -3614,9 +3633,9 @@ function openStory(card, id, instant) {
     const shb = close.querySelector('.px-s');
     shb.addEventListener('click', e => {
       e.stopPropagation(); if (POP) clearTimeout(POP.timer);
-      const url = SITE + '#' + encodeURIComponent(id), hd = clone.querySelector('h3, .tt, .cmh, .mt b'), title = (hd ? hd.textContent : 'Revision Wire').trim();
+      const title = cardTitle(card) || 'Revision Wire', sl = slugOf(title), url = sl ? SITE + 's/' + sl + '/' : SITE + '#' + encodeURIComponent(id);
       const done2 = t => { shb.textContent = t; setTimeout(() => { shb.textContent = 'Share'; }, 1800); };
-      if (navigator.share) { navigator.share({ title, text: title, url }).catch(() => {}); return; }
+      if (navigator.share) { navigator.share({ url }).catch(() => {}); return; }
       const fallback = () => { const ta = document.createElement('textarea'); ta.value = url; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done2('Link copied'); } catch (x) { prompt('Copy this link', url); } ta.remove(); };
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done2('Link copied'), fallback); else fallback();
     });
@@ -3671,7 +3690,9 @@ document.querySelector('.mast .ctr').addEventListener('click', () => { if (POP) 
 function cardFor(id) { if (id === 'archive') return track.querySelector('.copy > .arch'); const qs = [...track.querySelectorAll('.copy [data-u]')].filter(x => x.dataset.u.split('#')[1] === id); return qs[0] && qs[0].closest('.mason > *, .copy > .arch'); }
 // A scanned QR lands straight on its story: the feed stays hidden until that story is open
 const BOOT_ID = TVMODE ? '' : decodeURIComponent((location.hash || '').slice(1));
-if (BOOT_ID && !BOOT_ID.startsWith('a-')) document.documentElement.classList.add('boot');
+// A shared link (wire.revision.news/s/<story>/) lands here as ?s=<story> and opens that story
+const BOOT_S = TVMODE ? '' : (new URLSearchParams(location.search).get('s') || '');
+if ((BOOT_ID && !BOOT_ID.startsWith('a-')) || BOOT_S) document.documentElement.classList.add('boot');
 else if (BOOT_ID.startsWith('a-')) location.replace(SITE + 'm/#' + BOOT_ID);
 let bootTries = 0;
 // A QR scanned while the site is already open in a tab: the browser only changes the #id, so open that story here
@@ -3684,8 +3705,21 @@ function storyFromHash() {
 }
 addEventListener('pageshow', e => { if (e.persisted) storyFromHash(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden && location.hash && !POP) storyFromHash(); });
+// Share links: one short page per story (made from data.json) carries the preview: Revision News Wire, the headline and one line
+function slugOf(t) { return String(t || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70).replace(/-+$/, ''); }
+function cardTitle(card) {
+  if (!card) return '';
+  if (card.classList.contains('cmp')) { const c = CMPS.find(x => x.qid === card.dataset.qid); const ai = c && (c.hs.find(h => h.k === 'AI') || c.hs[0]); if (ai) return ai.headline || ''; }
+  const h = card.querySelector('h3, .tt, .mt b'); return h ? h.textContent.trim() : '';
+}
+function cardBySlug(sl) { return [...track.querySelectorAll('.copy:not(.tail) .mason > *')].find(c => slugOf(cardTitle(c)) === sl) || null; }
 function openFromHash() {
   if (!document.documentElement.classList.contains('boot')) return;
+  if (BOOT_S && !BOOT_ID) {
+    const c = cardBySlug(BOOT_S), q = c && c.querySelector('[data-u]'), id = q ? (q.dataset.u.split('#')[1] || '') : '';
+    if (c && id) { try { history.replaceState(null, '', location.pathname); } catch (e) {} openStory(c, id, true); requestAnimationFrame(() => document.documentElement.classList.remove('boot')); return; }
+    if (++bootTries > 8) document.documentElement.classList.remove('boot'); return;
+  }
   const c = cardFor(BOOT_ID);
   if (c) { openStory(c, BOOT_ID, true); requestAnimationFrame(() => document.documentElement.classList.remove('boot')); return; }
   if (++bootTries > 8) document.documentElement.classList.remove('boot');
@@ -3694,75 +3728,90 @@ function openFromHash() {
 
 // Search the board: the feed stays the same endless scroll; typing fades away every story that does not match,
 // the matches slide up under the box, and clearing the box brings everything back
-let WQ = '', wsKeep = null, wsTimer = 0;
+// Search the board. Tapping the box in the feed lifts it out of the Wire and locks it at the top with filter tags;
+// the matching stories scroll and roll off beneath that locked area. The X or Back to Wire returns to the regular Wire.
+let WQ = '', WF = '', WP = '', wsKeep = null, wsTimer = 0, WSH = null, WSX = null, WSTOP = null;
+const WTAGS = [['top', 'Top stories'], ['brk', 'Breaking'], ['cmp', 'Compare'], ['ev', 'Events'], ['memo', 'Memos and CCRs'], ['meet', 'Meetings']];
+const WS_GLASS = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>';
 function wsText(card) {
   if (card.__wt) return card.__wt;
   const q = card.querySelector('[data-u]'), id = q ? (q.dataset.u.split('#')[1] || '') : '';
   const refs = (REFS[id] || []).map(r => (r.n || '') + ' ' + (r.t || '')).join(' ');
   return (card.__wt = (card.textContent + ' ' + refs).toLowerCase());
 }
-function wsMatch(card, res) { return res.every(r => r.test(wsText(card))); }
-function wsAnchor() { const a = document.activeElement; return (a && a.closest && a.closest('#track .wsearch')) || track.querySelector('.wsearch'); }
+function wsKind(c) { const k = c.classList; return k.contains('top') ? 'top' : k.contains('brk') ? 'brk' : k.contains('cmp') ? 'cmp' : k.contains('l-ev') ? 'ev' : k.contains('l-memo') ? 'memo' : k.contains('l-meet') ? 'meet' : 'story'; }
+function wsLetters(c) { if (c.__wl !== undefined) return c.__wl; const sp = c.querySelector('.spl'); return (c.__wl = sp ? [...sp.querySelectorAll('b.on')].map(x => x.textContent).join('') : String(c.dataset.p || '').toUpperCase()); }
+function wsOn() { return !TVMODE && !!WSH; }
+function wsFocused() { const a = document.activeElement; return !!(a && a.closest && a.closest('.wsh')); }
+function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); }
+function setOff(v) { off = v; if (copyH && !wsOn()) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); }
 function wsApply(instant) {
   clearTimeout(wsTimer);
   const res = WQ.toLowerCase().split(/\s+/).filter(Boolean).map(w => new RegExp('(^|[^a-z0-9])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-  const cards = [...track.querySelectorAll('.copy .mason > *, .copy > .arch')];
-  const box = wsAnchor(), y0 = box ? box.getBoundingClientRect().top : 0;
-  // remember where the staying stories sit now, so they can glide up into their new places
-  const vr = view.getBoundingClientRect(), keep = cards.filter(c => !res.length || (!c.classList.contains('arch') && wsMatch(c, res)));
-  const before = new Map(); keep.forEach(c => { const r = c.getBoundingClientRect(); if (r.bottom > vr.top - 400 && r.top < vr.bottom + 400) before.set(c, r.top); });
+  const any = !!(res.length || WF || WP);
+  const cards = [...track.querySelectorAll('.copy:not(.tail) .mason > *, .copy:not(.tail) > .arch')];
+  const vr = view.getBoundingClientRect();
+  const keep = cards.filter(c => !any || (!c.classList.contains('arch') && (!WF || wsKind(c) === WF) && (!WP || wsLetters(c).includes(WP)) && res.every(r => r.test(wsText(c)))));
+  const before = new Map(); keep.forEach(c => { const r = c.getBoundingClientRect(); if (r.bottom > vr.top - 300 && r.top < vr.bottom + 300) before.set(c, r.top); });
   cards.forEach(c => { const on = keep.includes(c); c.classList.toggle('wsoff', !on); if (on) c.classList.remove('wsgone'); });
+  if (WSH) { const em = WSH.querySelector('.wt2 em'); if (em) em.textContent = any ? keep.length + (keep.length === 1 ? ' story' : ' stories') : ''; }
   const settle = () => {
     cards.forEach(c => { if (c.classList.contains('wsoff')) c.classList.add('wsgone'); });
-    measure();
-    if (box) { const dy = box.getBoundingClientRect().top - y0; off += dy; if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`; }
+    measure(); if (wsOn()) setOff(0);
     before.forEach((t, c) => { const d = t - c.getBoundingClientRect().top; if (Math.abs(d) < 1) return; c.style.transition = 'none'; c.style.transform = `translateY(${d}px)`; c.getBoundingClientRect(); c.style.transition = 'transform .45s cubic-bezier(.2,.7,.2,1), opacity .35s ease'; c.style.transform = ''; setTimeout(() => { c.style.transition = ''; }, 500); });
     if (typeof rollIndex === 'function') rollIndex();
   };
   if (instant) settle(); else wsTimer = setTimeout(settle, 360);
 }
-track.addEventListener('input', e => {
-  const i = e.target; if (!i.closest || !i.closest('.wsearch')) return;
-  WQ = i.value.trim(); track.querySelectorAll('.wsearch input').forEach(x => { if (x !== i) x.value = i.value; });
-  wsApply(false);
-});
-function wsFocused() { const a = document.activeElement; return !!(a && a.closest && a.closest('#track .wsearch')); }
-function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); }
-function setOff(v) { off = v; if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); }
-// Put the box just under the roll-off, then open the keyboard, so the box never jumps out of view
-function wsFocus(box) {
-  box = track.querySelector('.copy .wsearch') || box; // always the feed's own box, never the lead-in copy
-  const i = box.querySelector('input'); if (!i) return;
+function wsOpen() {
+  if (TVMODE) return;
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
-  const vr = view.getBoundingClientRect(); setOff(off + box.getBoundingClientRect().top - vr.top - U * 1.6);
-  try { i.focus({ preventScroll: true }); } catch (x) { i.focus(); }
-  pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
+  if (!WSH) {
+    const st = document.getElementById('stage'), rl = document.getElementById('roll3d');
+    WSTOP = { v: view.offsetTop, r: rl ? rl.offsetTop : view.offsetTop };
+    WSH = document.createElement('div'); WSH.className = 'wsh';
+    WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
+      + `<div class="wtags"><div class="wt1">${WTAGS.map(([k, l]) => `<button type="button" data-f="${k}">${l}</button>`).join('')}</div><div class="wt2">${'SPARC'.split('').map(l => `<button type="button" data-p="${l}">${l}</button>`).join('')}<em></em></div></div>`;
+    WSH.style.top = WSTOP.r + 'px'; st.appendChild(WSH);
+    const h = WSH.offsetHeight;
+    view.style.setProperty('top', (WSTOP.v + h) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSTOP.r + h) + 'px', 'important');
+    track.classList.add('wsm');
+    const inp = WSH.querySelector('input');
+    inp.addEventListener('input', () => { WQ = inp.value.trim(); wsApply(false); });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); if (e.key === 'Escape') wsClose(); });
+    WSH.querySelector('.wsc').addEventListener('click', e => { e.preventDefault(); wsClose(); });
+    WSH.querySelector('.wtags').addEventListener('click', e => {
+      const bt = e.target.closest('button'); if (!bt) return;
+      if (bt.dataset.f) { WF = WF === bt.dataset.f ? '' : bt.dataset.f; WSH.querySelectorAll('[data-f]').forEach(x => x.classList.toggle('on', x.dataset.f === WF)); }
+      if (bt.dataset.p) { WP = WP === bt.dataset.p ? '' : bt.dataset.p; WSH.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('on', x.dataset.p === WP)); }
+      wsApply(false);
+    });
+    measure(); setOff(0); if (typeof rollIndex === 'function') rollIndex();
+    try { inp.focus({ preventScroll: true }); } catch (x) { inp.focus(); }
+    pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
+  }
 }
-function wsClear(keep) {
-  WQ = ''; track.querySelectorAll('.wsearch input').forEach(x => { x.value = ''; }); wsApply(false);
-  if (keep) { const a = document.activeElement; if (!(a && a.closest && a.closest('.wsearch'))) { const b = track.querySelector('.wsearch'); if (b) wsFocus(b); } }
+function wsClose() {
+  const a = document.activeElement; if (a && a.closest && a.closest('.wsh')) a.blur();
+  WQ = ''; WF = ''; WP = '';
+  if (WSH) { WSH.remove(); WSH = null; }
+  view.style.removeProperty('top'); const rl = document.getElementById('roll3d'); if (rl) rl.style.removeProperty('top');
+  track.classList.remove('wsm'); wsApply(true); setOff(0); pinWin();
+  if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000;
 }
-// Back to Wire while searching: clears the search, closes the keyboard and lets the board drift again
-function wsBack() { const a = document.activeElement; if (a && a.blur) a.blur(); wsClear(false); pinWin(); if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000; }
-let WSX = null;
+function wsBack() { wsClose(); }
 function wsUI() {
-  const m = !TVMODE && (wsKeep !== null || !!WQ);
-  if (m !== track.classList.contains('wsm')) { track.classList.toggle('wsm', m); if (m) { const f = track.querySelector('.copy'); copyH = f ? f.offsetHeight : copyH; } else measure(); if (typeof rollIndex === 'function') rollIndex(); }
-  const on = !TVMODE && !POP && (wsKeep !== null || !!WQ);
-  if (on && !WSX) { WSX = document.createElement('div'); WSX.className = 'popx wsx'; WSX.innerHTML = '<button class="px-b">Back to Wire</button>'; document.getElementById('stage').appendChild(WSX); WSX.addEventListener('click', e => { e.stopPropagation(); wsBack(); }); requestAnimationFrame(() => WSX && WSX.classList.add('on')); }
+  const on = wsOn() && !POP;
+  if (on && !WSX) { WSX = document.createElement('div'); WSX.className = 'popx wsx'; WSX.innerHTML = '<button class="px-b">Back to Wire</button>'; document.getElementById('stage').appendChild(WSX); WSX.addEventListener('click', e => { e.stopPropagation(); wsClose(); }); requestAnimationFrame(() => WSX && WSX.classList.add('on')); }
   else if (!on && WSX) { const x = WSX; WSX = null; x.classList.remove('on'); setTimeout(() => x.remove(), 300); }
 }
-track.addEventListener('touchend', e => { const cl = e.target.closest && e.target.closest('.wsc'); if (cl) { e.preventDefault(); wsClear(true); return; } const box = e.target.closest && e.target.closest('.wsearch'); if (!box || wsFocused()) return; e.preventDefault(); wsFocus(box); }, { passive: false });
-track.addEventListener('mousedown', e => { const cl = e.target.closest && e.target.closest('.wsc'); if (cl) { e.preventDefault(); wsClear(true); return; } const box = e.target.closest && e.target.closest('.wsearch'); if (!box || wsFocused()) return; e.preventDefault(); wsFocus(box); });
-track.addEventListener('focusin', e => { if (!(e.target.closest && e.target.closest('.wsearch'))) return; if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; });
+// the box in the feed only opens the locked search
+const wsDown = e => { const box = e.target.closest && e.target.closest('#track .wsearch'); if (!box) return; e.preventDefault(); wsOpen(); };
+track.addEventListener('touchend', wsDown, { passive: false });
+track.addEventListener('mousedown', wsDown);
 // While typing, the phone keyboard must not push the board up and out of view
 window.addEventListener('scroll', () => { if (wsFocused() || POP) pinWin(); }, { passive: true });
 if (window.visualViewport) visualViewport.addEventListener('resize', () => { if (wsFocused()) pinWin(); });
-track.addEventListener('focusout', e => {
-  if (!e.target.closest || !e.target.closest('.wsearch')) return;
-  setTimeout(() => { if (!WQ && wsKeep !== null && !POP && !(document.activeElement && document.activeElement.closest && document.activeElement.closest('.wsearch'))) wsBack(); }, 120);
-});
-track.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.wsearch')) e.target.blur(); if (e.key === 'Escape' && e.target.closest && e.target.closest('.wsearch')) wsBack(); });
 function wireTap() {
   let sx = 0, sy = 0, st = 0, moving = false, lastDrag = 0;
   view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); moving = Math.abs(vel) > 60 || Math.abs(tvel) > 60 || st - lastDrag < 350; }, true);
