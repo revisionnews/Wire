@@ -600,7 +600,8 @@ html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
 /* Opened compare block: same card and sources panel as every story, listing each slide in full */
 .popsrc.cmpx .ps .cs{display:block;font:400 calc(var(--u)*1.7)/1.4 'Hando',sans-serif;margin-top:calc(var(--u)*.2)}
 .popsrc.cmpx .ps.ai i{text-decoration:none;font-style:normal;font-weight:900}
-.popsrc.cmpx .ps.ai b{color:#A21CAF}
+.popsrc.cmpx .ps b{background:#A21CAF;color:#fff;padding:calc(var(--u)*.3) calc(var(--u)*.6);align-self:flex-start}
+.popsrc.cmpx .ps.ai b{color:#fff}
 html.one .popsrc.cmpx .ps .cs{font-size:calc(var(--u)*3.4)}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
@@ -3130,13 +3131,17 @@ function startCmp() {
 function buildCopy(d) {
   const S = stats(d); let h = '<div class="mason">';
   // Breaking: solid red blocks, spread through the feed, never stacked
-  const brk = (d.breaking || []).slice(0, 2).map((s, ix) => `<article class="story brk"><h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('b', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml('Breaking', statusOf(s)))}</article>`);
+  // Breaking holds a story for 24 hours from when it was first seen; after that it drops back into the feed as a regular story
+  const fresh = s => { const t = Date.parse(s.first_seen || ''); return isNaN(t) || Date.now() - t < 24 * 3600e3; };
+  const staleBrk = (d.breaking || []).filter(x => !fresh(x));
+  const brk = (d.breaking || []).filter(fresh).slice(0, 2).map((s, ix) => `<article class="story brk"><h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('b', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml('Breaking', statusOf(s)))}</article>`);
   // Everything else is one mixed feed: no sections, the shape of each box says what it is
   CMPS.length = 0;
   const Q = { top: [], spark: [], ev: [], memo: [], meet: [], cmp: [] };
   (d.compare || []).forEach((c, ix) => { const h = cmpCard(c, ix); if (h) Q.cmp.push(h); });
   (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('t', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
   Object.keys(PIL).forEach(k => (d[k] || []).forEach((i, ix) => Q.spark.push(spark(i, k, ix))));
+  staleBrk.forEach((i, ix) => Q.spark.push(spark(Object.assign({ pillar: 'C', kind: 'Update' }, i, { kind: i.kind === 'Breaking' ? 'Update' : i.kind }), PIL.safety ? 'safety' : Object.keys(PIL)[0], 900 + ix)));
   (d.events || []).forEach((e, ix) => Q.ev.push(rows([{ title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar }], 'var(--ink)', 'e', 'Event', 'l-ev')));
   (d.memos || []).forEach((m, ix) => Q.memo.push(rows([m], 'var(--ink)', 'm', 'Memo', 'l-memo')));
   const groups = (d.meeting_groups && d.meeting_groups.length) ? d.meeting_groups : ((d.meetings || []).length ? [{ title: '2027 bond committees', meetings: d.meetings, note: d.meetings_note, refs: d.meetings_refs }] : []);
