@@ -166,47 +166,92 @@
    ]
   },
   {
-   "topic": "City incentives to land BermudAir's Caribbean flights",
-   "pillar": "P",
-   "when": "Nov 24",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "topic": "NEISD closes three elementary schools",
+   "pillar": "C",
+   "when": "Nov 16",
+   "first_seen": "2026-11-25T13:15:00-06:00",
    "status": "Verified",
    "headlines": [
     {
      "src": "AI overview",
      "k": "AI",
      "lean": "AI summary",
-     "d": "Nov 24",
+     "d": "Nov 16",
      "u": "",
-     "headline": "San Antonio's airport waives fees to land new BermudAir flights",
-     "summary": "BermudAir will fly from San Antonio to Belize City and Grand Cayman twice a week from May 20 to Sept 6, 2027, with fares from $159. The San Antonio Report says the airport's incentive program waives all fees and offers up to $100,000 in first year marketing money. Why compare: News 4 leads with travelers' new options and never mentions the deal, the Report with the destinations, and the Current puts the fee waiver in its headline, so the same announcement reads as a perk or as a public cost."
-    },
-    {
-     "src": "San Antonio Report",
-     "k": "News",
-     "lean": "Nonprofit newsroom",
-     "d": "Nov 24",
-     "u": "sanantonioreport.org/bermudair-summertime-flights-sat-tropical-destinations-san-antonio/",
-     "headline": "BermudAir plans to offer summertime flights from San Antonio to 2 tropical destinations",
-     "summary": "New to the San Antonio airport, BermudAir will provide nonstop service to Grand Cayman and Belize from May 20"
+     "headline": "NEISD trustees close three elementary schools in a 4 to 3 vote",
+     "summary": "Same vote, three framings. News 4 leads with the $20 million shortfall, the San Antonio Report frames the closures as a fix for the deficit, and KSAT leads with which schools close and when. Why compare: opening with the money or with the families decides whether the vote reads as necessary or as a loss."
     },
     {
      "src": "News 4 San Antonio",
      "k": "News",
      "lean": "Local TV",
-     "d": "Nov 24",
-     "u": "news4sanantonio.com/news/local/bermudair-launches-non-stop-service-to-belize-city-grand-cayman-from-san-antonio",
-     "headline": "BermudAir launches non-stop service to Belize City, Grand Cayman from San Antonio",
-     "summary": "Travelers will soon have new nonstop options to the Caribbean and Central America."
+     "d": "Nov 16",
+     "u": "news4sanantonio.com/news/local/northeast-isd-board-to-vote-tonight-on-proposal-to-close-three-elementary-schools-education-crisis-in-the-classroom",
+     "headline": "NEISD votes to close three elementary schools amid $20 million shortfall",
+     "summary": "North East Independent School District trustees voted 4-3 Monday to close Dellview, Montgomery and Oak Grove elementary…"
     },
     {
-     "src": "San Antonio Current",
+     "src": "KSAT",
      "k": "News",
-     "lean": "Alt weekly",
-     "d": "Nov 24",
-     "u": "sacurrent.com/news/san-antonio-news/san-antonio-international-waives-landing-and-departure-fees-to-gain-two-new-caribbean-flights/",
-     "headline": "San Antonio International waives landing and departure fees to gain two new Caribbean flights",
-     "summary": "BermudAir will fly from San Antonio to Belize and the Cayman Islands twice weekly during the summer."
+     "lean": "Local TV",
+     "d": "Nov 16",
+     "u": "www.ksat.com/news/local/2026/11/17/neisd-board-votes-to-close-three-schools/",
+     "headline": "NEISD board votes to close three schools",
+     "summary": "Three North East ISD elementary schools will close at the end of the 2026-2027 school year"
+    },
+    {
+     "src": "San Antonio Report",
+     "k": "News",
+     "lean": "Nonprofit newsroom",
+     "d": "Nov 17",
+     "u": "sanantonioreport.org/neisd-board-closing-three-elementary-schools-budget-deficit-san-antonio/",
+     "headline": "NEISD board approves closing 3 elementary schools to cut budget deficit",
+     "summary": "Facing enrollment decline and a multimillion-dollar budget deficit, NEISD plans to close three elementary schools."
+    }
+   ]
+  },
+  {
+   "topic": "UT sells the Hemisfair land for the Spurs arena",
+   "pillar": "PS",
+   "when": "Nov 20",
+   "first_seen": "2026-11-25T13:15:00-06:00",
+   "status": "Verified",
+   "headlines": [
+    {
+     "src": "AI overview",
+     "k": "AI",
+     "lean": "AI summary",
+     "d": "Nov 20",
+     "u": "",
+     "headline": "UT regents approve selling the Hemisfair land for the Spurs arena",
+     "summary": "Same land deal, three framings. KSAT frames it through the Spurs and their next steps, the San Antonio Report leads with the regents' vote and the city's purchase, and News 4 calls it the arena moving closer to reality. Why compare: whether the team, the university or the city leads the story shapes who looks like it is driving a deal paid for with public money."
+    },
+    {
+     "src": "KSAT",
+     "k": "News",
+     "lean": "Local TV",
+     "d": "Nov 19",
+     "u": "www.ksat.com/news/local/2026/11/20/four-things-to-know-about-next-steps-for-downtown-spurs-arena/",
+     "headline": "Four things to know about next steps for downtown Spurs arena",
+     "summary": "As 2026 comes to a close, the Spurs are getting closer to finalizing a deal on a new downtown arena."
+    },
+    {
+     "src": "San Antonio Report",
+     "k": "News",
+     "lean": "Nonprofit newsroom",
+     "d": "Nov 20",
+     "u": "sanantonioreport.org/ut-clears-path-for-city-of-san-antonio-to-purchase-land-for-downtown-spurs-arena/",
+     "headline": "UT clears path for City of San Antonio to purchase land for downtown Spurs arena",
+     "summary": "The UT System Board of Regents on Thursday approved the sale of land at Hemisfair to the City of San Antonio to build an arena for the Spurs."
+    },
+    {
+     "src": "News 4 San Antonio",
+     "k": "News",
+     "lean": "Local TV",
+     "d": "Nov 20",
+     "u": "foxsanantonio.com/sports/spurs-zone/city-and-ut-system-near-completion-of-deal-for-spurs-arena-property",
+     "headline": "City and UT System \"near completion\" of deal for Spurs arena property",
+     "summary": "A new Spurs arena downtown is one step closer to becoming reality."
     }
    ]
   }
@@ -266,33 +311,6 @@
    ],
    "first_seen": "2026-11-23T09:45:00-06:00",
    "pillar": "PC",
-   "kind": "Update",
-   "status": "Reported"
-  },
-  {
-   "headline": "UT clears the way for the city to buy Spurs arena land",
-   "summary": "The UT System Board of Regents approved selling 13.59 acres at Hemisfair, the former Institute of Texan Cultures site, to the city. The price is undisclosed but cannot fall below appraised value, and City Manager Erik Walsh has estimated about $60 million from the Midtown TIRZ. The land can only be used for an arena built within 10 years of closing. The sale is expected to close in early 2027, and Council must approve the final contracts.",
-   "when": "Nov 20",
-   "refs": [
-    {
-     "n": "San Antonio Report",
-     "t": "UT clears path for City of San Antonio to purchase land for downtown Spurs arena",
-     "d": "Nov 20, 2026",
-     "u": "sanantonioreport.org",
-     "k": "News",
-     "url": "https://sanantonioreport.org/ut-clears-path-for-city-of-san-antonio-to-purchase-land-for-downtown-spurs-arena/"
-    },
-    {
-     "n": "KSAT",
-     "t": "Four things to know about next steps for downtown Spurs arena",
-     "d": "Nov 19, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/20/four-things-to-know-about-next-steps-for-downtown-spurs-arena/"
-    }
-   ],
-   "first_seen": "2026-11-23T09:45:00-06:00",
-   "pillar": "PS",
    "kind": "Update",
    "status": "Reported"
   },
@@ -1225,25 +1243,6 @@
      "url": "https://www.ksat.com/news/local/2026/11/24/saisd-teacher-honored-for-work-in-the-classroom-and-efforts-to-connect-families-with-resources/"
     }
    ]
-  },
-  {
-   "summary": "The North East ISD board voted to close Montgomery, Dellview and Oak Grove elementaries to help close a $20 million deficit driven by falling enrollment. The district expects to save $4.06 million, and students will move to Windcrest, Colonial Hills and Regency Place. Attendance boundaries were adjusted for the receiving schools. Closures take effect next school year, with transition meetings planned and no layoffs at the affected campuses.",
-   "when": "Nov 16",
-   "refs": [
-    {
-     "n": "San Antonio Report",
-     "t": "NEISD board approves closing 3 elementary schools to cut budget deficit",
-     "d": "Nov 16, 2026",
-     "u": "sanantonioreport.org",
-     "k": "News",
-     "url": "https://sanantonioreport.org/neisd-board-closing-three-elementary-schools-budget-deficit-san-antonio/"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "C",
-   "kind": "Vote",
-   "status": "Reported",
-   "headline": "NEISD closes three elementary schools in a 4 to 3 vote"
   },
   {
    "summary": "Christina Martinez resigned effective Nov 16. Applicants must live in District 6 and apply by 4:30 p.m. on Dec 3, in person at the SAISD administration building or online. The appointee serves until May 1, 2027.",
