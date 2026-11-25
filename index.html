@@ -3806,20 +3806,13 @@ function wsPlace() {
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
   wsShift();
 }
-// The box scrolls with the board: moving forward (the drift or the reader) it rolls off first, then the stories move;
-// scrolling back brings it back first. The stories sit right under it the whole time, so nothing overlaps.
 let WSBV = 0, WSVB = 0, WSRB = 0;
 function wsShift() {
   if (!WSH) return; const rl = document.getElementById('roll3d'), top = WSD - WSBV;
   WSH.style.transform = WSBV ? `translateY(${-WSBV}px)` : ''; WSH.style.clipPath = WSBV ? `inset(${WSBV}px 0 0 0)` : '';
   view.style.setProperty('top', (WSVB + top) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSRB + top) + 'px', 'important');
 }
-function wsEat(d) {
-  if (TVMODE || !WSH || WSOPEN || POP || !d) return d;
-  if (d > 0 && WSBV < WSD) { const t = Math.min(d, WSD - WSBV); WSBV += t; d -= t; wsShift(); }
-  else if (d < 0 && WSBV > 0) { const t = Math.min(-d, WSBV); WSBV -= t; d += t; wsShift(); }
-  return d;
-}
+function wsEat(d) { return d; } // the box stays locked at the top; the roll-off happens below it
 function wsBuild() {
   WSH = document.createElement('div'); WSH.className = 'wsh';
   WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><em class="wsn"></em><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
