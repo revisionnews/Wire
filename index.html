@@ -3808,7 +3808,7 @@ function wsApply(instant) {
   wsTimer = setTimeout(() => { apply(); requestAnimationFrame(() => { track.style.transition = 'opacity .28s ease'; track.style.opacity = ''; }); }, 170);
 }
 function wsOpen() {
-  if (TVMODE) return;
+  if (TVMODE || WSCLOSING) return;
   if (!WSH) gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
   if (!WSH) {
@@ -3845,13 +3845,36 @@ function wsOpen() {
     pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
   }
 }
+let WSCLOSING = false;
 function wsClose() {
   const a = document.activeElement; if (a && a.closest && a.closest('.wsh')) a.blur();
   WQ = ''; WF = ''; WP = '';
-  if (WSH) { WSH.remove(); WSH = null; }
-  view.style.removeProperty('top'); const rl = document.getElementById('roll3d'); if (rl) rl.style.removeProperty('top');
-  track.classList.remove('wsm'); wsApply(true); setOff(0); pinWin();
-  if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000;
+  const h = WSH; WSH = null;
+  const restore = () => {
+    view.style.removeProperty('top'); const rl = document.getElementById('roll3d'); if (rl) rl.style.removeProperty('top');
+    track.classList.remove('wsm'); wsApply(true); setOff(0); pinWin();
+  };
+  if (wsKeep !== null) { speed = 0; }
+  if (!h) { restore(); if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } return; }
+  // Leaving search: the tags fold away, the stories fade, the box glides back to its place in the feed, then the feed fades in
+  WSCLOSING = true;
+  const lb = h.querySelector('.wsearch'), tg = h.querySelector('.wtags');
+  tg.style.transition = 'opacity .22s ease, transform .3s cubic-bezier(.4,0,.2,1)'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-14px)';
+  track.style.transition = 'opacity .2s ease'; track.style.opacity = '0';
+  setTimeout(() => {
+    const r0 = lb.getBoundingClientRect();
+    restore(); track.style.transition = 'none'; track.style.opacity = '0';
+    { const n = lb.querySelector('.wsn'), x = lb.querySelector('.wsc'); if (n) n.textContent = ''; if (x) x.style.visibility = 'hidden'; }
+    const fb = track.querySelector('.copy .wsearch'), r1 = fb ? fb.getBoundingClientRect() : r0;
+    lb.style.transition = 'transform .45s cubic-bezier(.2,.7,.2,1)'; lb.style.transform = `translate(${r1.left - r0.left}px, ${r1.top - r0.top}px)`;
+    const inp = lb.querySelector('input'); if (inp) inp.value = '';
+    setTimeout(() => {
+      h.remove(); WSCLOSING = false;
+      track.style.transition = 'opacity .3s ease'; track.style.opacity = '';
+      setTimeout(() => { track.style.transition = ''; }, 350);
+      if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000;
+    }, 470);
+  }, 240);
 }
 function wsBack() { wsClose(); }
 function wsUI() {
