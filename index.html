@@ -3404,7 +3404,7 @@ async function load() {
 }
 
 window.addEventListener('resize', () => { layout(); render(); });
-window.addEventListener('hashchange', () => { layout(); render(); });
+window.addEventListener('hashchange', () => { const h = decodeURIComponent((location.hash || '').slice(1)); if (h && !/(^|-)dark$/.test(h) && !TVMODE) { storyFromHash(); return; } layout(); render(); });
 layout(); clock(); setInterval(clock, 1000);
 load(); setInterval(load, 10 * 60 * 1000);
 
@@ -3522,6 +3522,16 @@ const BOOT_ID = TVMODE ? '' : decodeURIComponent((location.hash || '').slice(1))
 if (BOOT_ID && BOOT_ID !== 'archive' && !BOOT_ID.startsWith('a-')) document.documentElement.classList.add('boot');
 else if (BOOT_ID === 'archive' || BOOT_ID.startsWith('a-')) location.replace(SITE + 'm/#' + BOOT_ID);
 let bootTries = 0;
+// A QR scanned while the site is already open in a tab: the browser only changes the #id, so open that story here
+function storyFromHash() {
+  const id = decodeURIComponent((location.hash || '').slice(1)); if (!id || TVMODE) return;
+  if (id === 'archive' || id.startsWith('a-')) { location.replace(SITE + 'm/#' + id); return; }
+  if (POP && POP.id === id) return;
+  const go = () => { const c = cardFor(id); if (c) openStory(c, id); };
+  if (POP) { closeStory(); setTimeout(go, 700); } else go();
+}
+addEventListener('pageshow', e => { if (e.persisted) storyFromHash(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && location.hash && !POP) storyFromHash(); });
 function openFromHash() {
   if (!document.documentElement.classList.contains('boot')) return;
   const c = cardFor(BOOT_ID);
