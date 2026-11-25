@@ -2993,7 +2993,9 @@ function qrSvg(text) {
     return (QRC[text] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 ' + (n + 2) + ' ' + (n + 2) + '" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet"><rect x="-1" y="-1" width="' + (n + 2) + '" height="' + (n + 2) + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>');
   } catch (e) { return (QRC[text] = ''); }
 }
-const TVMODE = /\/code\/?$/.test(location.pathname) || /[?&]tv=1/.test(location.search) || /claude|anthropic/.test(location.hostname);
+const IN_ART = /claude|anthropic/.test(location.hostname);
+let TVMODE = /\/code\/?$/.test(location.pathname) || /[?&]tv=1/.test(location.search);
+if (IN_ART) { try { TVMODE = sessionStorage.getItem('wireMode') === 'tv'; } catch (e) {} }
 document.documentElement.classList.add(TVMODE ? 'tvm' : 'pub');
 const SITE = 'https://wire.revision.news/';
 const REFS = {};
@@ -3480,8 +3482,8 @@ function openStory(card, id, instant) {
 }
 // Eyes take turns: each tick opens the visible story whose eye has waited longest, so every story gets a turn before any repeats
 const EYE_LAST = {};
-if (!TVMODE) setInterval(() => {
-  if (POP || document.hidden) return;
+setInterval(() => {
+  if (TVMODE || POP || document.hidden) return;
   const vt = view.getBoundingClientRect(), now = performance.now();
   const eyes = [...track.querySelectorAll('.copy .qb')].filter(e => { const r = e.getBoundingClientRect(); return !e._open && r.top > vt.top + 20 && r.bottom < vt.bottom - 10; });
   if (!eyes.length) return;
@@ -3500,8 +3502,19 @@ function closeStory() {
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
 }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
-view.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.vt'); if (!t) return; location.href = TVMODE ? location.pathname.replace(/code\/?$/, '') : location.pathname + '?tv=1'; }, true);
-view.addEventListener('pointerup', e => { const el = document.elementFromPoint(e.clientX, e.clientY), t = el && el.closest('.vt'); if (t) location.href = TVMODE ? location.pathname.replace(/code\/?$/, '') : location.pathname + '?tv=1'; }, true);
+// Switch between the TV view (QR codes) and the regular view (tap to open). The website changes address; the artifact switches in place.
+function setMode(tv) {
+  if (!IN_ART) { location.href = tv ? location.pathname.replace(/\/?$/, '/') + '?tv=1' : location.pathname.replace(/code\/?$/, ''); return; }
+  if (POP) closeStory();
+  TVMODE = tv; document.documentElement.classList.toggle('tvm', tv); document.documentElement.classList.toggle('pub', !tv);
+  try { sessionStorage.setItem('wireMode', tv ? 'tv' : 'pub'); } catch (e) {}
+  render();
+}
+let vtLast = 0;
+const vtGo = e => { const el = e.target && e.target.closest ? e.target.closest('.vt') : null; if (!el) return; const n = performance.now(); if (n - vtLast < 600) return; vtLast = n; e.stopPropagation(); setMode(!TVMODE); };
+view.addEventListener('click', vtGo, true);
+view.addEventListener('pointerup', e => { const el = document.elementFromPoint(e.clientX, e.clientY); if (el && el.closest('.vt')) vtGo({ target: el, stopPropagation() {} }); }, true);
+
 document.querySelector('.mast .ctr').addEventListener('click', () => { if (POP) closeStory(); off = 0; vel = 0; tvel = 0; if (location.hash) try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
 function cardFor(id) { const qs = [...track.querySelectorAll('.copy [data-u]')].filter(x => x.dataset.u.split('#')[1] === id); return qs[0] && qs[0].closest('.mason > *, .copy > .arch'); }
 // A scanned QR lands straight on its story: the feed stays hidden until that story is open
@@ -3517,10 +3530,10 @@ function openFromHash() {
 }
 
 function wireTap() {
-  if (TVMODE) return;
   let sx = 0, sy = 0, st = 0;
   view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); }, true);
   view.addEventListener('pointerup', e => {
+    if (TVMODE) return;
     if (Math.hypot(e.clientX - sx, e.clientY - sy) > 6 || performance.now() - st > 500) return;
     const el = document.elementFromPoint(e.clientX, e.clientY);
     const card = el && el.closest('#track .copy .mason > *, #track .copy > .arch');
