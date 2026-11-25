@@ -3114,7 +3114,7 @@ function cmpFit(card) {
   if (box.scrollHeight > box.clientHeight + 1) box.style.setProperty('height', box.scrollHeight + 'px', 'important');
   // a short slide grows its text to fill the box instead of leaving empty space
   if (k === 1) { let g = 1; const fits = () => box.scrollHeight <= box.clientHeight + 1;
-    while (g < 1.7) { const n = g + .04; p.style.fontSize = (ph * n).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(n, 1.25)).toFixed(2) + 'px'; if (!fits()) { p.style.fontSize = (ph * g).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(g, 1.25)).toFixed(2) + 'px'; break; } g = n; } }
+    while (g < 1.9) { const n = g + .03; p.style.fontSize = (ph * n).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(n, 1.45)).toFixed(2) + 'px'; if (!fits()) { p.style.fontSize = (ph * g).toFixed(2) + 'px'; h.style.fontSize = (hh * Math.min(g, 1.45)).toFixed(2) + 'px'; break; } g = n; } }
 }
 function startCmp() {
   cmpTimer.forEach(x => { clearTimeout(x); clearInterval(x); }); cmpTimer = [];
@@ -3245,14 +3245,17 @@ function cmpSizeAll() {
     const E = CMPS[card.dataset.cmp]; if (!E) return;
     const box = card.querySelector('.cmt'), h = card.querySelector('h3'), p = card.querySelector('p.sum'), hs = card.querySelector('.cmh'), ss = card.querySelector('.cms');
     const keep = [hs.textContent, ss.textContent];
+    h.style.cssText = ''; p.style.cssText = ''; box.style.cssText = ''; // measure at the normal text size, never a size left over from filling a short slide
     box.style.height = 'auto'; h.style.height = 'auto'; p.style.height = 'auto'; h.style.overflow = 'visible'; p.style.overflow = 'visible';
-    let need = 0;
+    let need = 0; const hts = [];
     const outlets = E.hs.some(y => y.k !== 'AI');
     E.hs.forEach(x => {
       if (outlets && x.k === 'AI') return;
       hs.textContent = x.headline || ''; ss.textContent = x.summary || '';
-      need = Math.max(need, box.scrollHeight + 1.6 * u);
+      hts.push(box.scrollHeight);
     });
+    // box fits the typical slide: longer slides shrink their text, shorter ones grow, so no slide leaves a big gap
+    hts.sort((a, b) => a - b); need = hts.length ? hts[Math.floor((hts.length - 1) / 2)] + 0.6 * u : 0;
     hs.textContent = keep[0]; ss.textContent = keep[1];
     box.style.height = ''; h.style.cssText = ''; p.style.cssText = '';
     css += `.story.cmp[data-cmp="${card.dataset.cmp}"] .cmt{height:${Math.ceil(need)}px !important}`;
