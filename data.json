@@ -169,7 +169,7 @@
    "topic": "City incentives to land BermudAir's Caribbean flights",
    "pillar": "P",
    "when": "Nov 24",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "status": "Verified",
    "headlines": [
     {
@@ -301,7 +301,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T13:45:00-06:00",
+ "generated_at": "2026-11-25T13:11:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -310,7 +310,7 @@
    "pillar": "C",
    "kind": "Warning",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "KSAT",
@@ -465,7 +465,7 @@
    "pillar": "S",
    "kind": "Announcement",
    "status": "Upcoming",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "UTSA Athletics",
@@ -546,7 +546,7 @@
    "pillar": "S",
    "kind": "Result",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "KSAT",
@@ -565,7 +565,7 @@
    "pillar": "S",
    "kind": "Announcement",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio FC",
@@ -729,7 +729,7 @@
    "pillar": "A",
    "kind": "Announcement",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "KSAT",
@@ -748,7 +748,7 @@
    "pillar": "A",
    "kind": "Deadline",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "Texas Public Radio",
@@ -767,7 +767,7 @@
    "pillar": "A",
    "kind": "Update",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio Report",
@@ -931,7 +931,7 @@
    "pillar": "C",
    "kind": "Announcement",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -950,7 +950,7 @@
    "pillar": "C",
    "kind": "Announcement",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio Current",
@@ -1121,7 +1121,7 @@
    "pillar": "C",
    "kind": "Update",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio Report",
@@ -1142,7 +1142,7 @@
    "pillar": "C",
    "kind": "Update",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "KSAT",
@@ -1277,7 +1277,7 @@
    "pillar": "C",
    "kind": "Announcement",
    "status": "Reported",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "KSAT",
@@ -1428,7 +1428,7 @@
    "pillar": "C",
    "kind": "Update",
    "status": "Unconfirmed",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "KSAT",
@@ -1457,7 +1457,7 @@
    "pillar": "C",
    "kind": "Warning",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "FOX 29 San Antonio",
@@ -1567,7 +1567,7 @@
    "pillar": "P",
    "kind": "CCR",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -1586,7 +1586,7 @@
    "pillar": "P",
    "kind": "CCR",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -1605,7 +1605,7 @@
    "pillar": "P",
    "kind": "CCR",
    "status": "Verified",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -1626,7 +1626,7 @@
    "pillar": "C",
    "kind": "Event",
    "status": "Upcoming",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio Current",
@@ -1645,7 +1645,7 @@
    "pillar": "C",
    "kind": "Event",
    "status": "Upcoming",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -1664,7 +1664,7 @@
    "pillar": "A",
    "kind": "Event",
    "status": "Upcoming",
-   "first_seen": "2026-11-25T13:45:00-06:00",
+   "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio Report",
