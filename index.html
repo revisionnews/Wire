@@ -3191,7 +3191,7 @@ const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
   const box = document.getElementById('roll3d');
   const d = document.createElement('div'); d.className = 'drum';
-  d.style.left = c.l + 'px'; d.style.width = c.w + 'px';
+  d.style.left = '0px'; d.style.right = '0px';   // drum spans the feed so copies sit on the exact same pixel grid as the real cards
   const sl = [];
   for (let i = 0; i < RN; i++) {
     const a0 = RPHI * i / RN, a1 = RPHI * (i + 1) / RN, arc = RR * (a1 - a0), chord = 2 * RR * Math.sin((a1 - a0) / 2);
@@ -3199,11 +3199,12 @@ function rollDrum(c) {
     e.style.height = (chord + 0.6) + 'px';   // flat face between two points on the drum, so neighbouring faces meet exactly
     // one shared vanishing point (screen center, bottom of the roller) written into each face, so every browser draws it the same
     const hh = chord + 0.6, ox = RW / 2 - c.l, oy = hh, P = U * 100000;
-    e.style.transform = `translate(${ox.toFixed(2)}px,${oy.toFixed(2)}px) perspective(${P.toFixed(1)}px) translate(${(-ox).toFixed(2)}px,${(-oy).toFixed(2)}px) translateY(${(-RR * Math.sin(a0)).toFixed(2)}px) translateZ(${(-RR * (1 - Math.cos(a0))).toFixed(2)}px) translateY(${hh.toFixed(2)}px) rotateX(${((a0 + a1) / 2 * 180 / Math.PI).toFixed(3)}deg) translateY(${(-hh).toFixed(2)}px)`;
+    const m = (a0 + a1) / 2;
+    e.style.transform = `translateY(${(-RR * Math.sin(a0) + hh).toFixed(3)}px) scaleY(${Math.cos(m).toFixed(5)}) translateY(${(-hh).toFixed(3)}px)`;   // flat 2D curl: no horizontal shift at all
     e.style.opacity = Math.max(0, 1 - Math.pow((i + 1) / RN, 1.4)).toFixed(3);   // fully gone by the time it reaches the line, never a hard edge
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track';
     const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
-    const k = rollClean(c.el.cloneNode(true)); k.style.left = '0px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px';
+    const k = rollClean(c.el.cloneNode(true)); k.style.left = c.l + 'px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px';
     (c.el.parentElement && c.el.parentElement.classList.contains('mason') ? ms : cp).appendChild(k);   // the archive list and end line roll too
     e.appendChild(inn); d.appendChild(e); sl.push({ inn, k, a1, sy: chord / arc });
   }
@@ -3221,7 +3222,7 @@ function rollRefresh() {
   if (!RC.length) return;
   const tr = track.getBoundingClientRect();
   RC.forEach(c => { const r = c.el.getBoundingClientRect(); c.t = r.top - tr.top; c.b = r.bottom - tr.top; c.l = r.left - tr.left; c.w = r.width; c.h = r.height; });
-  RMAP.forEach(v => { const c = v.c; v.d.style.left = c.l + 'px'; v.d.style.width = c.w + 'px'; v.sl.forEach(x => { x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); });
+  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); });
 }
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(rollRefresh, 50));
 setInterval(rollRefresh, 3000);
