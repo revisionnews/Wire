@@ -203,6 +203,31 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.33;ba
 html.embed .mast,html.embed .end,html.embed .all{display:none !important}
 html.embed body{min-height:0}
 html.embed #list{transition:clip-path .55s cubic-bezier(.2,.7,.2,1)}
+</style><style>
+/* Archive page: built like the archive card on the feed */
+body.ar #list{padding:18px 16px 28px}
+.arx{border:3px solid var(--ink);background:var(--paper)}
+.arx .arh{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;background:var(--ink);color:var(--paper);padding:12px 16px}
+.arx .arh b{font:900 30px/1 'Hando',sans-serif;letter-spacing:.02em;text-transform:uppercase}
+.arx .arh span{font:700 11px/1.2 'Hando',sans-serif;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.arx .arh em{margin-left:auto;font:900 11px/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase}
+.arx .arbar{display:flex;flex-wrap:wrap;gap:10px;padding:14px 16px;border-bottom:3px solid var(--ink);background:var(--fig)}
+.arx .arf{display:flex;background:var(--ink);padding:0;gap:0;margin:0;flex:none}
+.arx .arf button{appearance:none;border:0;background:transparent;color:rgba(243,244,245,.45);font:900 14px/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:10px 12px;cursor:pointer;min-width:0;height:auto;width:auto}
+.arx .arf button.on{color:var(--paper);background:#000}
+.arx .ars{display:flex;flex:1;gap:10px;min-width:240px;margin:0;padding:0}
+.arx .ars input,.arx .ars select{flex:1;min-width:0;height:36px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);font:700 13px/1 'Hando',sans-serif;padding:0 10px;margin:0;border-radius:0}
+.arx .ars select{flex:0 1 200px}
+.arx .arl2{padding:4px 16px 10px}
+.arx .day{margin:0;padding:14px 0 6px;font:900 11px/1 'Hando',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);border-bottom:3px solid var(--ink)}
+.arx a.ai{display:grid;grid-template-columns:26px minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border:0;border-bottom:2px solid rgba(13,15,18,.18);background:none;margin:0;color:var(--ink);text-decoration:none}
+.arx a.ai i{font:900 13px/1 'Hando',sans-serif;font-style:normal;background:var(--ink);color:var(--paper);text-align:center;padding:6px 0;margin:2px 0 0;width:auto;height:auto;display:block}
+.arx a.ai b{display:block;font:800 16px/1.25 'Hando',sans-serif}
+.arx a.ai small{display:block;margin-top:5px;font:700 10px/1.2 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.arx .st{padding:18px 0;font:700 13px/1.3 'Hando',sans-serif}
+.arx .arback{display:block;text-align:center;background:var(--ink);color:var(--paper);font:900 12px/1 'Hando',sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:14px;text-decoration:none;border-top:3px solid var(--ink)}
+@media (max-width:699px){.arx .arf{flex:1 1 100%}.arx .arf button{flex:1}.arx .ars{flex-wrap:wrap;min-width:0;flex:1 1 100%}.arx .ars input,.arx .ars select{flex:1 1 100%}}
+@media (min-width:700px){.arx .arl2{column-count:2;column-gap:28px}.arx .day{break-after:avoid}.arx a.ai{break-inside:avoid}}
 </style></head>
 <body>
 <header class="mast"><span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div><div class="who"><b id="time">--:--</b></div><span class="upd" id="upd" hidden></span></header>
@@ -291,15 +316,15 @@ function showArchive(d) {
   const f = window.ARF || '', topic = window.ART || '', q = (window.ARQ || '').toLowerCase();
   const all = a.items || [], topics = [...new Set(all.map(x => x.t).filter(Boolean))].sort();
   const items = all.filter(x => (!f || String(x.p || '').toUpperCase().includes(f)) && (!topic || x.t === topic) && (!q || (x.h + ' ' + (x.summary || '') + ' ' + (x.s || '')).toLowerCase().includes(q)));
-  let h = `<div class="band">Archive<span class="lt" style="margin-left:auto;font-size:12px;letter-spacing:.12em">${Math.max(a.total || 0, all.length)} STORIES</span></div>`;
-  h += '<div class="arf">' + ['', 'S', 'P', 'A', 'R', 'C'].map(l => `<button data-l="${l}" class="${f === l ? 'on' : ''}">${l || 'All'}</button>`).join('') + '</div>';
-  h += `<div class="ars"><input id="arq" type="search" placeholder="Search the archive" value="${esc(window.ARQ || '')}"><select id="art"><option value="">All topics</option>${topics.map(t => `<option${t === topic ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select></div>`;
+  let h = `<section class="arx"><div class="arh"><b>Archive</b><span>Stories that have left the board</span><em>${Math.max(a.total || 0, all.length)} stories</em></div>`;
+  h += '<div class="arbar"><div class="arf">' + ['', 'S', 'P', 'A', 'R', 'C'].map(l => `<button data-l="${l}" class="${f === l ? 'on' : ''}">${l || 'All'}</button>`).join('') + '</div>';
+  h += `<div class="ars"><input id="arq" type="search" placeholder="Search the archive" value="${esc(window.ARQ || '')}"><select id="art"><option value="">All topics</option>${topics.map(t => `<option${t === topic ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select></div></div><div class="arl2">`;
   let last = '';
   items.forEach(x => { const day = 'Left the board ' + (x.left || ''); if (day !== last) { h += `<div class="day">${esc(day)}</div>`; last = day; }
     h += `<a class="ai" href="#a-${esc(x.id)}"><i>${arLetter(x.p)}</i><span><b>${esc(x.h)}</b><small>${esc([x.d, x.s, x.t].filter(Boolean).join(' / '))}</small></span></a>`; });
   if (!all.length) h += '<div class="st">No stories have left the board yet. They land here once they do.</div>';
   else if (!items.length) h += '<div class="st">No stories match</div>';
-  h += `<a class="all" href="#">All headlines</a>`;
+  h += `</div><a class="arback" href="#">Back to Wire</a></section>`;
   list.innerHTML = h; if (!window.ARKEEP) window.scrollTo(0, 0); window.ARKEEP = 0;
   list.querySelectorAll('button[data-l]').forEach(b => b.onclick = () => { window.ARF = b.dataset.l; window.ARKEEP = 1; showArchive(d); });
   const sel = document.getElementById('art'); sel.onchange = () => { window.ART = sel.value; window.ARKEEP = 1; showArchive(d); };
