@@ -3188,7 +3188,7 @@ function fitDate() {
   l.style.width = width.toFixed(2) + 'px'; l.style.height = (width * 0.14).toFixed(2) + 'px';
 }
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
-const RN = 16, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
+const RN = 40, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
