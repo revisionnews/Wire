@@ -3528,11 +3528,11 @@ setInterval(() => {
   if (!eyes.length) return;
   const key = e => e.dataset.u || '', age = e => now - (EYE_LAST[key(e)] || -1e9);
   eyes.sort((a, b) => age(b) - age(a));
-  const pool = eyes.filter(e => age(e) > 25000); const pickFrom = pool.length ? pool.slice(0, 3) : [];
+  const pool = eyes.filter(e => age(e) > 12000); const pickFrom = pool.length ? pool.slice(0, 3) : [];
   if (!pickFrom.length) return;
   const e = pickFrom[Math.floor(Math.random() * pickFrom.length)];
-  EYE_LAST[key(e)] = now; eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2600);
-}, 1900);
+  EYE_LAST[key(e)] = now; eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2200);
+}, 850);
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
   if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); }
