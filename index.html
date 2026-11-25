@@ -605,9 +605,9 @@ html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
 .popsrc.cmpx .ps.ai b{color:#fff}
 html.one .popsrc.cmpx .ps .cs{font-size:calc(var(--u)*3.4)}
 </style><style>
-/* Compare blocks: title and description capped at three lines each so cycling never leaves empty space */
-.story.cmp h3 .cmh,.story.cmp p.sum .cms{display:-webkit-box !important;-webkit-box-orient:vertical !important;-webkit-line-clamp:3 !important;overflow:hidden !important}
-.story.cmp.cmp-open h3 .cmh,.story.cmp.cmp-open p.sum .cms{-webkit-line-clamp:unset !important;display:block !important}
+/* Compare blocks: full title and description, never cut; the box fits the longest slide */
+.story.cmp h3,.story.cmp p.sum{flex:none !important;overflow:visible !important}
+.story.cmp h3 .cmh,.story.cmp p.sum .cms{display:block !important;-webkit-line-clamp:unset !important;overflow:visible !important}
 .story.cmp.cmp-open .cmt{height:auto !important}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
@@ -3108,10 +3108,13 @@ function flapFill(el, txt) {
 }
 let cmpTimer = [];
 function cmpFit(card) {
-  // Text never changes size: titles and descriptions are capped at three lines, and the box fits the tallest capped slide
+  // Safety net: if a slide ever needs more room than the box has, the box grows to fit it and keeps that size
   const h = card.querySelector('h3'), p = card.querySelector('p.sum'), box = card.querySelector('.cmt');
-  if (h) h.style.cssText = ''; if (p) p.style.cssText = ''; if (box) box.style.removeProperty('height');
+  if (h) h.style.cssText = ''; if (p) p.style.cssText = ''; if (!box) return;
+  const need = h.offsetHeight + p.offsetHeight + parseFloat(getComputedStyle(h).marginTop) + parseFloat(getComputedStyle(h).marginBottom) + parseFloat(getComputedStyle(p).marginBottom) + 4;
+  if (need > box.clientHeight + 1) box.style.setProperty('height', Math.ceil(need) + 'px', 'important');
 }
+
 function startCmp() {
   cmpTimer.forEach(x => { clearTimeout(x); clearInterval(x); }); cmpTimer = [];
   const upd = (card, j, anim) => {
@@ -3164,7 +3167,7 @@ function buildCopy(d) {
   // Memos and CCRs are the items that can become policy, so they are spaced evenly through the feed
   memoQ.forEach((h, i) => { feed.splice(Math.min(feed.length, Math.floor((i + 1) * feed.length / (memoQ.length + 1)) + i), 0, { k: 'memo', h }); });
   // Compare blocks sit close together near the start of each loop (about every 10 stories) so several are on screen in the same stretch
-  { const gap = Math.max(6, Math.min(10, Math.floor(feed.length / Math.max(1, cmpQ.length)))); cmpQ.forEach((h, i) => { feed.splice(Math.min(feed.length, 2 + i * (gap + 1)), 0, { k: 'cmp', h }); }); }
+  cmpQ.forEach(h => feed.push({ k: 'cmp', h }));
   // Breaking never sits next to another breaking: one in the first part of the feed (left column), one in the last part (right column)
   if (brk.length) {
     const n = feed.length, p1 = 1 + Math.floor(rnd() * Math.max(1, Math.floor(n * 0.3)));
@@ -3202,6 +3205,17 @@ function feedScore() {
   for (let i = 1; i < FEED.length; i++) if (FEED[i].k === FEED[i - 1].k && FEED[i].k !== 'spark') { n++; bad.add(i); }
   return { n, bad: [...bad] };
 }
+// Compare blocks sit at the top of both columns so several show on screen together
+function placeCmp() {
+  const cm = FEED.filter(f => f.k === 'cmp'); if (!cm.length) return;
+  const rest = FEED.filter(f => f.k !== 'cmp'), half = document.documentElement.classList.contains('one') ? cm.length : Math.ceil(cm.length / 2);
+  const put = (arr, at, list) => list.forEach((x, i) => arr.splice(Math.min(arr.length, at + i * 2), 0, x));
+  FEED.length = 0; rest.forEach(f => FEED.push(f)); put(FEED, 1, cm.slice(0, half));
+  track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>';
+  const kids = [...track.querySelectorAll('.copy .mason > *')], x0 = kids.length ? kids[0].getBoundingClientRect().left : 0;
+  let start = kids.findIndex(e => e.getBoundingClientRect().left > x0 + 20); if (start < 0) start = FEED.length;
+  if (half < cm.length) put(FEED, start + 1, cm.slice(half));
+}
 function deconflict(rnd) {
   track.innerHTML = '<div class="copy">' + wrapFeed() + '</div>';
   let best = feedScore();
@@ -3234,6 +3248,7 @@ function measure() {
 }
 
 // Size each compare box to its longest slide so no headline or description is ever cut off
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(() => { try { cmpSizeAll(); } catch (e) {} }, 100));
 function cmpSizeAll() {
   let css = '';
   const u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10;
@@ -3364,7 +3379,7 @@ function render() {
   readU();
   if (!data) return;
   speed = Number(data.scroll_speed) || 1.1;
-  buildCopy(data); deconflict(seeded('dc' + data.generated_at));
+  buildCopy(data); deconflict(seeded('dc' + data.generated_at)); placeCmp();
   const one = `<div class="copy">${wrapFeed()}</div>`;
   track.innerHTML = one; alignText(); cmpSizeAll(); measure();
   if (!track.children.length || !copyH) dbgShow('empty feed: copyH=' + copyH + ' view=' + view.clientWidth + 'x' + view.clientHeight + ' stage=' + stage.clientWidth + 'x' + stage.clientHeight);
