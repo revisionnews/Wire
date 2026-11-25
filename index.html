@@ -543,7 +543,7 @@ html.tvm #track .copy .mason > *,html.tvm #track .copy > .arch{cursor:default !i
 .popwrap.off{opacity:0}
 .popsrc{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1);background:var(--fig);border:var(--b) solid var(--ink);border-top:0}
 .popwrap.srcs .popsrc{grid-template-rows:1fr}
-.popsrc > *{min-height:0}
+.popsrc > *{min-height:0;overflow:hidden}
 .popsrc .ph{display:flex;justify-content:space-between;align-items:center;padding:calc(var(--u)*1) calc(var(--u)*1.4);font:900 calc(var(--u)*1.5)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper)}
 .popsrc .ph em{font-style:normal;opacity:.7}
 .popsrc .ps{display:flex;gap:calc(var(--u)*1.4);padding:calc(var(--u)*1.2) calc(var(--u)*1.4);border-top:var(--b) solid var(--ink);color:var(--ink);text-decoration:none}
@@ -591,7 +591,7 @@ html.one .popx{bottom:calc(var(--u)*3 + env(safe-area-inset-bottom))}
 html.pub .qb::before,html.pub .qb::after{content:none !important}
 html.pub .qb svg.eye{display:block !important;width:100%;height:100%;overflow:visible}
 html.boot #view,html.boot .roll3d,html.boot .pins{visibility:hidden}
-.popdim.now,.popwrap.now .popsrc{transition:none !important}
+.popdim.now,.popwrap.now .popsrc,.popwrap.glide{transition:none !important}
 .popsrc{transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
@@ -3123,6 +3123,9 @@ function buildCopy(d) {
   (d.memos || []).forEach((m, ix) => Q.memo.push(rows([m], 'var(--ink)', 'm', 'Memo', 'l-memo')));
   const groups = (d.meeting_groups && d.meeting_groups.length) ? d.meeting_groups : ((d.meetings || []).length ? [{ title: '2027 bond committees', meetings: d.meetings, note: d.meetings_note, refs: d.meetings_refs }] : []);
   groups.forEach((g, gi) => { if ((g.meetings || []).length) Q.meet.push(`<div class="row l-meet" style="--c:${STC[statusOf({ refs: g.refs })]}"><div class="mt"><b>Meetings for ${esc(g.title)}</b><span>${g.meetings.length} meetings</span></div><div class="tiles">` + g.meetings.map(m => `<div class="tile"><div class="d"><i>${esc(m.dow)}</i><b>${esc(m.day)}</b><i>${esc(m.mon)}</i></div><div class="x"><b>${esc(m.title)}</b><span>${esc(m.note)}</span></div></div>`).join('') + `</div>${g.note ? `<div class="rb">${esc(g.note)}</div>` : ''}${refBlock(g.refs, 'g' + (gi + 1), `<span class="meta">${g.meetings.length} meetings</span>`, true, tagHtml('Meeting', statusOf({ refs: g.refs })))}</div>`); });
+  // Compare blocks are the special teaching blocks: about 2.5 times as many as there are compare stories (at least 3 when there is one), spread evenly
+  const cmpBase = Q.cmp.splice(0), cmpQ = [];
+  if (cmpBase.length) { const want = cmpBase.length >= 3 ? cmpBase.length : Math.round(cmpBase.length * 2.5 + .01); for (let i = 0; i < want; i++) cmpQ.push(cmpBase[i % cmpBase.length]); }
   const rnd = seeded(d.generated_at), memoQ = Q.memo.splice(0), keys = Object.keys(Q);
   const shuf = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   shuf(Q.spark);
@@ -3137,6 +3140,7 @@ function buildCopy(d) {
   }
   // Memos and CCRs are the items that can become policy, so they are spaced evenly through the feed
   memoQ.forEach((h, i) => { feed.splice(Math.min(feed.length, Math.floor((i + 1) * feed.length / (memoQ.length + 1)) + i), 0, { k: 'memo', h }); });
+  { const n0 = feed.length; cmpQ.forEach((h, i) => { feed.splice(Math.min(feed.length, Math.floor((i + .5) * n0 / cmpQ.length) + i), 0, { k: 'cmp', h }); }); }
   // Breaking never sits next to another breaking: one in the first part of the feed (left column), one in the last part (right column)
   if (brk.length) {
     const n = feed.length, p1 = 1 + Math.floor(rnd() * Math.max(1, Math.floor(n * 0.3)));
@@ -3433,30 +3437,39 @@ function openStory(card, id, instant) {
   const keep = speed; speed = 0; vel = 0; tvel = 0;
   POP = { keep, id, timer: 0, dim: null, wrap: null, close: null };
   const dim = document.createElement('div'); dim.className = 'popdim' + (instant ? ' on now' : ''); stage.appendChild(dim); POP.dim = dim;
+  // lift a copy of the chosen story above the fade right away, so it never fades out
+  const c = card, cr0 = c.getBoundingClientRect();
+  const wrap = document.createElement('div'); wrap.className = 'popwrap glide';
+  let host = wrap; [c.closest('.copy'), c.parentElement].forEach(a => { if (!a || a === c) return; const x = a.cloneNode(false); x.removeAttribute('id'); x.style.cssText = 'column-count:1;margin:0;padding:0;transform:none;position:static;height:auto'; host.appendChild(x); host = x; });
+  const clone = c.cloneNode(true); clone.style.margin = '0'; clone.style.width = '100%'; clone.style.breakInside = 'avoid'; host.appendChild(clone);
+  const refs = storyRefs(id), src = document.createElement('div'); src.className = 'popsrc';
+  src.innerHTML = `<div class="psi"><div class="ph">Sources<em>${refs.length}</em></div>` + (refs.length ? refs.map((r, i) => `<a class="ps" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="b"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i><small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small></span></a>`).join('') : '<p class="ps0">No source links for this item.</p>') + '</div>';
+  host.appendChild(src);
+  Object.assign(wrap.style, { left: cr0.left + 'px', top: cr0.top + 'px', width: cr0.width + 'px' });
+  stage.appendChild(wrap); POP.wrap = wrap;
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
-  // bring the story into view first, then open it downward from where it sits
-  const want = off + card.getBoundingClientRect().top - vr.top - u * 2.4;
-  glideTo(want, instant ? 0 : 420, () => {
-    if (!POP) return;
+  const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 80); }
+  // bring the story into view, the lifted copy rides along with it, then it opens downward
+  const want = off + cr0.top - vr.top - u * 2.4, base = off;
+  const follow = () => { if (POP && POP.wrap === wrap) wrap.style.top = (cr0.top - (off - base)) + 'px'; };
+  const glide = () => {
+    const from = off, t0 = performance.now(), ms = instant ? 0 : 420;
+    const step = now => { const k = ms ? Math.min(1, (now - t0) / ms) : 1, e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; off = from + (want - from) * e; follow(); if (k < 1) requestAnimationFrame(step); else done(); };
+    if (!ms) { off = want; follow(); done(); } else requestAnimationFrame(step);
+  };
+  const done = () => {
+    if (!POP || POP.wrap !== wrap) return;
     track.style.transform = 'translateY(' + (-Math.round(off * DPR) / DPR) + 'px)';
-    const c = card.isConnected ? card : (cardFor(id) || card), cr = c.getBoundingClientRect();
-    const wrap = document.createElement('div'); wrap.className = 'popwrap';
-    let host = wrap; [c.closest('.copy'), c.parentElement].forEach(a => { if (!a || a === c) return; const x = a.cloneNode(false); x.removeAttribute('id'); x.style.cssText = 'column-count:1;margin:0;padding:0;transform:none;position:static;height:auto'; host.appendChild(x); host = x; });
-    const clone = c.cloneNode(true); clone.style.margin = '0'; clone.style.width = '100%'; clone.style.breakInside = 'avoid'; host.appendChild(clone);
-    const refs = storyRefs(id), src = document.createElement('div'); src.className = 'popsrc';
-    src.innerHTML = `<div class="ph">Sources<em>${refs.length}</em></div>` + (refs.length ? refs.map((r, i) => `<a class="ps" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="b"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i><small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small></span></a>`).join('') : '<p class="ps0">No source links for this item.</p>');
-    host.appendChild(src);
-    Object.assign(wrap.style, { left: cr.left + 'px', top: cr.top + 'px', width: cr.width + 'px', maxHeight: (innerHeight - cr.top - u * 6) + 'px' });
-    stage.appendChild(wrap); POP.wrap = wrap;
+    const top = parseFloat(wrap.style.top); wrap.style.maxHeight = (innerHeight - top - u * 6) + 'px'; wrap.classList.remove('glide');
     const close = document.createElement('button'); close.className = 'popx' + (instant ? ' on' : ''); close.textContent = 'Back to Wire'; stage.appendChild(close); POP.close = close;
     if (!instant) requestAnimationFrame(() => close.classList.add('on'));
-    const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 60); }
     if (instant) { wrap.classList.add('srcs', 'now'); wrap.style.overflowY = 'auto'; }
     else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); setTimeout(() => { wrap.style.overflowY = 'auto'; }, 520); }));
     const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
     arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
     dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory); clone.addEventListener('click', closeStory);
-  });
+  };
+  glide();
   try { history.replaceState(null, '', location.pathname + location.search + '#' + id); } catch (e) {}
 }
 // Every so often one random eye slowly opens, holds, then closes, so people know they can tap a story
