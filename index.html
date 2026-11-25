@@ -525,10 +525,10 @@ html.dark .s-Official{--c:var(--ink)}
   linear-gradient(to bottom,var(--paper) 0%,rgba(212,212,212,.92) 12%,rgba(212,212,212,.6) 30%,rgba(212,212,212,.25) 58%,transparent 100%) !important}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
-html body #view.view{top:calc(var(--u)*14 - 2px) !important}
+html body #view.view{top:calc(var(--u)*14 - 1px) !important}
 html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the roller so the two never leave a hairline between them */
 html,body{background:var(--paper) !important}
-.roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10);height:calc(var(--u)*4);-webkit-mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.55) 45%,transparent 100%);mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.55) 45%,transparent 100%);overflow:hidden;pointer-events:none;z-index:5}
+.roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 1px);height:calc(var(--u)*4);-webkit-mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.4) 35%,rgba(0,0,0,.08) 70%,transparent 90%);mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.4) 35%,rgba(0,0,0,.08) 70%,transparent 90%);overflow:hidden;pointer-events:none;z-index:5}
 .roll3d .drum{position:absolute;top:0;bottom:0}
 .roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:0 0}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
@@ -3187,7 +3187,7 @@ function fitDate() {
   l.style.width = width.toFixed(2) + 'px'; l.style.height = (width * 0.14).toFixed(2) + 'px';
 }
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
-const RN = 16, RPHI = 80 * Math.PI / 180;
+const RN = 16, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
