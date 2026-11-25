@@ -3198,7 +3198,7 @@ function rollDrum(c) {
     const e = document.createElement('div'); e.className = 'slc';
     e.style.height = (chord + 0.6) + 'px';   // flat face between two points on the drum, so neighbouring faces meet exactly
     // one shared vanishing point (screen center, bottom of the roller) written into each face, so every browser draws it the same
-    const hh = chord + 0.6, ox = RW / 2 - c.l, oy = hh, P = U * 240;
+    const hh = chord + 0.6, ox = RW / 2 - c.l, oy = hh, P = U * 100000;
     e.style.transform = `translate(${ox.toFixed(2)}px,${oy.toFixed(2)}px) perspective(${P.toFixed(1)}px) translate(${(-ox).toFixed(2)}px,${(-oy).toFixed(2)}px) translateY(${(-RR * Math.sin(a0)).toFixed(2)}px) translateZ(${(-RR * (1 - Math.cos(a0))).toFixed(2)}px) translateY(${hh.toFixed(2)}px) rotateX(${((a0 + a1) / 2 * 180 / Math.PI).toFixed(3)}deg) translateY(${(-hh).toFixed(2)}px)`;
     e.style.opacity = Math.max(0, 1 - Math.pow((i + 1) / RN, 1.4)).toFixed(3);   // fully gone by the time it reaches the line, never a hard edge
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track';
