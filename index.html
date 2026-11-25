@@ -532,7 +532,7 @@ html,body{background:var(--paper) !important}
 .roll3d .drum{position:absolute;top:0;bottom:0}
 .roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:50% 0}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
-.roll3d .sin{position:absolute;left:0;right:0;top:0;height:0;transform-origin:0 0}
+.roll3d .sin{position:absolute;left:0;right:0;top:0;height:0;transform-origin:0 0;will-change:auto !important}
 .roll3d .sin .mason{position:relative;height:0}
 .roll3d .sin .mason > *,.roll3d .sin .copy > :not(.mason){position:absolute !important;margin:0 !important}
 .roll3d *,.roll3d *::before,.roll3d *::after{animation:none !important;transition:none !important}
@@ -3246,7 +3246,8 @@ function rollSync(o) {
     RMAP.set(c.el, v);
   });
   // each slice shows the stretch of paper that sits on its part of the drum
-  RMAP.forEach(v => v.sl.forEach(x => { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)}) translateY(${(-(o - RR * x.a1)).toFixed(2)}px)`; }));
+  // move each slice with top, not transform: no extra GPU layers, so the screen can never run out of video memory and blank out
+  RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
 }
 let U = 10, DPR = window.devicePixelRatio || 1;
 function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10; }
