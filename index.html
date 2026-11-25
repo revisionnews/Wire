@@ -527,12 +527,17 @@ html.dark .s-Official{--c:var(--ink)}
 .qb{display:flex !important;align-items:center;justify-content:center}
 .qb svg{position:static !important;flex:none;left:auto !important;top:auto !important}
 #track .copy .mason > *:has(.qb[data-u]),#track .copy > .arch{cursor:pointer}
+/* Phone: one column */
+html.one .mason{column-count:1}
+html.one .mason .tiles{grid-template-columns:minmax(0,1fr)}
+html.one .arch ol{column-count:1}
+html.one .arch .ah{flex-wrap:wrap}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 - 1px) !important}
 html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the roller so the two never leave a hairline between them */
 html,body{background:var(--paper) !important}
-.roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 1px);height:calc(var(--u)*4);-webkit-mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.4) 35%,rgba(0,0,0,.08) 70%,transparent 90%);mask-image:linear-gradient(to top,#000 0%,#000 8%,rgba(0,0,0,.4) 35%,rgba(0,0,0,.08) 70%,transparent 90%);overflow:hidden;pointer-events:none;z-index:5}
+.roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 1px);height:calc(var(--u)*4);-webkit-mask-image:linear-gradient(to top,#000 0%,#000 49%,rgba(0,0,0,.4) 63%,rgba(0,0,0,.08) 81%,transparent 91%);mask-image:linear-gradient(to top,#000 0%,#000 49%,rgba(0,0,0,.4) 63%,rgba(0,0,0,.08) 81%,transparent 91%);overflow:hidden;pointer-events:none;z-index:5}
 .roll3d .drum{position:absolute;top:0;bottom:0}
 .roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:50% 0}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
@@ -544,14 +549,6 @@ html,body{background:var(--paper) !important}
 </style>
 </head>
 <body>
-<script>
-(function () {
-  if (/[?&]tv=1/.test(location.search)) return;
-  if (!/(^|\.)revision\.news$|github\.io$/.test(location.hostname)) return;
-  var small = Math.min(screen.width, screen.height), touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
-  if (window.innerWidth < 900 || (touch && small < 820)) location.replace('m/' + location.hash);
-})();
-</script>
 <div class="stage" id="stage">
   <header class="mast">
     <span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div>
@@ -2889,7 +2886,11 @@ function layout() {
   const w = window.innerWidth, h = window.innerHeight, tk = location.hash.slice(1).split('-');
   document.documentElement.classList.toggle('dark', tk.includes('dark'));
   // the board fills the whole window at any shape; sizes follow the shorter side so nothing is cut off
-  const u = Math.min(w / 177.78, h / 100), sw = w, sh = h;
+  // phones (narrow or small touch screens) get one column sized to the phone; everything else keeps two columns
+  const small = Math.min(screen.width, screen.height), touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  const one = !/[?&]tv=1/.test(location.search) && (w < 900 || (touch && small < 820));
+  document.documentElement.classList.toggle('one', one);
+  const u = one ? w / 92 : Math.min(w / 177.78, h / 100), sw = w, sh = h;
   stage.style.width = sw + 'px'; stage.style.height = sh + 'px';
   stage.style.left = '0px'; stage.style.top = '0px';
   document.documentElement.style.setProperty('--u', u + 'px');
@@ -3166,11 +3167,12 @@ function qrSnap() {
   // Read every box first, then write, so the page lays out once instead of once per code
   const svgs = [...track.querySelectorAll('.qb svg')];
   const pad = Math.round(U * .12);
-  const sizes = svgs.map(svg => { const box = svg.parentElement; return [box.clientWidth, box.clientHeight, parseFloat((svg.getAttribute('viewBox') || '').split(' ')[2]) || 0]; });
+  const sizes = svgs.map(svg => { const box = svg.parentElement, r = box.getBoundingClientRect(), cs = getComputedStyle(box), bx = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth); return [r.height - parseFloat(cs.borderTopWidth) - parseFloat(cs.borderBottomWidth), bx, parseFloat((svg.getAttribute('viewBox') || '').split(' ')[2]) || 0]; });
   svgs.forEach((svg, i) => {
-    const [W, H, m] = sizes[i]; if (!m || !W || !H) return;
-    const size = Math.max(m, Math.floor(Math.min(W, H) - pad * 2));
-    svg.style.width = svg.style.height = size + 'px';
+    const [H, bx, m] = sizes[i]; if (!m || !H) return;
+    svg.parentElement.style.width = (H + bx) + 'px';   // square white box, so the margin is even on all four sides
+    const size = Math.max(8, H - 0.5);                // about a quarter pixel of white on every side, centered by the box
+    svg.style.setProperty('width', size + 'px', 'important'); svg.style.setProperty('height', size + 'px', 'important');
   });
 }
 // Every card type starts its text at the same left edge as a regular story, at any screen size
@@ -3197,6 +3199,8 @@ function fitDate() {
   const width = w.offsetWidth * 0.8;
   l.style.width = width.toFixed(2) + 'px'; l.style.height = (width * 0.14).toFixed(2) + 'px';
 }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(qrSnap, 60));
+window.addEventListener('load', () => setTimeout(qrSnap, 300));
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
 const RN = 40, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
