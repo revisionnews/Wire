@@ -570,10 +570,13 @@ html.one .popx{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)
 html.one .arch > ol{column-count:1}
 /* Public: the corner box is a button instead of a QR code */
 html.pub .qr{display:flex !important}
-html.pub .qb{width:auto !important;height:100% !important;aspect-ratio:1/1;padding:0 !important;background:var(--ink) !important;color:var(--paper) !important;cursor:pointer;display:flex !important;align-items:center;justify-content:center}
+html.pub .qb{width:calc(var(--u)*4.6) !important;height:calc(var(--u)*4.6) !important;padding:0 !important;margin:0 calc(var(--u)*1.2) 0 0;border:0 !important;background:var(--ink) !important;color:var(--paper) !important;cursor:pointer;display:flex !important;align-items:center;justify-content:center;flex:none}
+html.one.pub .qb{width:calc(var(--u)*5.4) !important;height:calc(var(--u)*5.4) !important}
 html.pub .qb svg{display:none !important}
-html.pub .qb::after{content:"+";font:900 calc(var(--u)*4.4)/1 'Hando',sans-serif;color:var(--paper);margin-top:-.08em}
-html.pub .qr{height:100%;align-self:stretch}
+html.pub .qb::after{content:"+";font:900 calc(var(--u)*3.2)/1 'Hando',sans-serif;color:var(--paper);margin-top:-.08em}
+html.pub .qr{height:100%;align-self:stretch;display:flex !important;align-items:center;background:transparent !important}
+html.one.pub .qb::after{font-size:calc(var(--u)*4)}
+.mast .ctr{cursor:pointer}
 html.pub #track .copy .mason > *:has(.qb[data-u]),html.pub #track .copy > .arch{cursor:pointer}
 /* Phones: run the feed under Safari's toolbar */
 html.one,html.one body{background:var(--paper);height:100lvh;min-height:100lvh;overflow:hidden;margin:0;overscroll-behavior:none}
@@ -3431,6 +3434,7 @@ function closeStory() {
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
 }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
+document.querySelector('.mast .ctr').addEventListener('click', () => { if (POP) closeStory(); off = 0; vel = 0; tvel = 0; if (location.hash) try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
 function cardFor(id) { const q = [...track.querySelectorAll('.copy [data-u]')].find(x => x.dataset.u.split('#')[1] === id); return q && q.closest('.mason > *, .copy > .arch'); }
 function openFromHash() {
   const id = decodeURIComponent((location.hash || '').slice(1)); if (!id || TVMODE) return;
