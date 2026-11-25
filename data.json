@@ -1,5 +1,5 @@
 {
- "edition": "Nov 25 midafternoon refresh",
+ "edition": "Nov 25 afternoon top stories refresh",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
@@ -66,6 +66,27 @@
    "kind": "News",
    "status": "Checked",
    "note": "Search only; no dated headline returned"
+  },
+  {
+   "name": "UTSA Athletics",
+   "domain": "goutsa.com",
+   "kind": "Official",
+   "status": "Used",
+   "note": "Tulsa fan information page read"
+  },
+  {
+   "name": "Express-News via Yahoo Sports",
+   "domain": "sports.yahoo.com",
+   "kind": "News",
+   "status": "Used",
+   "note": "Syndicated Express-News UTSA stories opened on Yahoo Sports"
+  },
+  {
+   "name": "TxDOT",
+   "domain": "txdot.gov",
+   "kind": "Official",
+   "status": "Checked",
+   "note": "I-35 NEX traffic page shows only Dec 14 to 20; Frost Bank Center closures not confirmed there"
   }
  ],
  "compare": [
@@ -259,7 +280,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T15:10:00-06:00",
+ "generated_at": "2026-11-25T14:42:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -512,6 +533,41 @@
    "headline": "Council member's high speed rail push along I-35 heads to committee in January"
   },
   {
+   "headline": "UTSA hosts Tulsa Friday, one win from hosting the American championship game",
+   "summary": "UTSA, 9 and 2 and alone in first place in the American at 6 and 1, closes the regular season against Tulsa at 11 a.m. Friday, Nov 27, at the Alamodome on ESPN. A win secures the right to host the American's football championship on Saturday, Dec 5. UTSA beat UAB 19 to 17 last Saturday to stay the league's only one loss team, and Friday is also Senior Day, with doors opening at 9:30 a.m.",
+   "when": "Fri Nov 27, 11 AM",
+   "pillar": "SC",
+   "kind": "Announcement",
+   "status": "Verified",
+   "first_seen": "2026-11-25T13:05:00-06:00",
+   "refs": [
+    {
+     "n": "UTSA Athletics",
+     "t": "UTSA/Tulsa football game fan information",
+     "d": "Nov 25, 2026",
+     "u": "goutsa.com",
+     "k": "Official",
+     "url": "https://goutsa.com/news/2026/11/25/utsatulsa-football-game-fan-information"
+    },
+    {
+     "n": "San Antonio Express-News",
+     "t": "UTSA vs. Tulsa: 5 players to watch as Roadrunners look to secure home field for American championship",
+     "d": "Nov 24, 2026",
+     "u": "sports.yahoo.com",
+     "k": "News",
+     "url": "https://sports.yahoo.com/college-football/articles/utsa-vs-tulsa-5-players-230619970.html"
+    },
+    {
+     "n": "San Antonio Express-News",
+     "t": "UTSA continues to 'find a way,' beating UAB to sit atop American standings",
+     "d": "Nov 22, 2026",
+     "u": "sports.yahoo.com",
+     "k": "News",
+     "url": "https://sports.yahoo.com/articles/utsa-continues-way-beating-uab-075033630.html"
+    }
+   ]
+  },
+  {
    "summary": "The Fiesta Flambeau Parade Association picked Saucedo, a 1995 Uvalde High School graduate, to lead the 79th parade, themed Cosmic Nights, A Universe of Lights. The parade runs Saturday, April 24, 2027, during Fiesta, April 15 to 25.",
    "when": "Nov 20",
    "refs": [
@@ -540,25 +596,6 @@
   }
  ],
  "sports": [
-  {
-   "headline": "UTSA hosts Tulsa Friday with a home conference title game on the line",
-   "summary": "UTSA, 9 and 2 and alone in first place in the American at 6 and 1, closes the regular season against Tulsa at 11 a.m. Friday, Nov 27, at the Alamodome on ESPN. A win would secure the right to host the American's football championship on Saturday, Dec 5. UTSA beat UAB 19 to 17 last Saturday.",
-   "when": "Fri Nov 27, 11 AM",
-   "pillar": "S",
-   "kind": "Announcement",
-   "status": "Upcoming",
-   "first_seen": "2026-11-25T13:05:00-06:00",
-   "refs": [
-    {
-     "n": "UTSA Athletics",
-     "t": "UTSA/Tulsa football game fan information",
-     "d": "Nov 25, 2026",
-     "u": "goutsa.com",
-     "k": "Official",
-     "url": "https://goutsa.com/news/2026/11/25/utsatulsa-football-game-fan-information"
-    }
-   ]
-  },
   {
    "headline": "UTSA men beat Air Force 90 to 68 and host Army on Thanksgiving",
    "summary": "UTSA's men's basketball team beat Air Force 90 to 68 at the Convocation Center on Saturday, Nov 21, after a 98 to 78 home win over Florida A&M on Nov 18. The Roadrunners host Army at 11 a.m. Thursday, Nov 26, in a Fansgiving game. Their only loss so far came against Texas State, 87 to 67, on Nov 15.",
@@ -997,7 +1034,7 @@
    "pillar": "C",
    "kind": "Warning",
    "status": "Reported",
-   "first_seen": "2026-11-25T15:10:00-06:00",
+   "first_seen": "2026-11-25T14:39:00-06:00",
    "refs": [
     {
      "n": "FOX 29 San Antonio",
@@ -1227,7 +1264,7 @@
    "pillar": "C",
    "kind": "Update",
    "status": "Reported",
-   "first_seen": "2026-11-25T15:10:00-06:00",
+   "first_seen": "2026-11-25T14:39:00-06:00",
    "refs": [
     {
      "n": "News 4 San Antonio",
