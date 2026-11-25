@@ -1,5 +1,5 @@
 {
- "edition": "Nov 25 midafternoon refresh",
+ "edition": "Nov 25 afternoon full refresh",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
@@ -65,7 +65,7 @@
    "domain": "goutsa.com",
    "kind": "Official",
    "status": "Used",
-   "note": "Tulsa game info and recaps read"
+   "note": "Home page, Tulsa fan information and basketball schedules read"
   },
   {
    "name": "San Antonio FC",
@@ -108,6 +108,13 @@
    "kind": "Official",
    "status": "Failed",
    "note": "Page would not open"
+  },
+  {
+   "name": "VIA Metropolitan Transit",
+   "domain": "viainfo.net",
+   "kind": "Official",
+   "status": "Used",
+   "note": "News page read; Rosa Parks fare free day opened"
   }
  ],
  "compare": [
@@ -301,7 +308,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T14:20:00-06:00",
+ "generated_at": "2026-11-25T14:25:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -474,6 +481,25 @@
      "u": "goutsa.com",
      "k": "Official",
      "url": "https://goutsa.com/news/2026/11/25/utsatulsa-football-game-fan-information"
+    }
+   ]
+  },
+  {
+   "headline": "UTSA men beat Air Force 90 to 68 and host Army on Thanksgiving",
+   "summary": "UTSA's men's basketball team beat Air Force 90 to 68 at the Convocation Center on Saturday, Nov 21, after a 98 to 78 home win over Florida A&M on Nov 18. The Roadrunners host Army at 11 a.m. Thursday, Nov 26, in a Fansgiving game. Their only loss so far came against Texas State, 87 to 67, on Nov 15.",
+   "when": "Thu Nov 26, 11 AM",
+   "pillar": "S",
+   "kind": "Result",
+   "status": "Verified",
+   "first_seen": "2026-11-25T14:25:00-06:00",
+   "refs": [
+    {
+     "n": "UTSA Athletics",
+     "t": "2026-27 Men's Basketball Schedule",
+     "d": "",
+     "u": "goutsa.com",
+     "k": "Official",
+     "url": "https://goutsa.com/sports/mens-basketball/schedule"
     }
    ]
   },
@@ -866,6 +892,25 @@
  ],
  "revolution": [
   {
+   "headline": "VIA rides are free Dec 1 in honor of Rosa Parks",
+   "summary": "VIA will run fare free on all bus, VIAtrans and VIA Link trips on Tuesday, Dec 1, and every vehicle will keep its headlights on through the day for Rosa Parks Day. Parks was arrested on Dec 1, 1955, for refusing to give up her bus seat, which sparked the Montgomery bus boycott. VIA's board voted in 2019 to mark the day each December, and every VIA bus carries a front seat dedicated to her. VIAtrans riders must book trips ahead.",
+   "when": "Tue Dec 1",
+   "pillar": "R",
+   "kind": "Announcement",
+   "status": "Verified",
+   "first_seen": "2026-11-25T14:25:00-06:00",
+   "refs": [
+    {
+     "n": "VIA Metropolitan Transit",
+     "t": "VIA honors Rosa Parks with fare-free service on Dec. 1",
+     "d": "Nov 24, 2026",
+     "u": "viainfo.net",
+     "k": "Official",
+     "url": "https://www.viainfo.net/news/via-honors-rosa-parks-with-fare-free-service-on-dec-1/"
+    }
+   ]
+  },
+  {
    "summary": "Leaders unveiled a three block district in Prospect Hill with a chapel, a Plaza of the Immigrants and the Mercado Corazon del Pueblo. Former Mayor Henry Cisneros said it affirms immigrant contributions. Private donors paid for it. The San Antonio Report reports the mercado opens Saturday, Nov 28, at 2203 W. Commerce St., the chapel is expected in February, and the plaza within a year or more.",
    "when": "Nov 20",
    "refs": [
@@ -931,7 +976,7 @@
    "pillar": "C",
    "kind": "Announcement",
    "status": "Reported",
-   "first_seen": "2026-11-25T14:20:00-06:00",
+   "first_seen": "2026-11-25T14:05:00-06:00",
    "refs": [
     {
      "n": "San Antonio Current",
@@ -1374,7 +1419,7 @@
    "pillar": "C",
    "kind": "Update",
    "status": "Verified",
-   "first_seen": "2026-11-25T14:20:00-06:00",
+   "first_seen": "2026-11-25T14:05:00-06:00",
    "refs": [
     {
      "n": "FOX 29 San Antonio",
@@ -1651,7 +1696,7 @@
    "pillar": "P",
    "kind": "CCR",
    "status": "Verified",
-   "first_seen": "2026-11-25T14:20:00-06:00",
+   "first_seen": "2026-11-25T14:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -1670,7 +1715,7 @@
    "pillar": "P",
    "kind": "Memo",
    "status": "Verified",
-   "first_seen": "2026-11-25T14:20:00-06:00",
+   "first_seen": "2026-11-25T14:05:00-06:00",
    "refs": [
     {
      "n": "City of San Antonio",
@@ -1738,6 +1783,25 @@
      "u": "sanantonioreport.org",
      "k": "News",
      "url": "https://sanantonioreport.org/san-antonio-alamo-facade-obscured-scaffolding-preservation-work-texas/"
+    }
+   ]
+  },
+  {
+   "headline": "Small Business Saturday and Holiday Lighting at Hemisfair",
+   "summary": "Hemisfair Park, 434 S. Alamo St., hosts a free evening of local vendors along East Nueva Street, a farmers market and food trucks. The park's annual Holiday Lighting Ceremony takes place during the event.",
+   "when": "Sat Nov 28, 5 to 10 PM",
+   "pillar": "C",
+   "kind": "Event",
+   "status": "Upcoming",
+   "first_seen": "2026-11-25T14:25:00-06:00",
+   "refs": [
+    {
+     "n": "San Antonio Current",
+     "t": "Hemisfair hosts Small Business Saturday & Holiday Lighting Ceremony this weekend",
+     "d": "Nov 24, 2026",
+     "u": "sacurrent.com",
+     "k": "News",
+     "url": "https://www.sacurrent.com/arts/things-to-do/hemisfair-hosts-small-business-saturday-holiday-lighting-ceremony-this-weekend/"
     }
    ]
   },
@@ -1843,7 +1907,7 @@
    "pillar": "C",
    "kind": "Event",
    "status": "Upcoming",
-   "first_seen": "2026-11-25T14:20:00-06:00",
+   "first_seen": "2026-11-25T14:05:00-06:00",
    "refs": [
     {
      "n": "Texas Public Radio",
