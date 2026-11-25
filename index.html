@@ -3626,6 +3626,8 @@ function openStory(card, id, instant) {
     const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
     arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
     dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory); clone.addEventListener('click', closeStory);
+    { let dy0 = null; dim.addEventListener('pointerdown', e => { dy0 = e.clientY; }); dim.addEventListener('pointermove', e => { if (dy0 !== null && Math.abs(e.clientY - dy0) > 14) { dy0 = null; closeStory(); } }); dim.addEventListener('pointerup', () => { dy0 = null; });
+      dim.addEventListener('touchmove', e => { e.preventDefault(); }, { passive: false }); dim.addEventListener('wheel', e => { e.preventDefault(); closeStory(); }, { passive: false }); }
   };
   glide();
   try { history.replaceState(null, '', location.pathname + location.search + '#' + id); } catch (e) {}
@@ -3758,15 +3760,16 @@ window.addEventListener('scroll', () => { if (wsFocused() || POP) pinWin(); }, {
 if (window.visualViewport) visualViewport.addEventListener('resize', () => { if (wsFocused()) pinWin(); });
 track.addEventListener('focusout', e => {
   if (!e.target.closest || !e.target.closest('.wsearch')) return;
-  setTimeout(() => { if (false && !WQ && wsKeep !== null && !(document.activeElement && document.activeElement.closest && document.activeElement.closest('.wsearch'))) { speed = wsKeep; wsKeep = null; } }, 50);
+  setTimeout(() => { if (!WQ && wsKeep !== null && !POP && !(document.activeElement && document.activeElement.closest && document.activeElement.closest('.wsearch'))) wsBack(); }, 120);
 });
 track.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('.wsearch')) e.target.blur(); if (e.key === 'Escape' && e.target.closest && e.target.closest('.wsearch')) wsBack(); });
 function wireTap() {
-  let sx = 0, sy = 0, st = 0;
-  view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); }, true);
+  let sx = 0, sy = 0, st = 0, moving = false, lastDrag = 0;
+  view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); moving = Math.abs(vel) > 60 || Math.abs(tvel) > 60 || st - lastDrag < 350; }, true);
+  view.addEventListener('pointermove', e => { if (e.buttons && Math.hypot(e.clientX - sx, e.clientY - sy) > 6) lastDrag = performance.now(); }, true);
   view.addEventListener('pointerup', e => {
     if (TVMODE) return;
-    if (Math.hypot(e.clientX - sx, e.clientY - sy) > 6 || performance.now() - st > 500) return;
+    if (moving || Math.hypot(e.clientX - sx, e.clientY - sy) > 6 || performance.now() - st > 350) return;
     const el = document.elementFromPoint(e.clientX, e.clientY);
     if (el && el.closest('.wsearch')) return;
     if (wsFocused()) { const card0 = el && el.closest('#track .copy .mason > *'); const q0 = card0 && card0.querySelector('[data-u]'); if (!q0) return; const id0 = q0.dataset.u.split('#')[1] || ''; document.activeElement.blur(); pinWin(); setTimeout(() => { pinWin(); const c = cardFor(id0) && card0.isConnected ? card0 : cardFor(id0); if (c) openStory(c, id0); }, 420); return; }
