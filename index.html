@@ -3447,7 +3447,7 @@ function rollIndex() {
   const tr = track.getBoundingClientRect(), box = document.getElementById('roll3d');
   rollUnhook(); if (box) box.innerHTML = '';
   RH = box ? box.clientHeight : 0; RW = box ? box.clientWidth : 0; RR = RH / Math.sin(RPHI);
-  RC = []; track.querySelectorAll('.copy > .wsearch, .copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
+  RC = []; track.querySelectorAll('.copy > .wsearch, .copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { if (!el.offsetParent || el.classList.contains('wsoff')) return; const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
 }
 function rollRefresh() {
   if (!RC.length) return;
@@ -3781,19 +3781,19 @@ function wsApply(instant) {
   const res = WQ.toLowerCase().split(/\s+/).filter(Boolean).map(w => new RegExp('(^|[^a-z0-9])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   const any = !!(res.length || WF || WP);
   const cards = [...track.querySelectorAll('.copy:not(.tail) .mason > *, .copy:not(.tail) > .arch')];
-  const vr = view.getBoundingClientRect();
-  const keep = cards.filter(c => !any || (!c.classList.contains('arch') && (!WF || wsKind(c) === WF) && (!WP || wsLetters(c).includes(WP)) && res.every(r => r.test(wsText(c)))));
-  const before = new Map(); keep.forEach(c => { const r = c.getBoundingClientRect(); if (r.bottom > vr.top - 300 && r.top < vr.bottom + 300) before.set(c, r.top); });
-  cards.forEach(c => { const on = keep.includes(c); c.classList.toggle('wsoff', !on); if (on) c.classList.remove('wsgone'); });
-  if (WSH) { const em = WSH.querySelector('.wsn'); if (em) em.textContent = any ? keep.length + (keep.length === 1 ? ' story' : ' stories') : ''; }
-  const settle = () => {
-    cards.forEach(c => { if (c.classList.contains('wsoff')) c.classList.add('wsgone'); });
-    if (keep.some(c => c.classList.contains('cmp'))) { try { cmpSizeAll(); } catch (x) {} }
-    measure(); if (wsOn()) setOff(0);
-    before.forEach((t, c) => { const d = t - c.getBoundingClientRect().top; if (Math.abs(d) < 1) return; c.style.transition = 'none'; c.style.transform = `translateY(${d}px)`; c.getBoundingClientRect(); c.style.transition = 'transform .45s cubic-bezier(.2,.7,.2,1), opacity .35s ease'; c.style.transform = ''; setTimeout(() => { c.style.transition = ''; }, 500); });
+  const keep = new Set(cards.filter(c => !any || (!c.classList.contains('arch') && (!WF || wsKind(c) === WF) && (!WP || wsLetters(c).includes(WP)) && res.every(r => r.test(wsText(c))))));
+  if (WSH) { const em = WSH.querySelector('.wsn'); if (em) em.textContent = any ? keep.size + (keep.size === 1 ? ' story' : ' stories') : ''; }
+  // Repopulate, never slide: the list fades out, the matches are laid out fresh from the top, the roll-off is rebuilt, then it fades in
+  const apply = () => {
+    cards.forEach(c => { const on = keep.has(c); c.classList.toggle('wsoff', !on); c.classList.toggle('wsgone', !on); c.style.transform = ''; c.style.transition = ''; });
+    if ([...keep].some(c => c.classList.contains('cmp'))) { try { cmpSizeAll(); } catch (x) {} }
+    measure(); vel = 0; tvel = 0; setOff(0);
     if (typeof rollIndex === 'function') rollIndex();
+    if (typeof rollSync === 'function') rollSync(0);
   };
-  if (instant) settle(); else wsTimer = setTimeout(settle, 360);
+  if (instant || !wsOn()) { apply(); track.style.opacity = ''; return; }
+  track.style.transition = 'opacity .16s ease'; track.style.opacity = '0';
+  wsTimer = setTimeout(() => { apply(); requestAnimationFrame(() => { track.style.transition = 'opacity .28s ease'; track.style.opacity = ''; }); }, 170);
 }
 function wsOpen() {
   if (TVMODE) return;
