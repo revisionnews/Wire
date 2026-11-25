@@ -1660,7 +1660,8 @@
      "k": "News",
      "url": "https://www.sacurrent.com/news/san-antonio-news/via-offering-fare-free-rides-to-raul-jimenez-thanksgiving-dinner-h-e-b-tree-lighting/"
     }
-   ]
+   ],
+   "doc": "https://www.tpr.org/community-calendar/event/the-47th-annual-raul-jimenez-thanksgiving-dinner-16-11-2026-11-18-50"
   },
   {
    "headline": "Black Furday free pet adoptions at Animal Care Services",
@@ -1718,7 +1719,8 @@
      "k": "News",
      "url": "https://www.sacurrent.com/arts/things-to-do/hemisfair-hosts-small-business-saturday-holiday-lighting-ceremony-this-weekend/"
     }
-   ]
+   ],
+   "doc": "https://www.tpr.org/community-calendar/event/holidays-at-hemisfair-gift-market-12-11-2026-12-10-35"
   },
   {
    "summary": "Free market at Pearl, 303 Pearl Parkway, from 5 to 9 p.m. Wednesday. It is the last night in the season long series, with handmade crafts and food from local vendors. A Holiday Night Market series starts in December.",
@@ -1756,7 +1758,8 @@
    "pillar": "AC",
    "status": "Upcoming",
    "kind": "Event",
-   "headline": "Esperanza Peace Market"
+   "headline": "Esperanza Peace Market",
+   "doc": "https://www.tpr.org/community-calendar/event/37th-annual-peace-market-mercado-de-paz-10-11-2026-09-50-14"
   },
   {
    "summary": "Free market at the Tobin Center, 100 Auditorium Circle, with more than 80 local artisans selling home decor, baked goods and jewelry. It includes photos with Santa and a mechanical reindeer ride.",
@@ -1852,7 +1855,8 @@
    "pillar": "AC",
    "status": "Upcoming",
    "kind": "Event",
-   "headline": "Ford Holiday River Parade"
+   "headline": "Ford Holiday River Parade",
+   "doc": "https://www.thesanantonioriverwalk.com/events/ford-holiday-river-parade/"
   },
   {
    "summary": "Lights run along the River Walk from Nov 27 to Jan 11. Texas Public Radio's guide lists an end date of Jan 7, while the city's release says Jan 11.",
