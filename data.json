@@ -2282,7 +2282,8 @@
      "k": "Official",
      "url": "https://www.sa.gov/2027bond"
     }
-   ]
+   ],
+   "doc": "https://www.sa.gov/Directory/Departments/CDD/Bond-Programs/2027-Bond/Committees"
   },
   {
    "title": "City Council",
@@ -2320,7 +2321,8 @@
      "k": "News",
      "url": "https://www.tpr.org/government-politics/2026-11-18/how-san-antonio-and-bexar-county-are-pushing-back-against-ice-expansion"
     }
-   ]
+   ],
+   "doc": "https://www.sa.gov/Directory/Departments/Mayor-Council/Meetings"
   }
  ],
  "county": [
@@ -2349,7 +2351,8 @@
    "pillar": "P",
    "status": "Verified",
    "kind": "Meeting",
-   "headline": "Next Commissioners Court meets Tue Dec 15"
+   "headline": "Next Commissioners Court meets Tue Dec 15",
+   "doc": "https://www.bexar.org/DocumentCenter/View/459/Commissioners-Court-Calendar"
   }
  ],
  "city": [],
