@@ -698,6 +698,8 @@ html,body{background:var(--paper) !important}
 .roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 6px);height:calc(var(--u)*4 + 3px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 3px);mask-image:linear-gradient(to bottom,transparent 0,#000 3px);overflow:hidden;pointer-events:none;z-index:5}
 .roll3d .drum{position:absolute;top:0;bottom:0}
 .roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:50% 0}
+.roll3d .slc{contain:strict}
+.roll3d .sin{contain:layout style}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
 .roll3d .sin{position:absolute;left:0;right:0;top:0;height:0;transform-origin:0 0;will-change:auto !important}
 .roll3d .sin .mason{position:relative;height:0}
@@ -3424,7 +3426,7 @@ function fitDate() {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(qrSnap, 60));
 window.addEventListener('load', () => setTimeout(qrSnap, 300));
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
-const RN = (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 14 : 40, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
+const RN = (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 12 : 18, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
