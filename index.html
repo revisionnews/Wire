@@ -3123,9 +3123,9 @@ function buildCopy(d) {
   (d.memos || []).forEach((m, ix) => Q.memo.push(rows([m], 'var(--ink)', 'm', 'Memo', 'l-memo')));
   const groups = (d.meeting_groups && d.meeting_groups.length) ? d.meeting_groups : ((d.meetings || []).length ? [{ title: '2027 bond committees', meetings: d.meetings, note: d.meetings_note, refs: d.meetings_refs }] : []);
   groups.forEach((g, gi) => { if ((g.meetings || []).length) Q.meet.push(`<div class="row l-meet" style="--c:${STC[statusOf({ refs: g.refs })]}"><div class="mt"><b>Meetings for ${esc(g.title)}</b><span>${g.meetings.length} meetings</span></div><div class="tiles">` + g.meetings.map(m => `<div class="tile"><div class="d"><i>${esc(m.dow)}</i><b>${esc(m.day)}</b><i>${esc(m.mon)}</i></div><div class="x"><b>${esc(m.title)}</b><span>${esc(m.note)}</span></div></div>`).join('') + `</div>${g.note ? `<div class="rb">${esc(g.note)}</div>` : ''}${refBlock(g.refs, 'g' + (gi + 1), `<span class="meta">${g.meetings.length} meetings</span>`, true, tagHtml('Meeting', statusOf({ refs: g.refs })))}</div>`); });
-  // Compare blocks are the special teaching blocks: about 2.5 times as many as there are compare stories (at least 3 when there is one), spread evenly
+  // Compare blocks are the special teaching blocks: each one once, spread evenly through the feed
   const cmpBase = Q.cmp.splice(0), cmpQ = [];
-  if (cmpBase.length) { const want = cmpBase.length >= 3 ? cmpBase.length : Math.round(cmpBase.length * 2.5 + .01); for (let i = 0; i < want; i++) cmpQ.push(cmpBase[i % cmpBase.length]); }
+  cmpBase.forEach(h => cmpQ.push(h)); // every compare story once, never repeated
   const rnd = seeded(d.generated_at), memoQ = Q.memo.splice(0), keys = Object.keys(Q);
   const shuf = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   shuf(Q.spark);
