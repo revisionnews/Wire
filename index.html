@@ -573,6 +573,7 @@ html.pub .qr{display:flex !important}
 html.pub .qb{width:calc(var(--u)*3.2) !important;height:calc(var(--u)*3.2) !important;padding:0 !important;margin:0 calc(var(--u)*1.2) 0 0;border:0 !important;background:transparent !important;color:inherit !important;cursor:pointer;display:block !important;position:relative;flex:none}
 html.one.pub .qb{width:calc(var(--u)*4.6) !important;height:calc(var(--u)*4.6) !important}
 html.pub .qb svg:not(.eye){display:none !important}
+html.pub .qb.qb.qb.qb{border:0 !important}
 html.pub .qb::before,html.pub .qb::after{content:'';position:absolute;inset:0;background:currentColor;transition:opacity .12s ease}
 html.pub .qb::after{opacity:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M1.6 14.2Q12 4.4 22.4 14.2Q12 24 1.6 14.2ZM12 10.9a3.3 3.3 0 1 0 0 6.6a3.3 3.3 0 1 0 0-6.6Z'/%3E%3Cg stroke='black' stroke-width='1.7' stroke-linecap='butt' fill='none'%3E%3Cpath d='M12 1v3M6.4 2.3l1.3 2.6M17.6 2.3l-1.3 2.6M1.9 5.6l2 1.9M22.1 5.6l-2 1.9'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M1.6 14.2Q12 4.4 22.4 14.2Q12 24 1.6 14.2ZM12 10.9a3.3 3.3 0 1 0 0 6.6a3.3 3.3 0 1 0 0-6.6Z'/%3E%3Cg stroke='black' stroke-width='1.7' stroke-linecap='butt' fill='none'%3E%3Cpath d='M12 1v3M6.4 2.3l1.3 2.6M17.6 2.3l-1.3 2.6M1.9 5.6l2 1.9M22.1 5.6l-2 1.9'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
 html.pub .qb::before{opacity:1;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='black' stroke-width='2' fill='none'%3E%3Cpath d='M2.5 9.5Q12 18.5 21.5 9.5'/%3E%3Cpath stroke-width='1.7' d='M12 17.5v3.5M7 16.4l-1.3 2.7M17 16.4l1.3 2.7M3.6 13.6l-2 2M20.4 13.6l2 2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg stroke='black' stroke-width='2' fill='none'%3E%3Cpath d='M2.5 9.5Q12 18.5 21.5 9.5'/%3E%3Cpath stroke-width='1.7' d='M12 17.5v3.5M7 16.4l-1.3 2.7M17 16.4l1.3 2.7M3.6 13.6l-2 2M20.4 13.6l2 2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
@@ -3445,13 +3446,14 @@ function openStory(card, id, instant) {
   const refs = storyRefs(id), src = document.createElement('div'); src.className = 'popsrc';
   src.innerHTML = `<div class="psi"><div class="ph">Sources<em>${refs.length}</em></div>` + (refs.length ? refs.map((r, i) => `<a class="ps" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><span class="n">${i + 1}</span><span class="b"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i><small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small></span></a>`).join('') : '<p class="ps0">No source links for this item.</p>') + '</div>';
   host.appendChild(src);
-  Object.assign(wrap.style, { left: cr0.left + 'px', top: cr0.top + 'px', width: cr0.width + 'px' });
+  const pad = Math.round(u * 1.4); // room above the card so tags that sit on its top edge are never clipped
+  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px' });
   stage.appendChild(wrap); POP.wrap = wrap;
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 80); }
   // bring the story into view, the lifted copy rides along with it, then it opens downward
   const want = off + cr0.top - vr.top - u * 2.4, base = off;
-  const follow = () => { if (POP && POP.wrap === wrap) wrap.style.top = (cr0.top - (off - base)) + 'px'; };
+  const follow = () => { if (POP && POP.wrap === wrap) wrap.style.top = (cr0.top - pad - (off - base)) + 'px'; };
   const glide = () => {
     const from = off, t0 = performance.now(), ms = instant ? 0 : 420;
     const step = now => { const k = ms ? Math.min(1, (now - t0) / ms) : 1, e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; off = from + (want - from) * e; follow(); if (k < 1) requestAnimationFrame(step); else done(); };
@@ -3472,13 +3474,20 @@ function openStory(card, id, instant) {
   glide();
   try { history.replaceState(null, '', location.pathname + location.search + '#' + id); } catch (e) {}
 }
-// Every so often one random eye slowly opens, holds, then closes, so people know they can tap a story
+// Eyes take turns: each tick opens the visible story whose eye has waited longest, so every story gets a turn before any repeats
+const EYE_LAST = {};
 if (!TVMODE) setInterval(() => {
   if (POP || document.hidden) return;
-  const vt = view.getBoundingClientRect(), eyes = [...track.querySelectorAll('.copy .qb')].filter(e => { const r = e.getBoundingClientRect(); return !e._open && r.top > vt.top + 20 && r.bottom < vt.bottom - 10; });
-  if (!eyes.length) return; const e = eyes[Math.floor(Math.random() * eyes.length)];
-  eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2600);
-}, 3200);
+  const vt = view.getBoundingClientRect(), now = performance.now();
+  const eyes = [...track.querySelectorAll('.copy .qb')].filter(e => { const r = e.getBoundingClientRect(); return !e._open && r.top > vt.top + 20 && r.bottom < vt.bottom - 10; });
+  if (!eyes.length) return;
+  const key = e => e.dataset.u || '', age = e => now - (EYE_LAST[key(e)] || -1e9);
+  eyes.sort((a, b) => age(b) - age(a));
+  const pool = eyes.filter(e => age(e) > 25000); const pickFrom = pool.length ? pool.slice(0, 3) : [];
+  if (!pickFrom.length) return;
+  const e = pickFrom[Math.floor(Math.random() * pickFrom.length)];
+  EYE_LAST[key(e)] = now; eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2600);
+}, 1900);
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
   if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); }
