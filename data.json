@@ -166,6 +166,51 @@
    ]
   },
   {
+   "topic": "City incentives to land BermudAir's Caribbean flights",
+   "pillar": "P",
+   "when": "Nov 24",
+   "first_seen": "2026-11-25T13:45:00-06:00",
+   "status": "Verified",
+   "headlines": [
+    {
+     "src": "AI overview",
+     "k": "AI",
+     "lean": "AI summary",
+     "d": "Nov 24",
+     "u": "",
+     "headline": "San Antonio's airport waives fees to land new BermudAir flights",
+     "summary": "BermudAir will fly from San Antonio to Belize City and Grand Cayman twice a week from May 20 to Sept 6, 2027, with fares from $159. The San Antonio Report says the airport's incentive program waives all fees and offers up to $100,000 in first year marketing money. Why compare: News 4 leads with travelers' new options and never mentions the deal, the Report with the destinations, and the Current puts the fee waiver in its headline, so the same announcement reads as a perk or as a public cost."
+    },
+    {
+     "src": "San Antonio Report",
+     "k": "News",
+     "lean": "Nonprofit newsroom",
+     "d": "Nov 24",
+     "u": "sanantonioreport.org/bermudair-summertime-flights-sat-tropical-destinations-san-antonio/",
+     "headline": "BermudAir plans to offer summertime flights from San Antonio to 2 tropical destinations",
+     "summary": "New to the San Antonio airport, BermudAir will provide nonstop service to Grand Cayman and Belize from May 20"
+    },
+    {
+     "src": "News 4 San Antonio",
+     "k": "News",
+     "lean": "Local TV",
+     "d": "Nov 24",
+     "u": "news4sanantonio.com/news/local/bermudair-launches-non-stop-service-to-belize-city-grand-cayman-from-san-antonio",
+     "headline": "BermudAir launches non-stop service to Belize City, Grand Cayman from San Antonio",
+     "summary": "Travelers will soon have new nonstop options to the Caribbean and Central America."
+    },
+    {
+     "src": "San Antonio Current",
+     "k": "News",
+     "lean": "Alt weekly",
+     "d": "Nov 24",
+     "u": "sacurrent.com/news/san-antonio-news/san-antonio-international-waives-landing-and-departure-fees-to-gain-two-new-caribbean-flights/",
+     "headline": "San Antonio International waives landing and departure fees to gain two new Caribbean flights",
+     "summary": "BermudAir will fly from San Antonio to Belize and the Cayman Islands twice weekly during the summer."
+    }
+   ]
+  },
+  {
    "topic": "NEISD closes three elementary schools",
    "pillar": "C",
    "when": "Nov 16",
