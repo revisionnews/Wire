@@ -523,6 +523,10 @@ html.dark .s-Official{--c:var(--ink)}
 .mast::before{left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;height:calc(var(--u)*8) !important;background:
   linear-gradient(to bottom,rgba(13,15,18,.75) 0%,rgba(13,15,18,.48) 6%,rgba(13,15,18,.18) 16%,rgba(255,255,255,.38) 30%,rgba(255,255,255,.12) 44%,rgba(13,15,18,.10) 62%,rgba(13,15,18,.04) 80%,rgba(13,15,18,0) 100%),
   linear-gradient(to bottom,var(--paper) 0%,rgba(212,212,212,.92) 12%,rgba(212,212,212,.6) 30%,rgba(212,212,212,.25) 58%,transparent 100%) !important}
+/* QR centered in its white box; story cards open their phone page when clicked */
+.qb{display:flex !important;align-items:center;justify-content:center}
+.qb svg{position:static !important;flex:none;left:auto !important;top:auto !important}
+#track .copy .mason > *:has(.qb[data-u]),#track .copy > .arch{cursor:pointer}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 - 1px) !important}
@@ -540,6 +544,14 @@ html,body{background:var(--paper) !important}
 </style>
 </head>
 <body>
+<script>
+(function () {
+  if (/[?&]tv=1/.test(location.search)) return;
+  if (!/(^|\.)revision\.news$|github\.io$/.test(location.hostname)) return;
+  var small = Math.min(screen.width, screen.height), touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  if (window.innerWidth < 900 || (touch && small < 820)) location.replace('m/' + location.hash);
+})();
+</script>
 <div class="stage" id="stage">
   <header class="mast">
     <span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div>
@@ -2926,7 +2938,7 @@ function refBlock(refs, id, extra, top, tag) {
   const u = phoneUrl(id), svg = (u && refs.length) ? qrSvg(u) : '';
   return `<div class="refs${top ? ' top' : ''}">${tag ? `<div class="tg"><span class="tgb">${tag}</span></div>` : ''}<div class="rw">${extra ? `<div class="xt">${extra}</div>` : ''}<ol class="rl">` + refs.slice(0, 2).map((r, i) =>
     `<li><span class="n">${i + 1}</span><span class="o">${esc(r.n)}</span><span class="m">${r.k ? `<b>${esc(r.k)}</b>` : ''}</span></li>`
-  ).join('') + `${refs.length > 2 ? `<li class="more"><span class="o">+${refs.length - 2}</span></li>` : ''}</ol></div>${svg ? `<div class="qr"><div class="qb">${svg}</div></div>` : ''}</div>`;
+  ).join('') + `${refs.length > 2 ? `<li class="more"><span class="o">+${refs.length - 2}</span></li>` : ''}</ol></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div>`;
 }
 
 function imgBlock(im) {
@@ -3078,7 +3090,7 @@ function archBlock() {
   const first = (p) => { const m = String(p || '').toUpperCase().match(/[SPARC]/); return m ? m[0] : 'C'; };
   return `<section class="arch"><div class="ah"><b>Archive</b><span>Stories that have left the board</span><em>${total} stories${a.since ? ' since ' + esc(a.since) : ''}</em></div><ol>` +
     it.map(x => `<li><i>${first(x.p)}</i><span>${esc(x.h)}<small>${esc(x.d || '')}${x.t ? ' / ' + esc(x.t) : ''}</small></span></li>`).join('') +
-    `</ol><div class="af"><div class="am"><b>${more > 0 ? '+' + more : total}</b><p>${more > 0 ? 'more stories in the archive' : 'stories in the archive'}<small>Scan to search every story by date, SPARC letter or storyline</small></p></div>${svg ? `<div class="aq">${svg}</div>` : ''}</div></section>`;
+    `</ol><div class="af"><div class="am"><b>${more > 0 ? '+' + more : total}</b><p>${more > 0 ? 'more stories in the archive' : 'stories in the archive'}<small>Scan to search every story by date, SPARC letter or storyline</small></p></div>${svg ? `<div class="aq" data-u="${esc(u)}">${svg}</div>` : ''}</div></section>`;
 }
 let FEED = [];
 function wrapFeed() { return '<div class="mason">' + FEED.map(f => f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio</div>'; }
@@ -3159,8 +3171,6 @@ function qrSnap() {
     const [W, H, m] = sizes[i]; if (!m || !W || !H) return;
     const size = Math.max(m, Math.floor(Math.min(W, H) - pad * 2));
     svg.style.width = svg.style.height = size + 'px';
-    svg.style.left = Math.floor((W - size) / 2) + 'px';
-    svg.style.top = Math.floor((H - size) / 2) + 'px';
   });
 }
 // Every card type starts its text at the same left edge as a regular story, at any screen size
@@ -3324,6 +3334,20 @@ view.addEventListener('pointerdown', e => { dragY = e.clientY; dragT = performan
 view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += dy; if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
 const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cursor = ''; lastIn = performance.now(); tvel = Math.max(-5000, Math.min(5000, tvel)); vel = tvel; };
 view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
+
+// A click (not a drag) on a story opens its phone page in a new tab, same as scanning its QR
+function wireTap() {
+  let sx = 0, sy = 0, st = 0;
+  view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); }, true);
+  view.addEventListener('pointerup', e => {
+    if (Math.hypot(e.clientX - sx, e.clientY - sy) > 6 || performance.now() - st > 500) return;
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const card = el && el.closest('#track .copy .mason > *, #track .copy > .arch');
+    const q = card && card.querySelector('[data-u]');
+    if (q && q.dataset.u) window.open(q.dataset.u, '_blank', 'noopener');
+  }, true);
+}
+wireTap();
 requestAnimationFrame(tick);
 if (document.fonts && document.fonts.status !== 'loaded' && document.fonts.ready) document.fonts.ready.then(() => { if (!window.__fontsDone) { window.__fontsDone = 1; render(); } });
 </script>
