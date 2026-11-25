@@ -560,7 +560,7 @@ html.one .popsrc .ps small{font-size:calc(var(--u)*2.4)}
 .popx{position:fixed;z-index:43;left:50%;bottom:calc(var(--u)*1.6);transform:translateX(-50%);display:flex;gap:calc(var(--u)*.8);opacity:0;transition:opacity .3s ease;pointer-events:none}
 .popx.on{pointer-events:auto}
 .popx button{font:900 calc(var(--u)*1.5)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:0;padding:calc(var(--u)*1) calc(var(--u)*1.8);cursor:pointer;white-space:nowrap}
-.popx .px-s{background:#A21CAF;color:#fff}
+
 html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
@@ -628,7 +628,38 @@ html.one .popsrc.cmpx .ps .cs{font-size:calc(var(--u)*3.4)}
 .popsrc.arx2 .ar-more a b{font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-right:calc(var(--u)*.4)}
 html.one .popsrc.arx2 .ar-bar button,html.one .popsrc.arx2 .ar-bar input{font-size:calc(var(--u)*2.8)}
 html.one .popsrc.arx2 .ar-more .cs,html.one .popsrc.arx2 .ar-more a{font-size:calc(var(--u)*3.3)}
-</style><style>.mason > [data-cb]{break-before:column;-webkit-column-break-before:always}/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
+</style><style>.mason > [data-cb]{break-before:column;-webkit-column-break-before:always}
+/* Search the Wire: full width bar at the top of the board, opens a panel over the dimmed board */
+.wsearch{display:flex;align-items:baseline;gap:calc(var(--u)*1.4);border:var(--b) solid var(--ink);background:var(--paper);padding:calc(var(--u)*1.3) calc(var(--u)*1.6);margin:0 0 calc(var(--u)*1.4);cursor:text}
+.wsearch span{font:900 calc(var(--u)*2.2)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.wsearch i{font:700 calc(var(--u)*1.3)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-left:auto}
+html.one .wsearch span{font-size:calc(var(--u)*3.4)}
+html.one .wsearch i{font-size:calc(var(--u)*2)}
+html.tvm .wsearch{display:none}
+.wsp{position:absolute;z-index:42;left:calc(var(--u)*2.2);right:calc(var(--u)*2.2);top:calc(var(--u)*11);max-height:calc(100% - var(--u)*20);display:flex;flex-direction:column;background:var(--fig);border:var(--b) solid var(--ink);opacity:0;transition:opacity .3s ease}
+.wsp.on{opacity:1}
+.wsp .ph{display:flex;justify-content:space-between;align-items:center;padding:calc(var(--u)*1) calc(var(--u)*1.4);font:900 calc(var(--u)*1.5)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper)}
+.wsp .ph em{font-style:normal;opacity:.7}
+.wsp input{font:700 calc(var(--u)*2)/1.2 'Hando',sans-serif;border:0;border-bottom:var(--b) solid var(--ink);background:var(--paper);color:var(--ink);padding:calc(var(--u)*1.2) calc(var(--u)*1.4);outline:none;border-radius:0;-webkit-appearance:none}
+.wsp .wr{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.wsp .ps{display:grid;grid-template-columns:calc(var(--u)*3) minmax(0,1fr);gap:calc(var(--u)*1);padding:calc(var(--u)*1) calc(var(--u)*1.4);border-bottom:var(--b) solid var(--hair);cursor:pointer;color:var(--ink)}
+.wsp .ps .n{font:900 calc(var(--u)*1.5)/1 'Hando',sans-serif;background:var(--ink);color:var(--paper);text-align:center;padding:calc(var(--u)*.45) 0;align-self:start}
+.wsp .ps b{display:block;font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.wsp .ps i{display:block;font:800 calc(var(--u)*1.9)/1.25 'Hando',sans-serif;font-style:normal;margin-top:calc(var(--u)*.4)}
+.wsp .none{padding:calc(var(--u)*1.6);font:700 calc(var(--u)*1.6)/1.3 'Hando',sans-serif}
+html.one .wsp{top:calc(var(--u)*13);max-height:calc(100% - var(--u)*30)}
+html.one .wsp .ph{font-size:calc(var(--u)*3)}
+html.one .wsp input{font-size:16px;font-size:max(16px,calc(var(--u)*3.4))}
+html.one .wsp .ps{grid-template-columns:calc(var(--u)*5) minmax(0,1fr)}
+html.one .wsp .ps .n{font-size:calc(var(--u)*3)}
+html.one .wsp .ps b{font-size:calc(var(--u)*2.2)}
+html.one .wsp .ps i{font-size:calc(var(--u)*3.4)}
+/* phones scroll natively: smoother, and the browser handles the finger */
+html.one.pub #view{overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;scrollbar-width:none}
+html.one.pub #view::-webkit-scrollbar{display:none}
+html.one.pub .track{transform:none !important;will-change:auto}
+html.one.pub .roll3d{display:none}
+/* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
 html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the roller so the two never leave a hairline between them */
@@ -3038,7 +3069,7 @@ function sid(pre, it) { const t = String((it && (it.headline || it.title || it.t
 function phoneUrl(id) { return id ? SITE + '#' + id : ''; }
 function refBlock(refs, id, extra, top, tag, doc) {
   refs = refs || [];
-  // A memo, CCR or meeting with its own document: the scan opens that document itself, and it leads the sources
+  // A memo, CCR or meeting with its own document: it leads the sources, so one tap opens the PDF or agenda itself
   if (doc && /^https?:\/\//.test(doc)) { DOCS[id] = doc; refs = [{ n: 'Full document', t: 'Open the document itself', k: /pdf/i.test(doc) ? 'PDF' : 'Official', url: doc }].concat(refs.filter(r => r.url !== doc)); }
   if (!refs.length && !extra) return '';
   REFS[id] = refs; const u = phoneUrl(id), svg = (u && refs.length) ? qrSvg(u) : '';
@@ -3209,10 +3240,10 @@ function archBlock() {
   const first = (p) => { const m = String(p || '').toUpperCase().match(/[SPARC]/); return m ? m[0] : 'C'; };
   return `<section class="arch" style="--c:var(--ink)"><div class="ah"><b>Archive</b><span>Stories that have left the board</span><em>${total} stories${a.since ? ' since ' + esc(a.since) : ''}</em></div><ol>` +
     it.map(x => `<li><i>${first(x.p)}</i><span>${esc(x.h)}<small>${esc(x.d || '')}${x.t ? ' / ' + esc(x.t) : ''}</small></span></li>`).join('') +
-    `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div><div class="ad">Search every story by date, SPARC letter or storyline</div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
+    `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
 }
 let FEED = [];
-function wrapFeed() { return '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
+function wrapFeed() { return (TVMODE ? '' : '<div class="wsearch" role="button"><span>Search the Wire</span><i>Every story on the board now</i></div>') + '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
 
 
 // Layout rule: the same kind of box (breaking, top, coverage, meetings, events, memos) never sits beside or directly under itself
@@ -3419,7 +3450,7 @@ function render() {
   const one = `<div class="copy">${wrapFeed()}</div>`;
   track.innerHTML = one; alignText(); cmpSizeAll(); measure();
   if (!track.children.length || !copyH) dbgShow('empty feed: copyH=' + copyH + ' view=' + view.clientWidth + 'x' + view.clientHeight + ' stage=' + stage.clientWidth + 'x' + stage.clientHeight);
-  const need = Math.min(4, Math.max(2, Math.ceil(view.clientHeight / Math.max(copyH, 1)) + 1));
+  const need = Math.min(4, Math.max(NAT() ? 3 : 2, Math.ceil(view.clientHeight / Math.max(copyH, 1)) + 1));
   track.innerHTML = one.repeat(need); measure(); qrSnap(); rollIndex(); addEyes(track); setTimeout(openFromHash, 0);
   off = 0;
   const al = document.getElementById('alert');
@@ -3436,6 +3467,8 @@ function updateStamp() {
   else if (!data.alert) al.classList.remove('on');
 }
 
+const NAT = () => document.documentElement.classList.contains('one') && !TVMODE;
+let touching = false, userScrollT = -1e9, lastSet = -1;
 function tick(ts) {
   if (!last) last = ts;
   const dt = Math.min(0.1, (ts - last) / 1000); last = ts;
@@ -3444,6 +3477,16 @@ function tick(ts) {
   tvel *= Math.exp(-dt * 2.6);
   vel += (tvel - vel) * (1 - Math.exp(-dt * 3));
   const idle = (ts - lastIn) / 1000 - 1.2, k = dragY !== null ? 0 : Math.max(0, Math.min(1, idle / 2.2)), auto = k * k * (3 - 2 * k);
+  if (NAT()) {
+    // Phones scroll natively: the finger and the fling belong to the browser, the board only drifts when left alone
+    if (touching || performance.now() - userScrollT < 200) { off = view.scrollTop; vel = 0; tvel = 0; }
+    else {
+      off += speed * u * auto * dt;
+      if (copyH && off >= copyH) off -= copyH;
+      if (Math.abs(view.scrollTop - off) >= 0.5) { view.scrollTop = off; lastSet = view.scrollTop; }
+    }
+    requestAnimationFrame(tick); return;
+  }
   off += speed * u * auto * dt + vel * dt;
   if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
   // Whole device pixels only, so fine detail like QR codes never shimmers between pixels
@@ -3479,8 +3522,11 @@ layout(); clock(); setInterval(clock, 1000);
 load(); setInterval(load, 10 * 60 * 1000);
 
 // Mouse wheel and drag. Both ease in and out, then the board drifts on by itself again
-view.addEventListener('wheel', e => { e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
-view.addEventListener('pointerdown', e => { dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
+view.addEventListener('touchstart', () => { if (!NAT()) return; touching = true; lastIn = performance.now(); }, { passive: true });
+{ const tEnd = () => { if (!touching) return; touching = false; lastIn = performance.now(); }; view.addEventListener('touchend', tEnd, { passive: true }); view.addEventListener('touchcancel', tEnd, { passive: true }); }
+view.addEventListener('scroll', () => { if (!NAT()) return; if (Math.abs(view.scrollTop - lastSet) > 1.5) { userScrollT = performance.now(); lastIn = userScrollT; } }, { passive: true });
+view.addEventListener('wheel', e => { if (NAT()) return; e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
+view.addEventListener('pointerdown', e => { if (NAT()) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
 view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += dy; if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
 const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cursor = ''; lastIn = performance.now(); tvel = Math.max(-5000, Math.min(5000, tvel)); vel = tvel; };
 view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
@@ -3562,14 +3608,14 @@ function openStory(card, id, instant) {
   };
   const done = () => {
     if (!POP || POP.wrap !== wrap) return;
-    track.style.transform = 'translateY(' + (-Math.round(off * DPR) / DPR) + 'px)';
+    if (NAT()) { view.scrollTop = off; lastSet = view.scrollTop; } else track.style.transform = 'translateY(' + (-Math.round(off * DPR) / DPR) + 'px)';
     const top = parseFloat(wrap.style.top); wrap.style.maxHeight = (innerHeight - top - u * 6) + 'px'; wrap.classList.remove('glide');
     const close = document.createElement('div'); close.className = 'popx' + (instant ? ' on' : ''); close.innerHTML = '<button class="px-b">Back to Wire</button><button class="px-s">Share</button>'; stage.appendChild(close); POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
     shb.addEventListener('click', e => {
       e.stopPropagation(); if (POP) clearTimeout(POP.timer);
-      const url = SITE + '?s=1#' + encodeURIComponent(id), hd = clone.querySelector('h3, .tt, .cmh, .mt b'), title = (hd ? hd.textContent : 'Revision Wire').trim();
+      const url = SITE + '#' + encodeURIComponent(id), hd = clone.querySelector('h3, .tt, .cmh, .mt b'), title = (hd ? hd.textContent : 'Revision Wire').trim();
       const done2 = t => { shb.textContent = t; setTimeout(() => { shb.textContent = 'Share'; }, 1800); };
       if (navigator.share) { navigator.share({ title, text: title, url }).catch(() => {}); return; }
       const fallback = () => { const ta = document.createElement('textarea'); ta.value = url; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done2('Link copied'); } catch (x) { prompt('Copy this link', url); } ta.remove(); };
@@ -3631,7 +3677,6 @@ let bootTries = 0;
 function storyFromHash() {
   const id = decodeURIComponent((location.hash || '').slice(1)); if (!id || TVMODE) return;
   if (id.startsWith('a-')) { location.replace(SITE + 'm/#' + id); return; }
-  if (DOCS[id] && !/[?&]s=1/.test(location.search)) { location.replace(DOCS[id]); return; }
   if (POP && POP.id === id) return;
   const go = () => { const c = cardFor(id); if (c) openStory(c, id); };
   if (POP) { closeStory(); setTimeout(go, 700); } else go();
@@ -3640,12 +3685,48 @@ addEventListener('pageshow', e => { if (e.persisted) storyFromHash(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden && location.hash && !POP) storyFromHash(); });
 function openFromHash() {
   if (!document.documentElement.classList.contains('boot')) return;
-  if (DOCS[BOOT_ID] && !/[?&]s=1/.test(location.search)) { location.replace(DOCS[BOOT_ID]); return; }
   const c = cardFor(BOOT_ID);
   if (c) { openStory(c, BOOT_ID, true); requestAnimationFrame(() => document.documentElement.classList.remove('boot')); return; }
   if (++bootTries > 8) document.documentElement.classList.remove('boot');
 }
 
+
+// Search the Wire: finds any story on the board now; picking one opens it like a tap. The archive keeps what has left the board.
+function wireIndex() {
+  const c = track.querySelector('.copy'); if (!c) return [];
+  const seen = new Set(), out = [];
+  c.querySelectorAll('.mason > *').forEach(card => {
+    const q = card.querySelector('[data-u]'); if (!q) return; const id = (q.dataset.u.split('#')[1] || ''); if (!id || seen.has(id)) return; seen.add(id);
+    const hd = card.querySelector('h3, .tt, .cmh, .mt b'), sm = card.querySelector('.sum, .rb, .cms'), tg = card.querySelector('.tgb b'), rk = card.querySelector('.rank'), on = card.querySelector('.spl b.on');
+    const h = (hd ? hd.textContent : '').trim(); if (!h) return;
+    const refs = (REFS[id] || []).map(r => (r.n || '') + ' ' + (r.t || '')).join(' ');
+    out.push({ id, h, tag: (tg ? tg.textContent : '').trim(), n: rk ? rk.textContent.trim() : (on ? on.textContent.trim() : ''), txt: (h + ' ' + (sm ? sm.textContent : '') + ' ' + refs + ' ' + (tg ? tg.textContent : '')).toLowerCase() });
+  });
+  return out;
+}
+let WS = null;
+function closeSearch(then) {
+  if (!WS) return; const w = WS; WS = null;
+  w.p.classList.remove('on'); if (!then) w.d.classList.remove('on'); w.x.classList.remove('on');
+  setTimeout(() => { w.p.remove(); w.x.remove(); if (!then) { w.d.remove(); speed = w.keep; } else then(w); }, 300);
+}
+function openSearch() {
+  if (WS || POP) return;
+  const stage = document.getElementById('stage'), idx = wireIndex(), keep = speed; speed = 0; vel = 0; tvel = 0;
+  const d = document.createElement('div'); d.className = 'popdim'; stage.appendChild(d);
+  const p = document.createElement('div'); p.className = 'wsp'; p.innerHTML = `<div class="ph">Search the Wire<em>${idx.length} on the board</em></div><input type="search" placeholder="Search stories on the board" enterkeyhint="search"><div class="wr"></div>`; stage.appendChild(p);
+  const x = document.createElement('div'); x.className = 'popx'; x.innerHTML = '<button class="px-b">Back to Wire</button>'; stage.appendChild(x);
+  WS = { d, p, x, keep };
+  const wr = p.querySelector('.wr'), inp = p.querySelector('input');
+  const draw = () => { const words = inp.value.toLowerCase().split(/\s+/).filter(Boolean).map(w => new RegExp('(^|[^a-z0-9])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))); const hits = idx.filter(r => words.every(w => w.test(r.txt)));
+    wr.innerHTML = hits.length ? hits.map(r => `<div class="ps" data-id="${esc(r.id)}"><span class="n">${esc(r.n || '\u2022')}</span><span><b>${esc(r.tag)}</b><i>${esc(r.h)}</i></span></div>`).join('') : '<div class="none">Nothing on the board matches. Older stories are in the archive at the end of the Wire.</div>'; };
+  draw(); inp.addEventListener('input', draw);
+  wr.addEventListener('click', e => { const r = e.target.closest('.ps'); if (!r) return; const id = r.dataset.id;
+    closeSearch(w => { w.d.remove(); speed = w.keep; const c = cardFor(id); if (c) openStory(c, id); }); });
+  d.addEventListener('click', () => closeSearch()); x.addEventListener('click', () => closeSearch());
+  requestAnimationFrame(() => { d.classList.add('on'); p.classList.add('on'); x.classList.add('on'); });
+  setTimeout(() => { try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); } }, 60);
+}
 function wireTap() {
   let sx = 0, sy = 0, st = 0;
   view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); }, true);
@@ -3653,6 +3734,7 @@ function wireTap() {
     if (TVMODE) return;
     if (Math.hypot(e.clientX - sx, e.clientY - sy) > 6 || performance.now() - st > 500) return;
     const el = document.elementFromPoint(e.clientX, e.clientY);
+    if (el && el.closest('#track .wsearch')) { openSearch(); return; }
     const card = el && el.closest('#track .copy .mason > *, #track .copy > .arch');
     const q = card && card.querySelector('[data-u]');
     if (!q || !q.dataset.u) return;
