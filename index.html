@@ -532,6 +532,16 @@ html.one .mason{column-count:1}
 html.one .mason .tiles{grid-template-columns:minmax(0,1fr)}
 html.one .arch ol{column-count:1}
 html.one .arch .ah{flex-wrap:wrap}
+</style>
+<style>
+.popdim{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--paper);opacity:0;transition:opacity .3s ease}
+.popdim.on{opacity:1}
+.popwrap{position:fixed;z-index:41;transition:left .45s cubic-bezier(.2,.7,.2,1),width .45s cubic-bezier(.2,.7,.2,1),top .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease;pointer-events:none}
+.popwrap.off{opacity:0}
+.popframe{position:fixed;z-index:42;bottom:0;border:0;background:transparent;opacity:0;transition:opacity .35s ease}
+.popframe.on{opacity:1}
+.popx{position:fixed;z-index:43;left:50%;bottom:calc(var(--u)*2);transform:translateX(-50%);box-shadow:0 0 0 calc(var(--u)*.6) var(--paper);font:900 calc(var(--u)*1.6)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:0;padding:calc(var(--u)*.7) calc(var(--u)*1.2);cursor:pointer;opacity:0;transition:opacity .3s ease}
+.popx.on{opacity:1}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -546,8 +556,7 @@ html,body{background:var(--paper) !important}
 .roll3d .sin .mason > *,.roll3d .sin .copy > :not(.mason){position:absolute !important;margin:0 !important}
 .roll3d *,.roll3d *::before,.roll3d *::after{animation:none !important;transition:none !important}
 .roll3d .w{opacity:1 !important;transform:none !important}
-</style>
-</head>
+</style></head>
 <body>
 <div class="stage" id="stage">
   <header class="mast">
@@ -3171,7 +3180,7 @@ function qrSnap() {
   svgs.forEach((svg, i) => {
     const [H, bx, m] = sizes[i]; if (!m || !H) return;
     svg.parentElement.style.setProperty('width', (H + bx) + 'px', 'important');   // square white box, so the margin is even on all four sides
-    const size = Math.max(8, H - 2);                // about a quarter pixel of white on every side, centered by the box
+    const g = Math.max(2, H * .045), size = Math.max(8, H - 2 * g);                // about a quarter pixel of white on every side, centered by the box
     svg.style.setProperty('width', size + 'px', 'important'); svg.style.setProperty('height', size + 'px', 'important');
   });
 }
@@ -3340,6 +3349,49 @@ const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cur
 view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
 
 // A click (not a drag) on a story opens its phone page in a new tab, same as scanning its QR
+
+// Story pop: the tapped story stays put while everything else fades, then it widens to the full feed and opens into its story page
+let POP = null;
+function openStory(card, url) {
+  if (POP) return;
+  const stage = document.getElementById('stage'), vr = view.getBoundingClientRect(), cr = card.getBoundingClientRect();
+  const u = U, mL = vr.left + u * 2.2, mW = vr.width - u * 4.4, top = document.querySelector('.mast').getBoundingClientRect().bottom;
+  const keep = speed; speed = 0;
+  const dim = document.createElement('div'); dim.className = 'popdim'; dim.style.top = top + 'px'; stage.appendChild(dim);
+  const wrap = document.createElement('div'); wrap.className = 'popwrap';
+  let host = wrap; [card.closest('.copy'), card.parentElement].forEach(a => { if (!a || a === card) return; const c = a.cloneNode(false); c.removeAttribute('id'); c.style.cssText = 'column-count:1;margin:0;padding:0;transform:none;position:static;height:auto'; host.appendChild(c); host = c; });
+  const clone = card.cloneNode(true); clone.style.margin = '0'; clone.style.width = '100%'; host.appendChild(clone);
+  Object.assign(wrap.style, { left: cr.left + 'px', top: cr.top + 'px', width: cr.width + 'px' });
+  stage.appendChild(wrap);
+  const fr = document.createElement('iframe'); fr.className = 'popframe'; fr.title = 'Story';
+  const id = (url.split('#')[1] || '');
+  const base = /claude|anthropic/.test(location.hostname) ? url.split('#')[0] : 'm/';
+  const close = document.createElement('button'); close.className = 'popx'; close.textContent = 'Back to Wire';
+  POP = { dim, wrap, fr, close, keep, timer: 0 };
+  requestAnimationFrame(() => { dim.classList.add('on'); });
+  setTimeout(() => { if (!POP) return; Object.assign(wrap.style, { left: mL + 'px', width: mW + 'px', top: top + u * 1.2 + 'px' }); }, 260);
+  setTimeout(() => {
+    if (!POP) return;
+    const h0 = Math.round(wrap.getBoundingClientRect().height);
+    fr.src = base + '?embed=1&u=' + u.toFixed(3) + '&one=' + (document.documentElement.classList.contains('one') ? 1 : 0) + '&h0=' + h0 + '#' + id;
+    Object.assign(fr.style, { left: mL + 'px', width: mW + 'px', top: top + u * 1.2 + 'px', height: (innerHeight - top - u * 1.2) + 'px' });
+    fr.onload = () => setTimeout(() => { if (!POP) return; fr.classList.add('on'); wrap.classList.add('off'); stage.appendChild(close); requestAnimationFrame(() => close.classList.add('on')); }, 80);
+    stage.appendChild(fr);
+  }, 760);
+  try { history.pushState({ wire: 'story' }, '', '#' + id); } catch (e) {}
+  POP.timer = setTimeout(closeStory, 120000);
+  dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory);
+}
+function closeStory() {
+  if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
+  [p.dim, p.fr, p.close].forEach(e => e.classList.remove('on')); p.wrap.classList.add('off');
+  setTimeout(() => { [p.dim, p.wrap, p.fr, p.close].forEach(e => e.remove()); speed = p.keep; }, 420);
+  if (location.hash) try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+}
+addEventListener('popstate', () => { if (POP) closeStory(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
+addEventListener('message', e => { if (e.data && e.data.wire === 'close') closeStory(); });
+
 function wireTap() {
   let sx = 0, sy = 0, st = 0;
   view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); }, true);
@@ -3348,7 +3400,7 @@ function wireTap() {
     const el = document.elementFromPoint(e.clientX, e.clientY);
     const card = el && el.closest('#track .copy .mason > *, #track .copy > .arch');
     const q = card && card.querySelector('[data-u]');
-    if (q && q.dataset.u) window.open(q.dataset.u, '_blank', 'noopener');
+    if (q && q.dataset.u) openStory(card, q.dataset.u);
   }, true);
 }
 wireTap();

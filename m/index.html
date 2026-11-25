@@ -199,6 +199,10 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.33;ba
 .mast .who{justify-self:end;white-space:nowrap}
 .mast .who b{font:900 calc(var(--hu)*6)/1 'Hando',sans-serif}
 .mast .upd{display:none !important}
+</style><style>
+html.embed .mast,html.embed .end,html.embed .all{display:none !important}
+html.embed body{min-height:0}
+html.embed #list{transition:clip-path .55s cubic-bezier(.2,.7,.2,1)}
 </style></head>
 <body>
 <header class="mast"><span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div><div class="who"><b id="time">--:--</b></div><span class="upd" id="upd" hidden></span></header>
@@ -357,6 +361,12 @@ function fit(){const w=document.querySelector('.mast .ws'),l=document.querySelec
 hdr();fit();setInterval(hdr,1000);addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);addEventListener('load',fit);})();
 </script><script>
 /* Scale like the main Wire page: phones use the width, bigger screens use the same unit as the TV page */
-(function(){function sc(){const w=innerWidth,h=innerHeight,touch=matchMedia('(pointer:coarse)').matches,small=Math.min(w,h);const one=w<900||(touch&&small<820);const u=one?w/92:Math.min(w/177.78,h/100);document.documentElement.style.setProperty('--hu',u+'px');const z=one?Math.max(.85,Math.min(1.6,w/390)):u/(390/92);document.querySelectorAll('#list,.end').forEach(e=>e.style.zoom=z.toFixed(4));const l=document.querySelector('.mast .ws');if(l){const g=document.querySelector('.mast .logo'),x=l.offsetWidth*.8;g.style.width=x.toFixed(2)+'px';g.style.height=(x*.14).toFixed(2)+'px';}}
+(function(){function sc(){const w=innerWidth,h=innerHeight,touch=matchMedia('(pointer:coarse)').matches,small=Math.min(w,h);const Q=new URLSearchParams(location.search),EU=parseFloat(Q.get('u'));const one=EU?Q.get('one')==='1':(w<900||(touch&&small<820));const u=EU||(one?w/92:Math.min(w/177.78,h/100));document.documentElement.style.setProperty('--hu',u+'px');const z=one?Math.max(.85,Math.min(1.6,w/390)):u/(390/92)*.8;document.querySelectorAll('#list,.end').forEach(e=>e.style.zoom=z.toFixed(4));const l=document.querySelector('.mast .ws');if(l){const g=document.querySelector('.mast .logo'),x=l.offsetWidth*.8;g.style.width=x.toFixed(2)+'px';g.style.height=(x*.14).toFixed(2)+'px';}}
 sc();addEventListener('resize',sc);addEventListener('orientationchange',sc);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(sc);addEventListener('load',sc);})();
+</script><script>
+(function(){const Q=new URLSearchParams(location.search);if(Q.get('embed')!=='1')return;document.documentElement.classList.add('embed');
+const L=document.getElementById('list'),h0=parseFloat(Q.get('h0'))||0;
+if(h0&&L){L.style.clipPath='inset(0 0 calc(100% - '+h0+'px) 0)';requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>{L.style.clipPath='inset(0 0 0 0)'},120)));}
+document.addEventListener('click',e=>{const a=e.target.closest('a.all');if(a){e.preventDefault();parent.postMessage({wire:'close'},'*');}},true);
+addEventListener('keydown',e=>{if(e.key==='Escape')parent.postMessage({wire:'close'},'*');});})();
 </script></body></html>
