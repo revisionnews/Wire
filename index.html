@@ -4163,7 +4163,7 @@ function srcExpand(clone, id) {
     let CL = [['Unconfirmed', 'It matters, but a key fact is not confirmed yet.'], ['Single source', 'One outlet reports it, and the facts match its page.'], ['Confirmed', 'Two or more newsrooms report it on their own.'], ['Official record', 'Backed by the agency\'s own page or document.']];
     const rs4 = storyRefs(id), offc = rs4.some(r => /official/i.test(r.k || '') || /full document/i.test(r.n || '')), outs = new Set(rs4.filter(r => !/official/i.test(r.k || '')).map(r => r.n)).size;
     let cl = /unconfirmed/i.test(ss) ? 1 : offc ? 4 : outs >= 2 ? 3 : 2, HS = 'How sure';
-    if (kk === 'Sponsor') { HS = 'How checked'; cl = SPON[id] || 2; CL = SPON_CL; }
+    if (kk === 'Sponsor') cl = 3;   // a sponsor is only placed once Revision has confirmed it
     const what = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div>`;
     if (V === 4) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxl">${CL.map((c, n) => `<div class="${n + 1 <= cl ? 'f' : ''}${n + 1 === cl ? ' on' : ''}"><i></i><span>${esc(c[0])}</span></div>`).reverse().join('')}</div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 5) { const R = 15.9155, seg = 25, gap = 2.5; d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxr"><svg viewBox="0 0 42 42">${[0, 1, 2, 3].map(n => `<circle r="${R}" cx="21" cy="21" fill="none" stroke-width="6" stroke="currentColor" opacity="${n < cl ? 1 : .25}" stroke-dasharray="${seg - gap} ${100 - seg + gap}" stroke-dashoffset="${25 - n * seg - gap / 2}"/>`).join('')}</svg><b>${cl}<small>/4</small></b></div><b class="sxrl">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
