@@ -3551,15 +3551,6 @@ function rollDrum(c) {
   box.appendChild(d);
   return { d, sl };
 }
-// TV: each slice of the roll-off drum is moved by the graphics chip on the same clock as the board, so the drum
-// glides in step with it and the TV never redraws or re-lays-out anything while it scrolls.
-function tvAnim(v) {
-  if (!TVA || TVA.startTime == null) return; const c = v.c, st = TVA.startTime;
-  v.sl.forEach(x => { x.k.style.top = '0px'; if (x.an) x.an.cancel();
-    const y0 = x.sy * (c.t + RR * x.a1), y1 = x.sy * (c.t - copyH + RR * x.a1), s = 'scaleY(' + x.sy.toFixed(5) + ')';
-    x.an = x.inn.animate([{ transform: 'translate3d(0,' + y0.toFixed(2) + 'px,0) ' + s }, { transform: 'translate3d(0,' + y1.toFixed(2) + 'px,0) ' + s }], { duration: TVD, iterations: Infinity, easing: 'steps(' + Math.max(1, Math.round(copyH * DPR)) + ')' });
-    x.an.startTime = st; });
-}
 function rollUnhook() { RMAP.forEach(v => { v.mo && v.mo.disconnect(); v.d.remove(); }); RMAP = new Map(); }
 let RLAST = null, TVA = null, TVD = 0;
 // TV: the scroll is a browser animation the graphics chip runs by itself, so it keeps gliding even when the TV's processor is busy.
@@ -3582,7 +3573,7 @@ function rollRefresh() {
   if (!RC.length) return;
   const tr = track.getBoundingClientRect();
   RC.forEach(c => { const r = c.el.getBoundingClientRect(); c.t = r.top - tr.top; c.b = r.bottom - tr.top; c.l = r.left - tr.left; c.w = r.width; c.h = r.height; });
-  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); if (TVMODE) tvAnim(v); });
+  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }) });
 }
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(rollRefresh, 50));
 setInterval(rollRefresh, 3000);
@@ -3599,11 +3590,11 @@ function rollSync(o) {
       v.mo = new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; v.sl.forEach(x => { x.k.innerHTML = c.el.innerHTML; x.k.className = c.el.className; rollClean(x.k); }); }); });
       v.mo.observe(c.el, { subtree: true, childList: true, characterData: true, attributes: true });
     }
-    RMAP.set(c.el, v); if (TVMODE) tvAnim(v);
+    RMAP.set(c.el, v);
   });
   // each slice shows the stretch of paper that sits on its part of the drum
   // move each slice with top, not transform: no extra GPU layers, so the screen can never run out of video memory and blank out
-  if (!TVMODE) RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
+  RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
 }
 let U = 10, DPR = window.devicePixelRatio || 1;
 function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10; }
@@ -3659,7 +3650,10 @@ function tick(ts) {
   if (TVMODE && TVA) { const ct = Number(TVA.currentTime) || 0; off = (ct % TVD) / TVD * copyH; }
   else if (TVMODE) track.style.transform = `translate3d(0,${(-off).toFixed(2)}px,0)`;
   else track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
-  rollSync(TVMODE ? off : Math.round(off * DPR) / DPR);   // on the TV this only adds and drops drums; the graphics chip moves them
+  // TV: the board steps a whole pixel at a time on the graphics chip; the drum follows on exactly those steps, drawn like the phone's,
+  // so the only picture the TV keeps in graphics memory is the board itself (many small layers made it run out and blink)
+  if (TVMODE) { const ro = Math.floor(off * DPR) / DPR; if (ro !== RLAST) { RLAST = ro; rollSync(ro); } }
+  else rollSync(Math.round(off * DPR) / DPR);
   requestAnimationFrame(tick);
 }
 
