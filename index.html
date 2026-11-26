@@ -3900,7 +3900,7 @@ function openStory(card, id, instant) {
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
-  const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 80); }
+  const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => { eye._hv = 0; eyeOpen(eye, true); }, instant ? 0 : 80); }
   // The board stays still. The lifted story glides to the middle of the open space below the search bar, sized for
   // how tall it will be once its sources are open, so it lands centered and never runs off the bottom.
   const vt = view.getBoundingClientRect(), lim0 = Math.max(vt.top, u * 2) + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
@@ -3950,8 +3950,15 @@ setInterval(() => {
   const pool = eyes.filter(e => age(e) > 12000); const pickFrom = pool.length ? pool.slice(0, 3) : [];
   if (!pickFrom.length) return;
   const e = pickFrom[Math.floor(Math.random() * pickFrom.length)];
-  EYE_LAST[key(e)] = now; eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2200);
+  EYE_LAST[key(e)] = now; eyeOpen(e, true); setTimeout(() => { if (!e._hv) eyeOpen(e, false); }, 2200);
 }, 850);
+// The eyes react: with a mouse, hovering flips an eye (open closes, closed opens) and leaving flips it back.
+// On a touch screen, tapping the eye in an open story wakes it if it is shut and shuts it if it is awake.
+if (!TVMODE) {
+  document.addEventListener('pointerover', ev => { if (ev.pointerType !== 'mouse') return; const q = ev.target.closest && ev.target.closest('.qb'); if (!q || q._hv || (ev.relatedTarget && q.contains(ev.relatedTarget))) return; q._hv = 1; q._was = !!q._open; eyeOpen(q, !q._was); });
+  document.addEventListener('pointerout', ev => { if (ev.pointerType !== 'mouse') return; const q = ev.target.closest && ev.target.closest('.qb'); if (!q || !q._hv || (ev.relatedTarget && q.contains(ev.relatedTarget))) return; q._hv = 0; eyeOpen(q, q._was); });
+  document.addEventListener('click', ev => { const q = ev.target.closest && ev.target.closest('.popwrap .qb'); if (!q) return; ev.preventDefault(); ev.stopPropagation(); if (q._hv) { q._was = !q._was; eyeOpen(q, !q._was); } else eyeOpen(q, !q._open); }, true);
+}
 // Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
 // the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
 let TAGV = 9;   // tag panel: What it is, then the How sure meter
