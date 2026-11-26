@@ -522,7 +522,7 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 /* Header v3: date left like VOL and No., revision logo centered over WIRE (logo 80% of WIRE width), clock right */
 .mast > #date{justify-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*.3);font:900 calc(var(--u)*3 - 1px)/1.1 'Hando',sans-serif !important;letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
 html.pub{--mt:calc(var(--u)*1.4)}html.pub.one{--mt:calc(var(--u)*2.6)}
-html.pub .mast{top:var(--mt) !important}html.pub .mast{background:transparent !important}html.pub .mast::before{display:none !important}html.pub .mast > #date,html.pub .mast > .ctr,html.pub .mast > .who{transform:translateY(calc(var(--u)*-.7 - 1px))}html.pub .view{top:calc(var(--u)*10 + var(--mt))}html.pub .roll3d{top:calc(var(--u)*10 + 6px + var(--mt))}
+html.pub .mast{top:var(--mt) !important}html.pub .mast{background:transparent !important}html.pub .mast::before{display:none !important}html.pub .mast > #date,html.pub .mast > .ctr,html.pub .mast > .who{transform:translateY(calc(var(--u)*-.7 - 1px))}html.pub body #view.view{top:calc(var(--u)*14 + 7px + var(--mt)) !important}html.pub .roll3d{top:calc(var(--u)*10 + 6px + var(--mt))}
 html.pub .mast > #date{font-size:calc(var(--u)*2.4) !important}html.pub.one .mast > #date{font-size:calc(var(--u)*2.6) !important}
 .mast > #date i{font-weight:900 !important}.mast > #date i:first-child::after{content:none}
 .mast .ctr{gap:calc(var(--u)*.7)}
@@ -3994,7 +3994,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126084450';
+const BUILD = '20261126084539';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
