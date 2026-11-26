@@ -753,8 +753,8 @@ html.one .sxgo{font-size:calc(var(--u)*1.8);margin:calc(var(--u)*1) calc(var(--u
 html.one .popwrap .refs.sx.open .tg .tgb{max-width:calc(var(--u)*22);padding:calc(var(--u)*2) calc(var(--u)*1.5) !important;gap:calc(var(--u)*1.2) !important}
 html.one .sxd{gap:calc(var(--u)*.9)}html.one .sxd span{font-size:calc(var(--u)*1.6);padding:calc(var(--u)*.9) calc(var(--u)*.6)}
 html.one .sxd small{font-size:calc(var(--u)*2.3)}html.one .sxd small b{font-size:calc(var(--u)*1.6)}
-.popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*15) !important}
-html.one .popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*22) !important}
+.popwrap .row.l-ev .refs.sx.open .tg{width:auto !important}
+html.one .popwrap .row.l-ev .refs.sx.open .tg{width:auto !important}
 .popwrap .row.l-ev .refs.sx.open .tg .tgb{padding:calc(var(--u)*1.4) calc(var(--u)*1.1) !important;text-align:left}
 html.one .popwrap .row.l-ev .refs.sx.open .tg .tgb{padding:calc(var(--u)*2.4) calc(var(--u)*1.8) !important}
 .popwrap .refs.sx.open .tgb > b,.popwrap .refs.sx.open .tgb > i{text-align:center}
@@ -3987,7 +3987,7 @@ function srcExpand(clone, id) {
       const COL = ['var(--ink)', 'var(--teal)', 'var(--green)', '#A21CAF'],   // the board's own status colors: unconfirmed black, one source teal, confirmed green, official purple (the document color)
         ang = -90 + (cl - .5) / 4 * 180, mid = 'm' + id.replace(/\W/g, '');
       const P = a => [50 + 48 * Math.cos(Math.PI * (1 - a)), 50 - 48 * Math.sin(Math.PI * (1 - a))];
-      const wedge = n => { const [x0, y0] = P(n / 4), [x1, y1] = P((n + 1) / 4); return `<path d="M50 50L${x0.toFixed(2)} ${y0.toFixed(2)}A48 48 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z" style="fill:${COL[n]}"/>`; };
+      const wedge = n => { const [x0, y0] = P(n / 4), [x1, y1] = P((n + 1) / 4); return `<path d="M50 50L${x0.toFixed(2)} ${y0.toFixed(2)}A48 48 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z" fill="#fff" opacity="${n < cl ? 1 : .28}"/>`; };
       const sep = n => { const [x, y] = P(n / 4); return `<line x1="50" y1="50" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke="#000" stroke-width="1.6"/>`; };
       d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx9"><svg viewBox="0 0 100 52"><defs><mask id="${mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="52"><rect width="100" height="52" fill="#fff"/>${[1, 2, 3].map(sep).join('')}<g class="nd" style="--a:${ang}deg"><path d="M46.4 50L50 6L53.6 50Z" fill="#000"/></g><circle cx="50" cy="50" r="7" fill="#000"/></mask></defs><g mask="url(#${mid})">${[0, 1, 2, 3].map(wedge).join('')}</g></svg><div class="sx9l">${CL.map((c, n) => `<span style="color:${COL[n]}" class="${n + 1 === cl ? 'on' : ''}">${esc(c[0])}</span>`).join('')}</div></div><b class="sx9n">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
     else if (V === 8) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx8" style="--p:${cl / 4};--n:${cl - 1}"><div class="bar"><i></i></div><div class="tk"><div class="win"><div class="col">${CL.map(c => `<b>${esc(c[0])}</b>`).join('')}</div></div><span>${cl} of 4</span></div></div><small>${esc(CL[cl - 1][1])}</small></div>`;
