@@ -5,25 +5,32 @@
  "phone_url": "https://wire.revision.news/m/",
  "source_log": [
   {
-   "name": "Local news sweep (KSAT, FOX 29, News 4, San Antonio Report, TPR, San Antonio Current)",
+   "name": "KSAT local",
    "domain": "ksat.com",
    "kind": "News",
-   "status": "Failed",
-   "note": "Nov 26 morning: every page fetch blocked, permission not answered in this unattended run"
+   "status": "Used",
+   "note": "Nov 26 update: front page fetch blocked, but four Nov 26 KSAT articles found by search were read; Bandera Road crash and Thanksgiving forecast added"
   },
   {
-   "name": "Official pages (NWS, SAWS, UTSA, Bexar Agenda Center, 2027 bond)",
+   "name": "News 4 San Antonio local",
+   "domain": "news4sanantonio.com",
+   "kind": "News",
+   "status": "Failed",
+   "note": "Nov 26 update: fetch permission not answered in this unattended run"
+  },
+  {
+   "name": "NWS San Antonio forecast",
    "domain": "weather.gov",
    "kind": "Official",
    "status": "Failed",
-   "note": "Nov 26 morning: every page fetch blocked, permission not answered in this unattended run"
+   "note": "Nov 26 update: fetch permission not answered in this unattended run"
   },
   {
    "name": "Web search",
    "domain": "",
    "kind": "News",
    "status": "Checked",
-   "note": "4 searches returned only topic pages or older years; no headline could be opened, so nothing new was added"
+   "note": "4 searches; two returned only older years, two returned dated Nov 26 KSAT links"
   },
   {
    "name": "FOX 29 San Antonio",
@@ -31,20 +38,6 @@
    "kind": "News",
    "status": "Used",
    "note": "Local page read; BermudAir, standoff, rail, airport travel, I-35 closures, South Side shooting and drainage ditch stories opened"
-  },
-  {
-   "name": "News 4 San Antonio",
-   "domain": "news4sanantonio.com",
-   "kind": "News",
-   "status": "Used",
-   "note": "Local page read; gas prices, Fredericksburg Road shooting and big rig stories opened"
-  },
-  {
-   "name": "KSAT local",
-   "domain": "ksat.com",
-   "kind": "News",
-   "status": "Failed",
-   "note": "Fetch permission not answered this run; no KSAT pages opened"
   },
   {
    "name": "San Antonio Report",
@@ -301,7 +294,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-26T06:55:00-06:00",
+ "generated_at": "2026-11-26T11:10:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -1484,6 +1477,26 @@
  ],
  "safety": [
   {
+   "headline": "Man killed on Bandera Road when a suspected drunk driver rear ended his car at a red light",
+   "summary": "A 29 year old man stopped at a red light in his Ford Mustang in the 8400 block of Bandera Road was rear ended around 2:20 a.m. Thursday by a Ford Fusion that police say was going at a high rate of speed. He died at a hospital. Police say the 36 year old Fusion driver showed signs of impairment and was taken to a hospital with minor injuries, and no one has been named or charged.",
+   "when": "Nov 26",
+   "pillar": "C",
+   "kind": "Update",
+   "status": "Reported",
+   "first_seen": "2026-11-26T11:10:00-06:00",
+   "refs": [
+    {
+     "n": "KSAT",
+     "t": "SAPD: Man killed, suspected intoxicated driver hospitalized after rear-end crash",
+     "d": "Nov 26, 2026",
+     "k": "News",
+     "u": "ksat.com",
+     "url": "https://www.ksat.com/news/local/2026/11/26/sapd-man-killed-suspected-intoxicated-driver-hospitalized-after-rear-end-crash/",
+     "f": "KSAT has the police account, including that a third car stopped ahead of the Mustang was not hurt."
+    }
+   ]
+  },
+  {
    "headline": "Woman and her boyfriend found dead in a far West Side home in an apparent murder suicide",
    "summary": "Deputies called about 3 a.m. Wednesday to a home off Frontier Eagle near Loop 1604 found a woman in her mid 30s and a man in his 40s dead upstairs with gunshot wounds. Sheriff Javier Salazar said investigators believe, in preliminary findings, that the woman shot her boyfriend and then herself, and that a 12 year old found them. Six adults and seven children were in the home, and neither adult has been publicly identified.",
    "when": "Nov 25",
@@ -1507,41 +1520,6 @@
      "u": "ksat.com",
      "k": "News",
      "url": "https://www.ksat.com/news/local/2026/11/25/bcso-to-provide-details-on-shooting-on-far-west-side/"
-    }
-   ]
-  },
-  {
-   "headline": "Driver still sought after 15 year old on a scooter was killed in a hit and run",
-   "summary": "The Bexar County Sheriff's Office is still looking for the driver who hit and killed a 15 year old girl riding an electric scooter about 8:20 p.m. Sunday, Nov 22, at W.T. Montgomery Road and Century Tree Drive. The girl, who was riding home from a friend's house, died at University Hospital and has since been identified. Investigators believe the vehicle is a 2011 to 2016 Ford F-250 or F-350 with front passenger side damage, and tips can go to BCSOTrafficHomicide@bexar.org.",
-   "when": "Nov 23",
-   "pillar": "C",
-   "kind": "Update",
-   "status": "Verified",
-   "first_seen": "2026-11-23T21:30:00-06:00",
-   "refs": [
-    {
-     "n": "News 4 San Antonio",
-     "t": "15-year-old girl killed while riding electric scooter in hit-and-run identified",
-     "d": "Nov 24, 2026",
-     "u": "news4sanantonio.com",
-     "k": "News",
-     "url": "https://news4sanantonio.com/news/local/15-year-old-girl-killed-while-riding-electric-scooter-in-hit-and-run-identified"
-    },
-    {
-     "n": "News 4 San Antonio",
-     "t": "Girl on electric scooter killed in hit-and-run crash, deputies searching for driver",
-     "d": "Nov 23, 2026",
-     "u": "news4sanantonio.com",
-     "k": "News",
-     "url": "https://news4sanantonio.com/news/local/girl-on-electric-scooter-killed-in-hit-and-run-crash-deputies-searching-for-driver"
-    },
-    {
-     "n": "KSAT",
-     "t": "Girl riding electric scooter killed in hit-and-run; BCSO looking for driver",
-     "d": "Nov 23, 2026",
-     "u": "ksat.com",
-     "k": "News",
-     "url": "https://www.ksat.com/news/local/2026/11/24/girl-riding-electric-scooter-killed-in-hit-and-run-bcso-looking-for-driver/"
     }
    ]
   },
@@ -1594,29 +1572,21 @@
  ],
  "weather": [
   {
-   "headline": "Freeze Warning for Bexar County from 3 to 9 a.m. Thanksgiving morning",
-   "summary": "A Freeze Warning covers much of South Central Texas, including Bexar County, from 3 a.m. to 9 a.m. Thursday, and frost could hurt sensitive plants and unprotected pipes. San Antonio started Wednesday at 37 degrees, and KSAT says the city center may stay just above freezing while outlying areas see a brief light freeze. Highs reach about 60 on Thanksgiving, warming toward 70 by Saturday.",
+   "headline": "Near freezing start gives way to a sunny 62 on Thanksgiving, with 70s by Saturday",
+   "summary": "A few San Antonio neighborhoods may have briefly touched freezing Thursday morning before a sunny afternoon high of 62. High clouds tonight keep it from getting as cold, and Friday reaches the mid 60s. Saturday warms to near 70, then a Sunday cold front brings gusts up to 35 mph and possibly the first cedar pollen.",
    "when": "Thu Nov 26",
    "pillar": "C",
-   "kind": "Warning",
-   "status": "Verified",
-   "first_seen": "2026-11-25T13:05:00-06:00",
+   "kind": "Update",
+   "status": "Reported",
+   "first_seen": "2026-11-26T11:10:00-06:00",
    "refs": [
     {
-     "n": "FOX 29 San Antonio",
-     "t": "Freeze Warning issued for Thanksgiving morning as temperatures dip into the 20s",
-     "d": "Nov 25, 2026",
-     "u": "foxsanantonio.com",
-     "k": "News",
-     "url": "https://foxsanantonio.com/news/local/freeze-warning-remains-in-effect-for-hill-country-until-9-am-san-antonio-texas-colder-air-temeratures-high-pressure"
-    },
-    {
      "n": "KSAT",
-     "t": "Coldest morning of the season underway, near-freezing Thanksgiving morning, too",
-     "d": "Nov 25, 2026",
-     "u": "ksat.com",
+     "t": "Happy Thanksgiving! Near-freezing this morning, then beautiful!",
+     "d": "Nov 26, 2026",
      "k": "News",
-     "url": "https://www.ksat.com/weather/2026/11/25/coldest-morning-of-the-season-underway-near-freezing-thanksgiving-morning-too/"
+     "u": "ksat.com",
+     "url": "https://www.ksat.com/weather/2026/11/26/happy-thanksgiving-near-freezing-this-morning-then-beautiful/"
     }
    ]
   }
@@ -1781,26 +1751,6 @@
    "status": "Upcoming",
    "kind": "Event",
    "headline": "Tobin Center Holiday Art Market"
-  },
-  {
-   "summary": "Starts at the Commander's House at H-E-B Arsenal, 622 S. Flores St. The race starts at 8:30 a.m. and the start line closes at 8:45 a.m.",
-   "when": "Thu Nov 26, 8:30 am",
-   "refs": [
-    {
-     "n": "San Antonio Food Bank",
-     "t": "Turkey Trot 5K",
-     "d": "Nov 2026",
-     "u": "safoodbank.org",
-     "k": "Official",
-     "url": "https://safoodbank.org/turkeytrot/"
-    }
-   ],
-   "first_seen": "2026-11-23T08:00:00-06:00",
-   "pillar": "C",
-   "status": "Upcoming",
-   "kind": "Event",
-   "headline": "San Antonio Food Bank Turkey Trot 5K",
-   "doc": "https://safoodbank.org/turkeytrot/"
   },
   {
    "summary": "Free at Travis Park, 301 E. Travis St., from 4 to 7 p.m., with the tree lighting at 6 p.m.",
@@ -2345,9 +2295,108 @@
  "unions": [],
  "neighborhoods": [],
  "archive": {
-  "total": 37,
+  "total": 41,
   "since": "Nov 23",
   "items": [
+   {
+    "id": "A0102",
+    "sec": "Weather",
+    "h": "Freeze Warning for Bexar County from 3 to 9 a.m. Thanksgiving morning",
+    "p": "C",
+    "d": "Nov 25, 2026",
+    "left": "Nov 26",
+    "kind": "Warning",
+    "status": "Verified",
+    "when": "Thu Nov 26",
+    "summary": "A Freeze Warning covers much of South Central Texas, including Bexar County, from 3 a.m. to 9 a.m. Thursday, and frost could hurt sensitive plants and unprotected pipes. San Antonio started Wednesday at 37 degrees, and KSAT says the city center may stay just above freezing while outlying areas see a brief light freeze. Highs reach about 60 on Thanksgiving, warming toward 70 by Saturday.",
+    "refs": [
+     {
+      "n": "FOX 29 San Antonio",
+      "t": "Freeze Warning issued for Thanksgiving morning as temperatures dip into the 20s",
+      "d": "Nov 25, 2026",
+      "u": "foxsanantonio.com",
+      "k": "News",
+      "url": "https://foxsanantonio.com/news/local/freeze-warning-remains-in-effect-for-hill-country-until-9-am-san-antonio-texas-colder-air-temeratures-high-pressure"
+     },
+     {
+      "n": "KSAT",
+      "t": "Coldest morning of the season underway, near-freezing Thanksgiving morning, too",
+      "d": "Nov 25, 2026",
+      "u": "ksat.com",
+      "k": "News",
+      "url": "https://www.ksat.com/weather/2026/11/25/coldest-morning-of-the-season-underway-near-freezing-thanksgiving-morning-too/"
+     }
+    ],
+    "t": "Freeze Warning issued for Thanksgiving morning as temperatures dip into the 20s",
+    "s": "FOX 29 San Antonio",
+    "u": "https://foxsanantonio.com/news/local/freeze-warning-remains-in-effect-for-hill-country-until-9-am-san-antonio-texas-colder-air-temeratures-high-pressure"
+   },
+   {
+    "id": "A0080",
+    "sec": "Safety",
+    "h": "Driver still sought after 15 year old on a scooter was killed in a hit and run",
+    "p": "C",
+    "d": "Nov 24, 2026",
+    "left": "Nov 26",
+    "kind": "Update",
+    "status": "Verified",
+    "when": "Nov 23",
+    "summary": "The Bexar County Sheriff's Office is still looking for the driver who hit and killed a 15 year old girl riding an electric scooter about 8:20 p.m. Sunday, Nov 22, at W.T. Montgomery Road and Century Tree Drive. The girl, who was riding home from a friend's house, died at University Hospital and has since been identified. Investigators believe the vehicle is a 2011 to 2016 Ford F-250 or F-350 with front passenger side damage, and tips can go to BCSOTrafficHomicide@bexar.org.",
+    "refs": [
+     {
+      "n": "News 4 San Antonio",
+      "t": "15-year-old girl killed while riding electric scooter in hit-and-run identified",
+      "d": "Nov 24, 2026",
+      "u": "news4sanantonio.com",
+      "k": "News",
+      "url": "https://news4sanantonio.com/news/local/15-year-old-girl-killed-while-riding-electric-scooter-in-hit-and-run-identified"
+     },
+     {
+      "n": "News 4 San Antonio",
+      "t": "Girl on electric scooter killed in hit-and-run crash, deputies searching for driver",
+      "d": "Nov 23, 2026",
+      "u": "news4sanantonio.com",
+      "k": "News",
+      "url": "https://news4sanantonio.com/news/local/girl-on-electric-scooter-killed-in-hit-and-run-crash-deputies-searching-for-driver"
+     },
+     {
+      "n": "KSAT",
+      "t": "Girl riding electric scooter killed in hit-and-run; BCSO looking for driver",
+      "d": "Nov 23, 2026",
+      "u": "ksat.com",
+      "k": "News",
+      "url": "https://www.ksat.com/news/local/2026/11/24/girl-riding-electric-scooter-killed-in-hit-and-run-bcso-looking-for-driver/"
+     }
+    ],
+    "t": "15-year-old girl killed while riding electric scooter in hit-and-run identified",
+    "s": "News 4 San Antonio",
+    "u": "https://news4sanantonio.com/news/local/15-year-old-girl-killed-while-riding-electric-scooter-in-hit-and-run-identified"
+   },
+   {
+    "id": "A0045",
+    "sec": "Events",
+    "h": "San Antonio Food Bank Turkey Trot 5K",
+    "p": "C",
+    "d": "Nov 2026",
+    "left": "Nov 26",
+    "kind": "Event",
+    "status": "Upcoming",
+    "when": "Thu Nov 26, 8:30 am",
+    "summary": "Starts at the Commander's House at H-E-B Arsenal, 622 S. Flores St. The race starts at 8:30 a.m. and the start line closes at 8:45 a.m.",
+    "refs": [
+     {
+      "n": "San Antonio Food Bank",
+      "t": "Turkey Trot 5K",
+      "d": "Nov 2026",
+      "u": "safoodbank.org",
+      "k": "Official",
+      "url": "https://safoodbank.org/turkeytrot/"
+     }
+    ],
+    "t": "Turkey Trot 5K",
+    "s": "San Antonio Food Bank",
+    "u": "https://safoodbank.org/turkeytrot/"
+   },
    {
     "id": "A0099",
     "sec": "Events",
