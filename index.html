@@ -566,12 +566,15 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .popx.on{opacity:1}
 
 /* TV: the feed and the paper grain are their own GPU layers, so moving the feed never repaints them */
-html.tvm #view > #track{will-change:transform}
+html.tvm .roll3d{display:none !important}
+/* TV roll-off: the board slides under a soft fade into the paper, drawn once and never redrawn */
+html.tvm body #view.view{top:calc(var(--u)*10 + 6px) !important}
+html.tvm #view::after{content:'';position:absolute;left:0;right:0;top:0;height:calc(var(--u)*9);z-index:3;pointer-events:none;background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 10%,rgba(0,0,0,0) 100%);background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 14%,color-mix(in srgb,var(--paper) 0%,transparent) 100%)}
 html.tvm .grain{will-change:transform;transform:translateZ(0)}
 /* Silk on Fire TV hides its toolbar when the page scrolls: give it a little room to scroll, while the board stays fixed to the screen */
 html.tvm,html.tvm body{height:auto !important;overflow-y:auto !important}
 html.tvm body{min-height:calc(100vh + 160px)}
-html.tvm .stage{bottom:0}
+html.tvm .stage{bottom:auto}
 
 /* Mockup B, built in: the card's own source strip grows downward */
 .popwrap .refs.sx{transition:height .5s cubic-bezier(.2,.7,.2,1) !important;align-items:stretch !important;position:relative}
@@ -3127,7 +3130,7 @@ function layout() {
   const one = !/[?&]tv=1/.test(location.search) && (w < 900 || (touch && small < 820));
   document.documentElement.classList.toggle('one', one);
   const u = one ? w / 92 : Math.min(w / 177.78, h / 100), sw = w, sh = h;
-  stage.style.width = sw + 'px'; stage.style.height = one ? 'max(100lvh, ' + sh + 'px)' : TVMODE ? 'auto' : sh + 'px';
+  stage.style.width = sw + 'px'; stage.style.height = one ? 'max(100lvh, ' + sh + 'px)' : TVMODE ? 'calc(100vh + 220px)' : sh + 'px';   // TV: taller than the screen, so the paper still reaches the bottom when Silk hides its toolbar
   stage.style.left = '0px'; stage.style.top = '0px';
   document.documentElement.style.setProperty('--u', u + 'px');
   document.documentElement.style.setProperty('--b', Math.max(2, u * 177.78 * 0.001) + 'px');
@@ -3631,7 +3634,7 @@ function tick(ts) {
   if (TVMODE && TVA) { const ct = Number(TVA.currentTime) || 0; off = (ct % TVD) / TVD * copyH; }
   else if (TVMODE) track.style.transform = `translate3d(0,${(-off).toFixed(2)}px,0)`;
   else track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
-  { const ro = Math.round(off * DPR) / DPR; if (!TVMODE || ro !== RLAST) { RLAST = ro; rollSync(ro); } }
+  if (!TVMODE) rollSync(Math.round(off * DPR) / DPR);   // TV: no drum; the stories fade into the paper instead (see html.tvm .view::after)
   requestAnimationFrame(tick);
 }
 
