@@ -571,12 +571,17 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .popwrap .refs.sx.open{display:grid !important;grid-template-columns:auto 1fr auto;padding:0 !important}
 .popwrap .refs.sx .tg{align-self:stretch !important;display:flex !important}
 .popwrap .refs.sx .tg .tgb{height:auto !important;align-self:stretch;flex:1}
-.popwrap .refs.sx .qr{align-self:flex-start !important;height:calc(var(--u)*8.4)}
+.popwrap .refs.sx .qr{align-self:flex-start !important}
+.popwrap .refs.sx .qr .qb{height:100% !important}
 .popwrap .refs.sx .rw{position:relative;align-self:stretch !important;justify-content:flex-start !important;padding:0 !important;background:transparent !important}
 .sxa{transition:opacity .25s ease,transform .35s cubic-bezier(.2,.7,.2,1)}
 .refs.sx.open .sxa{opacity:0;transform:translateY(-14px);position:absolute;left:0;right:0;top:0;pointer-events:none}
-.sxb{opacity:0;transform:translateY(16px);transition:opacity .35s ease .12s,transform .45s cubic-bezier(.2,.7,.2,1) .12s;display:flex;flex-direction:column;gap:calc(var(--u)*1);padding:calc(var(--u)*1.4)}
-.refs.sx.open .sxb{opacity:1;transform:none}
+.sxb{display:flex;flex-direction:column;gap:calc(var(--u)*1);padding:calc(var(--u)*1.4)}
+.refs.sx.open .sxb,.refs.sx.open .sxd{animation:sxin .45s cubic-bezier(.2,.7,.2,1) .12s both}
+.refs.sx.open.now .sxb,.refs.sx.open.now .sxd{animation:none}
+.refs.sx.open.shut .sxb,.refs.sx.open.shut .sxd{animation:sxout .2s ease both}
+@keyframes sxin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes sxout{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-8px)}}
 .refs.sx:not(.open) .sxb,.refs.sx:not(.open) .sxd{display:none}
 .sxh{font:900 calc(var(--u)*3)/1 'Hando',sans-serif;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:baseline;gap:calc(var(--u)*.8);color:inherit}
 .sxh em{font:900 calc(var(--u)*1.3)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;opacity:.65}
@@ -597,21 +602,18 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .sxmore{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
 .sxmore.open{grid-template-rows:1fr}.sxmore.now{transition:none}
 .sxmore > *{min-height:0;overflow:hidden;margin-top:0}
-html.one .sxh{font-size:calc(var(--u)*5.2)}html.one .sxh em{font-size:calc(var(--u)*2.6)}
-html.one .sxb{gap:calc(var(--u)*2);padding:calc(var(--u)*2.4)}
-html.one .sxs{padding:calc(var(--u)*2) calc(var(--u)*2.2);gap:calc(var(--u)*.8)}
-html.one .sxs b{font-size:calc(var(--u)*2.6)}html.one .sxs i{font-size:calc(var(--u)*3.4)}html.one .sxs .sxf{font-size:calc(var(--u)*3.1)}html.one .sxs small{font-size:calc(var(--u)*2.1)}
-html.one .sxgo{font-size:calc(var(--u)*2.5);margin:calc(var(--u)*1.2) calc(var(--u)*-2.2) calc(var(--u)*-2);padding:calc(var(--u)*2) calc(var(--u)*2.2)}
-html.one .popwrap .refs.sx.open .tg .tgb{max-width:calc(var(--u)*27);padding:calc(var(--u)*2.4) calc(var(--u)*1.8) !important;gap:calc(var(--u)*1.6) !important}
-html.one .sxd{gap:calc(var(--u)*1.1)}html.one .sxd span{font-size:calc(var(--u)*2.2);padding:calc(var(--u)*1.1) calc(var(--u)*.8)}
-html.one .sxd small{font-size:calc(var(--u)*2.9)}html.one .sxd small b{font-size:calc(var(--u)*2.2)}
-html.one .popwrap .refs.sx .qr{height:auto}
+html.one .sxh{font-size:calc(var(--u)*3.6)}html.one .sxh em{font-size:calc(var(--u)*1.9)}
+html.one .sxb{gap:calc(var(--u)*1.6);padding:calc(var(--u)*2)}
+html.one .sxs{padding:calc(var(--u)*1.6) calc(var(--u)*1.8);gap:calc(var(--u)*.6)}
+html.one .sxs b{font-size:calc(var(--u)*1.8)}html.one .sxs i{font-size:calc(var(--u)*2.6)}html.one .sxs .sxf{font-size:calc(var(--u)*2.4)}html.one .sxs small{font-size:calc(var(--u)*1.5)}
+html.one .sxgo{font-size:calc(var(--u)*1.8);margin:calc(var(--u)*1) calc(var(--u)*-1.8) calc(var(--u)*-1.6);padding:calc(var(--u)*1.5) calc(var(--u)*1.8)}
+html.one .popwrap .refs.sx.open .tg .tgb{max-width:calc(var(--u)*22);padding:calc(var(--u)*2) calc(var(--u)*1.5) !important;gap:calc(var(--u)*1.2) !important}
+html.one .sxd{gap:calc(var(--u)*.9)}html.one .sxd span{font-size:calc(var(--u)*1.6);padding:calc(var(--u)*.9) calc(var(--u)*.6)}
+html.one .sxd small{font-size:calc(var(--u)*2.3)}html.one .sxd small b{font-size:calc(var(--u)*1.6)}
 .popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*15) !important}
-html.one .popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*27) !important}
+html.one .popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*22) !important}
 .popwrap .row.l-ev .refs.sx.open .tg .tgb{padding:calc(var(--u)*1.4) calc(var(--u)*1.1) !important;text-align:left}
 html.one .popwrap .row.l-ev .refs.sx.open .tg .tgb{padding:calc(var(--u)*2.4) calc(var(--u)*1.8) !important}
-html.one .popwrap .refs.sx.open .tgb > b{font-size:calc(var(--u)*3) !important}
-html.one .popwrap .refs.sx.open .tgb > i{font-size:calc(var(--u)*2.1) !important}
 .popwrap .refs.sx.open .tgb > b,.popwrap .refs.sx.open .tgb > i{text-align:center}
 .popx .px-s{background:#A21CAF;color:#fff;display:inline-flex;align-items:center;gap:.6em}
 .popx .px-s svg{width:1.15em;height:1.15em;flex:none}
@@ -3718,7 +3720,7 @@ function openStory(card, id, instant) {
   if (!REG) host.appendChild(src);
   const pad = Math.round(u * 1.4); // room above the card so tags that sit on its top edge are never clipped
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px' });
-  stage.appendChild(wrap); POP.wrap = wrap;
+  stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 80); }
   // The board stays still. The lifted story glides to the middle of the open space below the search bar, sized for
@@ -3795,21 +3797,31 @@ function srcExpand(clone, id) {
   let mo = null; const more = MORE[id], sum = clone.querySelector('.sum');
   if (more && sum) { mo = document.createElement('div'); mo.className = 'sxmore'; mo.innerHTML = `<p class="sum">${esc(more)}</p>`; sum.after(mo); const cs = getComputedStyle(sum), pp = mo.firstChild; ['marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'].forEach(k => { mo.style[k] = cs[k]; pp.style[k] = '0'; }); pp.style.paddingTop = cs.marginBottom; }
   // measure how much taller the open story will be, without showing it
-  const h0 = refs.offsetHeight; refs.classList.add('open'); if (mo) mo.classList.add('open');
+  const h0 = refs.offsetHeight; { const qr = refs.querySelector('.qr'); if (qr) qr.style.height = h0 + 'px'; } refs.classList.add('open'); if (mo) mo.classList.add('open');
   const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
   const wrap = clone.closest('.popwrap');
   const o = { extra: (h1 - h0) + m1,
     open(now) { if (now) { refs.classList.add('open', 'now'); refs.style.height = 'auto'; if (mo) mo.classList.add('open', 'now'); return; }
       refs.style.height = h0 + 'px'; refs.classList.add('open'); refs.getBoundingClientRect(); refs.style.height = h1 + 'px'; if (mo) mo.classList.add('open');
       setTimeout(() => { if (refs.classList.contains('open')) refs.style.height = 'auto'; }, 520); },
-    close() { refs.classList.remove('now'); refs.style.height = refs.offsetHeight + 'px'; refs.getBoundingClientRect(); refs.classList.remove('open'); refs.style.height = h0 + 'px'; if (mo) mo.classList.remove('open', 'now'); } };
+    close() { refs.classList.remove('now'); refs.classList.add('shut'); refs.style.height = refs.offsetHeight + 'px'; if (mo) mo.classList.remove('open', 'now');
+      setTimeout(() => { refs.getBoundingClientRect(); refs.classList.remove('open', 'shut'); refs.style.height = h0 + 'px'; }, 200); } };
   if (wrap) wrap._srx = o; return o;
 }
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
-  if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); if (p.wrap._srx) p.wrap._srx.close(); }
-  setTimeout(() => { p.dim && p.dim.classList.remove('on', 'now'); p.close && p.close.classList.remove('on'); p.wrap && p.wrap.classList.add('off'); }, 260);
-  setTimeout(() => { [p.dim, p.wrap, p.close].forEach(e => e && e.remove()); speed = p.keep; if (window.__pendRender) { window.__pendRender = 0; render(); } }, 640);
+  const w = p.wrap, card = p.card;
+  if (w) { const e = w.querySelector('.qb'); if (e) eyeOpen(e, false); w.scrollTop = 0; w.style.overflowY = 'hidden'; w.classList.remove('srcs'); if (w._srx) w._srx.close(); }
+  if (p.close) p.close.classList.remove('on');
+  // the sources fold back into the strip while the story glides home to its own spot on the board
+  let home = null;
+  if (w && card && card.isConnected) { const r = card.getBoundingClientRect(); if (r.height && r.bottom > 0 && r.top < innerHeight) home = r.top - (parseFloat(w.style.paddingTop) || 0); }
+  const wait = w && w._srx ? 200 : 0;
+  setTimeout(() => {
+    if (w) { w.style.maxHeight = 'none'; w.classList.remove('glide', 'now'); if (home !== null) w.style.top = home + 'px'; else w.classList.add('off'); }
+    if (p.dim) p.dim.classList.remove('on', 'now');
+  }, wait);
+  setTimeout(() => { if (card) card.style.visibility = ''; [p.dim, w, p.close].forEach(e => e && e.remove()); speed = p.keep; if (window.__pendRender) { window.__pendRender = 0; render(); } }, wait + 560);
   try { history.replaceState(null, '', location.pathname + (location.search === '?s=1' ? '' : location.search.replace(/&s=1\b/, ''))); } catch (e) {}
 }
 addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
