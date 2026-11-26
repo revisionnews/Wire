@@ -4004,8 +4004,8 @@ function openStory(card, id, instant) {
     });
     if (!instant) requestAnimationFrame(() => close.classList.add('on'));
     requestAnimationFrame(() => wrap.classList.add('lit'));
-    if (instant) { wrap.classList.add('srcs', 'now'); if (srx) srx.open(true); wrap.style.overflowY = 'auto'; }
-    else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); if (srx) srx.open(false); setTimeout(() => { wrap.style.overflowY = 'auto'; }, 520); }));
+    if (instant) { wrap.classList.add('srcs', 'now'); if (srx) srx.open(true); fitLock(wrap); }
+    else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); if (srx) srx.open(false); setTimeout(() => fitLock(wrap), 520); }));
     const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
     arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
     dim.addEventListener('click', closeStory); close.querySelector('.px-x').addEventListener('click', e => { e.stopPropagation(); closeStory(); }); clone.addEventListener('click', closeStory);
@@ -4050,6 +4050,7 @@ if (!TVMODE) {
         else if (q._hv && d > rout) { q._hv = 0; eyeOpen(q, q._was); }
         const svg = q.querySelector('svg.eye'), lid = svg && svg.querySelector('.lid'); if (!lid) return;
         if (svg.querySelector('animate')) { q._px = q._py = 0; return; }
+        if (performance.now() - (window.__mT || 0) > 3000) return;   // idle mouse: the wandering eyes take over
         const on = q._open && mx > -1e3, m = on ? Math.min(1, d / (sz * 1.6)) : 0;
         const tx = on ? (mx - cx) / Math.max(d, 1) * m : 0, ty = on ? (my - cy) / Math.max(d, 1) * m : 0;
         const px = (q._px || 0) + (tx - (q._px || 0)) * .22, py = (q._py || 0) + (ty - (q._py || 0)) * .22;
@@ -4061,13 +4062,13 @@ if (!TVMODE) {
       if (again) raf = requestAnimationFrame(step);
     };
     const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
-    document.addEventListener('pointermove', ev => { if (ev.pointerType !== 'mouse') return; mx = ev.clientX; my = ev.clientY; kick(); }, { passive: true });
+    document.addEventListener('pointermove', ev => { if (ev.pointerType !== 'mouse') return; window.__mT = performance.now(); mx = ev.clientX; my = ev.clientY; kick(); }, { passive: true });
     document.addEventListener('mouseleave', () => { mx = my = -1e4; kick(); });
     setInterval(() => { if (mx > -1e3) kick(); }, 250);   // the board keeps moving under a still mouse
   }
   // Phones have no cursor: open eyes roam on their own, looking at the clock, the date, across the screen, or darting around,
   // in a random order at random times. A finger on the screen takes over: the eyes follow it, then go back to roaming.
-  if (!matchMedia('(hover: hover)').matches) {
+  if (true) {   // wandering: always on phones; on computers whenever the mouse has been still for 3 seconds
     const f = v => v.toFixed(2);
     const eyeD = (dx, dy) => { const a = dx * 3.2, b = dy * 2.2, cx = 12 + dx * 3.6, cy = 13.5 + dy * 2.6, k = 1.878, r = 3.4, ex = a * .4, ey = 13.5 + b * .5;
       return `M${f(1.8 + ex)} ${f(ey)}Q${f(12 + a)} ${f(3.8 + b)} ${f(22.2 + ex)} ${f(ey)}Q${f(12 + a)} ${f(23.2 + b)} ${f(1.8 + ex)} ${f(ey)}ZM${f(cx)} ${f(cy - r)}C${f(cx + k)} ${f(cy - r)} ${f(cx + r)} ${f(cy - k)} ${f(cx + r)} ${f(cy)}C${f(cx + r)} ${f(cy + k)} ${f(cx + k)} ${f(cy + r)} ${f(cx)} ${f(cy + r)}C${f(cx - k)} ${f(cy + r)} ${f(cx - r)} ${f(cy + k)} ${f(cx - r)} ${f(cy)}C${f(cx - r)} ${f(cy - k)} ${f(cx - k)} ${f(cy - r)} ${f(cx)} ${f(cy - r)}Z`; };
@@ -4075,16 +4076,17 @@ if (!TVMODE) {
     const rnd = (a, b) => a + Math.random() * (b - a);
     const W = () => innerWidth, H = () => innerHeight;
     const ROUTINES = [
-      () => [[at('time'), 2600], [at('md') || at('dow'), 2400]],                                                             // checks the clock, then the date
-      () => [[[W() * .1, H() * .55], 2600], [[W() * .9, H() * .55], 2800]],                                                  // looks slowly across the room
-      () => Array.from({ length: 2 + Math.floor(Math.random() * 2) }, () => [[rnd(W() * .1, W() * .9), rnd(H() * .1, H() * .9)], rnd(1800, 2800)])   // wanders, curious
+      () => [[at('time'), 1800], [at('md') || at('dow'), 1700]],                                                             // checks the clock, then the date
+      () => [[[W() * .1, H() * .55], 1800], [[W() * .9, H() * .55], 1900]],                                                  // looks slowly across the room
+      () => Array.from({ length: 2 + Math.floor(Math.random() * 2) }, () => [[rnd(W() * .1, W() * .9), rnd(H() * .1, H() * .9)], rnd(1200, 2000)])   // wanders, curious
     ];
     let tx = NaN, ty = NaN, plan = [], next = 0, finger = null, fingerTill = 0, lastF = 0, wasPop = null;
-    const pick = now => { if (!plan.length) { plan = ROUTINES[Math.floor(Math.random() * ROUTINES.length)](); plan.push([null, rnd(3500, 7000)]); }
+    const pick = now => { if (!plan.length) { plan = ROUTINES[Math.floor(Math.random() * ROUTINES.length)](); plan.push([null, rnd(2000, 4500)]); }
       const [p, ms] = plan.shift(); if (p) { tx = p[0]; ty = p[1]; } else { tx = ty = NaN; } next = now + ms; };
     const loop = now => {
       requestAnimationFrame(loop);
       if (document.hidden || now - lastF < 30) return; lastF = now;
+      if (performance.now() - (window.__mT || -1e9) < 3000) { plan = []; next = 0; return; }
       if (POP !== wasPop) { wasPop = POP; plan = []; tx = ty = NaN; next = now + 3000; }   // a newly opened story looks straight ahead for 3 seconds first
       if (finger) { tx = finger[0]; ty = finger[1]; } else if (now > fingerTill && now > next) pick(now);
       document.querySelectorAll(POP ? '.popwrap .qb' : '#track > .copy .qb').forEach(q => {
@@ -4092,7 +4094,7 @@ if (!TVMODE) {
         const r = q.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > H()) return;
         const svg = q.querySelector('svg.eye'), lid = svg && svg.querySelector('.lid'); if (!lid || svg.querySelector('animate')) return;
         const cx = r.left + r.width / 2, cy = r.top + r.height / 2, d = Math.hypot(tx - cx, ty - cy), ok = d === d && d > 1, amp = finger ? 1 : .6, m = ok ? Math.min(1, d / (r.width * 1.6)) * amp : 0;
-        const gx = ok ? (tx - cx) / d * m : 0, gy = ok ? (ty - cy) / d * m : 0, k = finger ? .05 : .0045, damp = finger ? .72 : .9;
+        const gx = ok ? (tx - cx) / d * m : 0, gy = ok ? (ty - cy) / d * m : 0, k = finger ? .05 : .01, damp = finger ? .72 : .86;
         // a soft spring: the gaze speeds up gently, then glides to a stop
         q._vx = ((q._vx || 0) + (gx - (q._px || 0)) * k) * damp; q._vy = ((q._vy || 0) + (gy - (q._py || 0)) * k) * damp;
         const px = (q._px || 0) + q._vx, py = (q._py || 0) + q._vy;
@@ -4179,6 +4181,12 @@ function srcExpand(clone, id) {
       setTimeout(() => { refs.classList.add('hid', 'fadeout'); refs.classList.remove('open', 'shut'); refs.style.setProperty('transition', 'height .28s cubic-bezier(.4,0,.2,1)', 'important'); refs.getBoundingClientRect(); refs.style.height = h0 + 'px'; tw(w1, tgw0, 280);
         setTimeout(() => { refs.classList.remove('fadeout'); refs.getBoundingClientRect(); setTimeout(() => refs.classList.remove('hid'), 40); }, 300); }, 110); } };
   if (wrap) wrap._srx = o; return o;
+}
+function fitLock(w) {
+  if (!w || !w.isConnected) return;
+  const fits = w.scrollHeight <= w.clientHeight + 16; w.style.overflowY = fits ? 'hidden' : 'auto'; w.scrollTop = fits ? 0 : w.scrollTop;
+  if (!w._lk) { w._lk = 1; const stop = e => { if (w.style.overflowY === 'hidden') e.preventDefault(); };
+    w.addEventListener('wheel', stop, { passive: false }); w.addEventListener('touchmove', stop, { passive: false }); }
 }
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
