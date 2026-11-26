@@ -4310,7 +4310,7 @@ function wsPlace() {
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
   wsShift();
 }
-let WSBV = 0, WSVB = 0, WSRB = 0, WSMIN = 0;
+let WSBV = 0, WSVB = 0, WSRB = 0, WSMIN = 0, WSPRE = 0;
 function wsShift() {
   if (!WSH) return; const rl = document.getElementById('roll3d'), top = WSD - WSBV;
   WSH.style.transform = WSBV ? `translateY(${-WSBV}px)` : ''; WSH.style.clipPath = WSBV ? `inset(${WSBV}px 0 0 0)` : '';
@@ -4384,7 +4384,7 @@ function wsOpen() {
   if (TVMODE || WSOPEN || wsBusy || !WSH) return;
   gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
-  const c = WSD; WSOPEN = true; WSH.classList.add('open'); WSBV = 0; wsPlace();
+  WSPRE = off; const c = WSD; WSOPEN = true; WSH.classList.add('open'); WSBV = 0; wsPlace();
   const fold = Object.assign(wsFold(), { c, o: WSD }); fold.tg.style.opacity = '0';
   wsSlide(c, WSD, 420, true, null, fold);
   pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
@@ -4401,8 +4401,22 @@ function wsClose() {
   const o = WSD, fold = wsFold();
   WSOPEN = false; WSH.classList.remove('open'); wsPlace(); const c = WSD; WSH.classList.add('open');
   Object.assign(fold, { c, o });
-  if (had) { track.style.transition = 'opacity .15s ease'; track.style.opacity = '0';
-    setTimeout(() => { wsApply(true); track.style.transition = 'opacity .3s ease'; track.style.opacity = ''; }, 160); }
+  // All at once: the matches fade away, the tags fold up, and the full feed rolls back in from the bottom,
+  // picking up where the board was before the search
+  if (had) { const rl = document.getElementById('roll3d');
+    track.style.transition = 'opacity .18s ease'; track.style.opacity = '0'; if (rl) { rl.style.transition = 'opacity .18s ease'; rl.style.opacity = '0'; }
+    // the heavy rebuild happens while the screen is clear and after the tags have folded, so nothing stutters;
+    // then the feed rolls up from the bottom on the next clean frames
+    setTimeout(() => {
+      wsApply(true); setOff(WSPRE); if (typeof rollSync === 'function') rollSync(Math.round(off * DPR) / DPR);
+      const vh = view.clientHeight; view.style.transform = 'translateY(' + vh + 'px)';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        track.style.transition = ''; track.style.opacity = '';
+        const an = view.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: 700, easing: 'cubic-bezier(.2,.75,.25,1)' });
+        view.style.transform = '';
+        an.onfinish = () => { if (rl) { rl.style.transition = 'opacity .25s ease'; rl.style.opacity = ''; } };
+      }));
+    }, 440); }
   wsSlide(o, c, 420, !had, () => { WSH.classList.remove('open'); if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000; wsBusy = false; pinWin(); }, fold);
 }
 function wsBack() { wsClose(); }
