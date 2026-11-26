@@ -3973,8 +3973,10 @@ function openStory(card, id, instant) {
     const close = document.createElement('div'); close.className = 'ptab' + (instant ? ' on' : '');
     close.innerHTML = '<button class="px-s" aria-label="Share">' + SHARE_ICO + '<span></span></button><i></i><button class="px-x" aria-label="Back to Wire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg></button>';
     { const wr = wrap.getBoundingClientRect(), cr = clone.getBoundingClientRect(), sp = clone.querySelector('.spl'), spr = sp && sp.getBoundingClientRect();
-      const w = Math.round(TABH * 2.9);
-      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right) + 'px' }); }
+      // as wide as the SPARC tags, and in the color of this card's SPARC tag (black on events; the card's own color where there is none)
+      const any = track.querySelector('.spl'), w = Math.round(spr && spr.width > 20 ? spr.width : any ? any.getBoundingClientRect().width : u * 9.2);
+      const bg = clone.classList.contains('l-ev') ? 'var(--ink)' : sp ? getComputedStyle(sp).backgroundColor : getComputedStyle(clone).backgroundColor;
+      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right + (spr && spr.width > 20 ? cr.right - spr.right : 0)) + 'px', background: bg }); }
     wrap.appendChild(close); POP.close = close; POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
