@@ -566,7 +566,7 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .popx.on{opacity:1}
 
 /* Share and close tab on the open story's top right corner: a black tab, two icons, a line between them */
-.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
+.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;background:#6E6E6E;color:var(--paper);opacity:0;transition:opacity .3s ease}
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
 .ptab button{flex:1;border:0;margin:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
@@ -582,8 +582,9 @@ html.one .ptab .px-s span{font-size:calc(var(--u)*2)}
 /* hard black shadow under the open story */
 .popwrap .pclone{box-shadow:0 0 0 transparent;transition:box-shadow .35s ease}
 .popwrap.lit .pclone{box-shadow:var(--sh) var(--sh) 0 var(--ink)}
-.popwrap .ptab{box-shadow:0 0 0 transparent;transition:opacity .3s ease,box-shadow .35s ease}
-.popwrap.lit .ptab{box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+/* the tab and the card cast one shadow: the tab only adds the strip on its right edge */
+.popwrap .ptab::after{content:'';position:absolute;left:100%;top:var(--sh);width:var(--sh);height:100%;background:var(--ink);opacity:0;transition:opacity .35s ease;pointer-events:none}
+.popwrap.lit .ptab::after{opacity:1}
 /* the meter gives a small shake when the mouse is over it */
 @media (hover:hover){.sx9:hover .wg{animation:sxShake .55s ease-in-out}}
 .sx9 .wg{transform-origin:50px 50px}
@@ -4028,7 +4029,7 @@ if (!TVMODE) {
   }
   // opening a source shuts the story's eye
   document.addEventListener('click', ev => { const a = ev.target.closest && ev.target.closest('.popwrap .sxs'); if (!a) return; const q = document.querySelector('.popwrap .qb'); if (q) { q._hv = 0; eyeOpen(q, false); } }, true);
-  document.addEventListener('click', ev => { const q = ev.target.closest && ev.target.closest('.popwrap .qb'); if (!q) return; ev.preventDefault(); ev.stopPropagation(); if (q._hv) { q._was = !q._was; eyeOpen(q, !q._was); } else eyeOpen(q, !q._open); }, true);
+  document.addEventListener('click', ev => { const q = ev.target.closest && ev.target.closest('.popwrap .qb'); if (!q) return; ev.preventDefault(); ev.stopPropagation(); q._hv = 0; closeStory(); }, true);
 }
 // Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
 // the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
