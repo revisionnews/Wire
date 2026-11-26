@@ -1,5 +1,5 @@
 {
- "edition": "Nov 26 morning upkeep",
+ "edition": "Nov 26 afternoon update",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
@@ -9,14 +9,14 @@
    "domain": "ksat.com",
    "kind": "News",
    "status": "Used",
-   "note": "Nov 26 update: front page fetch blocked, but four Nov 26 KSAT articles found by search were read; Bandera Road crash and Thanksgiving forecast added"
+   "note": "Nov 26 afternoon: local index blocked; two Nov 26 articles read; South Side shooting arrest added"
   },
   {
    "name": "News 4 San Antonio local",
    "domain": "news4sanantonio.com",
    "kind": "News",
    "status": "Failed",
-   "note": "Nov 26 update: fetch permission not answered in this unattended run"
+   "note": "Nov 26 afternoon: fetch permission not answered in this unattended run"
   },
   {
    "name": "NWS San Antonio forecast",
@@ -43,8 +43,8 @@
    "name": "San Antonio Report",
    "domain": "sanantonioreport.org",
    "kind": "News",
-   "status": "Failed",
-   "note": "Feed fetch permission not answered this run"
+   "status": "Checked",
+   "note": "Nov 26 afternoon: home page loaded but showed no dated Nov 24 to 26 articles"
   },
   {
    "name": "Texas Public Radio",
@@ -294,17 +294,26 @@
    ]
   }
  ],
- "generated_at": "2026-11-26T11:10:00-06:00",
+ "generated_at": "2026-11-26T15:05:00-06:00",
  "breaking": [
   {
-   "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
-   "summary": "A woman in her 30s was shot and killed just before 10:30 a.m. Wednesday in the doorway of an apartment in the 6200 block of South New Braunfels Avenue, near Pecan Valley Drive. Police say the shooter is a 40 year old man who fled in an older, dark colored Chevrolet Suburban, and he had not been arrested as of late morning. Three children were inside and are in Child Protective Services' care. Neither the woman nor the man police are seeking has been identified.",
-   "when": "Nov 25",
+   "headline": "Man charged with murder after surrendering in South Side apartment shooting",
+   "summary": "Michael Anthony Jones, 41, turned himself in at SAPD's Central Substation and is charged with murder in Wednesday's shooting of a 36 year old woman at an apartment in the 6200 block of South New Braunfels Avenue. An arrest affidavit says the woman was shot at the front door while four of her children, ages 9 to 18, were home, and two of the children identified Jones as their father. Her boyfriend told police Jones also pointed the gun at him and pulled the trigger, but it did not fire. Jones was booked into the Bexar County Adult Detention Center with bond set at $5.5 million.",
+   "when": "Nov 25 to 26",
    "pillar": "C",
-   "kind": "Warning",
+   "kind": "Update",
    "status": "Verified",
    "first_seen": "2026-11-25T13:05:00-06:00",
    "refs": [
+    {
+     "n": "KSAT",
+     "t": "Affidavit: Man arrested after fatally shooting woman in front of children at South Side apartment",
+     "d": "Nov 26, 2026",
+     "k": "News",
+     "u": "ksat.com",
+     "url": "https://www.ksat.com/news/local/2026/11/26/affidavit-man-arrested-after-fatally-shooting-woman-in-front-of-children-at-south-side-apartment/",
+     "f": "Has the arrest affidavit details, the murder charge and the $5.5 million bond."
+    },
     {
      "n": "KSAT",
      "t": "Woman killed in South Side shooting; SAPD searching for shooter, police say",
@@ -321,34 +330,8 @@
      "k": "News",
      "url": "https://foxsanantonio.com/news/local/watch-it-live-police-investigate-shooting-on-southeast-side"
     }
-   ]
-  },
-  {
-   "headline": "Thanksgiving travel rush hits San Antonio's airport, with about 130,000 flying this week",
-   "summary": "San Antonio International expects about 130,380 passengers from Sunday, Nov 22, through Sunday, Nov 29, with Wednesday, Nov 25, and Sunday, Nov 29, the busiest days. FOX 29 reported Wednesday morning that thousands of travelers were heading through the airport the day before Thanksgiving. Travelers should arrive two hours before domestic flights and three hours before international ones, and updates are at FlySanAntonio.com.",
-   "when": "Nov 22 to 29",
-   "pillar": "C",
-   "kind": "Warning",
-   "status": "Verified",
-   "first_seen": "2026-11-25T13:05:00-06:00",
-   "refs": [
-    {
-     "n": "City of San Antonio",
-     "t": "San Antonio International Airport Kicks Off the Holiday Season",
-     "d": "Nov 20, 2026",
-     "u": "sa.gov",
-     "k": "Official",
-     "url": "https://www.sa.gov/Directory/News-Releases/San-Antonio-International-Airport-Kicks-Off-the-Holiday-Season"
-    },
-    {
-     "n": "FOX 29 San Antonio",
-     "t": "POLL: How far are you traveling for Thanksgiving this year?",
-     "d": "Nov 25, 2026",
-     "u": "foxsanantonio.com",
-     "k": "News",
-     "url": "https://foxsanantonio.com/news/local/thanksgiving-travel-rush-brings-nearly-20000-passengers-to-san-antonio-airport-today-texas-airlines-flights-boarding-time-international-domestic"
-    }
-   ]
+   ],
+   "more": "Court records also list a second, separate charge against Jones. He declined to give police a statement."
   }
  ],
  "top": [
@@ -1033,6 +1016,33 @@
   }
  ],
  "community": [
+  {
+   "headline": "Thanksgiving travel rush hits San Antonio's airport, with about 130,000 flying this week",
+   "summary": "San Antonio International expects about 130,380 passengers from Sunday, Nov 22, through Sunday, Nov 29, with Wednesday, Nov 25, and Sunday, Nov 29, the busiest days. FOX 29 reported Wednesday morning that thousands of travelers were heading through the airport the day before Thanksgiving. Travelers should arrive two hours before domestic flights and three hours before international ones, and updates are at FlySanAntonio.com.",
+   "when": "Nov 22 to 29",
+   "pillar": "C",
+   "kind": "Warning",
+   "status": "Verified",
+   "first_seen": "2026-11-25T13:05:00-06:00",
+   "refs": [
+    {
+     "n": "City of San Antonio",
+     "t": "San Antonio International Airport Kicks Off the Holiday Season",
+     "d": "Nov 20, 2026",
+     "u": "sa.gov",
+     "k": "Official",
+     "url": "https://www.sa.gov/Directory/News-Releases/San-Antonio-International-Airport-Kicks-Off-the-Holiday-Season"
+    },
+    {
+     "n": "FOX 29 San Antonio",
+     "t": "POLL: How far are you traveling for Thanksgiving this year?",
+     "d": "Nov 25, 2026",
+     "u": "foxsanantonio.com",
+     "k": "News",
+     "url": "https://foxsanantonio.com/news/local/thanksgiving-travel-rush-brings-nearly-20000-passengers-to-san-antonio-airport-today-texas-airlines-flights-boarding-time-international-domestic"
+    }
+   ]
+  },
   {
    "headline": "Nightly I-35 lane closures near Frost Bank Center start Sunday",
    "summary": "TxDOT will close the southbound I-35 inside and center lanes from George Beach Avenue to Frost Bank Center Drive nightly from 9 p.m. to 5 a.m., Sunday, Nov 29, through Monday, Dec 7. The northbound outside lane and entrance ramp also close nightly in that window. The northbound right turn lane to Frost Bank Center Drive closes around the clock from Nov 29 to Dec 18 for gas line work, part of the I-35 Northeast Expansion.",
