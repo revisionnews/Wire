@@ -570,7 +570,7 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 html.one .intronote{font-size:calc(var(--u)*2.2)}
 
 /* Share and close tab on the open story's top right corner: a black tab, two icons, a line between them */
-.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
+.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;box-sizing:border-box;border:var(--b) solid var(--ink);border-bottom:0;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
 .ptab button{flex:1;border:0;margin:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
@@ -3974,9 +3974,9 @@ function openStory(card, id, instant) {
     close.innerHTML = '<button class="px-s" aria-label="Share">' + SHARE_ICO + '<span></span></button><i></i><button class="px-x" aria-label="Back to Wire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg></button>';
     { const wr = wrap.getBoundingClientRect(), cr = clone.getBoundingClientRect(), sp = clone.querySelector('.spl'), spr = sp && sp.getBoundingClientRect();
       // as wide as the SPARC tags, and in the color of this card's SPARC tag (black on events; the card's own color where there is none)
-      const any = track.querySelector('.spl'), w = Math.round(spr && spr.width > 20 ? spr.width : any ? any.getBoundingClientRect().width : u * 9.2);
+      const any = track.querySelector('.spl'), w = Math.round(spr && spr.width > 20 ? cr.right - spr.left : (any ? any.getBoundingClientRect().width : u * 9.2) + parseFloat(getComputedStyle(clone).borderRightWidth || 0));
       const bg = clone.classList.contains('l-ev') ? 'var(--ink)' : sp ? getComputedStyle(sp).backgroundColor : getComputedStyle(clone).backgroundColor;
-      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right + (spr && spr.width > 20 ? cr.right - spr.right : 0)) + 'px', background: bg }); }
+      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right) + 'px', background: bg }); }
     wrap.appendChild(close); POP.close = close; POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
