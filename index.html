@@ -660,8 +660,14 @@ html.tvm .stage{bottom:auto}
 .popwrap .refs.sx.open{grid-template-columns:auto 1fr !important}
 /* the eye grows from its board size to a larger one as the story opens, and shrinks back as it closes */
 html.pub .popwrap .refs.sx .qb{transition:width .45s cubic-bezier(.2,.7,.2,1),height .45s cubic-bezier(.2,.7,.2,1) !important}
-html.pub .popwrap .refs.sx.open .qb{width:calc(var(--u)*4.6) !important;height:calc(var(--u)*4.6) !important}
-html.one.pub .popwrap .refs.sx.open .qb{width:calc(var(--u)*7) !important;height:calc(var(--u)*7) !important}
+.popwrap .refs.sx{--eh:calc(var(--u)*4.6);--hh:calc(var(--eh)*1.75)}
+html.one .popwrap .refs.sx{--eh:calc(var(--u)*7)}
+html.pub .popwrap .refs.sx.open .qb{width:var(--eh) !important;height:var(--eh) !important}
+/* the header row is sized from the eye, so the eye always has room around it and SOURCES scales with it at every screen size */
+.popwrap .refs.sx .qr{transition:height .45s cubic-bezier(.2,.7,.2,1)}
+.popwrap .refs.sx.open .qr{height:var(--hh) !important}
+.popwrap .refs.sx.open .sxh,html.one .popwrap .refs.sx.open .sxh{min-height:var(--hh) !important;font-size:calc(var(--eh)*.62) !important;padding-right:calc(var(--eh)*1.6) !important}
+.popwrap .refs.sx.open .sxh em{font-size:calc(var(--eh)*.3) !important}
 html.pub .popwrap .refs.sx.open.now .qb{transition:none !important}
 .popwrap .refs.sx.open .qr{position:absolute !important;top:0;right:0;z-index:2;display:flex !important;align-items:center;justify-content:center}
 .popwrap .refs.sx.open .sxh{min-height:calc(var(--h0) - var(--u)*1.4);align-items:center;padding-right:calc(var(--u)*6);font-size:calc(var(--u)*2.3)}
@@ -3979,7 +3985,7 @@ function openStory(card, id, instant) {
       // as wide as the SPARC tags, and in the color of this card's SPARC tag (black on events; the card's own color where there is none)
       const any = track.querySelector('.spl'), w = Math.round(spr && spr.width > 20 ? cr.right - spr.left : (any ? any.getBoundingClientRect().width : u * 9.2) + parseFloat(getComputedStyle(clone).borderRightWidth || 0));
       const bg = clone.classList.contains('l-ev') ? 'var(--ink)' : sp ? getComputedStyle(sp).backgroundColor : getComputedStyle(clone).backgroundColor;
-      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right) + 'px', background: bg }); }
+      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', left: (cr.left - wr.left) + 'px', background: bg }); }
     wrap.appendChild(close); POP.close = close; POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
