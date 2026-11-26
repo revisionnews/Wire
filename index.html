@@ -568,7 +568,14 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 /* TV: the feed and the paper grain are their own GPU layers, so moving the feed never repaints them */
 html.tvm .grain{will-change:transform;transform:translateZ(0)}
 /* TV: taller source strip so the QR code is big enough for a phone across the room */
-html.tvm .refs.top{height:calc(var(--u)*12.6) !important}
+html.tvm .refs.top{height:var(--qrh) !important}
+/* TV: bigger source text, about 3px up on everything in the strip */
+html.tvm .refs.top .rw .meta{font-size:calc(var(--u)*1.25 + 3px) !important}
+html.tvm .refs.top .rl .o{font-size:calc(var(--u)*1.55 + 3px) !important}
+html.tvm .refs.top .rl .n{font-size:calc(var(--u)*1.3 + 3px) !important}
+html.tvm .refs.top .rl .m b{font-size:calc(var(--u)*.75 + 2px) !important}
+html.tvm .refs.top .tgb b{font-size:calc(var(--u)*1.3 + 3px) !important}
+html.tvm .refs.top .tgb i{font-size:calc(var(--u)*.95 + 2px) !important}
 /* Silk on Fire TV hides its toolbar when the page scrolls: give it a little room to scroll, while the board stays fixed to the screen */
 html.tvm,html.tvm body{height:auto !important;overflow-y:auto !important}
 html.tvm body{min-height:calc(100vh + 160px)}
@@ -3131,6 +3138,7 @@ function layout() {
   stage.style.width = sw + 'px'; stage.style.height = one ? 'max(100lvh, ' + sh + 'px)' : TVMODE ? 'calc(100vh + 220px)' : sh + 'px';   // TV: taller than the screen, so the paper still reaches the bottom when Silk hides its toolbar
   stage.style.left = '0px'; stage.style.top = '0px';
   document.documentElement.style.setProperty('--u', u + 'px');
+  { const dpr = window.devicePixelRatio || 1, mq = (+(new URLSearchParams(location.search).get('qm')) || Math.max(4, Math.round(u * .37))); document.documentElement.style.setProperty('--qrh', (31 * mq / dpr + Math.ceil(u * .45)) + 'px'); }   // plus the strip's top rule, which the code sits under
   document.documentElement.style.setProperty('--b', Math.max(2, u * 177.78 * 0.001) + 'px');
 }
 
@@ -3164,9 +3172,9 @@ function qrSvg(text) {
   if (QRC[text] !== undefined) return QRC[text];
   try {
     const q = qrcode(0, 'L'); q.addData(text); q.make();
-    const n = q.getModuleCount(); let d = '';
+    const n = q.getModuleCount(), z = TVMODE ? 1 : 2; let d = '';
     for (let r = 0; r < n; r++) { let c = 0; while (c < n) { if (!q.isDark(r, c)) { c++; continue; } let k = c; while (k < n && q.isDark(r, k)) k++; d += 'M' + c + ' ' + r + 'h' + (k - c) + 'v1h-' + (k - c) + 'z'; c = k; } }
-    return (QRC[text] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 ' + (n + 4) + ' ' + (n + 4) + '" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet"><rect x="-2" y="-2" width="' + (n + 4) + '" height="' + (n + 4) + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>');
+    return (QRC[text] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + -z + ' ' + -z + ' ' + (n + 2 * z) + ' ' + (n + 2 * z) + '" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet"><rect x="' + -z + '" y="' + -z + '" width="' + (n + 2 * z) + '" height="' + (n + 2 * z) + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>');
   } catch (e) { return (QRC[text] = ''); }
 }
 const IN_ART = /claude|anthropic/.test(location.hostname);
