@@ -4180,7 +4180,11 @@ function srcExpand(clone, id) {
     prep() { refs.classList.add('fadeout'); },
     open(now) { if (now) { refs.classList.add('open', 'now'); refs.style.height = 'auto'; if (mo) mo.classList.add('open', 'now'); return; }
       refs.style.height = h0 + 'px'; refs.classList.add('open'); refs.classList.remove('fadeout'); refs.getBoundingClientRect(); refs.style.height = h1 + 'px'; tw(tgw0, tgw1); if (mo) mo.classList.add('open');
-      setTimeout(() => { if (refs.classList.contains('open')) refs.style.height = 'auto'; }, 460); },
+      // when it lands, ease to the true height instead of snapping to it
+      const settle = () => { if (!refs.classList.contains('open')) return; const cur = refs.offsetHeight; refs.style.transition = 'none'; refs.style.height = 'auto'; const fin = refs.offsetHeight;
+        if (Math.abs(fin - cur) < 1.5) { refs.style.transition = ''; return; }
+        refs.style.height = cur + 'px'; refs.getBoundingClientRect(); refs.style.transition = ''; refs.style.height = fin + 'px'; setTimeout(() => { if (refs.classList.contains('open')) refs.style.height = 'auto'; }, 520); };
+      setTimeout(settle, 470); },
     close() { refs.classList.remove('now'); refs.style.height = refs.offsetHeight + 'px'; refs.classList.add('shut'); if (mo) mo.classList.remove('open', 'now');
       const w1 = tg ? tg.offsetWidth : tgw1;
       setTimeout(() => { refs.classList.add('hid', 'fadeout'); refs.classList.remove('open', 'shut'); refs.style.setProperty('transition', 'height .28s cubic-bezier(.4,0,.2,1)', 'important'); refs.getBoundingClientRect(); refs.style.height = h0 + 'px'; tw(w1, tgw0, 280);
@@ -4203,7 +4207,8 @@ function closeStory() {
   if (w && card && card.isConnected) { const r = card.getBoundingClientRect(); if (r.height && r.bottom > 0 && r.top < innerHeight) home = r.top - (parseFloat(w.style.paddingTop) || 0); }
   const wait = w && w._srx ? 250 : 0; // the strip folds first, then the story glides home
   setTimeout(() => {
-    if (w) { w.style.maxHeight = 'none'; w.classList.remove('glide', 'now'); if (home !== null) w.style.top = home + 'px'; else w.classList.add('off'); }
+    if (w) { const pt = w.querySelector('.ptab'); if (pt) { pt.style.top = pt.offsetTop + 'px'; pt.style.bottom = 'auto'; pt.style.transition = 'opacity .12s ease'; pt.style.opacity = '0'; }
+      w.style.maxHeight = 'none'; w.classList.remove('glide', 'now'); if (home !== null) w.style.top = home + 'px'; else w.classList.add('off'); }
     if (p.dim) p.dim.classList.remove('on', 'now');
   }, wait);
   setTimeout(() => { if (card) card.style.visibility = ''; [p.dim, w, p.close].forEach(e => e && e.remove()); speed = p.keep; if (window.__pendRender) { window.__pendRender = 0; render(); } }, wait + 560);
