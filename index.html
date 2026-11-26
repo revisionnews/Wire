@@ -576,15 +576,15 @@ html.one .intronote{font-size:calc(var(--u)*2.2)}
 .ptab{position:absolute;z-index:6;display:flex;align-items:stretch;box-sizing:border-box;border:var(--b) solid var(--ink);border-top:0;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
-.ptab button{flex:none;border:0;margin:0;padding:0 calc(var(--u)*1.4);gap:.6em;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
+.ptab button{flex:none;border:0;margin:0;padding:0 calc(var(--u)*2.4);gap:.6em;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
 .ptab button{transition:background .15s ease}
 .ptab .px-x:hover,.ptab .px-x:active{background:var(--red)}
 .ptab .px-s:hover,.ptab .px-s:active,.ptab .px-s.said{background:#A21CAF}
-.ptab button svg{width:auto;height:34%;display:block;flex:none;opacity:.72;transition:opacity .15s ease}
+.ptab button svg{width:auto;height:38%;display:block;flex:none;opacity:.72;transition:opacity .15s ease}
 .ptab .px-x svg{height:31%}
 .ptab button:hover svg,.ptab button:active svg{opacity:1}
-.ptab b{font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
-html.one .ptab b{font-size:calc(var(--u)*2)}
+.ptab b{font:900 calc(var(--u)*1.65)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+html.one .ptab b{font-size:calc(var(--u)*2.7)}
 .ptab .px-s span{position:absolute;right:100%;top:50%;transform:translateY(-50%);white-space:nowrap;background:#A21CAF;color:#fff;font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:calc(var(--u)*.7) calc(var(--u)*.9);opacity:0;pointer-events:none;transition:opacity .2s ease}
 .ptab .px-s.said span{opacity:1}
 html.one .ptab .px-s span{font-size:calc(var(--u)*2)}
@@ -3985,7 +3985,7 @@ function openStory(card, id, instant) {
     wrap.style.maxHeight = (lim1 - ctop + pad) + 'px';
     // Share and close sit as a tab on the story's top right corner, as wide as its SPARC tag
     const close = document.createElement('div'); close.className = 'ptab' + (instant ? ' on' : '');
-    close.innerHTML = '<button class="px-x"><b>Back to Wire</b></button><i></i><button class="px-s">' + SHARE_ICO + '<b>Share</b><span></span></button>';
+    close.innerHTML = '<button class="px-x"><b>Back to Wire</b></button><i></i><button class="px-s"><b>Share</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 2.5L10 14M21.5 2.5L14.5 21.5L10 14L2.5 9.5Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="miter" stroke-linecap="square"/></svg><span></span></button>';
     { const wr = wrap.getBoundingClientRect(), cr = clone.getBoundingClientRect(), sp = clone.querySelector('.spl'), spr = sp && sp.getBoundingClientRect();
       // as wide as the SPARC tags, and in the color of this card's SPARC tag (black on events; the card's own color where there is none)
       const any = track.querySelector('.spl'), w = Math.round(spr && spr.width > 20 ? cr.right - spr.left : (any ? any.getBoundingClientRect().width : u * 9.2) + parseFloat(getComputedStyle(clone).borderRightWidth || 0));
