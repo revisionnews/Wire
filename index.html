@@ -3793,7 +3793,7 @@ function srcExpand(clone, id) {
     tgb.appendChild(d); }
   // the longer brief, if the refresh wrote one, unfolds under the summary at the same time
   let mo = null; const more = MORE[id], sum = clone.querySelector('.sum');
-  if (more && sum) { mo = document.createElement('div'); mo.className = 'sxmore'; mo.innerHTML = `<p class="sum">${esc(more)}</p>`; sum.after(mo); }
+  if (more && sum) { mo = document.createElement('div'); mo.className = 'sxmore'; mo.innerHTML = `<p class="sum">${esc(more)}</p>`; sum.after(mo); const cs = getComputedStyle(sum), pp = mo.firstChild; ['marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'].forEach(k => { mo.style[k] = cs[k]; pp.style[k] = '0'; }); pp.style.paddingTop = cs.marginBottom; }
   // measure how much taller the open story will be, without showing it
   const h0 = refs.offsetHeight; refs.classList.add('open'); if (mo) mo.classList.add('open');
   const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
