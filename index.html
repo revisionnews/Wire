@@ -1059,7 +1059,7 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Search option B: the box and its tags sit together in one gray panel, no outlines */
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
-.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*3);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;-webkit-mask:var(--bm) 0 100%/170px 100% repeat-x;mask:var(--bm) 0 100%/170px 100% repeat-x}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform;opacity:.26}.wsbite .sin.bc{opacity:.62}.wsbite .sin.bc *{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important}.wsbite .sin.bc svg,.wsbite .sin.bc img{visibility:hidden !important}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
+.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*3);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;-webkit-mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x;-webkit-mask-composite:source-in;mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x;mask-composite:intersect}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform;opacity:.26}.wsbite .sin.bc{opacity:.62}.wsbite .sin.bc *{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important}.wsbite .sin.bc svg,.wsbite .sin.bc img{visibility:hidden !important}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
 .wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
 .wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
 .wsh .wt2{gap:calc(var(--u)*.9) !important}
@@ -3994,7 +3994,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126084906';
+const BUILD = '20261126085200';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4521,9 +4521,10 @@ function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0);
 function setOff(v) { off = v; if (copyH && !track.classList.contains('wsm')) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); wsBite(y); }
 // The search bar swallows the stories: while a card passes the top of the roll, its side strokes and a little of its color run up into the bar
 let BITEK = null;
-(() => { let x = 0, r = ''; while (x < 170) { const w = 1 + Math.random() * 3, h = 20 + Math.random() * 80; r += `<rect x='${x.toFixed(1)}' y='${(100 - h).toFixed(1)}' width='${w.toFixed(1)}' height='${h.toFixed(1)}' fill='url(%23g)'/>`; x += w; }
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 100' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='1' x2='0' y2='0'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient></defs>${r}</svg>`;
-  document.documentElement.style.setProperty('--bm', `url("data:image/svg+xml;utf8,${svg}")`); })();
+// two ragged noise strips; they slide past each other as the board moves (and drift slowly with time), so the edge keeps changing
+(() => { const mk = (W, lo) => { let x = 0, r = ''; while (x < W) { const w = 1 + Math.random() * 3, h = lo + Math.random() * (100 - lo); r += `<rect x='${x.toFixed(1)}' y='${(100 - h).toFixed(1)}' width='${w.toFixed(1)}' height='${h.toFixed(1)}' fill='url(%23g)'/>`; x += w; }
+    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} 100' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='1' x2='0' y2='0'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient></defs>${r}</svg>")`; };
+  document.documentElement.style.setProperty('--bm', mk(170, 25)); document.documentElement.style.setProperty('--bm2', mk(233, 45)); })();
 function wsBite(y) {
   if (TVMODE || !WSH) return;
   const box = WSH.querySelector('.wsearch'); if (!box) return;
@@ -4531,6 +4532,7 @@ function wsBite(y) {
   if (WSOPEN || typeof RC === 'undefined' || !RR) { if (BITEK !== '') { BITEK = ''; L.classList.remove('on'); } return; }
   const top = y - RR * RPHI + U * 1.6, hit = RC.filter(c => c.t < top - 1 && c.b > top + 1 && !c.el.classList.contains('wsearch'));
   const key = hit.map(c => RC.indexOf(c)).join(',');
+  { const t = performance.now() / 1000; L.style.setProperty('--m1', (y * .45 + t * 3).toFixed(1) + 'px'); L.style.setProperty('--m2', (-y * .3 - t * 2).toFixed(1) + 'px'); }
   const D = 1, grow = () => { const mx = L.clientHeight || U * 4, rr = U * 7; [...L.children].forEach((e, i) => { const c = hit[i]; if (!c) return;
     const d = Math.max(0, Math.min(top - c.t, c.b - top)), H = Math.min(1, d / rr) * mx, row = Math.max(D, top - c.t);
     e.style.height = H.toFixed(1) + 'px'; const tf = `translateY(${H.toFixed(2)}px) scale(${e._sx},${(Math.max(H, 1) / D).toFixed(3)}) translateY(${(-row).toFixed(2)}px)`; for (const x of e.children) x.style.transform = tf; }); };
