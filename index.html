@@ -658,6 +658,11 @@ html.tvm .stage{bottom:auto}
 .sxd small b{display:block;font:900 calc(var(--u)*1.15)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:calc(var(--u)*.35);opacity:.8}
 /* sources box: the eye sits in the header corner, the tiles run full width under it */
 .popwrap .refs.sx.open{grid-template-columns:auto 1fr !important}
+/* the eye grows from its board size to a larger one as the story opens, and shrinks back as it closes */
+html.pub .popwrap .refs.sx .qb{transition:width .45s cubic-bezier(.2,.7,.2,1),height .45s cubic-bezier(.2,.7,.2,1) !important}
+html.pub .popwrap .refs.sx.open .qb{width:calc(var(--u)*4.6) !important;height:calc(var(--u)*4.6) !important}
+html.one.pub .popwrap .refs.sx.open .qb{width:calc(var(--u)*7) !important;height:calc(var(--u)*7) !important}
+html.pub .popwrap .refs.sx.open.now .qb{transition:none !important}
 .popwrap .refs.sx.open .qr{position:absolute !important;top:0;right:0;z-index:2;display:flex !important;align-items:center;justify-content:center}
 .popwrap .refs.sx.open .sxh{min-height:calc(var(--h0) - var(--u)*1.4);align-items:center;padding-right:calc(var(--u)*6);font-size:calc(var(--u)*2.3)}
 html.one .popwrap .refs.sx.open .sxh{min-height:calc(var(--h0) - var(--u)*2);font-size:calc(var(--u)*3)}
