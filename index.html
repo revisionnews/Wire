@@ -996,6 +996,7 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Search option B: the box and its tags sit together in one gray panel, no outlines */
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
+.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
 .wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
 .wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
 .wsh .wt2{gap:calc(var(--u)*.9) !important}
@@ -4432,6 +4433,9 @@ function wsPlace() {
   view.style.removeProperty('top'); if (rl) rl.style.removeProperty('top');
   const vb = view.offsetTop, rb = rl ? rl.offsetTop : vb;
   WSH.style.top = rb + 'px';
+  // the box is exactly as wide as the paper at the top of the roll-off, so the stories roll straight into it
+  { const rh = rl ? rl.clientHeight : 0, m = (Math.PI / 2) * (1 - .5 / 12), sx = 1 / (1 + rh * (1 - Math.cos(m)) / (U * 62)), W = (rl ? rl.clientWidth : innerWidth) / 2;
+    WSH.style.setProperty('--wsi', Math.round((W - (W - U * 2.2) * sx) * DPR) / DPR + 'px'); }
   const box = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags');
   const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight + U * .7 : 0);
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
