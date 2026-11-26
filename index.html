@@ -3909,7 +3909,7 @@ function srcExpand(clone, id) {
     close() { refs.classList.remove('now'); refs.style.height = refs.offsetHeight + 'px'; refs.classList.add('shut'); if (mo) mo.classList.remove('open', 'now');
       const w1 = tg ? tg.offsetWidth : tgw1;
       setTimeout(() => { refs.classList.add('hid', 'fadeout'); refs.classList.remove('open', 'shut'); refs.style.setProperty('transition', 'height .28s cubic-bezier(.4,0,.2,1)', 'important'); refs.getBoundingClientRect(); refs.style.height = h0 + 'px'; tw(w1, tgw0, 280);
-        setTimeout(() => { refs.classList.remove('hid'); refs.getBoundingClientRect(); refs.classList.remove('fadeout'); }, 220); }, 110); } };
+        setTimeout(() => { refs.classList.remove('fadeout'); refs.getBoundingClientRect(); setTimeout(() => refs.classList.remove('hid'), 40); }, 300); }, 110); } };
   if (wrap) wrap._srx = o; return o;
 }
 function closeStory() {
