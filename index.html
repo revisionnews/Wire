@@ -573,7 +573,7 @@ html.one,html.one body{background:var(--paper) linear-gradient(color-mix(in srgb
 html.one .intronote{font-size:calc(var(--u)*2.2)}
 
 /* Share and close tab on the open story's top right corner: a black tab, two icons, a line between them */
-.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;box-sizing:border-box;border:var(--b) solid var(--ink);border-top:0;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
+.ptab{box-shadow:0 -3px 0 var(--ink);position:absolute;z-index:6;display:flex;align-items:stretch;box-sizing:border-box;border:var(--b) solid var(--ink);border-top:0;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
 .ptab button{flex:none;border:0;margin:0;padding:0 calc(var(--u)*2.4);gap:.6em;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
@@ -4008,8 +4008,13 @@ function openStory(card, id, instant) {
     else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); if (srx) srx.open(false); setTimeout(() => fitLock(wrap), 520); }));
     const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
     arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
-    dim.addEventListener('click', closeStory); close.querySelector('.px-x').addEventListener('click', e => { e.stopPropagation(); closeStory(); }); clone.addEventListener('click', closeStory);
-    { let dy0 = null; dim.addEventListener('pointerdown', e => { dy0 = e.clientY; }); dim.addEventListener('pointermove', e => { if (dy0 !== null && Math.abs(e.clientY - dy0) > 14) { dy0 = null; closeStory(); } }); dim.addEventListener('pointerup', () => { dy0 = null; });
+    // Computers: a click outside closes the story. Phones: taps outside only close it on the third one, and taps on the
+    // story never do, so people learn to use Back to Wire.
+    const TOUCHY = !matchMedia('(hover: hover)').matches; let outTaps = 0;
+    dim.addEventListener('click', () => { if (!TOUCHY || ++outTaps >= 3) closeStory(); });
+    close.querySelector('.px-x').addEventListener('click', e => { e.stopPropagation(); closeStory(); });
+    clone.addEventListener('click', () => { if (!TOUCHY) closeStory(); });
+    { let dy0 = null; dim.addEventListener('pointerdown', e => { dy0 = TOUCHY ? null : e.clientY; }); dim.addEventListener('pointermove', e => { if (dy0 !== null && Math.abs(e.clientY - dy0) > 14) { dy0 = null; closeStory(); } }); dim.addEventListener('pointerup', () => { dy0 = null; });
       dim.addEventListener('touchmove', e => { e.preventDefault(); }, { passive: false }); dim.addEventListener('wheel', e => { e.preventDefault(); closeStory(); }, { passive: false }); }
   };
   glide();
