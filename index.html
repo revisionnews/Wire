@@ -578,6 +578,7 @@ html.pub .hbtn{--hs:calc(var(--u)*3.6);position:relative;display:grid;place-item
 html.one.pub .hbtn{--hs:calc(var(--u)*6.2)}
 html.pub .hbtn::before{content:"";position:absolute;inset:calc(var(--hs)*-.45)}
 html.pub .hbtn svg{width:100%;height:100%;overflow:visible;display:block;filter:url(#hgr)}
+html.pub #hkey svg{transform:scale(.8)}
 #hkey .qf{transform-box:view-box;transform-origin:50% 50%;transition:transform .55s cubic-bezier(.5,-.3,.3,1.35)}#hkey.inv .qf{transform:rotate(180deg)}
 .wkey .kh .qf{transform-box:view-box;transform-origin:50% 50%}
 .bulb svg{width:100%;height:100%;overflow:visible;display:block}
@@ -1052,7 +1053,7 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Search option B: the box and its tags sit together in one gray panel, no outlines */
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
-.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*2.8);pointer-events:none;opacity:0;transition:opacity .22s ease}.wsbite.on{opacity:1;transition-duration:.08s}.wsbite b{position:absolute;top:0;bottom:0;background:linear-gradient(to top,color-mix(in srgb,var(--bg) 80%,transparent),transparent 85%);-webkit-mask:linear-gradient(to top,#000 25%,transparent);mask:linear-gradient(to top,#000 25%,transparent)}.wsbite b::before,.wsbite b::after{content:'';position:absolute;top:0;bottom:0;width:var(--bw);background:var(--bc)}.wsbite b::before{left:0}.wsbite b::after{right:0}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
+.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*2.8);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;opacity:.55;background:linear-gradient(to top,color-mix(in srgb,var(--bg) 60%,transparent),transparent 90%);-webkit-mask:linear-gradient(to top,#000 25%,transparent);mask:linear-gradient(to top,#000 25%,transparent)}.wsbite b::before,.wsbite b::after{content:'';position:absolute;top:0;bottom:0;width:var(--bw);background:var(--bc)}.wsbite b::before{left:0}.wsbite b::after{right:0}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
 .wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
 .wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
 .wsh .wt2{gap:calc(var(--u)*.9) !important}
@@ -1081,7 +1082,7 @@ html,body{background:var(--paper) !important}
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="hgr" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></svg>
   <header class="mast">
     <span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div>
-    <div class="who"><b id="time">--:--</b><button type="button" class="hbtn bulb" id="hbulb" aria-pressed="false" aria-label="Turn the light off"><svg viewBox="0 0 40 44" aria-hidden="true"><path class="gl" d="M20 3C12 3 7 9 7 16c0 5 2.4 8 5 11 1.3 1.6 2 3 2 5v1h12v-1c0-2 .7-3.400 2-5 2.600-3 5-6 5-11 0-7-5-13-13-13z"/><path class="fl" d="M16 24l4-6 4 6"/><rect class="bs" x="14" y="33" width="12" height="3.500" rx="1"/><rect class="bs" x="15.500" y="38" width="9" height="3.500" rx="1.500"/></svg></button><button type="button" class="hbtn" id="hkey" aria-label="How to read the Wire" title="Key"><svg viewBox="0 0 40 44" aria-hidden="true"><g class="qf"><path d="M9 15.5C9 9 13.6 5 19.6 5S30 8.6 30 14.2c0 4.6-3 6.6-5.6 8.3-2.2 1.4-3.4 2.4-3.4 5V29" fill="none" stroke="currentColor" stroke-width="5.4" stroke-linecap="square"/><rect x="18" y="34" width="6" height="6" fill="currentColor"/></g></svg></button></div>
+    <div class="who"><b id="time">--:--</b><button type="button" class="hbtn" id="hkey" aria-label="How to read the Wire" title="Key"><svg viewBox="0 0 40 44" aria-hidden="true"><g class="qf"><path d="M9 15.5C9 9 13.6 5 19.6 5S30 8.6 30 14.2c0 4.6-3 6.6-5.6 8.3-2.2 1.4-3.4 2.4-3.4 5V29" fill="none" stroke="currentColor" stroke-width="7.2" stroke-linecap="square"/><rect x="17.2" y="33.4" width="7.6" height="7.6" fill="currentColor"/></g></svg></button><button type="button" class="hbtn bulb" id="hbulb" aria-pressed="false" aria-label="Turn the light off"><svg viewBox="0 0 40 44" aria-hidden="true"><path class="gl" d="M20 3C12 3 7 9 7 16c0 5 2.4 8 5 11 1.3 1.6 2 3 2 5v1h12v-1c0-2 .7-3.400 2-5 2.600-3 5-6 5-11 0-7-5-13-13-13z"/><path class="fl" d="M16 24l4-6 4 6"/><rect class="bs" x="14" y="33" width="12" height="3.500" rx="1"/><rect class="bs" x="15.500" y="38" width="9" height="3.500" rx="1.500"/></svg></button></div>
   </header>
   <div class="alert" id="alert"></div>
   <div class="pins" id="pins"><div class="pin"></div><div class="pin"></div></div>
@@ -3987,7 +3988,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126082821';
+const BUILD = '20261126083308';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4518,16 +4519,17 @@ function wsBite(y) {
   const box = WSH.querySelector('.wsearch'); if (!box) return;
   let L = box.querySelector('.wsbite'); if (!L) { L = document.createElement('i'); L.className = 'wsbite'; L.setAttribute('aria-hidden', 'true'); box.appendChild(L); }
   if (WSOPEN || typeof RC === 'undefined' || !RR) { if (BITEK !== '') { BITEK = ''; L.classList.remove('on'); } return; }
-  const top = y - RR * RPHI, hit = RC.filter(c => c.t < top - 1 && c.b > top + 1 && !c.el.classList.contains('wsearch'));
+  const top = y - RR * RPHI + U * 1.6, hit = RC.filter(c => c.t < top - 1 && c.b > top + 1 && !c.el.classList.contains('wsearch'));
   const key = hit.map(c => RC.indexOf(c)).join(',');
-  if (key === BITEK) return; BITEK = key;
+  const grow = () => { const mx = L.clientHeight || U * 2.8, rr = U * 9; [...L.children].forEach((e, i) => { const c = hit[i]; if (!c) return; const d = Math.max(0, Math.min(top - c.t, c.b - top)); e.style.height = (Math.min(1, d / rr) * mx).toFixed(1) + 'px'; }); };
+  if (key === BITEK) { if (hit.length) grow(); return; } BITEK = key;
   if (!hit.length) { L.classList.remove('on'); return; }
   const rl = document.getElementById('roll3d'), rr = rl.getBoundingClientRect(), tr = track.getBoundingClientRect(), br = box.getBoundingClientRect();
   const m = RPHI * (RN - .5) / RN, sx = 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62)), RWh = rr.width / 2;
   const X = x => rr.left + RWh + (tr.left - rr.left + x - RWh) * sx - br.left;
   L.innerHTML = hit.map(c => { const cs = getComputedStyle(c.el), bw = Math.max(1, parseFloat(cs.borderLeftWidth) || 2) * sx, l = X(c.l), r = X(c.l + c.w), bc = cs.borderLeftColor, bg = cs.backgroundColor;
     return `<b style="left:${l.toFixed(1)}px;width:${(r - l).toFixed(1)}px;--bc:${bc};--bg:${bg};--bw:${bw.toFixed(2)}px"></b>`; }).join('');
-  L.classList.add('on');
+  L.classList.add('on'); grow();
 }
 // Place the locked box (and the tags when open) between the masthead and the roll-off
 function wsPlace() {
