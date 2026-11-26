@@ -729,7 +729,7 @@ html.one .popwrap .refs.sx.open .tgb:has(.sxd.tv9){width:calc(var(--u)*32) !impo
 .sxd.tv9{margin-top:0;text-align:left;gap:calc(var(--u)*1.2)}
 .sxd.tv9 .sxg{display:flex;flex-direction:column;gap:calc(var(--u)*.7);align-items:stretch}
 .sxd.tv9 .sxg + .sxg{padding-top:calc(var(--u)*1.2);border-top:2px solid rgba(255,255,255,.4)}
-.sxd.tv9 .sxg > b{font:900 calc(var(--u)*1.9)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.sxd.tv9 .sxg > b{font:900 calc(var(--u)*1.9)/1 'Hando',sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;max-width:100%}
 .sxd.tv9 small{font:600 calc(var(--u)*1.6)/1.3 'Hando',sans-serif;text-transform:none;letter-spacing:0;margin:0}
 .sxd.tv9 em{font-size:calc(var(--u)*1.1)}
 .sx9 svg{width:100%;height:auto;display:block}
@@ -3954,7 +3954,7 @@ setInterval(() => {
 }, 850);
 // Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
 // the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
-let TAGV = 0;   // tag panel design; alternatives live only in the mockup artifact
+let TAGV = 9;   // tag panel: What it is, then the How sure meter
 const KIND_M = { Update: 'A new development on a story that is already moving.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Something you can go to, with a date and a place.', Memo: 'A city document sent to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
 const STAT_M = { Verified: 'Backed by an official page or two or more independent newsrooms.', Reported: 'From one outlet, and the facts match its page.', Unconfirmed: 'It matters, but a key fact is not confirmed yet.', Upcoming: 'Scheduled. It has not happened yet.', Confirmed: 'Confirmed by the agency or more than one source.' };
 const ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>';
@@ -3984,11 +3984,12 @@ function srcExpand(clone, id) {
       d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx7"><svg viewBox="0 0 42 24">${[0, 1, 2, 3].map(n => `<path d="${arc(n / 4 + .012, (n + 1) / 4 - .012)}" fill="none" stroke="currentColor" stroke-width="6" opacity="${n < cl ? 1 : .25}"/>`).join('')}<g class="nd" style="--a:${ang}deg"><path d="M21 21L21 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="21" cy="21" r="2.6" fill="currentColor"/></g></svg></div><b class="sxrl">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
     else if (V === 9) {
       // full half disc in four colored wedges with thin gaps; the needle is cut out of it and points at this story's level
-      const COL = ['#FF8A7A', '#FFC94D', '#8FE07A', '#7CC4FF'], ang = -90 + (cl - .5) / 4 * 180, mid = 'm' + id.replace(/\W/g, '');
+      const COL = ['var(--ink)', 'var(--teal)', 'var(--green)', '#A21CAF'],   // the board's own status colors: unconfirmed black, one source teal, confirmed green, official purple (the document color)
+        ang = -90 + (cl - .5) / 4 * 180, mid = 'm' + id.replace(/\W/g, '');
       const P = a => [50 + 48 * Math.cos(Math.PI * (1 - a)), 50 - 48 * Math.sin(Math.PI * (1 - a))];
-      const wedge = n => { const [x0, y0] = P(n / 4), [x1, y1] = P((n + 1) / 4); return `<path d="M50 50L${x0.toFixed(2)} ${y0.toFixed(2)}A48 48 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z" fill="${COL[n]}"/>`; };
+      const wedge = n => { const [x0, y0] = P(n / 4), [x1, y1] = P((n + 1) / 4); return `<path d="M50 50L${x0.toFixed(2)} ${y0.toFixed(2)}A48 48 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z" style="fill:${COL[n]}"/>`; };
       const sep = n => { const [x, y] = P(n / 4); return `<line x1="50" y1="50" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke="#000" stroke-width="1.6"/>`; };
-      d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx9"><svg viewBox="0 0 100 52"><defs><mask id="${mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="52"><rect width="100" height="52" fill="#fff"/>${[1, 2, 3].map(sep).join('')}<g class="nd" style="--a:${ang}deg"><path d="M46.4 50L50 6L53.6 50Z" fill="#000"/></g><circle cx="50" cy="50" r="7" fill="#000"/></mask></defs><g mask="url(#${mid})">${[0, 1, 2, 3].map(wedge).join('')}</g></svg><div class="sx9l">${CL.map((c, n) => `<span style="color:${COL[n]}" class="${n + 1 === cl ? 'on' : ''}">${esc(c[0])}</span>`).join('')}</div></div><b class="sx9n"><i style="background:${COL[cl - 1]}"></i>${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
+      d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx9"><svg viewBox="0 0 100 52"><defs><mask id="${mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="52"><rect width="100" height="52" fill="#fff"/>${[1, 2, 3].map(sep).join('')}<g class="nd" style="--a:${ang}deg"><path d="M46.4 50L50 6L53.6 50Z" fill="#000"/></g><circle cx="50" cy="50" r="7" fill="#000"/></mask></defs><g mask="url(#${mid})">${[0, 1, 2, 3].map(wedge).join('')}</g></svg><div class="sx9l">${CL.map((c, n) => `<span style="color:${COL[n]}" class="${n + 1 === cl ? 'on' : ''}">${esc(c[0])}</span>`).join('')}</div></div><b class="sx9n">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
     else if (V === 8) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx8" style="--p:${cl / 4};--n:${cl - 1}"><div class="bar"><i></i></div><div class="tk"><div class="win"><div class="col">${CL.map(c => `<b>${esc(c[0])}</b>`).join('')}</div></div><span>${cl} of 4</span></div></div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 1) d.innerHTML = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div><div class="sxg"><em>How sure</em>` + L.map(x => `<span class="${x === ss ? 'on' : ''}"><i></i>${esc(x)}</span>`).join('') + `<small>${esc(STAT_M[ss] || '')}</small></div>`;
     else if (V === 2) d.innerHTML = `<b class="sxk">${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small><em>How sure</em><div class="sxm">${[1, 2, 3].map(n => `<i class="${n <= lv ? 'on' : ''}"></i>`).join('')}</div><div class="sxmx"><span>Less</span><span>More</span></div><b class="sxs2">${esc(ss)}</b><small>${esc(STAT_M[ss] || '')}</small>`;
@@ -4001,6 +4002,7 @@ function srcExpand(clone, id) {
   // measure how much taller the open story will be, without showing it
   const tg = refs.querySelector('.tg'), tgw0 = tg ? tg.offsetWidth : 0;
   const h0 = refs.offsetHeight; refs.style.setProperty('--h0', h0 + 'px'); { const qr = refs.querySelector('.qr'); if (qr) qr.style.height = h0 + 'px'; } refs.classList.add('open'); if (mo) mo.classList.add('open');
+  refs.querySelectorAll('.sxd .sxg > b').forEach(b => { const w = b.parentElement.clientWidth; let fs = parseFloat(getComputedStyle(b).fontSize); while (b.scrollWidth > w + 1 && fs > 8) { fs -= .5; b.style.fontSize = fs + 'px'; } });
   const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0, tgw1 = tg ? tg.offsetWidth : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
   const wrap = clone.closest('.popwrap');
   // the tag widens and narrows smoothly instead of jumping
