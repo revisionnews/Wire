@@ -573,17 +573,19 @@ html.one,html.one body{background:var(--paper) linear-gradient(color-mix(in srgb
 html.one .intronote{font-size:calc(var(--u)*2.2)}
 
 /* Share and close tab on the open story's top right corner: a black tab, two icons, a line between them */
-.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;box-sizing:border-box;border:var(--b) solid var(--ink);border-bottom:0;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
+.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;box-sizing:border-box;border:var(--b) solid var(--ink);border-top:0;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
-.ptab button{flex:1;border:0;margin:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
+.ptab button{flex:none;border:0;margin:0;padding:0 calc(var(--u)*1.4);gap:.6em;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
 .ptab button{transition:background .15s ease}
 .ptab .px-x:hover,.ptab .px-x:active{background:var(--red)}
 .ptab .px-s:hover,.ptab .px-s:active,.ptab .px-s.said{background:#A21CAF}
-.ptab button svg{width:auto;height:38%;display:block;flex:none;opacity:.72;transition:opacity .15s ease}
+.ptab button svg{width:auto;height:34%;display:block;flex:none;opacity:.72;transition:opacity .15s ease}
 .ptab .px-x svg{height:31%}
 .ptab button:hover svg,.ptab button:active svg{opacity:1}
-.ptab .px-s span{position:absolute;left:100%;top:50%;transform:translateY(-50%);white-space:nowrap;background:#A21CAF;color:#fff;font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:calc(var(--u)*.7) calc(var(--u)*.9);opacity:0;pointer-events:none;transition:opacity .2s ease}
+.ptab b{font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+html.one .ptab b{font-size:calc(var(--u)*2)}
+.ptab .px-s span{position:absolute;right:100%;top:50%;transform:translateY(-50%);white-space:nowrap;background:#A21CAF;color:#fff;font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:calc(var(--u)*.7) calc(var(--u)*.9);opacity:0;pointer-events:none;transition:opacity .2s ease}
 .ptab .px-s.said span{opacity:1}
 html.one .ptab .px-s span{font-size:calc(var(--u)*2)}
 /* hard black shadow under the open story */
@@ -3961,9 +3963,9 @@ function openStory(card, id, instant) {
   const REG = id !== 'archive' && !CE;
   if (!REG) host.appendChild(src);
   const TABH = Math.round(u * (document.documentElement.classList.contains('one') ? 9 : 6.2));
-  const pad = Math.round(u * 1.4) + TABH; // room above the card for the Share and close tab, and for tags on its top edge
+  const pad = Math.round(u * 1.4); // room above the card for the Share and close tab, and for tags on its top edge
   const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
-  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px', paddingRight: '0px', paddingBottom: '0px', boxSizing: 'border-box' });
+  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px', paddingRight: '0px', paddingBottom: TABH + 'px', boxSizing: 'border-box' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => { eye._hv = 0; eyeOpen(eye, true); }, instant ? 0 : 80); }
@@ -3971,7 +3973,7 @@ function openStory(card, id, instant) {
   // how tall it will be once its sources are open, so it lands centered and never runs off the bottom.
   const vt = view.getBoundingClientRect(), lim0 = Math.max(vt.top, u * 2) + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
   const srx = REG ? srcExpand(clone, id) : null;
-  const ch = cr0.height, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
+  const ch = cr0.height + TABH, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
   const ctop = lim0 + Math.max(0, (lim1 - lim0 - tot) * .4); // a little above the middle
   const glide = () => {
     if (instant) { wrap.style.top = (ctop - pad) + 'px'; done(); return; }
@@ -3983,12 +3985,12 @@ function openStory(card, id, instant) {
     wrap.style.maxHeight = (lim1 - ctop + pad) + 'px';
     // Share and close sit as a tab on the story's top right corner, as wide as its SPARC tag
     const close = document.createElement('div'); close.className = 'ptab' + (instant ? ' on' : '');
-    close.innerHTML = '<button class="px-x" aria-label="Back to Wire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg></button><i></i><button class="px-s" aria-label="Share">' + SHARE_ICO + '<span></span></button>';
+    close.innerHTML = '<button class="px-x"><b>Back to Wire</b></button><i></i><button class="px-s">' + SHARE_ICO + '<b>Share</b><span></span></button>';
     { const wr = wrap.getBoundingClientRect(), cr = clone.getBoundingClientRect(), sp = clone.querySelector('.spl'), spr = sp && sp.getBoundingClientRect();
       // as wide as the SPARC tags, and in the color of this card's SPARC tag (black on events; the card's own color where there is none)
       const any = track.querySelector('.spl'), w = Math.round(spr && spr.width > 20 ? cr.right - spr.left : (any ? any.getBoundingClientRect().width : u * 9.2) + parseFloat(getComputedStyle(clone).borderRightWidth || 0));
       const bg = clone.classList.contains('l-ev') ? 'var(--ink)' : sp ? getComputedStyle(sp).backgroundColor : getComputedStyle(clone).backgroundColor;
-      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', left: (cr.left - wr.left) + 'px', background: bg }); }
+      Object.assign(close.style, { height: TABH + 'px', bottom: '0px', right: (wr.right - cr.right) + 'px', background: bg }); }
     wrap.appendChild(close); POP.close = close; POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
