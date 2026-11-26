@@ -564,9 +564,13 @@ html.one .popsrc .ps small{font-size:calc(var(--u)*2.4)}
 html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
+.intronote{position:absolute;bottom:calc(var(--u)*3);z-index:2;text-align:center;font:800 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);opacity:0;transition:opacity .6s ease;pointer-events:none}
+.intronote.on{opacity:.45;animation:introPulse 1.8s ease-in-out infinite}
+@keyframes introPulse{50%{opacity:.18}}
+html.one .intronote{font-size:calc(var(--u)*2.2)}
 
 /* Share and close tab on the open story's top right corner: a black tab, two icons, a line between them */
-.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;background:#6E6E6E;color:var(--paper);opacity:0;transition:opacity .3s ease}
+.ptab{position:absolute;z-index:6;display:flex;align-items:stretch;background:#3D3D3D;color:var(--paper);opacity:0;transition:opacity .3s ease}
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
 .ptab button{flex:1;border:0;margin:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
@@ -3779,6 +3783,32 @@ function render() {
   if (data.alert) { al.textContent = data.alert; al.classList.add('on'); } else { al.classList.remove('on'); }
   updateStamp();
   setTimeout(startCmp, 30);
+  if (!INTRO_DONE) intro();
+}
+
+// First load: the board starts empty and the stories rise in from the bottom, the left column first, then the right,
+// one card after another, until they settle at the top. Nobody can scroll until they land. It plays once per visit.
+let INTRO = false, INTRO_DONE = false;
+function intro() {
+  INTRO_DONE = true;
+  if (document.documentElement.classList.contains('boot') || POP || !track.animate) return;
+  const vr = view.getBoundingClientRect(), vh = vr.height, mid = vr.left + vr.width / 2;
+  const cards = [...track.querySelectorAll('.copy:not(.tail) .mason > *')].filter(c => { const r = c.getBoundingClientRect(); return r.height && r.top < vr.bottom; });
+  if (!cards.length) return;
+  INTRO = true; const keep = speed; speed = 0; vel = 0; tvel = 0;
+  const tva = typeof TVA !== 'undefined' && TVA; if (tva) { tva.pause(); tva.currentTime = 0; }
+  const cols = [[], []]; cards.forEach(c => cols[c.getBoundingClientRect().left + 2 < mid || document.documentElement.classList.contains('one') ? 0 : 1].push(c));
+  cols.forEach(l => l.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top));
+  // a quiet line at the foot of each column while it fills
+  const notes = cols.map((l, i) => { if (!l.length) return null; const r = l[0].getBoundingClientRect(), n = document.createElement('div'); n.className = 'intronote';
+    n.textContent = 'New stories loading in'; Object.assign(n.style, { left: (r.left - vr.left) + 'px', width: r.width + 'px' }); view.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); return n; });
+  let last = 0;
+  cols.forEach((l, ci) => l.forEach((c, ri) => {
+    const delay = 350 + ci * 650 + ri * 380, dur = 1300; last = Math.max(last, delay + dur);
+    c.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: dur, delay, easing: 'cubic-bezier(.16,.84,.24,1)', fill: 'backwards' });
+    if (ri === l.length - 1 && notes[ci]) setTimeout(() => notes[ci].classList.remove('on'), delay + dur * .5);
+  }));
+  setTimeout(() => { notes.forEach(n => n && n.remove()); INTRO = false; speed = keep; lastIn = performance.now(); if (tva && tva === TVA) tva.play(); }, last + 100);
 }
 
 function updateStamp() {
@@ -3843,8 +3873,8 @@ layout(); clock(); setInterval(clock, 1000);
 load(); setInterval(load, 10 * 60 * 1000);
 
 // Mouse wheel and drag. Both ease in and out, then the board drifts on by itself again
-view.addEventListener('wheel', e => { if (TVMODE) return; e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
-view.addEventListener('pointerdown', e => { if (TVMODE) return; if (e.target && e.target.closest && e.target.closest('.wsearch')) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
+view.addEventListener('wheel', e => { if (TVMODE) return; if (INTRO) { e.preventDefault(); return; } e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
+view.addEventListener('pointerdown', e => { if (TVMODE || INTRO) return; if (e.target && e.target.closest && e.target.closest('.wsearch')) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
 view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += wsEat(dy); if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
 const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cursor = ''; lastIn = performance.now(); tvel = Math.max(-5000, Math.min(5000, tvel)); vel = tvel; };
 view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
