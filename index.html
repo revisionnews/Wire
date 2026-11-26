@@ -3547,7 +3547,7 @@ function tick(ts) {
   vel += (tvel - vel) * (1 - Math.exp(-dt * 3));
   const idle = (ts - lastIn) / 1000 - 1.2, k = dragY !== null ? 0 : Math.max(0, Math.min(1, idle / 2.2)), auto = k * k * (3 - 2 * k);
   off += wsEat(speed * u * auto * dt + vel * dt);
-  if (track.classList.contains('wsm')) { const mx = Math.max(0, copyH - view.clientHeight + U * 6); if (off < 0 || off > mx) { off = Math.max(0, Math.min(off, mx)); vel = 0; tvel = 0; } }
+  if (track.classList.contains('wsm')) { const mx = Math.max(WSMIN, copyH - view.clientHeight + U * 6); if (off < WSMIN || off > mx) { off = Math.max(WSMIN, Math.min(off, mx)); vel = 0; tvel = 0; } }
   else if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
   // Whole device pixels only, so fine detail like QR codes never shimmers between pixels
   track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
@@ -3819,11 +3819,11 @@ function wsPlace() {
   const vb = view.offsetTop, rb = rl ? rl.offsetTop : vb;
   WSH.style.top = rb + 'px';
   const box = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags');
-  const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight + U * 1.1 : 0);
+  const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight + U * .7 : 0);
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
   wsShift();
 }
-let WSBV = 0, WSVB = 0, WSRB = 0;
+let WSBV = 0, WSVB = 0, WSRB = 0, WSMIN = 0;
 function wsShift() {
   if (!WSH) return; const rl = document.getElementById('roll3d'), top = WSD - WSBV;
   WSH.style.transform = WSBV ? `translateY(${-WSBV}px)` : ''; WSH.style.clipPath = WSBV ? `inset(${WSBV}px 0 0 0)` : '';
@@ -3877,7 +3877,10 @@ function wsApply(instant) {
     track.classList.toggle('wsm', any);
     cards.forEach(c => { const on = keep.has(c); c.classList.toggle('wsoff', !on); c.classList.toggle('wsgone', !on); c.style.transform = ''; c.style.transition = ''; });
     if ([...keep].some(c => c.classList.contains('cmp'))) { try { cmpSizeAll(); } catch (x) {} }
-    measure(); vel = 0; tvel = 0; setOff(0);
+    measure(); vel = 0; tvel = 0;
+    // a search starts with its first match right under the tags: skip the empty space above it
+    WSMIN = 0; if (any) { const f = [...keep][0]; if (f) { const tt = track.getBoundingClientRect().top; WSMIN = Math.max(0, Math.round(f.getBoundingClientRect().top - tt)); } }
+    setOff(WSMIN);
     if (typeof rollIndex === 'function') rollIndex();
     if (typeof rollSync === 'function') rollSync(0);
   };
