@@ -1059,7 +1059,7 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Search option B: the box and its tags sit together in one gray panel, no outlines */
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
-.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*3);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;opacity:.26;-webkit-mask:var(--bm) 0 100%/170px 100% repeat-x;mask:var(--bm) 0 100%/170px 100% repeat-x}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
+.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*3);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;-webkit-mask:var(--bm) 0 100%/170px 100% repeat-x;mask:var(--bm) 0 100%/170px 100% repeat-x}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform;opacity:.26}.wsbite .sin.bc{opacity:.62}.wsbite .sin.bc *{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important}.wsbite .sin.bc svg,.wsbite .sin.bc img{visibility:hidden !important}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
 .wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
 .wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
 .wsh .wt2{gap:calc(var(--u)*.9) !important}
@@ -3994,7 +3994,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126084539';
+const BUILD = '20261126084906';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4533,7 +4533,7 @@ function wsBite(y) {
   const key = hit.map(c => RC.indexOf(c)).join(',');
   const D = 1, grow = () => { const mx = L.clientHeight || U * 4, rr = U * 7; [...L.children].forEach((e, i) => { const c = hit[i]; if (!c) return;
     const d = Math.max(0, Math.min(top - c.t, c.b - top)), H = Math.min(1, d / rr) * mx, row = Math.max(D, top - c.t);
-    e.style.height = H.toFixed(1) + 'px'; e.firstChild.style.transform = `translateY(${H.toFixed(2)}px) scale(${e._sx},${(Math.max(H, 1) / D).toFixed(3)}) translateY(${(-row).toFixed(2)}px)`; }); };
+    e.style.height = H.toFixed(1) + 'px'; const tf = `translateY(${H.toFixed(2)}px) scale(${e._sx},${(Math.max(H, 1) / D).toFixed(3)}) translateY(${(-row).toFixed(2)}px)`; for (const x of e.children) x.style.transform = tf; }); };
   if (key === BITEK) { if (hit.length) grow(); return; } BITEK = key;
   if (!hit.length) { L.classList.remove('on'); L.innerHTML = ''; return; }
   const rl = document.getElementById('roll3d'), rb = rl.getBoundingClientRect(), tr = track.getBoundingClientRect(), br = box.getBoundingClientRect();
@@ -4542,7 +4542,8 @@ function wsBite(y) {
   L.innerHTML = '';
   hit.forEach(c => { const l = X(c.l), r = X(c.l + c.w), e = document.createElement('b'); e.style.left = l.toFixed(1) + 'px'; e.style.width = (r - l).toFixed(1) + 'px'; e._sx = ((r - l) / c.w).toFixed(5);
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track'; const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
-    const k = c.el.cloneNode(true); k.classList.remove('in', 'out'); k.style.width = c.w + 'px'; k.style.height = c.h + 'px'; ms.appendChild(k); e.appendChild(inn); L.appendChild(e); });
+    const k = c.el.cloneNode(true); k.classList.remove('in', 'out'); k.style.width = c.w + 'px'; k.style.height = c.h + 'px'; ms.appendChild(k);
+    const inn2 = inn.cloneNode(true); inn2.classList.add('bc'); e.appendChild(inn2); e.appendChild(inn); L.appendChild(e); });
   L.classList.add('on'); grow();
 }
 // Place the locked box (and the tags when open) between the masthead and the roll-off
