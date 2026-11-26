@@ -568,6 +568,55 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 
 /* sponsor blocks: copper */
 :root{--spon:#A86A3E}
+/* Public header: a light bulb (dark mode) and a key button take the clock's place. TV keeps the clock. */
+.hbtn{display:none}
+html.pub .mast #time{display:none !important}
+html.pub .mast .who{gap:calc(var(--u)*1.3)}
+html.pub .hbtn{--hs:calc(var(--u)*4.6);display:grid;place-items:center;width:var(--hs);height:var(--hs);padding:0;margin:0;border:calc(var(--b)*1.5) solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .12s,color .12s}
+html.one.pub .hbtn{--hs:calc(var(--u)*7.4)}
+html.pub .hbtn svg{width:64%;height:64%;overflow:visible}
+html.pub .hbtn b{font:900 calc(var(--hs)*.66)/1 'Hando',sans-serif;transform:translateY(4%)}
+html.pub #hbulb .gl{fill:currentColor}
+html.dark.pub #hbulb .gl{fill:none}html.dark.pub #hbulb .ray{opacity:0}
+@media (hover:hover){html.pub .hbtn:hover{background:var(--ink);color:var(--paper)}}
+html.pub #hbulb.fl{animation:bulbFl .5s steps(1)}
+@keyframes bulbFl{0%{opacity:1}12%{opacity:.25}24%{opacity:1}38%{opacity:.2}52%{opacity:1}64%{opacity:.4}76%{opacity:1}}
+/* The key */
+.wkey{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-start;justify-content:center;background:rgba(13,15,18,.62);opacity:0;transition:opacity .22s ease;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:calc(var(--u)*5) calc(var(--u)*3);user-select:text;-webkit-user-select:text}
+.wkey.on{opacity:1}
+.wkey .ks{position:relative;width:min(100%,calc(var(--u)*92));background:var(--paper);color:var(--ink);border:calc(var(--b)*1.5) solid var(--ink);transform:translateY(calc(var(--u)*3));transition:transform .3s cubic-bezier(.2,.7,.2,1);font-family:'Hando',sans-serif}
+.wkey.on .ks{transform:none}
+.wkey .kh{display:flex;align-items:center;gap:calc(var(--u)*2);background:var(--ink);color:var(--paper);padding:calc(var(--u)*1.6) calc(var(--u)*2.4)}
+.wkey .kh h2{margin:0;font:900 calc(var(--u)*3.4)/1 'Hando',sans-serif;letter-spacing:.03em;text-transform:uppercase}
+.wkey .kx{margin-left:auto;border:0;background:transparent;color:inherit;font:900 calc(var(--u)*1.9)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:calc(var(--u)*.6) 0}
+@media (hover:hover){.wkey .kx:hover{color:var(--red)}}
+.wkey .kb{padding:calc(var(--u)*1) calc(var(--u)*2.4) calc(var(--u)*3)}
+.wkey section{padding:calc(var(--u)*2.2) 0;border-bottom:var(--b) solid var(--ink)}
+.wkey section:last-child{border-bottom:0}
+.wkey h3{margin:0 0 calc(var(--u)*1.4);font:900 calc(var(--u)*1.7)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.wkey p{margin:0 0 calc(var(--u)*1);font:400 calc(var(--u)*2.05)/1.45 'Hando',sans-serif}
+.wkey p:last-child{margin-bottom:0}
+.wkey .kl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(var(--u)*1.2) calc(var(--u)*2.4)}
+.wkey .ki{display:grid;grid-template-columns:calc(var(--u)*5.4) minmax(0,1fr);gap:calc(var(--u)*1.4);align-items:start}
+.wkey .ki b{display:block;font:900 calc(var(--u)*1.75)/1.15 'Hando',sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-bottom:calc(var(--u)*.35)}
+.wkey .ki span{display:block;font:400 calc(var(--u)*1.75)/1.35 'Hando',sans-serif}
+.wkey .sw{height:calc(var(--u)*3.6);border:var(--b) solid var(--ink);box-sizing:border-box;display:grid;place-items:center;font:900 calc(var(--u)*2)/1 'Hando',sans-serif}
+.wkey .kp{align-items:center}.wkey .kp b{margin:0 !important}
+.wkey .lt{display:grid;place-items:center;height:calc(var(--u)*3.6);font:900 calc(var(--u)*3)/1 'Hando',sans-serif}
+.wkey .mt3{display:grid;place-items:center;height:calc(var(--u)*3.6)}
+.wkey .mt3 svg{width:100%;height:100%}
+.wkey .kr{display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*.7)}.wkey .kr > span:last-child{font:400 calc(var(--u)*1.75)/1.35 'Hando',sans-serif}html.one .wkey .kr > span:last-child{font-size:calc(var(--u)*2.9)}
+.wkey .kt{display:inline-block;padding:calc(var(--u)*.5) calc(var(--u)*.8);border:var(--b) solid var(--ink);background:#fff;color:#0D0F12;font:900 calc(var(--u)*1.35)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+html.dark .wkey .kt{background:#2B2B2B;color:#D4D4D4}
+html.one .wkey{padding:calc(var(--u)*4) calc(var(--u)*2.4) calc(var(--u)*8)}
+html.one .wkey .kl{grid-template-columns:minmax(0,1fr)}
+html.one .wkey .kh h2{font-size:calc(var(--u)*4.6)}html.one .wkey .kx{font-size:calc(var(--u)*2.8)}
+html.one .wkey h3{font-size:calc(var(--u)*2.5)}
+html.one .wkey p{font-size:calc(var(--u)*3.3)}
+html.one .wkey .ki{grid-template-columns:calc(var(--u)*8) minmax(0,1fr)}
+html.one .wkey .ki b{font-size:calc(var(--u)*2.8)}html.one .wkey .ki span{font-size:calc(var(--u)*2.9)}
+html.one .wkey .sw,html.one .wkey .lt,html.one .wkey .mt3{height:calc(var(--u)*5.4)}
+html.one .wkey .lt{font-size:calc(var(--u)*4.4)}html.one .wkey .kt{font-size:calc(var(--u)*2.1)}
 html body .mason > .spon .spl,html body .popwrap .spon .spl{display:flex !important;align-items:center;justify-content:center;background:var(--spon) !important;border-color:var(--spon) !important;color:#fff !important}
 .spon .spl span{font:900 calc(var(--u)*1.15)/1 'Hando',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#fff}
 html.one .spon .spl span{font-size:calc(var(--u)*1.9)}
@@ -974,7 +1023,7 @@ html,body{background:var(--paper) !important}
 <div class="stage" id="stage">
   <header class="mast">
     <span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div>
-    <div class="who"><b id="time">--:--</b></div>
+    <div class="who"><b id="time">--:--</b><button type="button" class="hbtn" id="hbulb" aria-label="Dark mode" title="Lights"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="ray" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 .2v1.6M3.4 3.6l1.2 1.2M20.6 3.6l-1.2 1.2M.6 10.2h1.7M21.7 10.2h1.7"/></g><path class="gl" d="M12 3.4a6.4 6.4 0 0 0-3.8 11.6c.7.5 1 1.2 1 2v.6h5.6V17c0-.8.3-1.5 1-2A6.4 6.4 0 0 0 12 3.4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.2 20.2h5.6M10.2 23h3.6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></button><button type="button" class="hbtn" id="hkey" aria-label="How to read the Wire" title="Key"><b>?</b></button></div>
   </header>
   <div class="alert" id="alert"></div>
   <div class="pins" id="pins"><div class="pin"></div><div class="pin"></div></div>
@@ -3306,7 +3355,7 @@ const pinEls = [...document.querySelectorAll('.pin')];
 /* Landscape 16:9, centered. Hash option: #dark. */
 function layout() {
   const w = window.innerWidth, h = window.innerHeight, tk = location.hash.slice(1).split('-');
-  document.documentElement.classList.toggle('dark', tk.includes('dark'));
+  document.documentElement.classList.toggle('dark', tk.includes('dark') || (!TVMODE && darkPref()));
   // the board fills the whole window at any shape; sizes follow the shorter side so nothing is cut off
   // phones (narrow or small touch screens) get one column sized to the phone; everything else keeps two columns
   const small = Math.min(screen.width, screen.height), touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
@@ -3511,7 +3560,7 @@ function buildCopy(d) {
   (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" data-p="${esc(String(s.pillar || ''))}" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('t', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
   Object.keys(PIL).forEach(k => (d[k] || []).forEach((i, ix) => Q.spark.push(spark(i, k, ix))));
   staleBrk.forEach((i, ix) => Q.spark.push(spark(Object.assign({ pillar: 'C', kind: 'Update' }, i, { kind: i.kind === 'Breaking' ? 'Update' : i.kind }), PIL.safety ? 'safety' : Object.keys(PIL)[0], 900 + ix)));
-  (d.events || []).forEach((e, ix) => Q.ev.push(rows([{ title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar, doc: e.doc }], 'var(--ink)', 'e', 'Event', 'l-ev')));
+  (d.events || []).forEach((e, ix) => { const o = { title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar, doc: e.doc }; if (e.cost) COST[sid('e', o)] = String(e.cost); Q.ev.push(rows([o], 'var(--ink)', 'e', 'Event', 'l-ev')); });
   (d.memos || []).forEach((m, ix) => Q.memo.push(rows([m], 'var(--ink)', 'm', 'Memo', 'l-memo')));
   { const now = Date.now(); (d.sponsor || []).filter(i => i && !(i.until && Date.parse(i.until) + 864e5 < now)).forEach(i => Q.spon.push(sponsorCard(i))); }
   const groups = (d.meeting_groups && d.meeting_groups.length) ? d.meeting_groups : ((d.meetings || []).length ? [{ title: '2027 bond committees', meetings: d.meetings, note: d.meetings_note, refs: d.meetings_refs }] : []);
@@ -4102,7 +4151,7 @@ if (!TVMODE) {
     const rnd = (a, b) => a + Math.random() * (b - a);
     const W = () => innerWidth, H = () => innerHeight;
     const ROUTINES = [
-      () => [[at('time'), 1800], [at('md') || at('dow'), 1700]],                                                             // checks the clock, then the date
+      () => [[at('time') || at('hbulb'), 1800], [at('md') || at('dow'), 1700]],                                                             // checks the clock, then the date
       () => [[[W() * .1, H() * .55], 1800], [[W() * .9, H() * .55], 1900]],                                                  // looks slowly across the room
       () => Array.from({ length: 2 + Math.floor(Math.random() * 2) }, () => [[rnd(W() * .1, W() * .9), rnd(H() * .1, H() * .9)], rnd(1200, 2000)])   // wanders, curious
     ];
@@ -4142,7 +4191,9 @@ if (!TVMODE) {
 // the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
 const SPON_CL = [['Sponsor\'s word', 'The details come from the sponsor and are not checked yet.'], ['Details checked', 'Revision checked the date, the place and the price.'], ['Place confirmed', 'The venue or business confirmed it to Revision directly.'], ['Official listing', 'It is also listed on an official city or venue page.']];
 let TAGV = 9;   // tag panel: What it is, then the How sure meter
-const KIND_M = { Sponsor: 'A paid placement from a local business or group. Revision checked that it fits our rules.', Update: 'A new development on a story that is already moving.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Something you can go to, with a date and a place.', Memo: 'A city document sent to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
+const COST = {};
+const kindDesc = (kk, id) => { const c = kk === 'Event' && COST[id]; if (!c) return KIND_M[kk] || ''; return /^free$/i.test(c.trim()) ? 'Free and open to you. Come by if you can.' : 'Open to you. It costs ' + c.trim() + ' to get in.'; };
+const KIND_M = { Sponsor: 'A paid placement from a local business or group. Revision checked that it fits our rules.', Update: 'A development on an ongoing story.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Open to you. Come by if you can.', Memo: 'A city memo to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
 const STAT_M = { Verified: 'Backed by an official page or two or more independent newsrooms.', Reported: 'From one outlet, and the facts match its page.', Unconfirmed: 'It matters, but a key fact is not confirmed yet.', Upcoming: 'Scheduled. It has not happened yet.', Confirmed: 'Confirmed by the agency or more than one source.' };
 const ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>';
 function srcExpand(clone, id) {
@@ -4160,11 +4211,11 @@ function srcExpand(clone, id) {
     const d = document.createElement('div'), V = TAGV, lv = { Verified: 3, Confirmed: 3, Reported: 2, Unconfirmed: 1, Upcoming: 2 }[ss] || 2;
     d.className = 'sxd' + (V ? ' tv' + V : '');
     // designs 4 and 5 (mockups): four levels of sureness worked out from the sources themselves
-    let CL = [['Unconfirmed', 'It matters, but a key fact is not confirmed yet.'], ['Single source', 'One outlet reports it, and the facts match its page.'], ['Confirmed', 'Two or more newsrooms report it on their own.'], ['Official record', 'Backed by the agency\'s own page or document.']];
+    let CL = [['Unconfirmed', 'It matters, but a key fact is still being checked.'], ['Single source', 'One newsroom reports it. Nobody else has yet.'], ['Confirmed', 'Two or more newsrooms report it on their own.'], ['Public record', 'Straight from the agency\'s own page or document.']];
     const rs4 = storyRefs(id), offc = rs4.some(r => /official/i.test(r.k || '') || /full document/i.test(r.n || '')), outs = new Set(rs4.filter(r => !/official/i.test(r.k || '')).map(r => r.n)).size;
     let cl = /unconfirmed/i.test(ss) ? 1 : offc ? 4 : outs >= 2 ? 3 : 2, HS = 'How sure';
     if (kk === 'Sponsor') cl = 3;   // a sponsor is only placed once Revision has confirmed it
-    const what = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div>`;
+    const what = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(kindDesc(kk, id))}</small></div>`;
     if (V === 4) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxl">${CL.map((c, n) => `<div class="${n + 1 <= cl ? 'f' : ''}${n + 1 === cl ? ' on' : ''}"><i></i><span>${esc(c[0])}</span></div>`).reverse().join('')}</div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 5) { const R = 15.9155, seg = 25, gap = 2.5; d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxr"><svg viewBox="0 0 42 42">${[0, 1, 2, 3].map(n => `<circle r="${R}" cx="21" cy="21" fill="none" stroke-width="6" stroke="currentColor" opacity="${n < cl ? 1 : .25}" stroke-dasharray="${seg - gap} ${100 - seg + gap}" stroke-dashoffset="${25 - n * seg - gap / 2}"/>`).join('')}</svg><b>${cl}<small>/4</small></b></div><b class="sxrl">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
     else if (V === 6) { const R = 15.9155, seg = 25, gap = 3; d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx6"><svg viewBox="0 0 42 42">${[0, 1, 2, 3].map(n => `<circle r="${R}" cx="21" cy="21" fill="none" stroke-width="7" stroke="currentColor" opacity="${n < cl ? 1 : .25}" stroke-dasharray="${seg - gap} ${100 - seg + gap}" stroke-dashoffset="${25 - n * seg - gap / 2}"/>`).join('')}</svg><div><b>${esc(CL[cl - 1][0])}</b><span>${cl} of 4</span></div></div><small>${esc(CL[cl - 1][1])}</small></div>`; }
@@ -4237,7 +4288,60 @@ function closeStory() {
   setTimeout(() => { if (card) card.style.visibility = ''; [p.dim, w, p.close].forEach(e => e && e.remove()); speed = p.keep; if (window.__pendRender) { window.__pendRender = 0; render(); } }, wait + 560);
   try { history.replaceState(null, '', location.pathname + (location.search === '?s=1' ? '' : location.search.replace(/&s=1\b/, ''))); } catch (e) {}
 }
-addEventListener('keydown', e => { if (e.key === 'Escape') closeStory(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') { if (document.querySelector('.wkey')) { keyClose(); return; } closeStory(); } });
+function darkPref() { try { return localStorage.getItem('wireDark') === '1'; } catch (e) { return false; } }
+// The bulb flickers like the org map's, then lands on the new mode
+let BULB = 0;
+document.getElementById('hbulb').addEventListener('click', e => {
+  e.stopPropagation(); if (BULB) return; BULB = 1;
+  const de = document.documentElement, to = !de.classList.contains('dark'), b = e.currentTarget;
+  try { localStorage.setItem('wireDark', to ? '1' : '0'); } catch (er) {}
+  if (!to && location.hash.includes('dark')) history.replaceState(null, '', location.pathname + location.search);
+  b.classList.remove('fl'); void b.offsetWidth; b.classList.add('fl');
+  const seq = [to, !to, to, !to, to], gap = [0, 70, 120, 60, 150];
+  let t = 0; seq.forEach((v, i) => { t += gap[i]; setTimeout(() => de.classList.toggle('dark', v), t); });
+  setTimeout(() => { BULB = 0; b.classList.remove('fl'); }, 560);
+});
+// The key: what the Wire is and how to read it
+const KEYTILE = (sw, n, d) => `<div class="ki">${sw}<div><b>${n}</b><span>${d}</span></div></div>`;
+function keyMeter(cl) { return '<svg viewBox="0 0 40 22" aria-hidden="true">' + [0, 1, 2, 3].map(n => { const a0 = Math.PI * (1 - n / 4) - .03, a1 = Math.PI * (1 - (n + 1) / 4) + .03, R = 19, r = 9, P = (a, q) => `${(20 + q * Math.cos(a)).toFixed(2)} ${(21 - q * Math.sin(a)).toFixed(2)}`;
+  return `<path d="M${P(a0, R)}A${R} ${R} 0 0 1 ${P(a1, R)}L${P(a1, r)}A${r} ${r} 0 0 0 ${P(a0, r)}Z" fill="currentColor" opacity="${n <= cl ? 1 : .25}"/>`; }).join('') + '</svg>'; }
+function keyOpen() {
+  if (document.querySelector('.wkey')) return;
+  const sw = (bg, bd, fg, t) => `<div class="sw" style="background:${bg};border-color:${bd};color:${fg}">${t || ''}</div>`;
+  const cards = [
+    [sw('#2B2B2B', '#0D0F12', '#fff'), 'Top stories', 'The biggest San Antonio stories right now, ranked by how much they matter to people here.'],
+    [sw('var(--red)', '#0D0F12', '#fff'), 'Breaking', 'Happening now or in the last few hours.'],
+    [sw('var(--paper)', '#A21CAF', 'var(--ink)').replace('border:', 'border-width:4px;border:'), 'Compare', 'One story, several newsrooms. See how each outlet covered it side by side.'],
+    [sw('var(--paper)', 'var(--ink)', 'var(--ink)', 'S'), 'SPARC stories', 'Stories sorted into our five beats. The lit letter shows the beat.'],
+    [sw('#fff', '#0D0F12', '#0D0F12').replace('border:', 'border-top-width:8px;border:'), 'Events', 'Things you can go to, with a date, a time and a place.'],
+    [sw('#E0A92A', '#0D0F12', '#0D0F12'), 'Memos and CCRs', 'City documents sent to Council, and council members asking the city to take up an idea.'],
+    [sw('linear-gradient(#2B2B2B 0 38%,var(--paper) 38%)', 'var(--ink)', '#fff'), 'Meetings', 'Public meetings coming up, with what is on the agenda.'],
+    [sw('var(--spon)', '#0D0F12', '#fff'), 'Sponsored', 'Paid placements from local businesses and groups, always labeled.'],
+    [sw('var(--paper)', 'var(--ink)', 'var(--ink)', '&#8635;'), 'Archive', 'Stories that have left the board, kept so you can still find them.']
+  ];
+  const sparc = [['S', 'Sports'], ['P', 'Politics'], ['A', 'Art'], ['R', 'Revolution'], ['C', 'Community']];
+  const kinds = ['Breaking', 'Update', 'Announcement', 'Event', 'Meeting', 'Memo', 'CCR', 'Decision', 'Deadline', 'Warning', 'Result', 'Money', 'Opening', 'Sponsor'];
+  const levels = [['Unconfirmed', 'It matters, but a key fact is still being checked.'], ['Single source', 'One newsroom reports it. Nobody else has yet.'], ['Confirmed', 'Two or more newsrooms report it on their own.'], ['Public record', 'Straight from the agency\'s own page or document.']];
+  const k = document.createElement('div'); k.className = 'wkey'; k.setAttribute('role', 'dialog'); k.setAttribute('aria-label', 'How to read the Wire');
+  k.innerHTML = `<div class="ks"><div class="kh"><h2>How to read the Wire</h2><button type="button" class="kx">Close</button></div><div class="kb">
+    <section><h3>What this is</h3><p>Revision Wire is a live board of San Antonio news, events and public business, put together by Revision News. It refreshes three times a day, every day.</p><p>We gather from local newsrooms, city and county agencies and official calendars, then sort it so you can see what is happening in your city at a glance. Every card links back to where it came from.</p></section>
+    <section><h3>How it works</h3><p>The board scrolls on its own. Scroll or swipe to move it yourself. Tap any card to open it: you get the full story, what kind of story it is, how sure we are, and every source behind it.</p><p>Use the search bar to find a word, or the tags under it to show one type of card or one SPARC beat. Share sends a link straight to that story. The bulb switches the lights.</p></section>
+    <section><h3>The cards</h3><div class="kl">${cards.map(c => KEYTILE(...c)).join('')}</div></section>
+    <section><h3>SPARC beats</h3><div class="kl">${sparc.map(([l, n]) => `<div class="ki kp"><div class="lt">${l}</div><div><b>${n}</b></div></div>`).join('')}</div></section>
+    <section><h3>What it is</h3><p>Every open story is tagged with what kind of story it is.</p><div class="kl">${kinds.map(n => `<div class="kr"><span class="kt">${n}</span><span>${esc(KIND_M[n] || '')}</span></div>`).join('')}</div></section>
+    <section><h3>Tag colors</h3><p>The small tag at the bottom of each card is colored by how far along the story is.</p><div class="kl">${[['var(--green)', 'Verified', 'Backed by an official page or more than one source.'], ['var(--teal)', 'Reported', 'One newsroom reports it. Nobody else has yet.'], ['var(--orange)', 'Upcoming', 'Scheduled. It has not happened yet.'], ['#0D0F12', 'Unconfirmed', 'It matters, but a key fact is still being checked.']].map(([c, n, d]) => KEYTILE(`<div class="sw" style="background:${c}"></div>`, n, d)).join('')}</div></section>
+    <section><h3>How sure</h3><p>The meter on every open story shows how well it is backed up.</p><div class="kl">${levels.map(([n, d], i) => KEYTILE(`<div class="mt3">${keyMeter(i)}</div>`, n, d)).join('')}</div></section>
+  </div></div>`;
+  document.body.appendChild(k);
+  requestAnimationFrame(() => requestAnimationFrame(() => k.classList.add('on')));
+  k.addEventListener('click', e => { if (e.target === k || e.target.closest('.kx')) keyClose(); });
+  k.addEventListener('wheel', e => e.stopPropagation(), { passive: true });
+  k.addEventListener('touchmove', e => e.stopPropagation(), { passive: true });
+  k.querySelector('.kx').focus({ preventScroll: true });
+}
+function keyClose() { const k = document.querySelector('.wkey'); if (!k || k._x) return; k._x = 1; k.classList.remove('on'); setTimeout(() => k.remove(), 260); }
+document.getElementById('hkey').addEventListener('click', e => { e.stopPropagation(); keyOpen(); });
 // Switch between the TV view (QR codes) and the regular view (tap to open). The website changes address; the artifact switches in place.
 function setMode(tv) {
   if (!IN_ART) { location.href = tv ? location.pathname.replace(/\/?$/, '/') + '?tv=1' : location.pathname.replace(/code\/?$/, ''); return; }
