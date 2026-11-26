@@ -565,6 +565,14 @@ html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
 
+/* TV: the feed and the paper grain are their own GPU layers, so moving the feed never repaints them */
+html.tvm #view > #track{will-change:transform}
+html.tvm .grain{will-change:transform;transform:translateZ(0)}
+/* Silk on Fire TV hides its toolbar when the page scrolls: give it a little room to scroll, while the board stays fixed to the screen */
+html.tvm,html.tvm body{height:auto !important;overflow-y:auto !important}
+html.tvm body{min-height:calc(100vh + 160px)}
+html.tvm .stage{bottom:0}
+
 /* Mockup B, built in: the card's own source strip grows downward */
 .popwrap .refs.sx{transition:height .5s cubic-bezier(.2,.7,.2,1) !important;align-items:stretch !important;position:relative}
 .popwrap .refs.sx.now{transition:none !important}
@@ -3119,7 +3127,7 @@ function layout() {
   const one = !/[?&]tv=1/.test(location.search) && (w < 900 || (touch && small < 820));
   document.documentElement.classList.toggle('one', one);
   const u = one ? w / 92 : Math.min(w / 177.78, h / 100), sw = w, sh = h;
-  stage.style.width = sw + 'px'; stage.style.height = one ? 'max(100lvh, ' + sh + 'px)' : sh + 'px';
+  stage.style.width = sw + 'px'; stage.style.height = one ? 'max(100lvh, ' + sh + 'px)' : TVMODE ? 'auto' : sh + 'px';
   stage.style.left = '0px'; stage.style.top = '0px';
   document.documentElement.style.setProperty('--u', u + 'px');
   document.documentElement.style.setProperty('--b', Math.max(2, u * 177.78 * 0.001) + 'px');
@@ -3496,7 +3504,7 @@ function fitDate() {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(qrSnap, 60));
 window.addEventListener('load', () => setTimeout(qrSnap, 300));
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
-const RN = (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 12 : 18, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
+const RN = TVMODE ? 8 : (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 12 : 18, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
@@ -3524,7 +3532,17 @@ function rollDrum(c) {
   return { d, sl };
 }
 function rollUnhook() { RMAP.forEach(v => { v.mo && v.mo.disconnect(); v.d.remove(); }); RMAP = new Map(); }
+let RLAST = null, TVA = null, TVD = 0;
+// TV: the scroll is a browser animation the graphics chip runs by itself, so it keeps gliding even when the TV's processor is busy.
+// The script only reads where it is, to keep the roll-off in step.
+function tvStart() {
+  if (TVA) { TVA.cancel(); TVA = null; }
+  if (!TVMODE || !copyH || !track.animate) return;
+  track.style.transform = ''; TVD = copyH / Math.max(1, (Number(data && data.scroll_speed) || 1.1) * U) * 1000;
+  TVA = track.animate([{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(0,' + (-copyH) + 'px,0)' }], { duration: TVD, iterations: Infinity });
+}
 function rollIndex() {
+  RLAST = null;
   const tr = track.getBoundingClientRect(), box = document.getElementById('roll3d');
   rollUnhook(); if (box) box.innerHTML = '';
   RH = box ? box.clientHeight : 0; RW = box ? box.clientWidth : 0; RR = RH / Math.sin(RPHI);
@@ -3555,7 +3573,9 @@ function rollSync(o) {
   });
   // each slice shows the stretch of paper that sits on its part of the drum
   // move each slice with top, not transform: no extra GPU layers, so the screen can never run out of video memory and blank out
-  RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
+  // TV: shift each slice's picture instead of its position, so moving it never recalculates the page layout
+  if (TVMODE) RMAP.forEach(v => v.sl.forEach(x => { x.inn.style.transform = `translateY(${(x.sy * -(o - RR * x.a1)).toFixed(2)}px) scaleY(${x.sy.toFixed(5)})`; }));
+  else RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
 }
 let U = 10, DPR = window.devicePixelRatio || 1;
 function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10; }
@@ -3576,7 +3596,7 @@ function render() {
     const tail = track.lastElementChild, lim = view.clientHeight + U * 24, tt = tail.getBoundingClientRect().top;
     [...tail.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap')].reverse().forEach(el => { if (el.getBoundingClientRect().top - tt > lim) el.remove(); });
   } else track.innerHTML = one.repeat(need);
-  measure(); qrSnap(); rollIndex(); addEyes(track); setTimeout(openFromHash, 0);
+  measure(); qrSnap(); rollIndex(); tvStart(); addEyes(track); setTimeout(openFromHash, 0);
   WSBV = 0; wsPlace(); if (wsAny()) wsApply(true);
   off = 0;
   const al = document.getElementById('alert');
@@ -3606,8 +3626,12 @@ function tick(ts) {
   if (track.classList.contains('wsm')) { const mx = Math.max(WSMIN, copyH - view.clientHeight + U * 6); if (off < WSMIN || off > mx) { off = Math.max(WSMIN, Math.min(off, mx)); vel = 0; tvel = 0; } }
   else if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
   // Whole device pixels only, so fine detail like QR codes never shimmers between pixels
-  track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
-  rollSync(Math.round(off * DPR) / DPR);
+  // TV: the feed is one GPU layer that slides by fractions of a pixel, so the TV never redraws it to move it.
+  // Only the roll-off band is redrawn, and only when the feed has moved a whole pixel.
+  if (TVMODE && TVA) { const ct = Number(TVA.currentTime) || 0; off = (ct % TVD) / TVD * copyH; }
+  else if (TVMODE) track.style.transform = `translate3d(0,${(-off).toFixed(2)}px,0)`;
+  else track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
+  { const ro = Math.round(off * DPR) / DPR; if (!TVMODE || ro !== RLAST) { RLAST = ro; rollSync(ro); } }
   requestAnimationFrame(tick);
 }
 
@@ -3634,14 +3658,14 @@ async function load() {
 
 // Only a real width change rebuilds the board. Phone browsers fire resize when their toolbars or the keyboard
 // slide in and out; rebuilding then would jump the feed back to the top and cut short the search animations.
-{ let rw = innerWidth, rt = 0; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - rw) < 2) return; rw = innerWidth; layout(); render(); }, 150); }); }
+{ let rw = innerWidth, rt = 0; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - rw) < 2) { if (TVMODE) { measure(); RLAST = null; } return; } rw = innerWidth; layout(); render(); }, 150); }); }
 window.addEventListener('hashchange', () => { const h = decodeURIComponent((location.hash || '').slice(1)); if (h && !/(^|-)dark$/.test(h) && !TVMODE) { storyFromHash(); return; } layout(); render(); });
 layout(); clock(); setInterval(clock, 1000);
 load(); setInterval(load, 10 * 60 * 1000);
 
 // Mouse wheel and drag. Both ease in and out, then the board drifts on by itself again
-view.addEventListener('wheel', e => { e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
-view.addEventListener('pointerdown', e => { if (e.target && e.target.closest && e.target.closest('.wsearch')) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
+view.addEventListener('wheel', e => { if (TVMODE) return; e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
+view.addEventListener('pointerdown', e => { if (TVMODE) return; if (e.target && e.target.closest && e.target.closest('.wsearch')) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
 view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += wsEat(dy); if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
 const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cursor = ''; lastIn = performance.now(); tvel = Math.max(-5000, Math.min(5000, tvel)); vel = tvel; };
 view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
