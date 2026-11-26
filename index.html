@@ -585,10 +585,10 @@ html.one .intronote{font-size:calc(var(--u)*2.2)}
 html.one .ptab .px-s span{font-size:calc(var(--u)*2)}
 /* hard black shadow under the open story */
 .popwrap .pclone{box-shadow:0 0 0 transparent;transition:box-shadow .35s ease}
-.popwrap.lit .pclone{box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+.popwrap.lit .pclone{box-shadow:none}
 /* the tab and the card cast one shadow: the tab only adds the strip on its right edge */
 .popwrap .ptab::after{content:'';position:absolute;left:100%;top:var(--sh);width:var(--sh);height:100%;background:var(--ink);opacity:0;transition:opacity .35s ease;pointer-events:none}
-.popwrap.lit .ptab::after{opacity:1}
+.popwrap.lit .ptab::after{opacity:0}
 /* the meter gives a small shake when the mouse is over it */
 @media (hover:hover){.sx9:hover .wg{animation:sxShake .55s ease-in-out}}
 .sx9 .wg{transform-origin:50px 50px}
@@ -3783,7 +3783,6 @@ function render() {
   if (data.alert) { al.textContent = data.alert; al.classList.add('on'); } else { al.classList.remove('on'); }
   updateStamp();
   setTimeout(startCmp, 30);
-  if (!INTRO_DONE) intro();
 }
 
 // First load: the board opens empty, with all of its content waiting just below the screen, and glides up into place
@@ -3952,7 +3951,7 @@ function openStory(card, id, instant) {
   const TABH = Math.round(u * (document.documentElement.classList.contains('one') ? 9 : 6.2));
   const pad = Math.round(u * 1.4) + TABH; // room above the card for the Share and close tab, and for tags on its top edge
   const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
-  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: (cr0.width + SH) + 'px', paddingTop: pad + 'px', paddingRight: SH + 'px', paddingBottom: SH + 'px', boxSizing: 'border-box' });
+  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px', paddingRight: '0px', paddingBottom: '0px', boxSizing: 'border-box' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => { eye._hv = 0; eyeOpen(eye, true); }, instant ? 0 : 80); }
