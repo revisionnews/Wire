@@ -462,6 +462,9 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 
 /* One text size for every story layout: headline and description match across cards, compare, top, breaking, events, meetings and memos */
 :root{--hfs:calc(var(--u)*3.7 + 2px);--sfs:calc(var(--u)*2.15 + 2px)}
+.popwrap .pclone h3,.popwrap .pclone p.sum,.popwrap .pclone .rh .tt,.popwrap .pclone .rb{transition:font-size .45s cubic-bezier(.2,.7,.2,1)}
+.popwrap .pclone.pnow h3,.popwrap .pclone.pnow p.sum,.popwrap .pclone.pnow .rh .tt,.popwrap .pclone.pnow .rb{transition:none !important}
+.popwrap .pclone.pbig{--hfs:calc(var(--u)*3.7 + 6px);--sfs:calc(var(--u)*2.15 + 4px)}
 .story h3,.story.sp h3,.story.top h3,.story.brk h3,.story.cmp h3,.row .rh .tt,.row.l-memo .tt{font-size:var(--hfs) !important;line-height:1.12 !important}
 .story p.sum,.story.sp p.sum,.story.top p.sum,.story.brk p.sum,.story.cmp p.sum,.row .rb,.row.l-com .rb,.row.l-memo .rb,.row.l-brief .rb{font-size:var(--sfs) !important;line-height:1.42 !important}
 .row .rh .tt,.row.l-memo .tt{font-weight:900 !important}
@@ -518,6 +521,9 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 #date i{font-style:normal}#date i:first-child{font-weight:900}#date i:first-child::after{content:","}
 /* Header v3: date left like VOL and No., revision logo centered over WIRE (logo 80% of WIRE width), clock right */
 .mast > #date{justify-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*.3);font:900 calc(var(--u)*3 - 1px)/1.1 'Hando',sans-serif !important;letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
+html.pub{--mt:calc(var(--u)*1.4)}html.pub.one{--mt:calc(var(--u)*2.6)}
+html.pub .mast{top:var(--mt) !important}html.pub .view{top:calc(var(--u)*10 + var(--mt))}html.pub .roll3d{top:calc(var(--u)*10 + 6px + var(--mt))}
+html.pub .mast > #date{font-size:calc(var(--u)*2.4) !important}html.pub.one .mast > #date{font-size:calc(var(--u)*2.6) !important}
 .mast > #date i{font-weight:900 !important}.mast > #date i:first-child::after{content:none}
 .mast .ctr{gap:calc(var(--u)*.7)}
 .mast .ctr .ws{font:900 calc(var(--u)*4.6)/.9 'Hando',sans-serif;letter-spacing:.06em}
@@ -573,7 +579,7 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 /* Public header: a light bulb (dark mode) and a key button take the clock's place. TV keeps the clock. */
 .hbtn{display:none}
 html.pub .mast #time{display:none !important}
-html.pub .mast .who{gap:calc(var(--u)*1.3)}
+html.pub .mast .who{gap:calc(var(--u)*.7)}
 html.pub .hbtn{--hs:calc(var(--u)*3.6);position:relative;display:grid;place-items:center;width:calc(var(--hs)*.905);height:var(--hs);padding:0;margin:0;border:0;background:transparent;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
 html.one.pub .hbtn{--hs:calc(var(--u)*6.2)}
 html.pub .hbtn::before{content:"";position:absolute;inset:calc(var(--hs)*-.45)}
@@ -1053,7 +1059,7 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Search option B: the box and its tags sit together in one gray panel, no outlines */
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
-.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*4);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;opacity:.6;-webkit-mask:linear-gradient(to top,#000 15%,transparent);mask:linear-gradient(to top,#000 15%,transparent)}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
+.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*3);pointer-events:none;display:none}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;opacity:.26;-webkit-mask:var(--bm) 0 100%/170px 100% repeat-x;mask:var(--bm) 0 100%/170px 100% repeat-x}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
 .wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
 .wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
 .wsh .wt2{gap:calc(var(--u)*.9) !important}
@@ -1082,7 +1088,7 @@ html,body{background:var(--paper) !important}
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="hgr" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></svg>
   <header class="mast">
     <span id="date"><i id="dow"></i><i id="md"></i></span><div class="ctr"><span class="logo" role="img" aria-label="Revision"></span><div class="ws">Wire</div></div>
-    <div class="who"><b id="time">--:--</b><button type="button" class="hbtn" id="hkey" aria-label="How to read the Wire" title="Key"><svg viewBox="0 0 40 44" aria-hidden="true"><g class="qf"><path d="M9 15.5C9 9 13.6 5 19.6 5S30 8.6 30 14.2c0 4.6-3 6.6-5.6 8.3-2.2 1.4-3.4 2.4-3.4 5V29" fill="none" stroke="currentColor" stroke-width="7.2" stroke-linecap="square"/><rect x="17.2" y="33.4" width="7.6" height="7.6" fill="currentColor"/></g></svg></button><button type="button" class="hbtn bulb" id="hbulb" aria-pressed="false" aria-label="Turn the light off"><svg viewBox="0 0 40 44" aria-hidden="true"><path class="gl" d="M20 3C12 3 7 9 7 16c0 5 2.4 8 5 11 1.3 1.6 2 3 2 5v1h12v-1c0-2 .7-3.400 2-5 2.600-3 5-6 5-11 0-7-5-13-13-13z"/><path class="fl" d="M16 24l4-6 4 6"/><rect class="bs" x="14" y="33" width="12" height="3.500" rx="1"/><rect class="bs" x="15.500" y="38" width="9" height="3.500" rx="1.500"/></svg></button></div>
+    <div class="who"><b id="time">--:--</b><button type="button" class="hbtn" id="hkey" aria-label="How to read the Wire" title="Key"><svg viewBox="0 0 40 44" aria-hidden="true"><g class="qf"><path d="M9.5 15C9.5 9 13.8 5.5 19.6 5.5S29.6 8.8 29.6 13.8c0 4-2.6 5.8-5 7.4L19.6 26" fill="none" stroke="currentColor" stroke-width="7.2" stroke-linecap="square" stroke-linejoin="miter"/><rect x="15.8" y="31.6" width="7.6" height="7.6" fill="currentColor"/></g></svg></button><button type="button" class="hbtn bulb" id="hbulb" aria-pressed="false" aria-label="Turn the light off"><svg viewBox="0 0 40 44" aria-hidden="true"><path class="gl" d="M20 3C12 3 7 9 7 16c0 5 2.4 8 5 11 1.3 1.6 2 3 2 5v1h12v-1c0-2 .7-3.400 2-5 2.600-3 5-6 5-11 0-7-5-13-13-13z"/><path class="fl" d="M16 24l4-6 4 6"/><rect class="bs" x="14" y="33" width="12" height="3.500" rx="1"/><rect class="bs" x="15.500" y="38" width="9" height="3.500" rx="1.500"/></svg></button></div>
   </header>
   <div class="alert" id="alert"></div>
   <div class="pins" id="pins"><div class="pin"></div><div class="pin"></div></div>
@@ -3988,7 +3994,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126083928';
+const BUILD = '20261126084255';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4106,13 +4112,14 @@ function openStory(card, id, instant) {
   // how tall it will be once its sources are open, so it lands centered and never runs off the bottom.
   const vt = view.getBoundingClientRect(), lim0 = Math.max(vt.top, u * 2) + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
   const srx = REG ? srcExpand(clone, id) : null;
-  const ch = cr0.height + TABH, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
+  clone.classList.add('pbig', 'pnow'); const grow0 = clone.offsetHeight - cr0.height; clone.classList.remove('pbig'); clone.offsetHeight; clone.classList.remove('pnow');
+  const ch = cr0.height + Math.max(0, grow0) + TABH, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
   // a long story takes the whole open area: it starts right under the masthead (over the search bar) and runs to the bottom
   const mb = (document.querySelector('.mast') || view).getBoundingClientRect().bottom, top0 = tot > lim1 - lim0 ? Math.max(mb + u * .8, u * 2) : lim0;
   const ctop = top0 + Math.max(0, (lim1 - top0 - tot) * .4); // a little above the middle
   const glide = () => {
-    if (instant) { wrap.style.top = (ctop - pad) + 'px'; done(); return; }
-    if (srx) srx.prep(); requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad) + 'px'; setTimeout(done, 460); }));
+    if (instant) { wrap.style.top = (ctop - pad) + 'px'; clone.classList.add('pbig', 'pnow'); done(); return; }
+    if (srx) srx.prep(); requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad) + 'px'; clone.classList.add('pbig'); setTimeout(done, 460); }));
   };
   const done = () => {
     if (!POP || POP.wrap !== wrap) return;
@@ -4345,7 +4352,7 @@ function fitLock(w) {
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
   const w = p.wrap, card = p.card;
-  if (w) { w.classList.remove('lit'); const e = w.querySelector('.qb'); if (e) eyeOpen(e, false); w.scrollTop = 0; w.style.overflowY = 'hidden'; w.classList.remove('srcs'); if (w._srx) w._srx.close(); }
+  if (w) { const pc = w.querySelector('.pclone'); if (pc) pc.classList.remove('pbig', 'pnow'); w.classList.remove('lit'); const e = w.querySelector('.qb'); if (e) eyeOpen(e, false); w.scrollTop = 0; w.style.overflowY = 'hidden'; w.classList.remove('srcs'); if (w._srx) w._srx.close(); }
   if (p.close) p.close.classList.remove('on');
   // the sources fold back into the strip while the story glides home to its own spot on the board
   let home = null;
@@ -4514,6 +4521,9 @@ function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0);
 function setOff(v) { off = v; if (copyH && !track.classList.contains('wsm')) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); wsBite(y); }
 // The search bar swallows the stories: while a card passes the top of the roll, its side strokes and a little of its color run up into the bar
 let BITEK = null;
+(() => { let x = 0, r = ''; while (x < 170) { const w = 1 + Math.random() * 3, h = 20 + Math.random() * 80; r += `<rect x='${x.toFixed(1)}' y='${(100 - h).toFixed(1)}' width='${w.toFixed(1)}' height='${h.toFixed(1)}' fill='url(%23g)'/>`; x += w; }
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 170 100' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='1' x2='0' y2='0'><stop offset='0' stop-color='white'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient></defs>${r}</svg>`;
+  document.documentElement.style.setProperty('--bm', `url("data:image/svg+xml;utf8,${svg}")`); })();
 function wsBite(y) {
   if (TVMODE || !WSH) return;
   const box = WSH.querySelector('.wsearch'); if (!box) return;
