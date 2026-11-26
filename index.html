@@ -565,6 +565,16 @@ html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
 
+/* Share and close tab on the open story's top right corner */
+.ptab{position:absolute;z-index:6;display:flex;opacity:0;transition:opacity .3s ease}
+.ptab.on{opacity:1}
+.ptab button{border:0;margin:0;padding:0 calc(var(--u)*.8);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5em;font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.ptab .px-s{flex:1;background:#A21CAF;color:#fff;min-width:0;white-space:nowrap;overflow:hidden}
+.ptab .px-x{flex:none;aspect-ratio:1/1;height:100%;background:var(--ink);color:var(--paper);padding:0}
+.ptab svg{width:1.3em;height:1.3em;flex:none}
+.ptab .px-x svg{width:42%;height:42%}
+html.one .ptab button{font-size:calc(var(--u)*2)}
+
 /* TV: the feed and the paper grain are their own GPU layers, so moving the feed never repaints them */
 html.tvm .grain{will-change:transform;transform:translateZ(0)}
 /* TV: taller source strip so the QR code is big enough for a phone across the room */
@@ -3896,7 +3906,8 @@ function openStory(card, id, instant) {
   }
   const REG = id !== 'archive' && !CE;
   if (!REG) host.appendChild(src);
-  const pad = Math.round(u * 1.4); // room above the card so tags that sit on its top edge are never clipped
+  const TABH = Math.round(u * (document.documentElement.classList.contains('one') ? 5.6 : 3.4));
+  const pad = Math.round(u * 1.4) + TABH; // room above the card for the Share and close tab, and for tags on its top edge
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
@@ -3915,7 +3926,13 @@ function openStory(card, id, instant) {
     if (!POP || POP.wrap !== wrap) return;
     wrap.classList.remove('glide');
     wrap.style.maxHeight = (lim1 - ctop + pad) + 'px';
-    const close = document.createElement('div'); close.className = 'popx' + (instant ? ' on' : ''); close.innerHTML = '<button class="px-b">Back to Wire</button><button class="px-s">' + SHARE_ICO + '<span>Share</span></button>'; stage.appendChild(close); POP.close = close;
+    // Share and close sit as a tab on the story's top right corner, as wide as its SPARC tag
+    const close = document.createElement('div'); close.className = 'ptab' + (instant ? ' on' : '');
+    close.innerHTML = '<button class="px-s" aria-label="Share">' + SHARE_ICO + '<span>Share</span></button><button class="px-x" aria-label="Back to Wire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="3.2" stroke-linecap="square"/></svg></button>';
+    { const wr = wrap.getBoundingClientRect(), cr = clone.getBoundingClientRect(), sp = clone.querySelector('.spl'), spr = sp && sp.getBoundingClientRect();
+      const w = Math.max(spr && spr.width > 20 ? spr.width : 0, u * (document.documentElement.classList.contains('one') ? 19 : 11)), rt = spr && spr.width > 20 ? cr.right - spr.right : 0;
+      Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right + rt) + 'px' }); }
+    wrap.appendChild(close); POP.close = close; POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
     shb.addEventListener('click', e => {
@@ -3931,7 +3948,7 @@ function openStory(card, id, instant) {
     else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); if (srx) srx.open(false); setTimeout(() => { wrap.style.overflowY = 'auto'; }, 520); }));
     const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
     arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
-    dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory); clone.addEventListener('click', closeStory);
+    dim.addEventListener('click', closeStory); close.querySelector('.px-x').addEventListener('click', e => { e.stopPropagation(); closeStory(); }); clone.addEventListener('click', closeStory);
     { let dy0 = null; dim.addEventListener('pointerdown', e => { dy0 = e.clientY; }); dim.addEventListener('pointermove', e => { if (dy0 !== null && Math.abs(e.clientY - dy0) > 14) { dy0 = null; closeStory(); } }); dim.addEventListener('pointerup', () => { dy0 = null; });
       dim.addEventListener('touchmove', e => { e.preventDefault(); }, { passive: false }); dim.addEventListener('wheel', e => { e.preventDefault(); closeStory(); }, { passive: false }); }
   };
@@ -3955,8 +3972,41 @@ setInterval(() => {
 // The eyes react: with a mouse, hovering flips an eye (open closes, closed opens) and leaving flips it back.
 // On a touch screen, tapping the eye in an open story wakes it if it is shut and shuts it if it is awake.
 if (!TVMODE) {
-  document.addEventListener('pointerover', ev => { if (ev.pointerType !== 'mouse') return; const q = ev.target.closest && ev.target.closest('.qb'); if (!q || q._hv || (ev.relatedTarget && q.contains(ev.relatedTarget))) return; q._hv = 1; q._was = !!q._open; eyeOpen(q, !q._was); });
-  document.addEventListener('pointerout', ev => { if (ev.pointerType !== 'mouse') return; const q = ev.target.closest && ev.target.closest('.qb'); if (!q || !q._hv || (ev.relatedTarget && q.contains(ev.relatedTarget))) return; q._hv = 0; eyeOpen(q, q._was); });
+  if (matchMedia('(hover: hover)').matches) {
+    // A wide sensing zone around each eye: it flips when the mouse comes close and flips back only once it has clearly left,
+    // so small movements near the edge never make it flicker. Open eyes nearby follow the mouse.
+    let mx = -1e4, my = -1e4, raf = 0;
+    const f = v => v.toFixed(2);
+    const eyeD = (dx, dy) => { const a = dx * 1.9, b = dy * 1.2, cx = 12 + dx * 3.3, cy = 13.5 + dy * 2.3, k = 1.878, r = 3.4, ex = a * .35, ey = 13.5 + b * .45;
+      return `M${f(1.8 + ex)} ${f(ey)}Q${f(12 + a)} ${f(3.8 + b)} ${f(22.2 + ex)} ${f(ey)}Q${f(12 + a)} ${f(23.2 + b)} ${f(1.8 + ex)} ${f(ey)}ZM${f(cx)} ${f(cy - r)}C${f(cx + k)} ${f(cy - r)} ${f(cx + r)} ${f(cy - k)} ${f(cx + r)} ${f(cy)}C${f(cx + r)} ${f(cy + k)} ${f(cx + k)} ${f(cy + r)} ${f(cx)} ${f(cy + r)}C${f(cx - k)} ${f(cy + r)} ${f(cx - r)} ${f(cy + k)} ${f(cx - r)} ${f(cy)}C${f(cx - r)} ${f(cy - k)} ${f(cx - k)} ${f(cy - r)} ${f(cx)} ${f(cy - r)}Z`; };
+    const step = () => {
+      raf = 0; let again = false;
+      const eyes = [...document.querySelectorAll(POP ? '.popwrap .qb' : '#track > .copy .qb')];
+      eyes.forEach(q => {
+        const r = q.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > innerHeight) return;
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2, d = Math.hypot(mx - cx, my - cy), sz = r.width;
+        const rin = Math.max(sz * 1.5, 44), rout = rin * 1.6, rtr = Math.max(sz * 5, 240);
+        if (!q._hv && d < rin) { q._hv = 1; q._was = !!q._open; eyeOpen(q, !q._was); }
+        else if (q._hv && d > rout) { q._hv = 0; eyeOpen(q, q._was); }
+        const svg = q.querySelector('svg.eye'), lid = svg && svg.querySelector('.lid'); if (!lid) return;
+        if (svg.querySelector('animate')) { q._px = q._py = 0; return; }
+        const on = q._open && d < rtr, m = on ? Math.min(1, d / (sz * 1.6)) : 0;
+        const tx = on ? (mx - cx) / Math.max(d, 1) * m : 0, ty = on ? (my - cy) / Math.max(d, 1) * m : 0;
+        const px = (q._px || 0) + (tx - (q._px || 0)) * .22, py = (q._py || 0) + (ty - (q._py || 0)) * .22;
+        if (!q._open) { q._px = q._py = 0; return; }
+        if (Math.abs(px) < .004 && Math.abs(py) < .004 && !on) { if (q._px || q._py) lid.setAttribute('d', EYE_O); q._px = q._py = 0; return; }
+        q._px = px; q._py = py; lid.setAttribute('d', eyeD(px, py));
+        if (Math.abs(tx - px) > .004 || Math.abs(ty - py) > .004) again = true;
+      });
+      if (again) raf = requestAnimationFrame(step);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
+    document.addEventListener('pointermove', ev => { if (ev.pointerType !== 'mouse') return; mx = ev.clientX; my = ev.clientY; kick(); }, { passive: true });
+    document.addEventListener('mouseleave', () => { mx = my = -1e4; kick(); });
+    setInterval(() => { if (mx > -1e3) kick(); }, 250);   // the board keeps moving under a still mouse
+  }
+  // opening a source shuts the story's eye
+  document.addEventListener('click', ev => { const a = ev.target.closest && ev.target.closest('.popwrap .sxs'); if (!a) return; const q = document.querySelector('.popwrap .qb'); if (q) { q._hv = 0; eyeOpen(q, false); } }, true);
   document.addEventListener('click', ev => { const q = ev.target.closest && ev.target.closest('.popwrap .qb'); if (!q) return; ev.preventDefault(); ev.stopPropagation(); if (q._hv) { q._was = !q._was; eyeOpen(q, !q._was); } else eyeOpen(q, !q._open); }, true);
 }
 // Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
