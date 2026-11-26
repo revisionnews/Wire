@@ -569,6 +569,9 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 html.tvm .grain{will-change:transform;transform:translateZ(0)}
 /* TV: taller source strip so the QR code is big enough for a phone across the room */
 html.tvm .refs.top{height:var(--qrh) !important}
+/* Re:SA board: the eye fills the box where the QR code sits on the office TV */
+html.resa .qb{width:var(--qrh) !important;background:transparent !important;color:inherit !important;border-left:0 !important;display:flex !important;align-items:center;justify-content:center}
+html.resa .qb svg.eye{position:static !important;display:block !important;width:78% !important;height:78% !important;overflow:visible;transform:none !important}
 /* TV: bigger source text, about 3px up on everything in the strip */
 html.tvm .refs.top .rw .meta{font-size:calc(var(--u)*1.25 + 3px) !important}
 html.tvm .refs.top .rl .o{font-size:calc(var(--u)*1.55 + 3px) !important}
@@ -3169,6 +3172,7 @@ const pill = (s, fill) => s ? `<span class="pill s-${cls(s)}${fill ? ' fill' : '
 
 const QRC = {};
 function qrSvg(text) {
+  if (typeof RESA !== 'undefined' && RESA) return EYE_SVG;
   if (QRC[text] !== undefined) return QRC[text];
   try {
     const q = qrcode(0, 'L'); q.addData(text); q.make();
@@ -3181,6 +3185,8 @@ const IN_ART = /claude|anthropic/.test(location.hostname);
 let TVMODE = /\/code\/?$/.test(location.pathname) || /[?&]tv=1/.test(location.search);
 if (IN_ART) { try { TVMODE = sessionStorage.getItem('wireMode') === 'tv'; } catch (e) {} }
 document.documentElement.classList.add(TVMODE ? 'tvm' : 'pub');
+// wire.revision.news/resa: the TV board for filming Re:SA, with eyes instead of QR codes
+const RESA = TVMODE && /[?&]show=1/.test(location.search); if (RESA) document.documentElement.classList.add('resa');
 const SITE = 'https://wire.revision.news/';
 const REFS = {}, DOCS = {}, MORE = {};
 function tagMore(o) { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) { o.forEach(tagMore); return; } if (Array.isArray(o.refs) && o.more) o.refs.more = o.more; Object.values(o).forEach(v => { if (v && typeof v === 'object') tagMore(v); }); }
@@ -3364,7 +3370,7 @@ function archBlock() {
     `</ol><div class="refs top"><div class="tg"><span class="tgb">${tagHtml('Archive', total + ' stories')}</span></div><div class="rw"><div class="xt"><span class="meta">${more > 0 ? '+' + more + ' more stories in the archive' : total + ' stories in the archive'}</span></div></div>${svg ? `<div class="qr"><div class="qb" data-u="${esc(u)}">${svg}</div></div>` : ''}</div></section>`;
 }
 let FEED = [];
-function wrapFeed() { return '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio<span class="vt" data-vt="1">' + (TVMODE ? 'Switch to regular view' : 'Switch to TV view') + '</span></div>'; }
+function wrapFeed() { return '<div class="mason">' + FEED.map((f, i) => i === COLBRK ? f.h.replace(/^<(\w+)/, '<$1 data-cb="1"') : f.h).join('') + '</div>' + archBlock() + '<div class="endcap">Wire / Revision News / San Antonio</div>'; }
 
 
 // Layout rule: the same kind of box (breaking, top, coverage, meetings, events, memos) never sits beside or directly under itself
@@ -3474,7 +3480,7 @@ function cmpSizeAll() {
 }
 // QR codes: every square gets the same whole number of screen pixels, so codes stay crisp and never flash while scrolling
 function qrSnap() {
-  if (document.documentElement.classList.contains('pub')) return;
+  if (document.documentElement.classList.contains('pub') || RESA) return;
   // Read every box first, then write, so the page lays out once instead of once per code
   const svgs = [...track.querySelectorAll('.qb svg')];
   const pad = Math.round(U * .12);
@@ -3719,6 +3725,8 @@ function eyeOpen(q, on) {
   // when it lands, keep the end state as plain drawing and drop the animation again
   s._t = setTimeout(() => { lid.setAttribute('d', on ? EYE_O : EYE_C); lsh.setAttribute('transform', on ? 'scale(1 1)' : 'scale(1 -1)'); a1.remove(); a2.remove(); }, 600);
 }
+if (RESA) setInterval(() => { const vr = view.getBoundingClientRect(), qs = [...track.querySelectorAll('.qb')].filter(q => { const r = q.getBoundingClientRect(); return r.top > vr.top + 40 && r.bottom < innerHeight - 20; });
+  const q = qs[Math.floor(Math.random() * qs.length)]; if (!q) return; eyeOpen(q, true); setTimeout(() => eyeOpen(q, false), 2600); }, 4200);
 function addEyes(root) { if (TVMODE) return; root.querySelectorAll('.qb').forEach(q => { if (!q.querySelector('svg.eye')) q.insertAdjacentHTML('beforeend', EYE_SVG); }); }
 function glideTo(target, ms, done) {
   const from = off, t0 = performance.now();
@@ -4087,7 +4095,7 @@ if (window.visualViewport) visualViewport.addEventListener('resize', () => { if 
 // plus events for story opens, QR scans, shared links, shares, searches and filters. Never counted inside the artifact.
 function gc(path, title) { try { if (window.goatcounter && goatcounter.count) goatcounter.count({ path: path, title: title || path, event: true }); } catch (e) {} }
 if (!IN_ART) {
-  window.goatcounter = { path: () => TVMODE ? '/tv' : (location.pathname || '/') };
+  window.goatcounter = { path: () => RESA ? '/resa' : TVMODE ? '/tv' : (location.pathname || '/') };
   const g = document.createElement('script'); g.async = true; g.src = 'https://gc.zgo.at/count.js'; g.dataset.goatcounter = 'https://revisionnews.goatcounter.com/count'; document.head.appendChild(g);
 }
 function wireTap() {
