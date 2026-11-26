@@ -545,9 +545,18 @@ html.one .arch .ah{flex-wrap:wrap}
 html.tvm #track .copy .mason > *,html.tvm #track .copy > .arch{cursor:default !important}
 .popdim{position:fixed;left:0;right:0;bottom:0;top:0;z-index:40;background:var(--paper);opacity:0;transition:opacity .3s ease}
 .popdim.on{opacity:.94}
-.ktl{position:fixed;z-index:42;pointer-events:none;display:flex;align-items:center;gap:.28em;background:var(--kc);color:#fff;padding:.16em .3em .12em .34em;font:900 calc(var(--u)*5)/1 'Hando',sans-serif;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .3s ease}
+:root{--tsb:#2F63D6}
+.ktl{position:fixed;z-index:42;pointer-events:none;display:flex;align-items:center;gap:.28em;background:var(--kc);color:#fff;padding:.16em .34em .12em .34em;box-sizing:border-box;font:900 calc(var(--u)*5)/1 'Hando',sans-serif;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .3s ease}
 html.one .ktl{font-size:calc(var(--u)*7.4)}
 .ktl.on{opacity:1}.ktl.dk{color:#0D0F12}
+.ktl.two{flex-direction:column;align-items:flex-start;gap:.06em;padding-top:.14em}
+.ktl.two small{font-size:.36em;letter-spacing:.22em;opacity:.8}
+.ktab{position:fixed;z-index:43;pointer-events:none;display:flex;white-space:nowrap;font:900 calc(var(--u)*5)/1 'Hando',sans-serif;text-transform:uppercase}
+html.one .ktab{font-size:calc(var(--u)*7.4)}
+.ktab .ktb{display:flex;align-items:center;justify-content:center;height:100%;box-sizing:border-box;transform-origin:50% 50%}
+.ktab{height:1.3em}.ktab.tn .ktb{min-width:1.3em;padding:0 .3em;background:var(--tsb);color:#fff;letter-spacing:.03em}.ktab .tl{display:grid;grid-template-columns:0fr;transition:grid-template-columns .45s cubic-bezier(.3,.7,.2,1)}.ktab .tl > span{overflow:hidden;white-space:nowrap}.ktab .ktb.open .tl{grid-template-columns:1fr}.ktab .ktb.open .tl > span{padding-right:.35em}
+.ktab.tsp .ktb{gap:.28em;padding:0 .4em;background:#fff;color:#0D0F12;border:var(--b) solid #0D0F12;border-bottom:0;font-size:.62em;letter-spacing:.02em}
+.ktab.tsp .ktb b{opacity:.22}.ktab.tsp .ktb b.on{opacity:1;font-size:1.6em}
 .ktl i{flex:none;display:grid;place-items:center;width:.82em;height:.82em;font-style:normal}
 .ktl i svg{width:100%;height:100%}
 .ktl i b{font:inherit;line-height:1;border:.1em solid currentColor;padding:.05em .16em;font-size:.6em}
@@ -4010,7 +4019,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126091753';
+const BUILD = '20261126092849';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4131,9 +4140,9 @@ function openStory(card, id, instant) {
   clone.classList.add('pbig', 'pnow'); const grow0 = clone.offsetHeight - cr0.height; clone.classList.remove('pbig'); clone.offsetHeight; clone.classList.remove('pnow');
   const ch = cr0.height + Math.max(0, grow0) + TABH, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
   // a long story takes the whole open area: it starts right under the masthead (over the search bar) and runs to the bottom
-  const KT = cardTitleBox(c); stage.appendChild(KT); POP.kt = KT; const KTH = KT.offsetHeight + u * 1.1;
+  POP.ktab = cardTitleTab(c, clone, stage); const KTH = POP.ktab ? POP.ktab.el.offsetHeight : 0, KT = null;
   const mb = (document.querySelector('.mast') || view).getBoundingClientRect().bottom, top0 = (tot + KTH > lim1 - lim0 ? Math.max(mb + u * .8, u * 2) : lim0) + KTH;
-  { const follow = () => { if (!KT.isConnected || KT._x) return; const r = clone.getBoundingClientRect(); KT.style.left = r.left + 'px'; KT.style.top = (r.top - KTH) + 'px'; requestAnimationFrame(follow); }; follow(); requestAnimationFrame(() => KT.classList.add('on')); }
+  if (POP.ktab) { const T0 = POP.ktab; const follow = () => { if (!T0.el.isConnected || T0.gone) return; const r = clone.getBoundingClientRect(); const T = T0; if (T && T.el.isConnected) { T.el.style.right = (document.documentElement.clientWidth - r.right) + 'px'; T.el.style.top = (r.top - T.el.offsetHeight) + 'px'; } requestAnimationFrame(follow); }; follow(); }
   const ctop = top0 + Math.max(0, (lim1 - top0 - tot) * .4); // a little above the middle
   const glide = () => {
     if (instant) { wrap.style.top = (ctop - pad) + 'px'; clone.classList.add('pbig', 'pnow'); done(); return; }
@@ -4365,11 +4374,33 @@ const KT_COL = { top: '#2B2B2B', brk: 'var(--red)', cmp: '#A21CAF', ev: 'var(--t
 const KT_SP = { S: 'Sports', P: 'Politics', A: 'Art', R: 'Revolution', C: 'Community' };
 function cardTitleBox(card) {
   const k = card.classList.contains('arch') ? 'arch' : card.classList.contains('spon') ? 'spon' : wsKind(card), L = (wsLetters(card) || '')[0] || '';
-  let name = k === 'memo' && /\bCCR\b/.test((card.textContent || '').slice(0, 240)) ? 'CCR' : KT_NAME[k] || (k === 'spon' ? 'Sponsored' : k === 'arch' ? 'Archive' : KT_SP[L] || 'Story');
-  const ic = WICON[k] ? `<svg viewBox="0 0 24 24" aria-hidden="true">${WICON[k]}</svg>` : `<b>${k === 'spon' ? '$' : k === 'arch' ? '&#8635;' : (L || 'C')}</b>`;
-  const d = document.createElement('div'); d.className = 'ktl'; d.style.setProperty('--kc', KT_COL[k] || '#2B2B2B');
-  if (k === 'memo') d.classList.add('dk');
-  d.innerHTML = `<span>${name}</span><i>${ic}</i>`; return d;
+  const d = document.createElement('div'); d.className = 'ktl k-' + k;
+  if (k === 'story' && card.classList.contains('sp') && KT_SP[L]) { d.classList.add('two'); d.innerHTML = `<span>${KT_SP[L]}</span><small>Story</small>`; d.style.setProperty('--kc', '#2B2B2B'); return d; }
+  const name = k === 'memo' && /\bCCR\b/.test((card.textContent || '').slice(0, 240)) ? 'CCR' : KT_NAME[k] || (k === 'spon' ? 'Sponsored' : k === 'arch' ? 'Archive' : 'Story');
+  d.style.setProperty('--kc', k === 'top' ? 'var(--tsb)' : (KT_COL[k] || '#2B2B2B')); if (k === 'memo') d.classList.add('dk');
+  d.innerHTML = `<span>${name}</span>`; return d;
+}
+// The corner mark of the card (a top story's number, a SPARC story's letters) glides up out of the card and becomes a tab on its top right
+function cardTitleTab(card, clone, stage) {
+  if (!card.classList.contains('top')) return null;
+  const src = clone.querySelector('.rank'); if (!src) return null;
+  const el = document.createElement('div'); el.className = 'ktab tn';
+  const box = document.createElement('div'); box.className = 'ktb';
+  box.innerHTML = `<span class="tl"><span>Top story</span></span><span class="n">${esc(src.textContent.trim())}</span>`;
+  el.appendChild(box); stage.appendChild(el);
+  const nb = box.querySelector('.n'), cr = clone.getBoundingClientRect(), sr = src.getBoundingClientRect(), W = el.offsetWidth, H = el.offsetHeight;
+  const tx = cr.right - W, ty = cr.top - H, s0 = Math.max(.3, Math.min(2.5, sr.height / H));
+  const dx = (sr.left + sr.width / 2) - (tx + W / 2), dy = (sr.top + sr.height / 2) - (ty + H / 2), c0 = getComputedStyle(src).color;
+  el.style.right = (document.documentElement.clientWidth - cr.right) + 'px'; el.style.top = ty + 'px';
+  const from = { transform: `translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) scale(${s0.toFixed(3)})`, backgroundColor: 'rgba(0,0,0,0)', color: c0 };
+  const to = { transform: 'none' };
+  src.style.transition = 'opacity .12s ease'; src.style.opacity = '0';
+  const an = box.animate([from, to], { duration: 620, delay: 120, easing: 'cubic-bezier(.3,.7,.2,1)', fill: 'backwards' });
+  const t1 = setTimeout(() => box.classList.add('open'), 760);
+  const T = { el, gone: 0, back() { clearTimeout(t1); box.classList.remove('open'); setTimeout(() => { an.cancel(); const W2 = el.offsetWidth, cr2 = clone.getBoundingClientRect(), sr2 = src.getBoundingClientRect();
+      const f2 = { transform: `translate(${((sr2.left + sr2.width / 2) - (cr2.right - W2 / 2)).toFixed(1)}px,${((sr2.top + sr2.height / 2) - (cr2.top - H / 2)).toFixed(1)}px) scale(${s0.toFixed(3)})`, backgroundColor: 'rgba(0,0,0,0)', color: c0 };
+      const r = box.animate([to, f2], { duration: 360, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' }); r.onfinish = () => { src.style.opacity = ''; T.gone = 1; el.remove(); }; }, 200); } };
+  return T;
 }
 function fitLock(w) {
   if (!w || !w.isConnected) return;
@@ -4382,6 +4413,7 @@ function fitLock(w) {
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
   const w = p.wrap, card = p.card;
+  if (p.ktab) { p.ktab.gone = 0; p.ktab.back(); }
   if (p.kt) { const kt = p.kt; kt._x = 1; kt.classList.remove('on'); setTimeout(() => kt.remove(), 300); }
   if (w) { const pc = w.querySelector('.pclone'); if (pc) pc.classList.remove('pbig', 'pnow'); w.classList.remove('lit'); const e = w.querySelector('.qb'); if (e) eyeOpen(e, false); w.scrollTop = 0; w.style.overflowY = 'hidden'; w.classList.remove('srcs'); if (w._srx) w._srx.close(); }
   if (p.close) p.close.classList.remove('on');
