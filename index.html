@@ -4054,6 +4054,44 @@ if (!TVMODE) {
     document.addEventListener('mouseleave', () => { mx = my = -1e4; kick(); });
     setInterval(() => { if (mx > -1e3) kick(); }, 250);   // the board keeps moving under a still mouse
   }
+  // Phones have no cursor: open eyes roam on their own, looking at the clock, the date, across the screen, or darting around,
+  // in a random order at random times. A finger on the screen takes over: the eyes follow it, then go back to roaming.
+  if (!matchMedia('(hover: hover)').matches) {
+    const f = v => v.toFixed(2);
+    const eyeD = (dx, dy) => { const a = dx * 3.2, b = dy * 2.2, cx = 12 + dx * 3.6, cy = 13.5 + dy * 2.6, k = 1.878, r = 3.4, ex = a * .4, ey = 13.5 + b * .5;
+      return `M${f(1.8 + ex)} ${f(ey)}Q${f(12 + a)} ${f(3.8 + b)} ${f(22.2 + ex)} ${f(ey)}Q${f(12 + a)} ${f(23.2 + b)} ${f(1.8 + ex)} ${f(ey)}ZM${f(cx)} ${f(cy - r)}C${f(cx + k)} ${f(cy - r)} ${f(cx + r)} ${f(cy - k)} ${f(cx + r)} ${f(cy)}C${f(cx + r)} ${f(cy + k)} ${f(cx + k)} ${f(cy + r)} ${f(cx)} ${f(cy + r)}C${f(cx - k)} ${f(cy + r)} ${f(cx - r)} ${f(cy + k)} ${f(cx - r)} ${f(cy)}C${f(cx - r)} ${f(cy - k)} ${f(cx - k)} ${f(cy - r)} ${f(cx)} ${f(cy - r)}Z`; };
+    const at = id => { const e = document.getElementById(id), r = e && e.getBoundingClientRect(); return r && r.width ? [r.left + r.width / 2, r.top + r.height / 2] : null; };
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const W = () => innerWidth, H = () => innerHeight;
+    const ROUTINES = [
+      () => [[at('time'), 1500], [at('md') || at('dow'), 1300], [at('time'), 700]],                                         // checks the clock, then the date
+      () => [[[W() * .04, H() * .55], 1000], [[W() * .96, H() * .55], 1200], [[W() * .5, H() * .15], 900]],                 // looks across the room
+      () => Array.from({ length: 4 + Math.floor(Math.random() * 3) }, () => [[rnd(0, W()), rnd(0, H())], rnd(300, 650)])     // darts around, curious
+    ];
+    let tx = NaN, ty = NaN, plan = [], next = 0, finger = null, fingerTill = 0, lastF = 0;
+    const pick = now => { if (!plan.length) { plan = ROUTINES[Math.floor(Math.random() * ROUTINES.length)](); plan.push([null, rnd(1600, 4200)]); }
+      const [p, ms] = plan.shift(); if (p) { tx = p[0]; ty = p[1]; } else { tx = ty = NaN; } next = now + ms; };
+    const loop = now => {
+      requestAnimationFrame(loop);
+      if (document.hidden || now - lastF < 30) return; lastF = now;
+      if (finger) { tx = finger[0]; ty = finger[1]; } else if (now > fingerTill && now > next) pick(now);
+      document.querySelectorAll(POP ? '.popwrap .qb' : '#track > .copy .qb').forEach(q => {
+        if (!q._open) { q._px = q._py = 0; return; }
+        const r = q.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > H()) return;
+        const svg = q.querySelector('svg.eye'), lid = svg && svg.querySelector('.lid'); if (!lid || svg.querySelector('animate')) return;
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2, d = Math.hypot(tx - cx, ty - cy), ok = d === d && d > 1, m = ok ? Math.min(1, d / (r.width * 1.6)) : 0;
+        const gx = ok ? (tx - cx) / d * m : 0, gy = ok ? (ty - cy) / d * m : 0;
+        const px = (q._px || 0) + (gx - (q._px || 0)) * .14, py = (q._py || 0) + (gy - (q._py || 0)) * .14;
+        if (Math.abs(px - (q._px || 0)) < .002 && Math.abs(py - (q._py || 0)) < .002) return;
+        q._px = px; q._py = py; lid.setAttribute('d', eyeD(px, py));
+      });
+    };
+    requestAnimationFrame(loop);
+    document.addEventListener('pointerdown', ev => { if (ev.pointerType === 'mouse') return; finger = [ev.clientX, ev.clientY]; }, { passive: true, capture: true });
+    document.addEventListener('pointermove', ev => { if (ev.pointerType === 'mouse' || !finger) return; finger = [ev.clientX, ev.clientY]; }, { passive: true, capture: true });
+    const lift = () => { if (!finger) return; finger = null; fingerTill = performance.now() + 1600; plan = []; next = 0; };
+    document.addEventListener('pointerup', lift, true); document.addEventListener('pointercancel', lift, true);
+  }
   // opening a source shuts the story's eye
   document.addEventListener('click', ev => { const a = ev.target.closest && ev.target.closest('.popwrap .sxs'); if (!a) return; const q = document.querySelector('.popwrap .qb'); if (q) { q._hv = 0; eyeOpen(q, false); } }, true);
   document.addEventListener('click', ev => { const q = ev.target.closest && ev.target.closest('.popwrap .qb'); if (!q) return; ev.preventDefault(); ev.stopPropagation(); q._hv = 0; closeStory(); }, true);
