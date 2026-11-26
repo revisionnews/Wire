@@ -577,9 +577,12 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .sxa{transition:opacity .25s ease,transform .35s cubic-bezier(.2,.7,.2,1)}
 .refs.sx.open .sxa{opacity:0;transform:translateY(-14px);position:absolute;left:0;right:0;top:0;pointer-events:none}
 .sxb{display:flex;flex-direction:column;gap:calc(var(--u)*1);padding:calc(var(--u)*1.4)}
-.refs.sx.open .sxb,.refs.sx.open .sxd{animation:sxin .45s cubic-bezier(.2,.7,.2,1) .12s both}
-.refs.sx.open.now .sxb,.refs.sx.open.now .sxd{animation:none}
-.refs.sx.open.shut .sxb,.refs.sx.open.shut .sxd{animation:sxout .2s ease both}
+.refs.sx.open .sxb,.refs.sx.open .sxd,.popwrap .refs.sx.open .tgb > b,.popwrap .refs.sx.open .tgb > i{animation:sxin .4s cubic-bezier(.2,.7,.2,1) .06s both}
+.popwrap .refs.sx .sxa,.popwrap .refs.sx .tgb > b,.popwrap .refs.sx .tgb > i{transition:opacity .18s ease,transform .3s cubic-bezier(.2,.7,.2,1)}
+.popwrap .refs.sx.fadeout .sxa,.popwrap .refs.sx.fadeout .tgb > b,.popwrap .refs.sx.fadeout .tgb > i{opacity:0}
+.popwrap .refs.sx.hid .sxa,.popwrap .refs.sx.hid .tgb > b,.popwrap .refs.sx.hid .tgb > i{transition:none !important}
+.refs.sx.open.now .sxb,.refs.sx.open.now .sxd,.popwrap .refs.sx.open.now .tgb > b,.popwrap .refs.sx.open.now .tgb > i{animation:none}
+.refs.sx.open.shut .sxb,.refs.sx.open.shut .sxd,.popwrap .refs.sx.open.shut .tgb > b,.popwrap .refs.sx.open.shut .tgb > i{animation:sxout .13s ease both}
 @keyframes sxin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes sxout{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-8px)}}
 .refs.sx:not(.open) .sxb,.refs.sx:not(.open) .sxd{display:none}
@@ -3728,10 +3731,10 @@ function openStory(card, id, instant) {
   const vt = view.getBoundingClientRect(), lim0 = Math.max(vt.top, u * 2) + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
   const srx = REG ? srcExpand(clone, id) : null;
   const ch = cr0.height, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
-  const ctop = lim0 + Math.max(0, (lim1 - lim0 - tot) / 2);
+  const ctop = lim0 + Math.max(0, (lim1 - lim0 - tot) * .4); // a little above the middle
   const glide = () => {
     if (instant) { wrap.style.top = (ctop - pad) + 'px'; done(); return; }
-    requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad) + 'px'; setTimeout(done, 460); }));
+    if (srx) srx.prep(); requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad) + 'px'; setTimeout(done, 460); }));
   };
   const done = () => {
     if (!POP || POP.wrap !== wrap) return;
@@ -3797,15 +3800,25 @@ function srcExpand(clone, id) {
   let mo = null; const more = MORE[id], sum = clone.querySelector('.sum');
   if (more && sum) { mo = document.createElement('div'); mo.className = 'sxmore'; mo.innerHTML = `<p class="sum">${esc(more)}</p>`; sum.after(mo); const cs = getComputedStyle(sum), pp = mo.firstChild; ['marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'].forEach(k => { mo.style[k] = cs[k]; pp.style[k] = '0'; }); pp.style.paddingTop = cs.marginBottom; }
   // measure how much taller the open story will be, without showing it
+  const tg = refs.querySelector('.tg'), tgw0 = tg ? tg.offsetWidth : 0;
   const h0 = refs.offsetHeight; { const qr = refs.querySelector('.qr'); if (qr) qr.style.height = h0 + 'px'; } refs.classList.add('open'); if (mo) mo.classList.add('open');
-  const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
+  const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0, tgw1 = tg ? tg.offsetWidth : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
   const wrap = clone.closest('.popwrap');
+  // the tag widens and narrows smoothly instead of jumping
+  const tw = (a, b, ms) => { ms = ms || 420; if (!tg) return; clearTimeout(tg._t); tg.style.setProperty('transition', 'none', 'important'); tg.style.setProperty('width', a + 'px', 'important'); tg.getBoundingClientRect();
+    tg.style.setProperty('transition', `width ${ms}ms cubic-bezier(.2,.7,.2,1)`, 'important'); tg.style.setProperty('width', b + 'px', 'important');
+    tg._t = setTimeout(() => { tg.style.removeProperty('transition'); tg.style.removeProperty('width'); }, ms + 50); };
+  // Phases. Opening: the strip's own text fades while the story glides (prep), then the strip grows and the new text comes in.
+  // Closing: the new text fades, the strip shrinks with nothing in it, then the original text fades back in before the story lands.
   const o = { extra: (h1 - h0) + m1,
+    prep() { refs.classList.add('fadeout'); },
     open(now) { if (now) { refs.classList.add('open', 'now'); refs.style.height = 'auto'; if (mo) mo.classList.add('open', 'now'); return; }
-      refs.style.height = h0 + 'px'; refs.classList.add('open'); refs.getBoundingClientRect(); refs.style.height = h1 + 'px'; if (mo) mo.classList.add('open');
-      setTimeout(() => { if (refs.classList.contains('open')) refs.style.height = 'auto'; }, 520); },
-    close() { refs.classList.remove('now'); refs.classList.add('shut'); refs.style.height = refs.offsetHeight + 'px'; if (mo) mo.classList.remove('open', 'now');
-      setTimeout(() => { refs.getBoundingClientRect(); refs.classList.remove('open', 'shut'); refs.style.height = h0 + 'px'; }, 200); } };
+      refs.style.height = h0 + 'px'; refs.classList.add('open'); refs.classList.remove('fadeout'); refs.getBoundingClientRect(); refs.style.height = h1 + 'px'; tw(tgw0, tgw1); if (mo) mo.classList.add('open');
+      setTimeout(() => { if (refs.classList.contains('open')) refs.style.height = 'auto'; }, 460); },
+    close() { refs.classList.remove('now'); refs.style.height = refs.offsetHeight + 'px'; refs.classList.add('shut'); if (mo) mo.classList.remove('open', 'now');
+      const w1 = tg ? tg.offsetWidth : tgw1;
+      setTimeout(() => { refs.classList.add('hid', 'fadeout'); refs.classList.remove('open', 'shut'); refs.style.setProperty('transition', 'height .28s cubic-bezier(.4,0,.2,1)', 'important'); refs.getBoundingClientRect(); refs.style.height = h0 + 'px'; tw(w1, tgw0, 280);
+        setTimeout(() => { refs.classList.remove('hid'); refs.getBoundingClientRect(); refs.classList.remove('fadeout'); }, 220); }, 110); } };
   if (wrap) wrap._srx = o; return o;
 }
 function closeStory() {
@@ -3816,7 +3829,7 @@ function closeStory() {
   // the sources fold back into the strip while the story glides home to its own spot on the board
   let home = null;
   if (w && card && card.isConnected) { const r = card.getBoundingClientRect(); if (r.height && r.bottom > 0 && r.top < innerHeight) home = r.top - (parseFloat(w.style.paddingTop) || 0); }
-  const wait = w && w._srx ? 200 : 0;
+  const wait = w && w._srx ? 250 : 0; // the strip folds first, then the story glides home
   setTimeout(() => {
     if (w) { w.style.maxHeight = 'none'; w.classList.remove('glide', 'now'); if (home !== null) w.style.top = home + 'px'; else w.classList.add('off'); }
     if (p.dim) p.dim.classList.remove('on', 'now');
