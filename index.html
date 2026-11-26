@@ -564,6 +564,8 @@ html.one .popsrc .ps small{font-size:calc(var(--u)*2.4)}
 html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
+.popx .px-s{background:#A21CAF;color:#fff;display:inline-flex;align-items:center;gap:.6em}
+.popx .px-s svg{width:1.15em;height:1.15em;flex:none}
 </style><style>
 /* Archive as a card, same build as the stories */
 .arch{border:var(--b) solid var(--ink) !important;background:var(--paper) !important;margin:calc(var(--u)*1.2) 0 calc(var(--u)*1.6) !important;position:relative}
@@ -3592,6 +3594,7 @@ view.addEventListener('pointerup', endDrag); view.addEventListener('pointercance
 
 // One link: wire.revision.news is the public feed (tap a story to open its sources), wire.revision.news/code is the office TV (QR codes, no tapping)
 let POP = null;
+const SHARE_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 12v8h14v-8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>';
 function storyRefs(id) {
   if (/^k_/.test(id)) { const c = CMPS.find(x => x.qid === id); if (c) return c.hs.filter(h => h.k !== 'AI').map(h => ({ n: h.src, t: h.headline, d: h.d, k: h.lean || h.k, url: h.u ? (/^https?:/.test(h.u) ? h.u : 'https://' + h.u) : '' })); }
   return REFS[id] || [];
@@ -3666,25 +3669,27 @@ function openStory(card, id, instant) {
   stage.appendChild(wrap); POP.wrap = wrap;
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 80); }
-  // bring the story into view, the lifted copy rides along with it, then it opens downward
-  const want = off + cr0.top - vr.top - u * 2.4, base = off;
-  const follow = () => { if (POP && POP.wrap === wrap) wrap.style.top = (cr0.top - pad - (off - base)) + 'px'; };
+  // The board stays still. The lifted story glides to the middle of the open space below the search bar,
+  // then its sources open downward; if they need more room, the whole story slides up so nothing is cut off.
+  const vt = view.getBoundingClientRect(), lim0 = vt.top + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
+  const ch = cr0.height, ctop = lim0 + Math.max(0, (lim1 - lim0 - ch) / 2);
   const glide = () => {
-    const from = off, t0 = performance.now(), ms = instant ? 0 : 420;
-    const step = now => { const k = ms ? Math.min(1, (now - t0) / ms) : 1, e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; off = from + (want - from) * e; follow(); if (k < 1) requestAnimationFrame(step); else done(); };
-    if (!ms) { off = want; follow(); done(); } else requestAnimationFrame(step);
+    if (instant) { wrap.style.top = (ctop - pad) + 'px'; done(); return; }
+    requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad) + 'px'; setTimeout(done, 460); }));
   };
   const done = () => {
     if (!POP || POP.wrap !== wrap) return;
-    track.style.transform = 'translateY(' + (-Math.round(off * DPR) / DPR) + 'px)';
-    const top = parseFloat(wrap.style.top); wrap.style.maxHeight = (innerHeight - top - u * 6) + 'px'; wrap.classList.remove('glide');
-    const close = document.createElement('div'); close.className = 'popx' + (instant ? ' on' : ''); close.innerHTML = '<button class="px-b">Back to Wire</button><button class="px-s">Share</button>'; stage.appendChild(close); POP.close = close;
+    wrap.classList.remove('glide');
+    { const sh = src.firstElementChild ? src.firstElementChild.scrollHeight : 0, tot = ch + sh + 2;
+      const nt = tot > lim1 - ctop ? Math.max(lim0, lim1 - tot) : ctop;
+      wrap.style.top = (nt - pad) + 'px'; wrap.style.maxHeight = (lim1 - nt + pad) + 'px'; }
+    const close = document.createElement('div'); close.className = 'popx' + (instant ? ' on' : ''); close.innerHTML = '<button class="px-b">Back to Wire</button><button class="px-s">' + SHARE_ICO + '<span>Share</span></button>'; stage.appendChild(close); POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
     shb.addEventListener('click', e => {
       e.stopPropagation(); if (POP) clearTimeout(POP.timer); gc('share/' + slugOf(cardTitle(card)), 'Share: ' + cardTitle(card));
       const title = cardTitle(card) || 'Revision Wire', sl = slugOf(title), url = sl ? SITE + 's/' + sl + '/' : SITE + '#' + encodeURIComponent(id);
-      const done2 = t => { shb.textContent = t; setTimeout(() => { shb.textContent = 'Share'; }, 1800); };
+      const lab = shb.querySelector('span'), done2 = t => { lab.textContent = t; setTimeout(() => { lab.textContent = 'Share'; }, 1800); };
       if (navigator.share) { navigator.share({ url }).catch(() => {}); return; }
       const fallback = () => { const ta = document.createElement('textarea'); ta.value = url; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done2('Link copied'); } catch (x) { prompt('Copy this link', url); } ta.remove(); };
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done2('Link copied'), fallback); else fallback();
@@ -3827,10 +3832,17 @@ function wsShift() {
 function wsEat(d) { return d; }
 // Move the roll-off line, not the board: the stories stay exactly where they are on screen while the line slides,
 // so the stories above it roll off (opening) or roll back on (closing) one by one.
-function wsSlide(a, b, ms, keep, done) {
+function wsSlide(a, b, ms, keep, done, fold) {
   ms = ms || 420; const rl = document.getElementById('roll3d'), t0 = performance.now(), o0 = off;
-  const put = v => { view.style.setProperty('top', (WSVB + v) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSRB + v) + 'px', 'important'); if (keep !== false) setOff(o0 + (v - a)); };
-  put(a); const step = n => { const k = Math.min(1, (n - t0) / ms), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; put(a + (b - a) * e); if (k < 1) requestAnimationFrame(step); else if (done) done(); };
+  // fold = {c, o, bh, ph, tg}: closed and open line positions, box height, full panel height, the tags. The gray panel and the tags
+  // follow the same line, frame by frame, so the stories roll off exactly as the tags come in, and roll back on as they leave
+  const put = v => {
+    view.style.setProperty('top', (WSVB + v) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSRB + v) + 'px', 'important');
+    if (keep !== false) setOff(o0 + (v - a));
+    if (fold && WSH) { const t = Math.max(0, Math.min(1, (v - fold.c) / ((fold.o - fold.c) || 1))), vis = fold.bh + t * (fold.ph - fold.bh);
+      WSH.style.clipPath = `inset(0 0 ${Math.max(0, fold.ph - vis)}px 0)`; fold.tg.style.opacity = t; fold.tg.style.transform = `translateY(${(1 - t) * -12}px)`; }
+  };
+  put(a); const step = n => { const k = Math.min(1, (n - t0) / ms), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; put(a + (b - a) * e); if (k < 1) requestAnimationFrame(step); else { if (fold && WSH) { WSH.style.clipPath = ''; fold.tg.style.opacity = ''; fold.tg.style.transform = ''; } if (done) done(); } };
   requestAnimationFrame(step);
 }
 function wsBuild() {
@@ -3874,18 +3886,21 @@ function wsApply(instant) {
   wsTimer = setTimeout(() => { apply(); requestAnimationFrame(() => { track.style.transition = 'opacity .28s ease'; track.style.opacity = ''; }); }, 170);
 }
 // Open: the board stops drifting, the tags unfold under the box, and the stories stay right where they were
+function wsFold() {
+  const tg = WSH.querySelector('.wtags'), box = WSH.querySelector('.wsearch');
+  tg.style.transition = 'none'; return { tg, bh: box.offsetHeight, ph: WSH.offsetHeight };
+}
 function wsOpen() {
   if (TVMODE || WSOPEN || wsBusy || !WSH) return;
   gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
-  WSOPEN = true; WSH.classList.add('open'); WSBV = 0;
-  const d0 = WSD; wsPlace(); wsSlide(d0, WSD);   // the feed and its roll-off glide down to make room for the tags
-  const tg = WSH.querySelector('.wtags');
-  tg.style.transition = 'none'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-12px)'; tg.getBoundingClientRect();
-  requestAnimationFrame(() => { tg.style.transition = 'opacity .3s ease, transform .4s cubic-bezier(.2,.7,.2,1)'; tg.style.opacity = ''; tg.style.transform = ''; });
+  const c = WSD; WSOPEN = true; WSH.classList.add('open'); WSBV = 0; wsPlace();
+  const fold = Object.assign(wsFold(), { c, o: WSD }); fold.tg.style.opacity = '0';
+  wsSlide(c, WSD, 420, true, null, fold);
   pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
 }
-// Close: the tags fold away; only if a search or filter was showing does the full feed come back, from the top
+// Close: the tags fold up while the roll-off line rises with them; the board stays put and its stories roll back on.
+// If a search or filter was showing, the full feed comes back at the same time.
 function wsClose() {
   if (!WSH || !WSOPEN || wsBusy) { const a = document.activeElement; if (a && a.closest && a.closest('.wsh')) a.blur(); return; }
   wsBusy = true;
@@ -3893,20 +3908,16 @@ function wsClose() {
   const had = wsAny();
   WQ = ''; WF = ''; WP = ''; const inp = WSH.querySelector('input'); if (inp) inp.value = '';
   WSH.querySelectorAll('.wtags .on').forEach(x => x.classList.remove('on')); { const em = WSH.querySelector('.wsn'); if (em) em.textContent = ''; }
-  const tg = WSH.querySelector('.wtags');
-  tg.style.transition = 'opacity .22s ease, transform .3s cubic-bezier(.4,0,.2,1)'; tg.style.opacity = '0'; tg.style.transform = 'translateY(-12px)';
-  if (had) { track.style.transition = 'opacity .2s ease'; track.style.opacity = '0'; }
-  setTimeout(() => {
-    const d0 = WSD; WSOPEN = false; WSH.classList.remove('open'); tg.style.transition = 'none'; tg.style.opacity = ''; tg.style.transform = '';
-    wsPlace(); wsSlide(d0, WSD, 420, !had, () => { if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000; });
-    if (had) { wsApply(true); track.style.transition = 'none'; track.style.opacity = '0'; requestAnimationFrame(() => { track.style.transition = 'opacity .3s ease'; track.style.opacity = ''; }); }
-
-    pinWin(); wsBusy = false;
-  }, 260);
+  const o = WSD, fold = wsFold();
+  WSOPEN = false; WSH.classList.remove('open'); wsPlace(); const c = WSD; WSH.classList.add('open');
+  Object.assign(fold, { c, o });
+  if (had) { track.style.transition = 'opacity .15s ease'; track.style.opacity = '0';
+    setTimeout(() => { wsApply(true); track.style.transition = 'opacity .3s ease'; track.style.opacity = ''; }, 160); }
+  wsSlide(o, c, 420, !had, () => { WSH.classList.remove('open'); if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000; wsBusy = false; pinWin(); }, fold);
 }
 function wsBack() { wsClose(); }
 function wsUI() {
-  const on = wsOn() && !POP;
+  const on = false; // Back to Wire only shows for an isolated story
   if (on && !WSX) { WSX = document.createElement('div'); WSX.className = 'popx wsx'; WSX.innerHTML = '<button class="px-b">Back to Wire</button>'; document.getElementById('stage').appendChild(WSX); WSX.addEventListener('click', e => { e.stopPropagation(); wsClose(); }); requestAnimationFrame(() => WSX && WSX.classList.add('on')); }
   else if (!on && WSX) { const x = WSX; WSX = null; x.classList.remove('on'); setTimeout(() => x.remove(), 300); }
 }
