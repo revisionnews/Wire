@@ -570,15 +570,18 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .ptab.on{opacity:1}
 .ptab > i{width:2px;flex:none;background:currentColor;opacity:.4;height:56%;align-self:center}
 .ptab button{flex:1;border:0;margin:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:inherit;position:relative}
-.ptab button:hover{background:rgba(255,255,255,.12)}
-.ptab button svg{width:58%;height:58%;display:block;flex:none}
-.ptab .px-x svg{width:50%;height:50%}
-.ptab .px-s span{position:absolute;right:100%;top:50%;transform:translateY(-50%);white-space:nowrap;background:var(--ink);color:var(--paper);font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:calc(var(--u)*.7) calc(var(--u)*.9);opacity:0;pointer-events:none;transition:opacity .2s ease}
+.ptab button{transition:background .15s ease}
+.ptab .px-x:hover,.ptab .px-x:active{background:var(--red)}
+.ptab .px-s:hover,.ptab .px-s:active,.ptab .px-s.said{background:#2F6FDB}
+.ptab button svg{width:auto;height:48%;display:block;flex:none;opacity:.72;transition:opacity .15s ease}
+.ptab .px-x svg{height:40%}
+.ptab button:hover svg,.ptab button:active svg{opacity:1}
+.ptab .px-s span{position:absolute;right:100%;top:50%;transform:translateY(-50%);white-space:nowrap;background:#2F6FDB;color:#fff;font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:calc(var(--u)*.7) calc(var(--u)*.9);opacity:0;pointer-events:none;transition:opacity .2s ease}
 .ptab .px-s.said span{opacity:1}
 html.one .ptab .px-s span{font-size:calc(var(--u)*2)}
 /* hard black shadow under the open story */
 .popwrap .pclone{box-shadow:0 0 0 transparent;transition:box-shadow .35s ease}
-.popwrap.lit .pclone{box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+.popwrap.lit .pclone{box-shadow:var(--sh) var(--shy) 0 var(--ink)}
 /* the meter gives a small shake when the mouse is over it */
 @media (hover:hover){.sx9:hover .wg{animation:sxShake .55s ease-in-out}}
 .sx9 .wg{transform-origin:50px 50px}
@@ -3922,8 +3925,8 @@ function openStory(card, id, instant) {
   if (!REG) host.appendChild(src);
   const TABH = Math.round(u * (document.documentElement.classList.contains('one') ? 9 : 6.2));
   const pad = Math.round(u * 1.4) + TABH; // room above the card for the Share and close tab, and for tags on its top edge
-  const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); wrap.style.setProperty('--sh', SH + 'px');
-  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: (cr0.width + SH) + 'px', paddingTop: pad + 'px', paddingRight: SH + 'px', paddingBottom: SH + 'px', boxSizing: 'border-box' });
+  const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
+  Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: (cr0.width + SH) + 'px', paddingTop: pad + 'px', paddingRight: SH + 'px', paddingBottom: SH * 2 + 'px', boxSizing: 'border-box' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => { eye._hv = 0; eyeOpen(eye, true); }, instant ? 0 : 80); }
@@ -3945,7 +3948,7 @@ function openStory(card, id, instant) {
     const close = document.createElement('div'); close.className = 'ptab' + (instant ? ' on' : '');
     close.innerHTML = '<button class="px-s" aria-label="Share">' + SHARE_ICO + '<span></span></button><i></i><button class="px-x" aria-label="Back to Wire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg></button>';
     { const wr = wrap.getBoundingClientRect(), cr = clone.getBoundingClientRect(), sp = clone.querySelector('.spl'), spr = sp && sp.getBoundingClientRect();
-      const w = TABH * 2 + 2;
+      const w = Math.round(TABH * 2.9);
       Object.assign(close.style, { height: TABH + 'px', width: w + 'px', top: (pad - TABH) + 'px', right: (wr.right - cr.right) + 'px' }); }
     wrap.appendChild(close); POP.close = close; POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
