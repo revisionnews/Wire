@@ -3814,7 +3814,7 @@ function wsPlace() {
   const vb = view.offsetTop, rb = rl ? rl.offsetTop : vb;
   WSH.style.top = rb + 'px';
   const box = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags');
-  const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight : 0);
+  const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight + U * 1.1 : 0);
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
   wsShift();
 }
@@ -3825,12 +3825,14 @@ function wsShift() {
   view.style.setProperty('top', (WSVB + top) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSRB + top) + 'px', 'important');
 }
 function wsEat(d) { return d; }
-function wsSlide(a, b, ms) {
-  ms = ms || 380; const rl = document.getElementById('roll3d'), t0 = performance.now();
-  const put = v => { view.style.setProperty('top', (WSVB + v) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSRB + v) + 'px', 'important'); };
-  put(a); const step = n => { const k = Math.min(1, (n - t0) / ms), e = 1 - Math.pow(1 - k, 3); put(a + (b - a) * e); if (k < 1) requestAnimationFrame(step); };
+// Move the roll-off line, not the board: the stories stay exactly where they are on screen while the line slides,
+// so the stories above it roll off (opening) or roll back on (closing) one by one.
+function wsSlide(a, b, ms, keep, done) {
+  ms = ms || 420; const rl = document.getElementById('roll3d'), t0 = performance.now(), o0 = off;
+  const put = v => { view.style.setProperty('top', (WSVB + v) + 'px', 'important'); if (rl) rl.style.setProperty('top', (WSRB + v) + 'px', 'important'); if (keep !== false) setOff(o0 + (v - a)); };
+  put(a); const step = n => { const k = Math.min(1, (n - t0) / ms), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; put(a + (b - a) * e); if (k < 1) requestAnimationFrame(step); else if (done) done(); };
   requestAnimationFrame(step);
-} // the box stays locked at the top; the roll-off happens below it
+}
 function wsBuild() {
   WSH = document.createElement('div'); WSH.className = 'wsh';
   WSH.innerHTML = `<label class="wsearch">${WS_GLASS}<input type="search" placeholder="Search the board" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"><em class="wsn"></em><button type="button" class="wsc" aria-label="Close search"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8"/></svg></button></label>`
@@ -3896,11 +3898,10 @@ function wsClose() {
   if (had) { track.style.transition = 'opacity .2s ease'; track.style.opacity = '0'; }
   setTimeout(() => {
     const d0 = WSD; WSOPEN = false; WSH.classList.remove('open'); tg.style.transition = 'none'; tg.style.opacity = ''; tg.style.transform = '';
-    wsPlace(); wsSlide(d0, WSD);   // the feed and its roll-off glide back up under the box
+    wsPlace(); wsSlide(d0, WSD, 420, !had, () => { if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000; });
     if (had) { wsApply(true); track.style.transition = 'none'; track.style.opacity = '0'; requestAnimationFrame(() => { track.style.transition = 'opacity .3s ease'; track.style.opacity = ''; }); }
 
     pinWin(); wsBusy = false;
-    if (wsKeep !== null) { speed = wsKeep; wsKeep = null; } lastIn = performance.now() - 5000;
   }, 260);
 }
 function wsBack() { wsClose(); }
