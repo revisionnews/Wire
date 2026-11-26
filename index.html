@@ -564,6 +564,55 @@ html.one .popsrc .ps small{font-size:calc(var(--u)*2.4)}
 html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
+
+/* Mockup B, built in: the card's own source strip grows downward */
+.popwrap .refs.sx{transition:height .5s cubic-bezier(.2,.7,.2,1) !important;align-items:stretch !important;position:relative}
+.popwrap .refs.sx.now{transition:none !important}
+.popwrap .refs.sx.open{display:grid !important;grid-template-columns:auto 1fr auto;padding:0 !important}
+.popwrap .refs.sx .tg{align-self:stretch !important;display:flex !important}
+.popwrap .refs.sx .tg .tgb{height:auto !important;align-self:stretch;flex:1}
+.popwrap .refs.sx .qr{align-self:flex-start !important;height:calc(var(--u)*8.4)}
+.popwrap .refs.sx .rw{position:relative;align-self:stretch !important;justify-content:flex-start !important;padding:0 !important;background:transparent !important}
+.sxa{transition:opacity .25s ease,transform .35s cubic-bezier(.2,.7,.2,1)}
+.refs.sx.open .sxa{opacity:0;transform:translateY(-14px);position:absolute;left:0;right:0;top:0;pointer-events:none}
+.sxb{opacity:0;transform:translateY(16px);transition:opacity .35s ease .12s,transform .45s cubic-bezier(.2,.7,.2,1) .12s;display:flex;flex-direction:column;gap:calc(var(--u)*1);padding:calc(var(--u)*1.4)}
+.refs.sx.open .sxb{opacity:1;transform:none}
+.refs.sx:not(.open) .sxb,.refs.sx:not(.open) .sxd{display:none}
+.sxh{font:900 calc(var(--u)*3)/1 'Hando',sans-serif;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:baseline;gap:calc(var(--u)*.8);color:inherit}
+.sxh em{font:900 calc(var(--u)*1.3)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.14em;opacity:.65}
+.sxs{display:flex;flex-direction:column;gap:calc(var(--u)*.4);color:#111;text-decoration:none;background:#fff;border:2px solid #111;padding:calc(var(--u)*1.1) calc(var(--u)*1.2)}
+.sxs b{font:900 calc(var(--u)*1.35)/1.1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.sxs i{font:700 calc(var(--u)*1.75)/1.25 'Hando',sans-serif;font-style:normal}
+.sxs .sxf{font:400 calc(var(--u)*1.6)/1.35 'Hando',sans-serif}
+.sxs small{font:700 calc(var(--u)*1.05)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#555}
+.sxgo{display:flex;align-items:center;justify-content:space-between;gap:.5em;font:900 calc(var(--u)*1.3)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;background:#111;color:#fff;margin:calc(var(--u)*.7) calc(var(--u)*-1.2) calc(var(--u)*-1.1);padding:calc(var(--u)*1) calc(var(--u)*1.2)}
+.sxgo svg{width:1em;height:1em;flex:none}
+.sxs.doc .sxgo{background:#A21CAF;color:#fff}
+.popwrap .refs.sx.open .tg .tgb{flex-direction:column !important;justify-content:flex-start !important;align-items:stretch !important;padding:calc(var(--u)*1.4) calc(var(--u)*1.1) !important;gap:calc(var(--u)*1) !important;max-width:calc(var(--u)*15);white-space:normal !important}
+.sxd{display:flex;flex-direction:column;gap:calc(var(--u)*.6);margin-top:calc(var(--u)*.6);text-transform:none;letter-spacing:0}
+.sxd span{font:900 calc(var(--u)*1.15)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:calc(var(--u)*.6) calc(var(--u)*.5);border:2px solid rgba(255,255,255,.45);opacity:.55;text-align:center}
+.sxd span.on{opacity:1;background:#fff;color:#111;border-color:#fff}
+.sxd small{font:600 calc(var(--u)*1.5)/1.3 'Hando',sans-serif;margin-top:calc(var(--u)*.4)}
+.sxd small b{display:block;font:900 calc(var(--u)*1.15)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:calc(var(--u)*.35);opacity:.8}
+.sxmore{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
+.sxmore.open{grid-template-rows:1fr}.sxmore.now{transition:none}
+.sxmore > *{min-height:0;overflow:hidden;margin-top:0}
+html.one .sxh{font-size:calc(var(--u)*5.2)}html.one .sxh em{font-size:calc(var(--u)*2.6)}
+html.one .sxb{gap:calc(var(--u)*2);padding:calc(var(--u)*2.4)}
+html.one .sxs{padding:calc(var(--u)*2) calc(var(--u)*2.2);gap:calc(var(--u)*.8)}
+html.one .sxs b{font-size:calc(var(--u)*2.6)}html.one .sxs i{font-size:calc(var(--u)*3.4)}html.one .sxs .sxf{font-size:calc(var(--u)*3.1)}html.one .sxs small{font-size:calc(var(--u)*2.1)}
+html.one .sxgo{font-size:calc(var(--u)*2.5);margin:calc(var(--u)*1.2) calc(var(--u)*-2.2) calc(var(--u)*-2);padding:calc(var(--u)*2) calc(var(--u)*2.2)}
+html.one .popwrap .refs.sx.open .tg .tgb{max-width:calc(var(--u)*27);padding:calc(var(--u)*2.4) calc(var(--u)*1.8) !important;gap:calc(var(--u)*1.6) !important}
+html.one .sxd{gap:calc(var(--u)*1.1)}html.one .sxd span{font-size:calc(var(--u)*2.2);padding:calc(var(--u)*1.1) calc(var(--u)*.8)}
+html.one .sxd small{font-size:calc(var(--u)*2.9)}html.one .sxd small b{font-size:calc(var(--u)*2.2)}
+html.one .popwrap .refs.sx .qr{height:auto}
+.popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*15) !important}
+html.one .popwrap .row.l-ev .refs.sx.open .tg{width:calc(var(--u)*27) !important}
+.popwrap .row.l-ev .refs.sx.open .tg .tgb{padding:calc(var(--u)*1.4) calc(var(--u)*1.1) !important;text-align:left}
+html.one .popwrap .row.l-ev .refs.sx.open .tg .tgb{padding:calc(var(--u)*2.4) calc(var(--u)*1.8) !important}
+html.one .popwrap .refs.sx.open .tgb > b{font-size:calc(var(--u)*3) !important}
+html.one .popwrap .refs.sx.open .tgb > i{font-size:calc(var(--u)*2.1) !important}
+.popwrap .refs.sx.open .tgb > b,.popwrap .refs.sx.open .tgb > i{text-align:center}
 .popx .px-s{background:#A21CAF;color:#fff;display:inline-flex;align-items:center;gap:.6em}
 .popx .px-s svg{width:1.15em;height:1.15em;flex:none}
 </style><style>
@@ -3111,12 +3160,13 @@ let TVMODE = /\/code\/?$/.test(location.pathname) || /[?&]tv=1/.test(location.se
 if (IN_ART) { try { TVMODE = sessionStorage.getItem('wireMode') === 'tv'; } catch (e) {} }
 document.documentElement.classList.add(TVMODE ? 'tvm' : 'pub');
 const SITE = 'https://wire.revision.news/';
-const REFS = {}, DOCS = {};
+const REFS = {}, DOCS = {}, MORE = {};
+function tagMore(o) { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) { o.forEach(tagMore); return; } if (Array.isArray(o.refs) && o.more) o.refs.more = o.more; Object.values(o).forEach(v => { if (v && typeof v === 'object') tagMore(v); }); }
 // Story ids come from the story itself, not its position, so a QR scanned from any copy of the board always opens the same story
 function sid(pre, it) { const t = String((it && (it.headline || it.title || it.topic || it.h)) || '') + '|' + String(((it && it.refs) || [])[0] ? (it.refs[0].url || it.refs[0].t || '') : ''); let h = 5381; for (let k = 0; k < t.length; k++) h = ((h * 33) ^ t.charCodeAt(k)) >>> 0; return pre + '_' + h.toString(36); }
 function phoneUrl(id) { return id ? SITE + '#' + id : ''; }
 function refBlock(refs, id, extra, top, tag, doc) {
-  refs = refs || [];
+  refs = refs || []; if (refs.more) MORE[id] = refs.more;
   // A memo, CCR or meeting with its own document: it leads the sources, so one tap opens the PDF or agenda itself
   if (doc && /^https?:\/\//.test(doc)) { DOCS[id] = doc; refs = [{ n: 'Full document', t: 'Open the document itself', k: /pdf/i.test(doc) ? 'PDF' : 'Official', url: doc }].concat(refs.filter(r => r.url !== doc)); }
   if (!refs.length && !extra) return '';
@@ -3507,6 +3557,7 @@ function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U
 function render() {
   readU();
   if (!data) return;
+  try { tagMore(data); } catch (e) {}
   speed = Number(data.scroll_speed) || 1.1;
   buildCopy(data); balanceCols();
   const one = `<div class="copy">${wrapFeed()}</div>`;
@@ -3663,16 +3714,19 @@ function openStory(card, id, instant) {
       return url ? `<a class="ps${ai ? ' ai' : ''}" href="${esc(url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="ps${ai ? ' ai' : ''}">${inner}</div>`;
     }).join('') + '</div>';
   }
-  host.appendChild(src);
+  const REG = id !== 'archive' && !CE;
+  if (!REG) host.appendChild(src);
   const pad = Math.round(u * 1.4); // room above the card so tags that sit on its top edge are never clipped
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px' });
   stage.appendChild(wrap); POP.wrap = wrap;
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
   const eye = clone.querySelector('.qb'); if (eye) { eye._open = false; setTimeout(() => eyeOpen(eye, true), instant ? 0 : 80); }
-  // The board stays still. The lifted story glides to the middle of the open space below the search bar,
-  // then its sources open downward; if they need more room, the whole story slides up so nothing is cut off.
-  const vt = view.getBoundingClientRect(), lim0 = vt.top + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
-  const ch = cr0.height, ctop = lim0 + Math.max(0, (lim1 - lim0 - ch) / 2);
+  // The board stays still. The lifted story glides to the middle of the open space below the search bar, sized for
+  // how tall it will be once its sources are open, so it lands centered and never runs off the bottom.
+  const vt = view.getBoundingClientRect(), lim0 = Math.max(vt.top, u * 2) + u * .8, lim1 = innerHeight - u * (document.documentElement.classList.contains('one') ? 12 : 6.5);
+  const srx = REG ? srcExpand(clone, id) : null;
+  const ch = cr0.height, tot = ch + (srx ? srx.extra : (src.firstElementChild ? src.firstElementChild.scrollHeight + 2 : 0));
+  const ctop = lim0 + Math.max(0, (lim1 - lim0 - tot) / 2);
   const glide = () => {
     if (instant) { wrap.style.top = (ctop - pad) + 'px'; done(); return; }
     requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad) + 'px'; setTimeout(done, 460); }));
@@ -3680,9 +3734,7 @@ function openStory(card, id, instant) {
   const done = () => {
     if (!POP || POP.wrap !== wrap) return;
     wrap.classList.remove('glide');
-    { const sh = src.firstElementChild ? src.firstElementChild.scrollHeight : 0, tot = ch + sh + 2;
-      const nt = tot > lim1 - ctop ? Math.max(lim0, lim1 - tot) : ctop;
-      wrap.style.top = (nt - pad) + 'px'; wrap.style.maxHeight = (lim1 - nt + pad) + 'px'; }
+    wrap.style.maxHeight = (lim1 - ctop + pad) + 'px';
     const close = document.createElement('div'); close.className = 'popx' + (instant ? ' on' : ''); close.innerHTML = '<button class="px-b">Back to Wire</button><button class="px-s">' + SHARE_ICO + '<span>Share</span></button>'; stage.appendChild(close); POP.close = close;
     // Share sends this exact view: the link opens the same story with the rest of the Wire dimmed behind it
     const shb = close.querySelector('.px-s');
@@ -3695,8 +3747,8 @@ function openStory(card, id, instant) {
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done2('Link copied'), fallback); else fallback();
     });
     if (!instant) requestAnimationFrame(() => close.classList.add('on'));
-    if (instant) { wrap.classList.add('srcs', 'now'); wrap.style.overflowY = 'auto'; }
-    else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); setTimeout(() => { wrap.style.overflowY = 'auto'; }, 520); }));
+    if (instant) { wrap.classList.add('srcs', 'now'); if (srx) srx.open(true); wrap.style.overflowY = 'auto'; }
+    else requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.add('srcs'); if (srx) srx.open(false); setTimeout(() => { wrap.style.overflowY = 'auto'; }, 520); }));
     const arm = () => { if (!POP) return; clearTimeout(POP.timer); POP.timer = setTimeout(closeStory, 45000); };
     arm(); ['pointerdown', 'wheel', 'scroll', 'keydown'].forEach(t => wrap.addEventListener(t, arm, { passive: true }));
     dim.addEventListener('click', closeStory); close.addEventListener('click', closeStory); clone.addEventListener('click', closeStory);
@@ -3720,9 +3772,42 @@ setInterval(() => {
   const e = pickFrom[Math.floor(Math.random() * pickFrom.length)];
   EYE_LAST[key(e)] = now; eyeOpen(e, true); setTimeout(() => eyeOpen(e, false), 2200);
 }, 850);
+// Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
+// the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
+const KIND_M = { Update: 'A new development on a story that is already moving.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Something you can go to, with a date and a place.', Memo: 'A city document sent to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
+const STAT_M = { Verified: 'Backed by an official page or two or more independent newsrooms.', Reported: 'From one outlet, and the facts match its page.', Unconfirmed: 'It matters, but a key fact is not confirmed yet.', Upcoming: 'Scheduled. It has not happened yet.', Confirmed: 'Confirmed by the agency or more than one source.' };
+const ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>';
+function srcExpand(clone, id) {
+  const refs = clone.querySelector('.refs'); if (!refs) return null;
+  const rs = storyRefs(id), tgb = refs.querySelector('.tgb'), rw = refs.querySelector('.rw'); if (!rw) return null;
+  const tx = q => tgb && tgb.querySelector(q) ? tgb.querySelector(q).textContent.trim() : '', fix = (o, v) => Object.keys(o).find(k => k.toLowerCase() === v.toLowerCase()) || v;
+  const kk = fix(KIND_M, tx('b')), ss = fix(STAT_M, tx('i'));
+  refs.classList.add('sx');
+  const a = document.createElement('div'); a.className = 'sxa'; while (rw.firstChild) a.appendChild(rw.firstChild); rw.appendChild(a);
+  const isDoc = r => /full document/i.test(r.n || '') || /\.pdf/i.test(r.url || '');
+  const b = document.createElement('div'); b.className = 'sxb';
+  b.innerHTML = `<div class="sxh">Sources<em>${rs.length}</em></div>` + rs.map(r => `<a class="sxs${isDoc(r) ? ' doc' : ''}" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i>${r.f ? `<span class="sxf">${esc(r.f)}</span>` : ''}<small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small><span class="sxgo"><span>${isDoc(r) ? 'Open the document' : 'Read on ' + esc(r.n || 'the source')}</span>${ARROW_SVG}</span></a>`).join('');
+  rw.appendChild(b);
+  if (tgb) { const L = ['Verified', 'Reported', 'Unconfirmed']; if (ss && !L.includes(ss)) L.push(ss);
+    const d = document.createElement('div'); d.className = 'sxd'; d.innerHTML = L.map(x => `<span class="${x === ss ? 'on' : ''}">${esc(x)}</span>`).join('') + (STAT_M[ss] ? `<small>${esc(STAT_M[ss])}</small>` : '') + (KIND_M[kk] ? `<small><b>${esc(kk)}</b> ${esc(KIND_M[kk])}</small>` : '');
+    tgb.appendChild(d); }
+  // the longer brief, if the refresh wrote one, unfolds under the summary at the same time
+  let mo = null; const more = MORE[id], sum = clone.querySelector('.sum');
+  if (more && sum) { mo = document.createElement('div'); mo.className = 'sxmore'; mo.innerHTML = `<p class="sum">${esc(more)}</p>`; sum.after(mo); }
+  // measure how much taller the open story will be, without showing it
+  const h0 = refs.offsetHeight; refs.classList.add('open'); if (mo) mo.classList.add('open');
+  const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
+  const wrap = clone.closest('.popwrap');
+  const o = { extra: (h1 - h0) + m1,
+    open(now) { if (now) { refs.classList.add('open', 'now'); refs.style.height = 'auto'; if (mo) mo.classList.add('open', 'now'); return; }
+      refs.style.height = h0 + 'px'; refs.classList.add('open'); refs.getBoundingClientRect(); refs.style.height = h1 + 'px'; if (mo) mo.classList.add('open');
+      setTimeout(() => { if (refs.classList.contains('open')) refs.style.height = 'auto'; }, 520); },
+    close() { refs.classList.remove('now'); refs.style.height = refs.offsetHeight + 'px'; refs.getBoundingClientRect(); refs.classList.remove('open'); refs.style.height = h0 + 'px'; if (mo) mo.classList.remove('open', 'now'); } };
+  if (wrap) wrap._srx = o; return o;
+}
 function closeStory() {
   if (!POP) return; const p = POP; POP = null; clearTimeout(p.timer);
-  if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); }
+  if (p.wrap) { const e = p.wrap.querySelector('.qb'); if (e) eyeOpen(e, false); p.wrap.classList.remove('srcs'); if (p.wrap._srx) p.wrap._srx.close(); }
   setTimeout(() => { p.dim && p.dim.classList.remove('on', 'now'); p.close && p.close.classList.remove('on'); p.wrap && p.wrap.classList.add('off'); }, 260);
   setTimeout(() => { [p.dim, p.wrap, p.close].forEach(e => e && e.remove()); speed = p.keep; if (window.__pendRender) { window.__pendRender = 0; render(); } }, 640);
   try { history.replaceState(null, '', location.pathname + (location.search === '?s=1' ? '' : location.search.replace(/&s=1\b/, ''))); } catch (e) {}
