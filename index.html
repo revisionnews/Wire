@@ -3786,8 +3786,8 @@ function render() {
   if (!INTRO_DONE) intro();
 }
 
-// First load: the board starts empty and the stories rise in from the bottom, the left column first, then the right,
-// one card after another, until they settle at the top. Nobody can scroll until they land. It plays once per visit.
+// First load: the board starts empty and each column rolls up from the bottom as one sheet, the left column first,
+// then the right, until the stories settle at the top. Nobody can scroll until they land. It plays once per visit.
 let INTRO = false, INTRO_DONE = false;
 function intro() {
   INTRO_DONE = true;
@@ -3804,8 +3804,9 @@ function intro() {
     n.textContent = 'New stories loading in'; Object.assign(n.style, { left: (r.left - vr.left) + 'px', width: r.width + 'px' }); view.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); return n; });
   let last = 0;
   cols.forEach((l, ci) => l.forEach((c, ri) => {
-    const delay = 350 + ci * 650 + ri * 380, dur = 1300; last = Math.max(last, delay + dur);
-    c.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: dur, delay, easing: 'cubic-bezier(.16,.84,.24,1)', fill: 'backwards' });
+    // the whole column rolls up as one sheet from below the screen; the left column starts, the right one follows
+    const delay = 300 + ci * 700, dur = 2600; last = Math.max(last, delay + dur);
+    c.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: dur, delay, easing: 'cubic-bezier(.3,.55,.25,1)', fill: 'backwards' });
     if (ri === l.length - 1 && notes[ci]) setTimeout(() => notes[ci].classList.remove('on'), delay + dur * .5);
   }));
   setTimeout(() => { notes.forEach(n => n && n.remove()); INTRO = false; speed = keep; lastIn = performance.now(); if (tva && tva === TVA) tva.play(); }, last + 100);
