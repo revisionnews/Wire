@@ -570,8 +570,9 @@ html.tvm .grain{will-change:transform;transform:translateZ(0)}
 /* TV: taller source strip so the QR code is big enough for a phone across the room */
 html.tvm .refs.top{height:var(--qrh) !important}
 /* Re:SA board: the eye fills the box where the QR code sits on the office TV */
-html.resa .qb{width:var(--qrh) !important;background:transparent !important;color:inherit !important;border-left:0 !important;display:flex !important;align-items:center;justify-content:center}
-html.resa .qb svg.eye{position:static !important;display:block !important;width:78% !important;height:78% !important;overflow:visible;transform:none !important}
+html.resa .refs.top{height:calc(var(--u)*7.6 + 6px) !important}
+html.resa .qb{width:calc(var(--u)*7.6) !important;background:transparent !important;color:inherit !important;border-left:0 !important;display:flex !important;align-items:center;justify-content:center}
+html.resa .qb svg.eye{position:static !important;display:block !important;width:66% !important;height:66% !important;overflow:visible;transform:none !important}
 /* TV: bigger source text, about 3px up on everything in the strip */
 html.tvm .refs.top .rw .meta{font-size:calc(var(--u)*1.25 + 3px) !important}
 html.tvm .refs.top .rl .o{font-size:calc(var(--u)*1.55 + 3px) !important}
@@ -621,6 +622,35 @@ html.tvm .stage{bottom:auto}
 .sxd span.on{opacity:1;background:#fff;color:#111;border-color:#fff}
 .sxd small{font:600 calc(var(--u)*1.5)/1.3 'Hando',sans-serif;margin-top:calc(var(--u)*.4)}
 .sxd small b{display:block;font:900 calc(var(--u)*1.15)/1 'Hando',sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:calc(var(--u)*.35);opacity:.8}
+/* sources box: the eye sits in the header corner, the tiles run full width under it */
+.popwrap .refs.sx.open{grid-template-columns:auto 1fr !important}
+.popwrap .refs.sx.open .qr{position:absolute !important;top:0;right:calc(var(--u)*1.1);z-index:2;display:flex !important;align-items:center;justify-content:center}
+html.pub .popwrap .refs.sx.open .qb{width:calc(var(--u)*4.2) !important;height:calc(var(--u)*4.2) !important;margin:0 !important}
+html.one.pub .popwrap .refs.sx.open .qb{width:calc(var(--u)*6.4) !important;height:calc(var(--u)*6.4) !important}
+.popwrap .refs.sx.open .sxh{min-height:calc(var(--h0) - var(--u)*1.4);align-items:center;padding-right:calc(var(--u)*6);font-size:calc(var(--u)*2.3)}
+html.one .popwrap .refs.sx.open .sxh{min-height:calc(var(--h0) - var(--u)*2);font-size:calc(var(--u)*3)}
+.popwrap .refs.sx.open .sxb{padding-top:0;padding-right:calc(var(--u)*1.4)}
+/* tag panel designs */
+.popwrap .refs.sx.open .tgb:has(.sxd.tv1) > b,.popwrap .refs.sx.open .tgb:has(.sxd.tv1) > i,.popwrap .refs.sx.open .tgb:has(.sxd.tv2) > b,.popwrap .refs.sx.open .tgb:has(.sxd.tv2) > i,.popwrap .refs.sx.open .tgb:has(.sxd.tv3) > b,.popwrap .refs.sx.open .tgb:has(.sxd.tv3) > i{display:none !important}
+.sxd.tv1,.sxd.tv2,.sxd.tv3{margin-top:0;text-align:left;gap:calc(var(--u)*1.1)}
+.sxd em{font:900 calc(var(--u)*.95)/1 'Hando',sans-serif;font-style:normal;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.sxd.tv1 .sxg{display:flex;flex-direction:column;gap:calc(var(--u)*.5)}
+.sxd.tv1 .sxg + .sxg{padding-top:calc(var(--u)*1.1);border-top:2px solid rgba(255,255,255,.35)}
+.sxd.tv1 .sxg > b{font:900 calc(var(--u)*1.6)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.sxd.tv1 span{display:flex;align-items:center;gap:calc(var(--u)*.6);border:0 !important;background:none !important;color:inherit !important;padding:0 !important;text-align:left;opacity:.5}
+.sxd.tv1 span i{width:calc(var(--u)*1);height:calc(var(--u)*1);border:2px solid currentColor;border-radius:50%;flex:none}
+.sxd.tv1 span.on{opacity:1}.sxd.tv1 span.on i{background:currentColor}
+.sxd.tv2 .sxk{font:900 calc(var(--u)*1.7)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.sxd.tv2 .sxm{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.sxd.tv2 .sxm i{height:calc(var(--u)*.9);background:rgba(255,255,255,.3)}.sxd.tv2 .sxm i.on{background:#fff}
+.sxd.tv2 .sxmx{display:flex;justify-content:space-between;font:700 calc(var(--u)*.8)/1 'Hando',sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-top:calc(var(--u)*-.5)}
+.sxd.tv2 .sxs2{font:900 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.sxd.tv3 p{margin:0;font:500 calc(var(--u)*1.5)/1.35 'Hando',sans-serif;text-transform:none;letter-spacing:0}
+.sxd.tv3 p b{font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+html.one .sxd em{font-size:calc(var(--u)*1.5)}html.one .sxd.tv1 .sxg > b,html.one .sxd.tv2 .sxk{font-size:calc(var(--u)*2.6)}
+html.one .sxd.tv1 span{font-size:calc(var(--u)*1.8)}html.one .sxd.tv1 span i{width:calc(var(--u)*1.6);height:calc(var(--u)*1.6)}
+html.one .sxd.tv2 .sxm i{height:calc(var(--u)*1.4)}html.one .sxd.tv2 .sxmx{font-size:calc(var(--u)*1.3)}html.one .sxd.tv2 .sxs2{font-size:calc(var(--u)*1.9)}
+html.one .sxd.tv3 p{font-size:calc(var(--u)*2.5)}
 .sxmore{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
 .sxmore.open{grid-template-rows:1fr}.sxmore.now{transition:none}
 .sxmore > *{min-height:0;overflow:hidden;margin-top:0}
@@ -3833,6 +3863,7 @@ setInterval(() => {
 }, 850);
 // Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
 // the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
+let TAGV = +(new URLSearchParams(location.search).get('tg')) || 0;
 const KIND_M = { Update: 'A new development on a story that is already moving.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Something you can go to, with a date and a place.', Memo: 'A city document sent to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
 const STAT_M = { Verified: 'Backed by an official page or two or more independent newsrooms.', Reported: 'From one outlet, and the facts match its page.', Unconfirmed: 'It matters, but a key fact is not confirmed yet.', Upcoming: 'Scheduled. It has not happened yet.', Confirmed: 'Confirmed by the agency or more than one source.' };
 const ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>';
@@ -3848,14 +3879,19 @@ function srcExpand(clone, id) {
   b.innerHTML = `<div class="sxh">Sources<em>${rs.length}</em></div>` + rs.map(r => `<a class="sxs${isDoc(r) ? ' doc' : ''}" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i>${r.f ? `<span class="sxf">${esc(r.f)}</span>` : ''}<small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small><span class="sxgo"><span>${isDoc(r) ? 'Open the document' : 'Read on ' + esc(r.n || 'the source')}</span>${ARROW_SVG}</span></a>`).join('');
   rw.appendChild(b);
   if (tgb) { const L = ['Verified', 'Reported', 'Unconfirmed']; if (ss && !L.includes(ss)) L.push(ss);
-    const d = document.createElement('div'); d.className = 'sxd'; d.innerHTML = L.map(x => `<span class="${x === ss ? 'on' : ''}">${esc(x)}</span>`).join('') + (STAT_M[ss] ? `<small>${esc(STAT_M[ss])}</small>` : '') + (KIND_M[kk] ? `<small><b>${esc(kk)}</b> ${esc(KIND_M[kk])}</small>` : '');
+    const d = document.createElement('div'), V = TAGV, lv = { Verified: 3, Confirmed: 3, Reported: 2, Unconfirmed: 1, Upcoming: 2 }[ss] || 2;
+    d.className = 'sxd' + (V ? ' tv' + V : '');
+    if (V === 1) d.innerHTML = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div><div class="sxg"><em>How sure</em>` + L.map(x => `<span class="${x === ss ? 'on' : ''}"><i></i>${esc(x)}</span>`).join('') + `<small>${esc(STAT_M[ss] || '')}</small></div>`;
+    else if (V === 2) d.innerHTML = `<b class="sxk">${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small><em>How sure</em><div class="sxm">${[1, 2, 3].map(n => `<i class="${n <= lv ? 'on' : ''}"></i>`).join('')}</div><div class="sxmx"><span>Less</span><span>More</span></div><b class="sxs2">${esc(ss)}</b><small>${esc(STAT_M[ss] || '')}</small>`;
+    else if (V === 3) d.innerHTML = `<p>This is ${/^[aeiou]/i.test(kk) ? 'an' : 'a'} <b>${esc(kk)}</b>: ${esc((KIND_M[kk] || '').replace(/^A /, 'a ').replace(/^An /, 'an '))}</p><p>It is <b>${esc(ss)}</b>: ${esc((STAT_M[ss] || '').replace(/^./, c => c.toLowerCase()))}</p>`;
+    else d.innerHTML = L.map(x => `<span class="${x === ss ? 'on' : ''}">${esc(x)}</span>`).join('') + (STAT_M[ss] ? `<small>${esc(STAT_M[ss])}</small>` : '') + (KIND_M[kk] ? `<small><b>${esc(kk)}</b> ${esc(KIND_M[kk])}</small>` : '');
     tgb.appendChild(d); }
   // the longer brief, if the refresh wrote one, unfolds under the summary at the same time
   let mo = null; const more = MORE[id], sum = clone.querySelector('.sum');
   if (more && sum) { mo = document.createElement('div'); mo.className = 'sxmore'; mo.innerHTML = `<p class="sum">${esc(more)}</p>`; sum.after(mo); const cs = getComputedStyle(sum), pp = mo.firstChild; ['marginLeft', 'marginRight', 'paddingLeft', 'paddingRight'].forEach(k => { mo.style[k] = cs[k]; pp.style[k] = '0'; }); pp.style.paddingTop = cs.marginBottom; }
   // measure how much taller the open story will be, without showing it
   const tg = refs.querySelector('.tg'), tgw0 = tg ? tg.offsetWidth : 0;
-  const h0 = refs.offsetHeight; { const qr = refs.querySelector('.qr'); if (qr) qr.style.height = h0 + 'px'; } refs.classList.add('open'); if (mo) mo.classList.add('open');
+  const h0 = refs.offsetHeight; refs.style.setProperty('--h0', h0 + 'px'); { const qr = refs.querySelector('.qr'); if (qr) qr.style.height = h0 + 'px'; } refs.classList.add('open'); if (mo) mo.classList.add('open');
   const h1 = refs.scrollHeight, m1 = mo ? mo.scrollHeight : 0, tgw1 = tg ? tg.offsetWidth : 0; refs.classList.remove('open'); if (mo) mo.classList.remove('open');
   const wrap = clone.closest('.popwrap');
   // the tag widens and narrows smoothly instead of jumping
