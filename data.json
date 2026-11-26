@@ -1,9 +1,30 @@
 {
- "edition": "Nov 25 links cleanup",
+ "edition": "Nov 26 morning upkeep",
  "scroll_speed": 1.1,
  "alert": null,
  "phone_url": "https://wire.revision.news/m/",
  "source_log": [
+  {
+   "name": "Local news sweep (KSAT, FOX 29, News 4, San Antonio Report, TPR, San Antonio Current)",
+   "domain": "ksat.com",
+   "kind": "News",
+   "status": "Failed",
+   "note": "Nov 26 morning: every page fetch blocked, permission not answered in this unattended run"
+  },
+  {
+   "name": "Official pages (NWS, SAWS, UTSA, Bexar Agenda Center, 2027 bond)",
+   "domain": "weather.gov",
+   "kind": "Official",
+   "status": "Failed",
+   "note": "Nov 26 morning: every page fetch blocked, permission not answered in this unattended run"
+  },
+  {
+   "name": "Web search",
+   "domain": "",
+   "kind": "News",
+   "status": "Checked",
+   "note": "4 searches returned only topic pages or older years; no headline could be opened, so nothing new was added"
+  },
   {
    "name": "FOX 29 San Antonio",
    "domain": "foxsanantonio.com",
@@ -280,7 +301,7 @@
    ]
   }
  ],
- "generated_at": "2026-11-25T16:05:00-06:00",
+ "generated_at": "2026-11-26T06:55:00-06:00",
  "breaking": [
   {
    "headline": "Woman shot and killed at a South Side apartment; police search for a 40 year old man",
@@ -1723,25 +1744,6 @@
    "doc": "https://www.tpr.org/community-calendar/event/holidays-at-hemisfair-gift-market-12-11-2026-12-10-35"
   },
   {
-   "summary": "Free market at Pearl, 303 Pearl Parkway, from 5 to 9 p.m. Wednesday. It is the last night in the season long series, with handmade crafts and food from local vendors. A Holiday Night Market series starts in December.",
-   "when": "Wed Nov 25, 5 to 9 pm",
-   "refs": [
-    {
-     "n": "San Antonio Current",
-     "t": "San Antonio markets offer handmade gifts and an alternative to Black Friday consumerism",
-     "d": "Nov 24, 2026",
-     "u": "sacurrent.com",
-     "k": "News",
-     "url": "https://www.sacurrent.com/arts/things-to-do/san-antonio-markets-offer-handmade-gifts-and-an-alternative-to-black-friday-consumerism/"
-    }
-   ],
-   "first_seen": "2026-11-24T14:55:00-06:00",
-   "pillar": "AC",
-   "status": "Upcoming",
-   "kind": "Event",
-   "headline": "Pearl Night Market"
-  },
-  {
    "summary": "The 37th annual open air market at the Esperanza Peace and Justice Center, 922 San Pedro Ave., is free. Vendors come from San Antonio, Mexico, Guatemala and Colombia, with gifts focused on peace, justice and cultural preservation. Hours are 10 a.m. to 6 p.m. Friday and Saturday and noon to 6 p.m. Sunday.",
    "when": "Fri Nov 27 to Sun Nov 29",
    "refs": [
@@ -2343,9 +2345,34 @@
  "unions": [],
  "neighborhoods": [],
  "archive": {
-  "total": 36,
+  "total": 37,
   "since": "Nov 23",
   "items": [
+   {
+    "id": "A0099",
+    "sec": "Events",
+    "h": "Pearl Night Market",
+    "p": "AC",
+    "d": "Nov 25, 2026",
+    "left": "Nov 26",
+    "kind": "Event",
+    "status": "Upcoming",
+    "when": "Wed Nov 25, 5 to 9 pm",
+    "summary": "Free market at Pearl, 303 Pearl Parkway, from 5 to 9 p.m. Wednesday. It is the last night in the season long series, with handmade crafts and food from local vendors. A Holiday Night Market series starts in December.",
+    "refs": [
+     {
+      "n": "San Antonio Current",
+      "t": "San Antonio markets offer handmade gifts and an alternative to Black Friday consumerism",
+      "d": "Nov 24, 2026",
+      "u": "sacurrent.com",
+      "k": "News",
+      "url": "https://www.sacurrent.com/arts/things-to-do/san-antonio-markets-offer-handmade-gifts-and-an-alternative-to-black-friday-consumerism/"
+     }
+    ],
+    "t": "",
+    "s": "San Antonio Current",
+    "u": "https://www.sacurrent.com/arts/things-to-do/san-antonio-markets-offer-handmade-gifts-and-an-alternative-to-black-friday-consumerism/"
+   },
    {
     "id": "A0031",
     "sec": "Business",
