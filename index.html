@@ -693,6 +693,16 @@ html.one .wtags,html.one .wt2{gap:calc(var(--u)*1.2)}
 html.one .wtg i{width:calc(var(--u)*6.4)}
 html.one .wtg span{font-size:calc(var(--u)*2.2);padding:calc(var(--u)*1.4) calc(var(--u)*1.2)}
 html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
+
+/* Search option B: the box and its tags sit together in one gray panel, no outlines */
+.wsh .wsearch{border:0 !important;background:#BDBDBD}
+.wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
+.wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
+.wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
+.wsh .wt2{gap:calc(var(--u)*.9) !important}
+.wtg,.wt2 button{border:0 !important;background:#D0D0D0}
+.wtg.on{background:var(--tb);color:var(--tf)}
+.wt2 button.on{background:var(--ink);color:var(--paper)}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -3564,7 +3574,9 @@ async function load() {
   }
 }
 
-window.addEventListener('resize', () => { layout(); render(); });
+// Only a real width change rebuilds the board. Phone browsers fire resize when their toolbars or the keyboard
+// slide in and out; rebuilding then would jump the feed back to the top and cut short the search animations.
+{ let rw = innerWidth, rt = 0; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - rw) < 2) return; rw = innerWidth; layout(); render(); }, 150); }); }
 window.addEventListener('hashchange', () => { const h = decodeURIComponent((location.hash || '').slice(1)); if (h && !/(^|-)dark$/.test(h) && !TVMODE) { storyFromHash(); return; } layout(); render(); });
 layout(); clock(); setInterval(clock, 1000);
 load(); setInterval(load, 10 * 60 * 1000);
