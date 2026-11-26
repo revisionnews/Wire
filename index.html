@@ -3786,30 +3786,22 @@ function render() {
   if (!INTRO_DONE) intro();
 }
 
-// First load: the board starts empty and each column rolls up from the bottom as one sheet, the left column first,
-// then the right, until the stories settle at the top. Nobody can scroll until they land. It plays once per visit.
+// First load: the board opens empty, with all of its content waiting just below the screen, and glides up into place
+// before the normal roll takes over. Nothing on the cards animates; the whole sheet simply starts lower. Plays once per visit.
 let INTRO = false, INTRO_DONE = false;
 function intro() {
   INTRO_DONE = true;
   if (document.documentElement.classList.contains('boot') || POP || !track.animate) return;
-  const vr = view.getBoundingClientRect(), vh = vr.height, mid = vr.left + vr.width / 2;
-  const cards = [...track.querySelectorAll('.copy:not(.tail) .mason > *')].filter(c => { const r = c.getBoundingClientRect(); return r.height && r.top < vr.bottom; });
-  if (!cards.length) return;
+  const vh = view.clientHeight; if (!vh) return;
   INTRO = true; const keep = speed; speed = 0; vel = 0; tvel = 0;
   const tva = typeof TVA !== 'undefined' && TVA; if (tva) { tva.pause(); tva.currentTime = 0; }
-  const cols = [[], []]; cards.forEach(c => cols[c.getBoundingClientRect().left + 2 < mid || document.documentElement.classList.contains('one') ? 0 : 1].push(c));
-  cols.forEach(l => l.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top));
-  // a quiet line at the foot of each column while it fills
-  const notes = cols.map((l, i) => { if (!l.length) return null; const r = l[0].getBoundingClientRect(), n = document.createElement('div'); n.className = 'intronote';
-    n.textContent = 'New stories loading in'; Object.assign(n.style, { left: (r.left - vr.left) + 'px', width: r.width + 'px' }); view.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); return n; });
-  let last = 0;
-  cols.forEach((l, ci) => l.forEach((c, ri) => {
-    // the whole column rolls up as one sheet from below the screen; the left column starts, the right one follows
-    const delay = 300 + ci * 700, dur = 2600; last = Math.max(last, delay + dur);
-    c.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: dur, delay, easing: 'cubic-bezier(.3,.55,.25,1)', fill: 'backwards' });
-    if (ri === l.length - 1 && notes[ci]) setTimeout(() => notes[ci].classList.remove('on'), delay + dur * .5);
-  }));
-  setTimeout(() => { notes.forEach(n => n && n.remove()); INTRO = false; speed = keep; lastIn = performance.now(); if (tva && tva === TVA) tva.play(); }, last + 100);
+  const dur = 3200, a = track.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: dur, easing: 'cubic-bezier(.25,.1,.25,1)', composite: 'add', fill: 'backwards' });
+  a.onfinish = () => { INTRO = false; speed = keep; lastIn = performance.now() - 3000; if (tva && tva === TVA) tva.play(); };
+  // hold the sheet below the screen until the page has fully loaded and drawn, then let it glide
+  a.pause(); a.currentTime = 0;
+  const go = () => setTimeout(() => requestAnimationFrame(() => a.play()), 350);
+  const fr = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  if (document.readyState === 'complete') fr.then(go); else addEventListener('load', () => fr.then(go), { once: true });
 }
 
 function updateStamp() {
