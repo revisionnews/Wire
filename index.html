@@ -3994,7 +3994,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126090600';
+const BUILD = '20261126090841';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4523,12 +4523,12 @@ function setOff(v) { off = v; if (copyH && !track.classList.contains('wsm')) { w
 let BITEK = null, BITERC = null, BITEY = 0;
 // two ragged noise strips; they slide past each other as the board moves (and drift slowly with time), so the edge keeps changing
 (() => { const mk = (W, lo, n) => {   // a soft wave: a few sines that repeat exactly every W, filled and blurred so the edge is smooth
-    const ph = Array.from({ length: n }, () => Math.random() * 6.283), am = Array.from({ length: n }, (_, i) => (.55 + Math.random() * .45) / (i + 1));
+    const FQ = [2, 3, 5, 7, 9, 12, 15, 19, 24, 30].slice(0, n), ph = FQ.map(() => Math.random() * 6.283), am = FQ.map(k => (.6 + Math.random() * .4) / Math.pow(k, .55));
     const tot = am.reduce((a, b) => a + b, 0); let d = `M-24 100`;
-    for (let x = -24; x <= W + 24; x += 2) { let v = 0; for (let i = 0; i < n; i++) v += am[i] * Math.sin(6.283 * (i + 1) * x / W + ph[i]); const h = lo + (100 - lo) * (.5 + .5 * v / tot); d += `L${x} ${(100 - h).toFixed(1)}`; }
+    for (let x = -24; x <= W + 24; x += 1) { let v = 0; for (let i = 0; i < n; i++) v += am[i] * Math.sin(6.283 * FQ[i] * x / W + ph[i]); const h = lo + (100 - lo) * Math.min(1, Math.max(0, .5 + .9 * v / tot)); d += `L${x} ${(100 - h).toFixed(1)}`; }
     d += `L${W + 24} 100Z`;
-    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} 100' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='1' x2='0' y2='0'><stop offset='0' stop-color='white'/><stop offset='.55' stop-color='white' stop-opacity='.7'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient><filter id='b' filterUnits='userSpaceOnUse' x='-30' y='-20' width='${W + 60}' height='140'><feGaussianBlur stdDeviation='2.2 4'/></filter></defs><path d='${d}' fill='url(%23g)' filter='url(%23b)'/></svg>")`; };
-  document.documentElement.style.setProperty('--bm', mk(170, 20, 3)); document.documentElement.style.setProperty('--bm2', mk(233, 40, 4)); })();
+    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} 100' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='1' x2='0' y2='0'><stop offset='0' stop-color='white'/><stop offset='.55' stop-color='white' stop-opacity='.7'/><stop offset='1' stop-color='white' stop-opacity='0'/></linearGradient><filter id='b' filterUnits='userSpaceOnUse' x='-30' y='-20' width='${W + 60}' height='140'><feGaussianBlur stdDeviation='.9 2.4'/></filter></defs><path d='${d}' fill='url(%23g)' filter='url(%23b)'/></svg>")`; };
+  document.documentElement.style.setProperty('--bm', mk(170, 15, 10)); document.documentElement.style.setProperty('--bm2', mk(233, 35, 9)); })();
 function wsBite(y) {
   if (TVMODE || !WSH) return;
   const box = WSH.querySelector('.wsearch'); if (!box) return;
