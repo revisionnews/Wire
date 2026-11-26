@@ -683,6 +683,45 @@ html.one .sxd .sxl{gap:4px}
 html.one .sxd .sxr{width:calc(var(--u)*16);height:calc(var(--u)*16)}
 html.one .sxd .sxr b{font-size:calc(var(--u)*5)}html.one .sxd .sxr b small{font-size:calc(var(--u)*2.2) !important}
 html.one .sxd .sxrl{font-size:calc(var(--u)*2.4) !important}
+/* designs 6, 7, 8 */
+.popwrap .refs.sx.open .tgb:has(.sxd.tv6),.popwrap .refs.sx.open .tgb:has(.sxd.tv7),.popwrap .refs.sx.open .tgb:has(.sxd.tv8){width:calc(var(--u)*17) !important;max-width:none !important}
+html.one .popwrap .refs.sx.open .tgb:has(.sxd.tv6),html.one .popwrap .refs.sx.open .tgb:has(.sxd.tv7),html.one .popwrap .refs.sx.open .tgb:has(.sxd.tv8){width:calc(var(--u)*30) !important}
+.popwrap .refs.sx.open .tgb:has(.sxd.tv6) > b,.popwrap .refs.sx.open .tgb:has(.sxd.tv6) > i,.popwrap .refs.sx.open .tgb:has(.sxd.tv7) > b,.popwrap .refs.sx.open .tgb:has(.sxd.tv7) > i,.popwrap .refs.sx.open .tgb:has(.sxd.tv8) > b,.popwrap .refs.sx.open .tgb:has(.sxd.tv8) > i{display:none !important}
+.sxd.tv6,.sxd.tv7,.sxd.tv8{margin-top:0;text-align:left;gap:calc(var(--u)*1.2)}
+.sxd.tv6 .sxg,.sxd.tv7 .sxg,.sxd.tv8 .sxg{display:flex;flex-direction:column;gap:calc(var(--u)*.6);align-items:flex-start}
+.sxd.tv6 .sxg + .sxg,.sxd.tv7 .sxg + .sxg,.sxd.tv8 .sxg + .sxg{padding-top:calc(var(--u)*1.2);border-top:2px solid rgba(255,255,255,.4);align-self:stretch}
+.sxd.tv6 .sxg > b,.sxd.tv7 .sxg > b,.sxd.tv8 .sxg > b{font:900 calc(var(--u)*1.8)/1 'Hando',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.sxd.tv6 small,.sxd.tv7 small,.sxd.tv8 small{font:600 calc(var(--u)*1.35)/1.3 'Hando',sans-serif;text-transform:none;letter-spacing:0;margin:0}
+.sxd.tv6 em,.sxd.tv7 em,.sxd.tv8 em{font-size:calc(var(--u)*1.05)}
+.sx6{display:flex;align-items:center;gap:calc(var(--u)*.9)}
+.sx6 svg{width:calc(var(--u)*4.4);height:calc(var(--u)*4.4);flex:none}
+.sx6 div{display:flex;flex-direction:column;gap:calc(var(--u)*.35)}
+.sx6 b,.sx8 .col b,.sxd.tv7 .sxrl{font:900 calc(var(--u)*1.4)/1.1 'Hando',sans-serif !important;letter-spacing:.08em;text-transform:uppercase;text-align:left !important}
+.sx6 span,.sx8 .tk span{font:700 calc(var(--u)*1)/1 'Hando',sans-serif !important;letter-spacing:.12em;text-transform:uppercase;opacity:.75;border:0 !important;padding:0 !important;background:none !important;color:inherit !important}
+.sx7 svg{width:calc(var(--u)*9);height:auto;display:block;overflow:visible}
+.sx7 .nd{transform-origin:21px 21px;transform:rotate(var(--a))}
+.refs.sx.open .sx7 .nd{animation:sxNd .9s cubic-bezier(.2,.8,.2,1.1) .25s both}
+@keyframes sxNd{from{transform:rotate(-90deg)}to{transform:rotate(var(--a))}}
+.sx8{display:flex;align-items:stretch;gap:calc(var(--u)*.9)}
+.sx8 .bar{width:calc(var(--u)*1.2);height:calc(var(--u)*5.6);background:rgba(255,255,255,.25);position:relative;flex:none}
+.sx8 .bar i{position:absolute;left:0;right:0;bottom:0;height:calc(var(--p)*100%);background:#fff}
+.refs.sx.open .sx8 .bar i{animation:sxUp .9s cubic-bezier(.2,.8,.2,1) .25s both}
+@keyframes sxUp{from{height:0}}
+.sx8 .tk{display:flex;flex-direction:column;justify-content:flex-end;gap:calc(var(--u)*.4)}
+.sx8 .win{height:calc(var(--u)*1.55);overflow:hidden}
+.sx8 .col{display:flex;flex-direction:column;transform:translateY(calc(var(--n)*var(--u)*-1.55))}
+.sx8 .col b{height:calc(var(--u)*1.55);display:flex;align-items:center;white-space:nowrap}
+.refs.sx.open .sx8 .col{animation:sxTk .9s cubic-bezier(.2,.8,.2,1) .25s both}
+@keyframes sxTk{from{transform:translateY(0)}}
+html.one .sxd.tv6 .sxg > b,html.one .sxd.tv7 .sxg > b,html.one .sxd.tv8 .sxg > b{font-size:calc(var(--u)*3)}
+html.one .sxd.tv6 small,html.one .sxd.tv7 small,html.one .sxd.tv8 small{font-size:calc(var(--u)*2.4)}
+html.one .sxd.tv6 em,html.one .sxd.tv7 em,html.one .sxd.tv8 em{font-size:calc(var(--u)*1.8)}
+html.one .sx6 svg{width:calc(var(--u)*7.5);height:calc(var(--u)*7.5)}
+html.one .sx6 b,html.one .sx8 .col b,html.one .sxd.tv7 .sxrl{font-size:calc(var(--u)*2.4) !important}
+html.one .sx6 span,html.one .sx8 .tk span{font-size:calc(var(--u)*1.7) !important}
+html.one .sx7 svg{width:calc(var(--u)*16)}
+html.one .sx8 .bar{width:calc(var(--u)*2.4);height:calc(var(--u)*13)}
+html.one .sx8 .win,html.one .sx8 .col b{height:calc(var(--u)*2.7)}html.one .sx8 .col{transform:translateY(calc(var(--n)*var(--u)*-2.7))}
 .sxmore{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
 .sxmore.open{grid-template-rows:1fr}.sxmore.now{transition:none}
 .sxmore > *{min-height:0;overflow:hidden;margin-top:0}
@@ -3920,6 +3959,10 @@ function srcExpand(clone, id) {
     const what = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div>`;
     if (V === 4) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxl">${CL.map((c, n) => `<div class="${n + 1 <= cl ? 'f' : ''}${n + 1 === cl ? ' on' : ''}"><i></i><span>${esc(c[0])}</span></div>`).reverse().join('')}</div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 5) { const R = 15.9155, seg = 25, gap = 2.5; d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxr"><svg viewBox="0 0 42 42">${[0, 1, 2, 3].map(n => `<circle r="${R}" cx="21" cy="21" fill="none" stroke-width="6" stroke="currentColor" opacity="${n < cl ? 1 : .25}" stroke-dasharray="${seg - gap} ${100 - seg + gap}" stroke-dashoffset="${25 - n * seg - gap / 2}"/>`).join('')}</svg><b>${cl}<small>/4</small></b></div><b class="sxrl">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
+    else if (V === 6) { const R = 15.9155, seg = 25, gap = 3; d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx6"><svg viewBox="0 0 42 42">${[0, 1, 2, 3].map(n => `<circle r="${R}" cx="21" cy="21" fill="none" stroke-width="7" stroke="currentColor" opacity="${n < cl ? 1 : .25}" stroke-dasharray="${seg - gap} ${100 - seg + gap}" stroke-dashoffset="${25 - n * seg - gap / 2}"/>`).join('')}</svg><div><b>${esc(CL[cl - 1][0])}</b><span>${cl} of 4</span></div></div><small>${esc(CL[cl - 1][1])}</small></div>`; }
+    else if (V === 7) { const ang = -90 + (cl - .5) / 4 * 180, arc = (a0, a1) => { const p = a => [21 + 16 * Math.cos(Math.PI * (1 - a)), 21 - 16 * Math.sin(Math.PI * (1 - a))]; const [x0, y0] = p(a0), [x1, y1] = p(a1); return `M${x0.toFixed(2)} ${y0.toFixed(2)}A16 16 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`; };
+      d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx7"><svg viewBox="0 0 42 24">${[0, 1, 2, 3].map(n => `<path d="${arc(n / 4 + .012, (n + 1) / 4 - .012)}" fill="none" stroke="currentColor" stroke-width="6" opacity="${n < cl ? 1 : .25}"/>`).join('')}<g class="nd" style="--a:${ang}deg"><path d="M21 21L21 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="21" cy="21" r="2.6" fill="currentColor"/></g></svg></div><b class="sxrl">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
+    else if (V === 8) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx8" style="--p:${cl / 4};--n:${cl - 1}"><div class="bar"><i></i></div><div class="tk"><div class="win"><div class="col">${CL.map(c => `<b>${esc(c[0])}</b>`).join('')}</div></div><span>${cl} of 4</span></div></div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 1) d.innerHTML = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div><div class="sxg"><em>How sure</em>` + L.map(x => `<span class="${x === ss ? 'on' : ''}"><i></i>${esc(x)}</span>`).join('') + `<small>${esc(STAT_M[ss] || '')}</small></div>`;
     else if (V === 2) d.innerHTML = `<b class="sxk">${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small><em>How sure</em><div class="sxm">${[1, 2, 3].map(n => `<i class="${n <= lv ? 'on' : ''}"></i>`).join('')}</div><div class="sxmx"><span>Less</span><span>More</span></div><b class="sxs2">${esc(ss)}</b><small>${esc(STAT_M[ss] || '')}</small>`;
     else if (V === 3) d.innerHTML = `<p>This is ${/^[aeiou]/i.test(kk) ? 'an' : 'a'} <b>${esc(kk)}</b>: ${esc((KIND_M[kk] || '').replace(/^A /, 'a ').replace(/^An /, 'an '))}</p><p>It is <b>${esc(ss)}</b>: ${esc((STAT_M[ss] || '').replace(/^./, c => c.toLowerCase()))}</p>`;
