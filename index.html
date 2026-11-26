@@ -566,10 +566,9 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .popx.on{opacity:1}
 
 /* TV: the feed and the paper grain are their own GPU layers, so moving the feed never repaints them */
-html.tvm .roll3d{display:none !important}
-/* TV roll-off: the board slides under a soft fade into the paper, drawn once and never redrawn */
-html.tvm body #view.view{top:calc(var(--u)*10 + 6px) !important}
-html.tvm #view::after{content:'';position:absolute;left:0;right:0;top:0;height:calc(var(--u)*9);z-index:3;pointer-events:none;background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 10%,rgba(0,0,0,0) 100%);background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 14%,color-mix(in srgb,var(--paper) 0%,transparent) 100%)}
+/* TV roll-off: one tilted copy of the board above the hinge line, moved by the same GPU animation as the board */
+html.tvm #roll3d .tvpl{position:absolute;left:0;right:0;bottom:0;transform-origin:50% 100%;overflow:hidden;backface-visibility:hidden}
+html.tvm #roll3d .tvpl > .track{position:absolute;left:0;right:0;top:0}
 html.tvm .grain{will-change:transform;transform:translateZ(0)}
 /* Silk on Fire TV hides its toolbar when the page scrolls: give it a little room to scroll, while the board stays fixed to the screen */
 html.tvm,html.tvm body{height:auto !important;overflow-y:auto !important}
@@ -3535,14 +3534,30 @@ function rollDrum(c) {
   return { d, sl };
 }
 function rollUnhook() { RMAP.forEach(v => { v.mo && v.mo.disconnect(); v.d.remove(); }); RMAP = new Map(); }
-let RLAST = null, TVA = null, TVD = 0;
+let RLAST = null, TVA = null, TVB = null, TVD = 0, TVTH = 64, TVPF = 7, TVMO = null;
 // TV: the scroll is a browser animation the graphics chip runs by itself, so it keeps gliding even when the TV's processor is busy.
 // The script only reads where it is, to keep the roll-off in step.
 function tvStart() {
-  if (TVA) { TVA.cancel(); TVA = null; }
+  if (TVA) { TVA.cancel(); TVA = null; } if (TVB) { TVB.cancel(); TVB = null; }
   if (!TVMODE || !copyH || !track.animate) return;
   track.style.transform = ''; TVD = copyH / Math.max(1, (Number(data && data.scroll_speed) || 1.1) * U) * 1000;
   TVA = track.animate([{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(0,' + (-copyH) + 'px,0)' }], { duration: TVD, iterations: Infinity });
+  // The roll-off: one copy of the board on a plane hinged at the top of the feed and tilted back, so the paper bends away
+  // toward a single vanishing point at the center of the screen. It slides with the same animation, started at the same instant.
+  const box = document.getElementById('roll3d');
+  if (box) {
+    box.innerHTML = ''; const H = box.clientHeight, th = TVTH, L = Math.round(H / Math.cos(th * Math.PI / 180) * 1.02);
+    box.style.perspective = Math.round(H * TVPF) + 'px'; box.style.perspectiveOrigin = '50% 100%';
+    const pl = document.createElement('div'); pl.className = 'tvpl'; pl.style.height = L + 'px'; pl.style.transform = 'rotateX(' + th + 'deg)';
+    const cl = track.cloneNode(true); cl.style.transform = ''; pl.appendChild(cl); box.appendChild(pl);
+    TVB = cl.animate([{ transform: 'translate3d(0,' + L + 'px,0)' }, { transform: 'translate3d(0,' + (L - copyH) + 'px,0)' }], { duration: TVD, iterations: Infinity });
+    const st = document.timeline.currentTime; TVA.startTime = st; TVB.startTime = st;
+    // compare blocks change their text on a timer; mirror those changes into the tilted copy
+    if (TVMO) TVMO.disconnect();
+    const src = [...track.querySelectorAll('.story.cmp')], dst = [...cl.querySelectorAll('.story.cmp')];
+    TVMO = new MutationObserver(() => src.forEach((c, i) => { const d = dst[i]; if (d && d.innerHTML !== c.innerHTML) { d.innerHTML = c.innerHTML; d.className = c.className; } }));
+    src.forEach(c => TVMO.observe(c, { subtree: true, childList: true, characterData: true, attributes: true }));
+  }
 }
 function rollIndex() {
   RLAST = null;
