@@ -566,10 +566,9 @@ html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(v
 .popx.on{opacity:1}
 
 /* TV: the feed and the paper grain are their own GPU layers, so moving the feed never repaints them */
-/* TV roll-off: one tilted copy of the board above the hinge line, moved by the same GPU animation as the board */
-html.tvm #roll3d .tvpl{position:absolute;left:0;right:0;bottom:0;transform-origin:50% 100%;overflow:hidden;backface-visibility:hidden}
-html.tvm #roll3d .tvpl > .track{position:absolute;left:0;right:0;top:0}
 html.tvm .grain{will-change:transform;transform:translateZ(0)}
+/* TV: taller source strip so the QR code is big enough for a phone across the room */
+html.tvm .refs.top{height:calc(var(--u)*12.6) !important}
 /* Silk on Fire TV hides its toolbar when the page scrolls: give it a little room to scroll, while the board stays fixed to the screen */
 html.tvm,html.tvm body{height:auto !important;overflow-y:auto !important}
 html.tvm body{min-height:calc(100vh + 160px)}
@@ -3167,7 +3166,7 @@ function qrSvg(text) {
     const q = qrcode(0, 'L'); q.addData(text); q.make();
     const n = q.getModuleCount(); let d = '';
     for (let r = 0; r < n; r++) { let c = 0; while (c < n) { if (!q.isDark(r, c)) { c++; continue; } let k = c; while (k < n && q.isDark(r, k)) k++; d += 'M' + c + ' ' + r + 'h' + (k - c) + 'v1h-' + (k - c) + 'z'; c = k; } }
-    return (QRC[text] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 ' + (n + 2) + ' ' + (n + 2) + '" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet"><rect x="-1" y="-1" width="' + (n + 2) + '" height="' + (n + 2) + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>');
+    return (QRC[text] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 ' + (n + 4) + ' ' + (n + 4) + '" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet"><rect x="-2" y="-2" width="' + (n + 4) + '" height="' + (n + 4) + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>');
   } catch (e) { return (QRC[text] = ''); }
 }
 const IN_ART = /claude|anthropic/.test(location.hostname);
@@ -3475,9 +3474,20 @@ function qrSnap() {
   svgs.forEach((svg, i) => {
     const [H, bx, m] = sizes[i]; if (!m || !H) return;
     svg.parentElement.style.setProperty('width', (H + bx) + 'px', 'important');   // square white box, so the margin is even on all four sides
-    const g = Math.max(2, H * .045), size = Math.max(8, H - 2 * g);                // about a quarter pixel of white on every side, centered by the box
+    // Every square of the code gets the same whole number of screen pixels; uneven squares are what stop phones from reading it
+    const vb = (svg.getAttribute('viewBox') || '0 0 33 33').split(/\s+/).map(Number), N = vb[2] || 33;
+    const mod = Math.max(1, Math.floor(H * DPR / N)) / DPR, size = mod * N, o = Math.floor((H - size) / 2 * DPR) / DPR;
     svg.style.setProperty('width', size + 'px', 'important'); svg.style.setProperty('height', size + 'px', 'important');
+    svg.style.setProperty('left', o + 'px', 'important'); svg.style.setProperty('top', o + 'px', 'important');
   });
+  // then nudge each code onto the screen's pixel grid (the board only ever moves by whole pixels on the TV)
+  if (TVMODE) {
+    { const vt = Math.round((U * 14 + 7) * DPR) / DPR, rt = Math.round((U * 10 + 6) * DPR) / DPR, rl = document.getElementById('roll3d');
+      view.style.setProperty('top', vt + 'px', 'important'); if (rl) { rl.style.setProperty('top', rt + 'px', 'important'); rl.style.setProperty('height', (vt + 2 - rt) + 'px', 'important'); } }
+    const tr = track.getBoundingClientRect(), fr = v => ((v * DPR) % 1 + 1) % 1 / DPR;
+    const rs = svgs.map(svg => svg.getBoundingClientRect());
+    svgs.forEach((svg, i) => { svg.style.transform = 'translate(' + (-fr(rs[i].left)) + 'px,' + (-fr(rs[i].top - tr.top)) + 'px)'; });
+  }
 }
 // Every card type starts its text at the same left edge as a regular story, at any screen size
 function alignText() {
@@ -3506,7 +3516,7 @@ function fitDate() {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(qrSnap, 60));
 window.addEventListener('load', () => setTimeout(qrSnap, 300));
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
-const RN = TVMODE ? 8 : (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 12 : 18, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
+const RN = TVMODE ? 12 : (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 12 : 18, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
@@ -3533,31 +3543,25 @@ function rollDrum(c) {
   box.appendChild(d);
   return { d, sl };
 }
+// TV: each slice of the roll-off drum is moved by the graphics chip on the same clock as the board, so the drum
+// glides in step with it and the TV never redraws or re-lays-out anything while it scrolls.
+function tvAnim(v) {
+  if (!TVA || TVA.startTime == null) return; const c = v.c, st = TVA.startTime;
+  v.sl.forEach(x => { x.k.style.top = '0px'; if (x.an) x.an.cancel();
+    const y0 = x.sy * (c.t + RR * x.a1), y1 = x.sy * (c.t - copyH + RR * x.a1), s = 'scaleY(' + x.sy.toFixed(5) + ')';
+    x.an = x.inn.animate([{ transform: 'translate3d(0,' + y0.toFixed(2) + 'px,0) ' + s }, { transform: 'translate3d(0,' + y1.toFixed(2) + 'px,0) ' + s }], { duration: TVD, iterations: Infinity, easing: 'steps(' + Math.max(1, Math.round(copyH * DPR)) + ')' });
+    x.an.startTime = st; });
+}
 function rollUnhook() { RMAP.forEach(v => { v.mo && v.mo.disconnect(); v.d.remove(); }); RMAP = new Map(); }
-let RLAST = null, TVA = null, TVB = null, TVD = 0, TVTH = 64, TVPF = 7, TVMO = null;
+let RLAST = null, TVA = null, TVD = 0;
 // TV: the scroll is a browser animation the graphics chip runs by itself, so it keeps gliding even when the TV's processor is busy.
 // The script only reads where it is, to keep the roll-off in step.
 function tvStart() {
-  if (TVA) { TVA.cancel(); TVA = null; } if (TVB) { TVB.cancel(); TVB = null; }
+  if (TVA) { TVA.cancel(); TVA = null; }
   if (!TVMODE || !copyH || !track.animate) return;
   track.style.transform = ''; TVD = copyH / Math.max(1, (Number(data && data.scroll_speed) || 1.1) * U) * 1000;
-  TVA = track.animate([{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(0,' + (-copyH) + 'px,0)' }], { duration: TVD, iterations: Infinity });
-  // The roll-off: one copy of the board on a plane hinged at the top of the feed and tilted back, so the paper bends away
-  // toward a single vanishing point at the center of the screen. It slides with the same animation, started at the same instant.
-  const box = document.getElementById('roll3d');
-  if (box) {
-    box.innerHTML = ''; const H = box.clientHeight, th = TVTH, L = Math.round(H / Math.cos(th * Math.PI / 180) * 1.02);
-    box.style.perspective = Math.round(H * TVPF) + 'px'; box.style.perspectiveOrigin = '50% 100%';
-    const pl = document.createElement('div'); pl.className = 'tvpl'; pl.style.height = L + 'px'; pl.style.transform = 'rotateX(' + th + 'deg)';
-    const cl = track.cloneNode(true); cl.style.transform = ''; pl.appendChild(cl); box.appendChild(pl);
-    TVB = cl.animate([{ transform: 'translate3d(0,' + L + 'px,0)' }, { transform: 'translate3d(0,' + (L - copyH) + 'px,0)' }], { duration: TVD, iterations: Infinity });
-    const st = document.timeline.currentTime; TVA.startTime = st; TVB.startTime = st;
-    // compare blocks change their text on a timer; mirror those changes into the tilted copy
-    if (TVMO) TVMO.disconnect();
-    const src = [...track.querySelectorAll('.story.cmp')], dst = [...cl.querySelectorAll('.story.cmp')];
-    TVMO = new MutationObserver(() => src.forEach((c, i) => { const d = dst[i]; if (d && d.innerHTML !== c.innerHTML) { d.innerHTML = c.innerHTML; d.className = c.className; } }));
-    src.forEach(c => TVMO.observe(c, { subtree: true, childList: true, characterData: true, attributes: true }));
-  }
+  TVA = track.animate([{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(0,' + (-copyH) + 'px,0)' }], { duration: TVD, iterations: Infinity, easing: 'steps(' + Math.max(1, Math.round(copyH * DPR)) + ')' });
+  TVA.startTime = document.timeline.currentTime;
 }
 function rollIndex() {
   RLAST = null;
@@ -3570,7 +3574,7 @@ function rollRefresh() {
   if (!RC.length) return;
   const tr = track.getBoundingClientRect();
   RC.forEach(c => { const r = c.el.getBoundingClientRect(); c.t = r.top - tr.top; c.b = r.bottom - tr.top; c.l = r.left - tr.left; c.w = r.width; c.h = r.height; });
-  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); });
+  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); if (TVMODE) tvAnim(v); });
 }
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(rollRefresh, 50));
 setInterval(rollRefresh, 3000);
@@ -3587,13 +3591,11 @@ function rollSync(o) {
       v.mo = new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; v.sl.forEach(x => { x.k.innerHTML = c.el.innerHTML; x.k.className = c.el.className; rollClean(x.k); }); }); });
       v.mo.observe(c.el, { subtree: true, childList: true, characterData: true, attributes: true });
     }
-    RMAP.set(c.el, v);
+    RMAP.set(c.el, v); if (TVMODE) tvAnim(v);
   });
   // each slice shows the stretch of paper that sits on its part of the drum
   // move each slice with top, not transform: no extra GPU layers, so the screen can never run out of video memory and blank out
-  // TV: shift each slice's picture instead of its position, so moving it never recalculates the page layout
-  if (TVMODE) RMAP.forEach(v => v.sl.forEach(x => { x.inn.style.transform = `translateY(${(x.sy * -(o - RR * x.a1)).toFixed(2)}px) scaleY(${x.sy.toFixed(5)})`; }));
-  else RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
+  if (!TVMODE) RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
 }
 let U = 10, DPR = window.devicePixelRatio || 1;
 function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10; }
@@ -3649,7 +3651,7 @@ function tick(ts) {
   if (TVMODE && TVA) { const ct = Number(TVA.currentTime) || 0; off = (ct % TVD) / TVD * copyH; }
   else if (TVMODE) track.style.transform = `translate3d(0,${(-off).toFixed(2)}px,0)`;
   else track.style.transform = `translateY(${-Math.round(off * DPR) / DPR}px)`;
-  if (!TVMODE) rollSync(Math.round(off * DPR) / DPR);   // TV: no drum; the stories fade into the paper instead (see html.tvm .view::after)
+  rollSync(TVMODE ? off : Math.round(off * DPR) / DPR);   // on the TV this only adds and drops drums; the graphics chip moves them
   requestAnimationFrame(tick);
 }
 
