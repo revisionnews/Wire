@@ -565,6 +565,12 @@ html.one .popsrc .ps small{font-size:calc(var(--u)*2.4)}
 html.one .popx{bottom:calc(var(--u)*3)}
 html.one .popx button{font-size:calc(var(--u)*3);padding:calc(var(--u)*2) calc(var(--u)*3.4)}
 .popx.on{opacity:1}
+
+/* sponsor blocks: copper */
+:root{--spon:#A86A3E}
+html body .mason > .spon .spl,html body .popwrap .spon .spl{display:flex !important;align-items:center;justify-content:center;background:var(--spon) !important;border-color:var(--spon) !important;color:#fff !important}
+.spon .spl span{font:900 calc(var(--u)*1.15)/1 'Hando',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+html.one .spon .spl span{font-size:calc(var(--u)*1.9)}
 html.one .stage{position:absolute !important;border-top:env(safe-area-inset-top) solid transparent;background-image:linear-gradient(color-mix(in srgb,var(--paper) 67%,transparent),color-mix(in srgb,var(--paper) 67%,transparent)),var(--grain-data);background-size:auto,192px 192px,240px 240px;background-clip:border-box;background-origin:border-box}
 html.one,html.one body{background:var(--paper) linear-gradient(color-mix(in srgb,var(--paper) 67%,transparent),color-mix(in srgb,var(--paper) 67%,transparent)) !important}
 .intronote{position:absolute;bottom:calc(var(--u)*3);z-index:2;text-align:center;font:800 calc(var(--u)*1.2)/1 'Hando',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);opacity:0;transition:opacity .6s ease;pointer-events:none}
@@ -3398,6 +3404,19 @@ function rows(list, color, pre, type, lay) {
   }).join('');
 }
 
+// Sponsor blocks: paid placements added by hand under the sponsor key (rules doc, section 11). Same shapes as the news,
+// copper, tagged SPONSOR / Paid, with Sponsored where SPARC sits. They leave once their date or paid end date passes.
+const SPON = {};
+const SPONL = '<div class="spl spl-spon"><span>Sponsored</span></div>';
+function sponsorCard(i) {
+  const id = sid('z', i); SPON[id] = Math.max(1, Math.min(4, +i.checked || 2));
+  const x = `${i.when ? `<span class="meta">${esc(i.when)}</span>` : ''}<span class="meta">Paid placement</span>`;
+  const refs = (i.refs || []).map(r => Object.assign({ k: 'Sponsor' }, r));
+  const tail = refBlock(refs, id, x, true, tagHtml('Sponsor', 'Paid'), i.doc);
+  if (i.when && /\b(mon|tue|wed|thu|fri|sat|sun)/i.test(i.when))
+    return `<div class="row l-ev spon" style="--c:var(--spon)">${SPONL}${calStub(i.when, data && data.generated_at)}<div class="rh"><div class="tt">${esc(i.title || i.headline)}</div></div>${imgBlock(i.image)}<div class="rb">${esc(i.summary)}</div>${tail}</div>`;
+  return `<article class="story sp spon" style="--c:var(--spon)">${SPONL}${imgBlock(i.image)}<h3>${esc(i.title || i.headline)}</h3><p class="sum">${esc(i.summary)}</p>${tail}</article>`;
+}
 function stats(d) {
   const lists = [d.politics, d.sports, d.artistry, d.revolution, d.community, d.business, d.schools, d.safety, d.weather, d.memos];
   const st = {}; lists.forEach(l => (l || []).forEach(i => { st[i.status] = (st[i.status] || 0) + 1; }));
@@ -3487,13 +3506,14 @@ function buildCopy(d) {
   const brk = (d.breaking || []).filter(fresh).slice(0, 2).map((s, ix) => `<article class="story brk"><h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('b', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml('Breaking', statusOf(s)))}</article>`);
   // Everything else is one mixed feed: no sections, the shape of each box says what it is
   CMPS.length = 0;
-  const Q = { top: [], spark: [], ev: [], memo: [], meet: [], cmp: [] };
+  const Q = { top: [], spark: [], ev: [], memo: [], meet: [], cmp: [], spon: [] };
   (d.compare || []).forEach((c, ix) => { const h = cmpCard(c, ix); if (h) Q.cmp.push(h); });
   (d.top || []).slice(0, 10).forEach((s, ix) => Q.top.push(`<article class="story top" data-p="${esc(String(s.pillar || ''))}" style="--c:${STC[statusOf(s)]}"><div class="rank">${ix + 1}</div>${imgBlock(s.image)}<h3>${esc(s.headline)}</h3><p class="sum">${esc(s.summary)}</p>${refBlock(s.refs, sid('t', s), `${s.when ? `<span class="meta">${esc(s.when)}</span>` : ''}${agePill(s)}`, true, tagHtml(kindOf(s, 'Update'), statusOf(s)))}</article>`));
   Object.keys(PIL).forEach(k => (d[k] || []).forEach((i, ix) => Q.spark.push(spark(i, k, ix))));
   staleBrk.forEach((i, ix) => Q.spark.push(spark(Object.assign({ pillar: 'C', kind: 'Update' }, i, { kind: i.kind === 'Breaking' ? 'Update' : i.kind }), PIL.safety ? 'safety' : Object.keys(PIL)[0], 900 + ix)));
   (d.events || []).forEach((e, ix) => Q.ev.push(rows([{ title: e.title, summary: e.summary, when: e.when, refs: e.refs, first_seen: e.first_seen, pillar: e.pillar, doc: e.doc }], 'var(--ink)', 'e', 'Event', 'l-ev')));
   (d.memos || []).forEach((m, ix) => Q.memo.push(rows([m], 'var(--ink)', 'm', 'Memo', 'l-memo')));
+  { const now = Date.now(); (d.sponsor || []).filter(i => i && !(i.until && Date.parse(i.until) + 864e5 < now)).forEach(i => Q.spon.push(sponsorCard(i))); }
   const groups = (d.meeting_groups && d.meeting_groups.length) ? d.meeting_groups : ((d.meetings || []).length ? [{ title: '2027 bond committees', meetings: d.meetings, note: d.meetings_note, refs: d.meetings_refs }] : []);
   groups.forEach((g, gi) => { if ((g.meetings || []).length) Q.meet.push(`<div class="row l-meet" style="--c:${STC[statusOf({ refs: g.refs })]}"><div class="mt"><b>Meetings for ${esc(g.title)}</b><span>${g.meetings.length} meetings</span></div><div class="tiles">` + g.meetings.map(m => `<div class="tile"><div class="d"><i>${esc(m.dow)}</i><b>${esc(m.day)}</b><i>${esc(m.mon)}</i></div><div class="x"><b>${esc(m.title)}</b><span>${esc(m.note)}</span></div></div>`).join('') + `</div>${g.note ? `<div class="rb">${esc(g.note)}</div>` : ''}${refBlock(g.refs, sid('g', g), `<span class="meta">${g.meetings.length} meetings</span>`, true, tagHtml('Meeting', statusOf({ refs: g.refs })), g.doc)}</div>`); });
   // Compare blocks are the special teaching blocks: each one once, spread evenly through the feed
@@ -3506,7 +3526,8 @@ function buildCopy(d) {
   shuf(Q.spark);
   const tops = Q.top.splice(0), segs = Math.max(1, tops.length);
   const share = (arr, i) => arr.slice(Math.floor(i * arr.length / segs), Math.floor((i + 1) * arr.length / segs));
-  const cats = { cmp: cmpQ, memo: Q.memo, meet: Q.meet, ev: Q.ev };
+  Q.spon = Q.spon.slice(0, Math.floor((Q.spark.length + Q.top.length + Q.ev.length) / 10));   // at most 1 sponsor for every 10 stories
+  const cats = { cmp: cmpQ, memo: Q.memo, meet: Q.meet, ev: Q.ev, spon: Q.spon };
   const feed = [];
   for (let i = 0; i < segs; i++) {
     if (tops[i]) feed.push({ k: 'top', h: tops[i] });
@@ -4119,8 +4140,9 @@ if (!TVMODE) {
 }
 // Mockup B: the card's own source strip grows downward. The tag becomes a status bar with a ladder and what it means;
 // the rest becomes a Sources title and one tile per source with a full width button. Colors follow the card.
+const SPON_CL = [['Sponsor\'s word', 'The details come from the sponsor and are not checked yet.'], ['Details checked', 'Revision checked the date, the place and the price.'], ['Place confirmed', 'The venue or business confirmed it to Revision directly.'], ['Official listing', 'It is also listed on an official city or venue page.']];
 let TAGV = 9;   // tag panel: What it is, then the How sure meter
-const KIND_M = { Update: 'A new development on a story that is already moving.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Something you can go to, with a date and a place.', Memo: 'A city document sent to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
+const KIND_M = { Sponsor: 'A paid placement from a local business or group. Revision checked that it fits our rules.', Update: 'A new development on a story that is already moving.', Announcement: 'An agency or official says something is happening.', Breaking: 'Happening now or in the last few hours.', Event: 'Something you can go to, with a date and a place.', Memo: 'A city document sent to Council.', CCR: 'A council member asking the city to take up an idea.', Meeting: 'A public meeting where officials talk or vote.', Vote: 'A public body made a decision.', Decision: 'A public body made a decision.', Deadline: 'Something is due by a date.', Warning: 'A risk to know about.', Result: 'How something turned out.', Money: 'Where public money is going.', Opening: 'Something new is opening.' };
 const STAT_M = { Verified: 'Backed by an official page or two or more independent newsrooms.', Reported: 'From one outlet, and the facts match its page.', Unconfirmed: 'It matters, but a key fact is not confirmed yet.', Upcoming: 'Scheduled. It has not happened yet.', Confirmed: 'Confirmed by the agency or more than one source.' };
 const ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>';
 function srcExpand(clone, id) {
@@ -4138,9 +4160,10 @@ function srcExpand(clone, id) {
     const d = document.createElement('div'), V = TAGV, lv = { Verified: 3, Confirmed: 3, Reported: 2, Unconfirmed: 1, Upcoming: 2 }[ss] || 2;
     d.className = 'sxd' + (V ? ' tv' + V : '');
     // designs 4 and 5 (mockups): four levels of sureness worked out from the sources themselves
-    const CL = [['Unconfirmed', 'It matters, but a key fact is not confirmed yet.'], ['Single source', 'One outlet reports it, and the facts match its page.'], ['Confirmed', 'Two or more newsrooms report it on their own.'], ['Official record', 'Backed by the agency\'s own page or document.']];
+    let CL = [['Unconfirmed', 'It matters, but a key fact is not confirmed yet.'], ['Single source', 'One outlet reports it, and the facts match its page.'], ['Confirmed', 'Two or more newsrooms report it on their own.'], ['Official record', 'Backed by the agency\'s own page or document.']];
     const rs4 = storyRefs(id), offc = rs4.some(r => /official/i.test(r.k || '') || /full document/i.test(r.n || '')), outs = new Set(rs4.filter(r => !/official/i.test(r.k || '')).map(r => r.n)).size;
-    const cl = /unconfirmed/i.test(ss) ? 1 : offc ? 4 : outs >= 2 ? 3 : 2;
+    let cl = /unconfirmed/i.test(ss) ? 1 : offc ? 4 : outs >= 2 ? 3 : 2, HS = 'How sure';
+    if (kk === 'Sponsor') { HS = 'How checked'; cl = SPON[id] || 2; CL = SPON_CL; }
     const what = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div>`;
     if (V === 4) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxl">${CL.map((c, n) => `<div class="${n + 1 <= cl ? 'f' : ''}${n + 1 === cl ? ' on' : ''}"><i></i><span>${esc(c[0])}</span></div>`).reverse().join('')}</div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 5) { const R = 15.9155, seg = 25, gap = 2.5; d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sxr"><svg viewBox="0 0 42 42">${[0, 1, 2, 3].map(n => `<circle r="${R}" cx="21" cy="21" fill="none" stroke-width="6" stroke="currentColor" opacity="${n < cl ? 1 : .25}" stroke-dasharray="${seg - gap} ${100 - seg + gap}" stroke-dashoffset="${25 - n * seg - gap / 2}"/>`).join('')}</svg><b>${cl}<small>/4</small></b></div><b class="sxrl">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
@@ -4154,7 +4177,7 @@ function srcExpand(clone, id) {
       const P = a => [50 + 48 * Math.cos(Math.PI * (1 - a)), 50 - 48 * Math.sin(Math.PI * (1 - a))];
       const wedge = n => { const [x0, y0] = P(n / 4), [x1, y1] = P((n + 1) / 4); return `<path d="M50 50L${x0.toFixed(2)} ${y0.toFixed(2)}A48 48 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z" fill="#fff" opacity="${n < cl ? 1 : .28}"/>`; };
       const sep = n => { const [x, y] = P(n / 4); return `<line x1="50" y1="50" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke="#000" stroke-width="1.6"/>`; };
-      d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx9"><svg viewBox="0 0 100 52"><defs><mask id="${mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="52"><rect width="100" height="52" fill="#fff"/>${[1, 2, 3].map(sep).join('')}<g class="nd" style="--a:${ang}deg"><g class="wg"><path d="M46.4 50L50 6L53.6 50Z" fill="#000"/></g></g><circle cx="50" cy="50" r="7" fill="#000"/></mask></defs><g mask="url(#${mid})">${[0, 1, 2, 3].map(wedge).join('')}</g></svg><div class="sx9l">${CL.map((c, n) => `<span style="color:${COL[n]}" class="${n + 1 === cl ? 'on' : ''}">${esc(c[0])}</span>`).join('')}</div></div><b class="sx9n">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
+      d.innerHTML = what + `<div class="sxg"><em>${HS}</em><div class="sx9"><svg viewBox="0 0 100 52"><defs><mask id="${mid}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="52"><rect width="100" height="52" fill="#fff"/>${[1, 2, 3].map(sep).join('')}<g class="nd" style="--a:${ang}deg"><g class="wg"><path d="M46.4 50L50 6L53.6 50Z" fill="#000"/></g></g><circle cx="50" cy="50" r="7" fill="#000"/></mask></defs><g mask="url(#${mid})">${[0, 1, 2, 3].map(wedge).join('')}</g></svg><div class="sx9l">${CL.map((c, n) => `<span style="color:${COL[n]}" class="${n + 1 === cl ? 'on' : ''}">${esc(c[0])}</span>`).join('')}</div></div><b class="sx9n">${esc(CL[cl - 1][0])}</b><small>${esc(CL[cl - 1][1])}</small></div>`; }
     else if (V === 8) d.innerHTML = what + `<div class="sxg"><em>How sure</em><div class="sx8" style="--p:${cl / 4};--n:${cl - 1}"><div class="bar"><i></i></div><div class="tk"><div class="win"><div class="col">${CL.map(c => `<b>${esc(c[0])}</b>`).join('')}</div></div><span>${cl} of 4</span></div></div><small>${esc(CL[cl - 1][1])}</small></div>`;
     else if (V === 1) d.innerHTML = `<div class="sxg"><em>What it is</em><b>${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small></div><div class="sxg"><em>How sure</em>` + L.map(x => `<span class="${x === ss ? 'on' : ''}"><i></i>${esc(x)}</span>`).join('') + `<small>${esc(STAT_M[ss] || '')}</small></div>`;
     else if (V === 2) d.innerHTML = `<b class="sxk">${esc(kk)}</b><small>${esc(KIND_M[kk] || '')}</small><em>How sure</em><div class="sxm">${[1, 2, 3].map(n => `<i class="${n <= lv ? 'on' : ''}"></i>`).join('')}</div><div class="sxmx"><span>Less</span><span>More</span></div><b class="sxs2">${esc(ss)}</b><small>${esc(STAT_M[ss] || '')}</small>`;
