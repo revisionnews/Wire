@@ -14,9 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: python3 tools/story_numbers.py
       - run: python3 tools/share_pages.py
       - run: |
           git config user.name "Revision Wire robot"
           git config user.email "noreply@anthropic.com"
-          git add s
-          git diff --cached --quiet || (git commit -m "Share pages for the latest stories" && git pull --rebase origin main && git push origin HEAD:main)
+          git add s numbers.json
+          git diff --cached --quiet || (git commit -m "Story numbers and share pages for the latest stories" && git pull --rebase origin main && git push origin HEAD:main)

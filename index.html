@@ -1183,6 +1183,14 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
 .wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}
+/* story number tag: burnt paper, engraved by the scanner's laser as a scanned story is pulled back out of the bar */
+.refs .wqt{flex:none;align-self:center;position:relative;display:flex;align-items:stretch;justify-content:center;height:calc(var(--u)*2.93);margin:0 calc(var(--u)*3.2) 0 calc(var(--u)*.4);padding:0;background:#C9A46B;color:#3A220E;border:max(1px,calc(var(--u)*.22)) solid #0D0F12;overflow:hidden;clip-path:inset(100% 0 0 0);pointer-events:none}
+.refs .wqt b{display:flex;align-items:center;font:900 calc(var(--u)*1.465)/1 'Hando',sans-serif;letter-spacing:.05em;white-space:nowrap;padding:0 calc(var(--u)*.71)}.refs .wqt .bn{background:#0D0F12;color:#C9A46B}.refs .wqt .bn:empty{display:none}html.dark .refs .wqt .bn{background:#D4D4D4;color:#3A220E}
+.refs .wqt .lz{position:absolute;left:0;height:2px;width:0;top:0;background:#FFF6DC;box-shadow:0 0 6px 2px rgba(255,190,120,.9),0 0 14px 4px rgba(255,90,40,.6);opacity:0}
+html.dark .refs .wqt{border-color:#D4D4D4}.popwrap .wqt{display:none !important}
+.refs .rw{min-width:0}
+.wq-beam{position:absolute;bottom:0;height:2px;background:#FF6A3C;box-shadow:0 0 6px 2px rgba(255,90,50,.75),0 0 16px 4px rgba(255,90,50,.35);pointer-events:none}
+
 /* scanner */
 .wsbite{display:none !important}.roll3d{-webkit-mask-image:none !important;mask-image:none !important}
 html:not(.tvm) .copy.tail{visibility:hidden}
@@ -1195,6 +1203,7 @@ html.wq-has .wsh:not(.open) .wsearch input::placeholder{color:transparent}
 .wq-n .d{display:inline-block;overflow:hidden;height:1.15em;line-height:1.15em;vertical-align:bottom;font-weight:900;color:#0D0F12;font-variant-numeric:tabular-nums}
 .wq-n .d span{display:block}.wq-n .d .up{animation:wqUp .35s cubic-bezier(.2,.8,.2,1)}.wq-n .d .dn{animation:wqDn .35s cubic-bezier(.2,.8,.2,1)}@keyframes wqUp{from{transform:translateY(100%)}}@keyframes wqDn{from{transform:translateY(-100%)}}
 .wq-n small{font-size:.62em;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#6a6a6a}
+.wq-n{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;gap:.2em}.wq-n small{order:-1;line-height:1;font-size:.56em;text-align:center}.wq-n .kq{display:block;position:relative;overflow:hidden;height:1.15em;border:max(1px,calc(var(--u)*.16)) solid #4a4a4a}.wq-n .rn{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;white-space:nowrap;will-change:transform}.wq-n .it{font-size:.66em;font-weight:900;color:#6a6a6a;padding-right:1.4em}.wq-n .it b{color:#4a4a4a;margin-right:.45em}html.dark .wq-n .kq{border-color:#9a9a9a}html.dark .wq-n .it{color:#AAA}html.dark .wq-n .it b{color:#CFCFCF}
 .wq-log{position:absolute;top:0;bottom:0;display:flex;align-items:center;overflow:hidden;font-family:'Hando',sans-serif;font-weight:700;color:#3a3a3a;white-space:pre}
 .wq-car{position:absolute;top:22%;bottom:22%;width:3px}
 .wq-glow{position:absolute;top:0;bottom:0;pointer-events:none}
@@ -4059,7 +4068,7 @@ function render() {
   try { tagMore(data); } catch (e) {}
   speed = Number(data.scroll_speed) || 1.1;
   buildCopy(data); balanceCols();
-  const one = `<div class="copy">${wrapFeed()}</div>`;
+  const one = wqNoTags(`<div class="copy">${wrapFeed()}</div>`);
   track.innerHTML = one; alignText(); Object.keys(CMPH).forEach(k => delete CMPH[k]); cmpSizeAll(); measure();
   if (!track.children.length || !copyH) dbgShow('empty feed: copyH=' + copyH + ' view=' + view.clientWidth + 'x' + view.clientHeight + ' stage=' + stage.clientWidth + 'x' + stage.clientHeight);
   const need = Math.min(4, Math.max(2, Math.ceil(view.clientHeight / Math.max(copyH, 1)) + 1));
@@ -4139,10 +4148,14 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '1795766013';
+const BUILD = '1795772093';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
+// Story numbers: each story's #day-order, given the first time it reached the board (numbers.json, kept by tools/story_numbers.py)
+let WQ_NOS = window.NOS_FALLBACK || {};
+async function loadNos() { try { const r = await fetch('numbers.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(); if (j && j.nos) WQ_NOS = j.nos; } } catch (e) {} }
 async function load() {
+  await loadNos();
   try {
     let r; for (let tr = 0; tr < 3; tr++) { try { r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) break; } catch (e) { if (tr === 2) throw e; } await new Promise(z => setTimeout(z, 800)); }
     if (!r.ok) throw new Error('bad status');
@@ -4273,7 +4286,7 @@ function openStory(card, id, instant) {
   if (!REG) host.appendChild(src);
   const TABH = Math.round(u * (document.documentElement.classList.contains('one') ? 9 : 6.2));
   const pad = Math.round(u * 1.4); // room above the card for the Share and close tab, and for tags on its top edge
-  const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
+  const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); clone.querySelectorAll('.wqt').forEach(x => x.remove());   // the scan tag belongs to the feed only wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px', paddingRight: '0px', paddingBottom: TABH + 'px', boxSizing: 'border-box' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
@@ -4983,6 +4996,14 @@ function storyFromHash() {
 addEventListener('pageshow', e => { if (e.persisted) storyFromHash(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden && location.hash && !POP) storyFromHash(); });
 // Share links: one short page per story (made from data.json) carries the preview: Revision News Wire, the headline and one line
+function wqNoTags(html) {
+  const t = document.createElement('template'); t.innerHTML = html;
+  t.content.querySelectorAll('.mason > *').forEach(c => { const refs = c.querySelector('.refs'); if (!refs) return;
+    const e = WQ_NOS[slugOf(cardTitle(c))], sn = e && e.no ? '#' + e.no : ''; if (sn) c.dataset.sn = sn;
+    const tg = document.createElement('span'); tg.className = 'wqt'; tg.setAttribute('aria-hidden', 'true'); tg.innerHTML = `<b class="bn"></b>${sn ? `<b class="sn">${sn}</b>` : ''}<i class="lz"></i>`;
+    const qr = refs.querySelector('.qr'); if (qr) refs.insertBefore(tg, qr); else refs.appendChild(tg); });
+  return t.innerHTML;
+}
 function slugOf(t) { return String(t || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70).replace(/-+$/, ''); }
 function cardTitle(card) {
   if (!card) return '';
@@ -5018,12 +5039,13 @@ const WICON = {
   memo: '<path d="M5 2.5h10l4.5 4.5v14.5H5z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M8.5 11.5h7.5M8.5 15.5h7.5" stroke="currentColor" stroke-width="2.2"/>',
   meet: '<path d="M2.5 9L12 3.5 21.5 9zM5 11v7.5M9.7 11v7.5M14.3 11v7.5M19 11v7.5M2.5 21h19" stroke="currentColor" stroke-width="2.2" fill="none"/>'
 };
-const WS_GLASS = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></svg>';
+const WS_GLASS = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.4" fill="none" stroke="currentColor" stroke-width="3.4"/><circle cx="10" cy="10" r="1.6" fill="currentColor"/><path d="M14.8 14.8l6.4 6.4" stroke="currentColor" stroke-width="4.6"/></svg>';
 function wsText(card) {
   if (card.__wt) return card.__wt;
   const q = card.querySelector('[data-u]'), id = q ? (q.dataset.u.split('#')[1] || '') : '';
   const refs = (REFS[id] || []).map(r => (r.n || '') + ' ' + (r.t || '')).join(' ');
-  return (card.__wt = (card.textContent + ' ' + refs).toLowerCase());
+  const sn = card.dataset.sn || '', b = sn.slice(1), no = sn ? ' ' + sn + ' ' + b + ' ' + b.replace(/\./g, ' ') + ' ' + b.replace(/\.0$/, '') + ' ' + b.replace(/\.(\d+)\./, (m, x) => '.' + (+x) + '.') : '';
+  return (card.__wt = (card.textContent + ' ' + refs + no).toLowerCase());
 }
 function wsKind(c) { const k = c.classList; return k.contains('top') ? 'top' : k.contains('brk') ? 'brk' : k.contains('cmp') ? 'cmp' : k.contains('l-ev') ? 'ev' : k.contains('l-memo') ? 'memo' : k.contains('l-meet') ? 'meet' : 'story'; }
 function wsLetters(c) { if (c.__wl !== undefined) return c.__wl; const sp = c.querySelector('.spl'); return (c.__wl = sp ? [...sp.querySelectorAll('b.on')].map(x => x.textContent).join('') : String(c.dataset.p || '').toUpperCase()); }
@@ -5053,7 +5075,7 @@ const WQ_PIL = { S: 'Sports', P: 'Politics', A: 'Art', R: 'Revolution', C: 'Comm
 const WQ_GLOSS = { update: 'ongoing story', breaking: 'happening now', event: 'open to the public', announcement: 'official notice', memo: 'city memo to council', ccr: 'council member request', meeting: 'public meeting', compare: 'coverage compared', warning: 'safety notice', result: 'final result', vote: 'official vote', decision: 'official decision', deadline: 'time limit', money: 'budget item', sponsor: 'paid placement', story: 'board story' };
 const WQ_STAT = { verified: 'verified, two sources or official', reported: 'reported, one outlet checked', unconfirmed: 'not confirmed yet', upcoming: 'scheduled, not happened yet', confirmed: 'confirmed by the agency' };
 const WQ_RM = matchMedia('(prefers-reduced-motion: reduce)');
-let WQ_Q = null, WQ_SEAM = null, WQ_CNT = -1, WQ_CNTEL = null, WQ_SVG = null, WQ_REP = null, WQ_LOG = null, WQ_CAR = null, WQ_LY = null, WQ_MV = null, WQ_FINS = [], WQ_EDGE = '', WQ_N = 0, WQ_NOTE = null, WQ_HS = null;
+let WQ_RX = 0, WQ_LY2 = null, WQ_CNTB = 0, WQ_RANKRC = null, WQ_ENG = null, WQ_BEAM = null, WQ_Q = null, WQ_SEAM = null, WQ_CNT = -1, WQ_CNTEL = null, WQ_SVG = null, WQ_REP = null, WQ_LOG = null, WQ_CAR = null, WQ_LY = null, WQ_MV = null, WQ_FINS = [], WQ_EDGE = '', WQ_N = 0, WQ_NOTE = null, WQ_HS = null;
 const wqCl = x => Math.max(0, Math.min(1, x));
 function wqRgb(c) { const m = (c || '').match(/[\d.]+/g); return m && m.length >= 3 && !(m.length > 3 && +m[3] === 0) ? m.slice(0, 3).map(Number) : null; }
 function wqTag(el) { const t = el.querySelector('.tgb'), ts = t ? getComputedStyle(t) : null; let col = ts ? ts.backgroundColor : ''; const c3 = wqRgb(col); if (!c3 || c3.every(v => v > 250)) col = '#2B2B2B'; return { t, col }; }
@@ -5128,10 +5150,36 @@ function wsBite(y) {
   // strokes of cards no longer in the bar go away
   const keep = new Set(); going.forEach(o => { const g = o.c.el.__wq; if (g) [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)); }); WQ_FINS.forEach(g => [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)));
   [...WQ_SVG.querySelectorAll('path')].forEach(n => { if (!keep.has(n)) n.remove(); });
-  // the count: stories scanned so far today, never the size of the feed
+  // scan numbers: stories are scanned in the order their bottoms reach the scan line, so the 10th one in is #10, and the counter reads 10
+  if (WQ_RANKRC !== RC) { WQ_RANKRC = RC; [...feed].sort((a, b) => a.b - b.b || a.l - b.l).forEach((c, i) => { const n = String(i + 1), el = c.el;
+      if (el.dataset.no === n) return; el.dataset.no = n; el.__wt = undefined;
+      const all = [el]; const v = typeof RMAP !== 'undefined' && RMAP.get(el); if (v && v.sl) v.sl.forEach(x => x.k && all.push(x.k));
+      all.forEach(k => { const b = k.querySelector('.wqt .bn'); if (b) b.textContent = n; }); }); }
   const n = feed.filter(c => top >= c.b).length;
-  if (!WQ_CNTEL || !WQ_Q.contains(WQ_CNTEL)) { const inp = WSH.querySelector('input'); WQ_CNTEL = document.createElement('div'); WQ_CNTEL.className = 'wq-n'; WQ_CNTEL.style.right = U * 1.4 + 'px'; WQ_CNTEL.style.fontSize = getComputedStyle(inp).fontSize; WQ_CNTEL.innerHTML = '<span class="d"><span>0</span></span><small>scanned</small>'; WQ_Q.appendChild(WQ_CNTEL); WQ_CNT = -1; }
-  if (n !== WQ_CNT) { WQ_CNTEL.querySelector('.d').innerHTML = `<span class="${WQ_CNT < 0 ? '' : n > WQ_CNT ? 'up' : 'dn'}">${n}</span>`; WQ_CNT = n; }
+  // the ticker: the board number and story number of the story the scanner is on; it rolls to the next as each one goes in
+  let cur = null; going.forEach(o => { if (o.p < 1 && (!cur || o.p > cur.p)) cur = o; });
+  if (!cur) { let last = null; feed.forEach(c => { if (top >= c.b && (!last || c.b > last.b)) last = c; }); if (!last) last = feed.reduce((a, c) => !a || c.b < a.b ? c : a, null); cur = last && { c: last }; }
+  // the ticker: SCANNED over one plain box; the board number and story number of the story on the scanner run through it,
+  // moved by the feed itself, so they crawl with the slow automatic scroll and spin out fast when a hand feeds the board
+  if (!WQ_CNTEL || !WQ_Q.contains(WQ_CNTEL)) { const inp = WSH.querySelector('input'); WQ_CNTEL = document.createElement('div'); WQ_CNTEL.className = 'wq-n'; WQ_CNTEL.style.right = U * 1.4 + 'px'; WQ_CNTEL.style.fontSize = getComputedStyle(inp).fontSize;
+    WQ_CNTEL.innerHTML = '<small>Scanned</small><span class="kq"><span class="rn"><span class="it"></span><span class="it"></span></span></span>'; WQ_Q.appendChild(WQ_CNTEL); WQ_CNT = null; WQ_RX = 0; }
+  if (cur && cur.c) { const bn = +cur.c.el.dataset.no || 0, sn = cur.c.el.dataset.sn || '', key = bn + sn;
+    if (key !== WQ_CNT) { WQ_CNTEL.querySelectorAll('.rn .it').forEach(x => x.innerHTML = `<b>${bn}</b>${sn}`); WQ_CNT = key; WQ_CNTB = bn; } }
+  { const rn = WQ_CNTEL.querySelector('.rn'), half = rn.scrollWidth / 2 || 1, dy = WQ_LY2 === null ? 0 : y - WQ_LY2; WQ_LY2 = y;
+    WQ_RX = ((WQ_RX + dy * .45) % half + half) % half; rn.style.transform = `translateX(${(-WQ_RX).toFixed(2)}px)`; }
+  // a story earns its tag once it is fully scanned; pulled back out of the bar, the tag is engraved row by row
+  // as it crosses the scan line, with the laser running along the bar's edge above it
+  let eng = null;
+  feed.forEach(c => { const el = c.el; if (el.__wqt === undefined) el.__wqt = el.querySelector('.wqt'); const tg = el.__wqt; if (!tg) return;
+    if (!el.__wqe) { if (top >= c.b) el.__wqe = 1; else return; }
+    if (!tg.__o) { const a = el.getBoundingClientRect(), b = tg.getBoundingClientRect(); tg.__o = { t: b.top - a.top, b: b.bottom - a.top, l: b.left - a.left, r: b.right - a.left }; }
+    const o = tg.__o, tT = c.t + o.t, tB = c.t + o.b, q = wqCl((tB - top) / Math.max(1, tB - tT)), k = q.toFixed(3);
+    if (tg.__q !== k) { tg.__q = k; const cp = q >= 1 ? 'none' : `inset(${(100 * (1 - q)).toFixed(1)}% 0 0 0)`;
+      const all = [tg]; const v = typeof RMAP !== 'undefined' && RMAP.get(el); if (v && v.sl) v.sl.forEach(x => { const t2 = x.k && x.k.querySelector('.wqt'); if (t2) all.push(t2); });
+      all.forEach(t => { t.style.clipPath = cp; const lz = t.querySelector('.lz'); if (lz) { lz.style.opacity = q > 0 && q < 1 ? 1 : 0; lz.style.top = ((1 - q) * (o.b - o.t) - 1).toFixed(1) + 'px'; } }); }
+    if (q > 0 && q < 1 && WQ_MV && WQ_MV.dir < 0) eng = { no: el.dataset.no, l: X(c.l + o.l), r: X(c.l + o.r), q }; });
+  if (!WQ_BEAM || !WQ_Q.contains(WQ_BEAM)) { WQ_BEAM = document.createElement('i'); WQ_BEAM.className = 'wq-beam'; WQ_Q.appendChild(WQ_BEAM); }
+  if (eng) { WQ_ENG = Object.assign(eng, { t: now }); } else if (WQ_ENG && now - WQ_ENG.t > 500) WQ_ENG = null;
   WQ_EDGE = off <= .5 ? 'top' : off >= wsMaxOff() - .5 ? 'end' : '';
   // the report: one story at a time, only while the board drifts on its own
   let rep = WQ_REP;
@@ -5161,6 +5209,8 @@ function wqFrame() {
   const tx = WQ_LOG.firstChild, ms = WQ_LOG.lastChild, room = WQ_LOG.clientWidth - U * 1.6, still = WQ_RM.matches;
   const fit = s => { ms.textContent = s; if (ms.offsetWidth <= room) return s; const w = s.split(' '); while (w.length > 1) { w.pop(); ms.textContent = w.join(' ') + '…'; if (ms.offsetWidth <= room) break; } return w.join(' ').replace(/[,:]$/, '') + '…'; };
   const say = (txt, col, blink) => { document.documentElement.classList.add('wq-has'); tx.textContent = fit(txt); WQ_CAR.style.background = col; WQ_CAR.style.left = (x0 + tx.offsetWidth + 3) + 'px'; WQ_CAR.style.opacity = blink && !still ? (Math.floor(t / blink) % 2 ? 1 : 0) : 1; };
+  if (WQ_BEAM) { const e = WQ_ENG && t - WQ_ENG.t < 160 ? WQ_ENG : null;
+    if (e && !still) { const sw = (t % 260) / 260; WQ_BEAM.style.opacity = 1; WQ_BEAM.style.left = e.l + 'px'; WQ_BEAM.style.width = Math.max(0, (e.r - e.l) * sw) + 'px'; } else WQ_BEAM.style.opacity = 0; }
   const DK = document.documentElement.classList.contains('dark') ? '#D4D4D4' : '#0D0F12', dots = '.'.repeat(1 + Math.floor(t / 300) % 3);
   if (WQ_NOTE && t < WQ_NOTE.until) return say(WQ_NOTE.txt, DK, 0);
   if (WQ_EDGE === 'end') return say('End of today’s feed. All stories scanned', DK, 520);
