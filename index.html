@@ -1272,7 +1272,7 @@ html:not(.tvm) .roll3d{background:var(--paper)}   /* the flat board slides under
     var nav = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type || 'navigate';
     day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
     var seen = null; try { seen = localStorage.getItem('wireIntroDay'); } catch (e) {}
-    play = themeOnly && !q.get('s') && !tv && !matchMedia('(prefers-reduced-motion: reduce)').matches && nav === 'navigate' && seen !== day;
+    play = themeOnly && !q.get('s') && !tv && !matchMedia('(prefers-reduced-motion: reduce)').matches && (q.get('intro') === '1' || (nav === 'navigate' && seen !== day));
   } catch (e) { play = false; }
   if (play) { H.classList.add('wi', 'wi-pre'); window.WI_DAY = day; }
 })();
@@ -3658,6 +3658,8 @@ const QRC = {};
 function qrSvg(text) {
   if (typeof RESA !== 'undefined' && RESA) return EYE_SVG;
   if (QRC[text] !== undefined) return QRC[text];
+  // the regular view never shows the codes (it shows the eye), so it skips making them: about a fifth of the load on a phone
+  if (!TVMODE && document.documentElement.classList.contains('pub')) return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33"></svg>';
   try {
     const q = qrcode(0, 'L'); q.addData(text); q.make();
     const n = q.getModuleCount(), z = TVMODE ? 1 : 2; let d = '';
@@ -3954,25 +3956,24 @@ function measure() {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(() => { try { cmpSizeAll(); } catch (e) {} }, 100));
 const CMPH = {};
 function cmpSizeAll() {
+  // Every compare card is sized to its tallest slide. Read first, then write every trial copy at once, then read them all:
+  // the page lays out once, instead of once per slide of every card (which froze a phone for a second or more)
   let css = '';
   const u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10;
+  const jobs = [];
   track.querySelectorAll('.story.cmp').forEach(card => {
-    const E = CMPS[card.dataset.cmp]; if (!E) return;
+    const E = CMPS[card.dataset.cmp]; if (!E || !E.hs.length) return;
     if (!card.offsetParent) return; // a hidden copy (search, lead-in) can't be measured; keep the size it already has
-    const box = card.querySelector('.cmt'), h = card.querySelector('h3'), p = card.querySelector('p.sum'), hs = card.querySelector('.cmh'), ss = card.querySelector('.cms');
-    const keep = [hs.textContent, ss.textContent];
-    h.style.cssText = ''; p.style.cssText = ''; box.style.cssText = ''; // measure at the normal text size, never a size left over from filling a short slide
-    box.style.height = 'auto'; h.style.height = 'auto'; p.style.height = 'auto'; h.style.overflow = 'visible'; p.style.overflow = 'visible';
-    let need = 0; const hts = [];
-    E.hs.forEach(x => {
-      hs.textContent = x.headline || ''; ss.textContent = x.summary || '';
-      hts.push(box.scrollHeight);
-    });
-    need = hts.length ? Math.max(...hts) + 0.4 * u : 0;
-    hs.textContent = keep[0]; ss.textContent = keep[1];
-    box.style.height = ''; h.style.cssText = ''; p.style.cssText = '';
-    if (need > u * 4) CMPH[card.dataset.cmp] = Math.max(CMPH[card.dataset.cmp] || 0, Math.ceil(need));
+    const box = card.querySelector('.cmt'); if (!box) return;
+    jobs.push({ card, box, E, w: box.getBoundingClientRect().width });
   });
+  jobs.forEach(j => { j.cl = j.E.hs.map(x => { const c = j.box.cloneNode(true); c.removeAttribute('id');
+    c.style.cssText = `position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;box-sizing:border-box;width:${j.w}px;height:auto !important`;
+    c.querySelectorAll('h3,p.sum').forEach(k => k.style.cssText = 'height:auto;overflow:visible');
+    const hs = c.querySelector('.cmh'), ss = c.querySelector('.cms'); if (hs) hs.textContent = x.headline || ''; if (ss) ss.textContent = x.summary || '';
+    j.box.parentElement.appendChild(c); return c; }); });
+  jobs.forEach(j => { j.need = Math.max(...j.cl.map(c => c.scrollHeight)) + 0.4 * u; });
+  jobs.forEach(j => { j.cl.forEach(c => c.remove()); const k = j.card.dataset.cmp; if (j.need > u * 4) CMPH[k] = Math.max(CMPH[k] || 0, Math.ceil(j.need)); });
   Object.keys(CMPH).forEach(k => { css += `.story.cmp[data-cmp="${k}"] .cmt{height:${CMPH[k]}px !important}`; });
   let st = document.getElementById('cmpH'); if (!st) { st = document.createElement('style'); st.id = 'cmpH'; document.head.appendChild(st); }
   st.textContent = css;
@@ -4188,7 +4189,8 @@ function render() {
     // The feed exists once. A short lead-in of its first screen follows it so the endless loop never shows a seam
     track.insertAdjacentHTML('beforeend', one.replace('<div class="copy">', '<div class="copy tail">'));
     const tail = track.lastElementChild, lim = view.clientHeight + U * 24, tt = tail.getBoundingClientRect().top;
-    [...tail.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap')].reverse().forEach(el => { if (el.getBoundingClientRect().top - tt > lim) el.remove(); });
+    // measure every piece first, then remove: removing between reads forced a full layout per piece (seconds on a phone)
+    const cut = [...tail.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap')].filter(el => el.getBoundingClientRect().top - tt > lim); cut.forEach(el => el.remove());
   } else track.innerHTML = one.repeat(need);
   measure(); qrSnap(); rollIndex(); tvStart(); addEyes(track); setTimeout(openFromHash, 0);
   WSBV = 0; wsPlace(); if (wsAny()) wsApply(true);
@@ -4246,9 +4248,12 @@ function wiRide(s) { const ST = WI_ST, P = ST.P, v1 = ST.v1, vc = ST.vc;
   const x = (s - WI_UP - P.tb) / P.td;
   if (x < 1) return P.oc + v1 * P.td * x + (vc - v1) * P.td * (x - wiS(x));
   return v1 * P.td * (x - 1); }
+function wiLvh() { const p = document.createElement('div'); p.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:100lvh;visibility:hidden;pointer-events:none'; document.body.appendChild(p); const h = p.getBoundingClientRect().height; p.remove(); return h || innerHeight; }
 function wiStartRoll() {
   WI.B = wiBarGeo(); const note = WI.note;
-  const vb = Math.min(view.getBoundingClientRect().bottom, innerHeight) - 2, keep = WI.keep;
+  // start the first story below the whole screen, not just the visible part: a phone browser's toolbar floats over the page,
+  // and a story parked just under the visible part showed through the toolbar before the intro's words appeared
+  const vb = Math.min(view.getBoundingClientRect().bottom, Math.max(innerHeight, wiLvh())) + U * 2, keep = WI.keep;
   const os = WI.B.ft - vb, v1 = keep * U, vc = Math.max(v1 * 2, WI_CRUISE * U), ob = os + WI_UP * (v1 + vc) / 2;
   // the slowdown starts as the story reaches the note and is spread over the whole way from there to the search bar
   const oc = Math.max(ob, Math.min(0, WI.B.ft - (note._t + note._h))), tb = (oc - ob) / vc, td = -oc / ((v1 + vc) / 2);
@@ -4421,7 +4426,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '202611271444';
+const BUILD = '202611271517';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 // Story numbers: each story's #day-order, given the first time it reached the board (numbers.json, kept by tools/story_numbers.py)
@@ -5403,7 +5408,9 @@ function wqSeam() {
   } finally { if (probe) probe.remove(); }
   document.documentElement.style.setProperty('--wlov', (-WQ_SEAM.ov) + 'px'); wsPlace();
 }
-addEventListener('resize', () => { WQ_SEAM = null; document.documentElement.style.removeProperty('--wlov'); wqTell('Recalibrating scanner', 1200); });
+// only a real change of width re-measures the scanner. A phone browser's toolbar sliding in or out changes only the height,
+// and used to drop the bar's measurement on every slide, which made the search bar snap
+{ let qw = innerWidth; addEventListener('resize', () => { if (Math.abs(innerWidth - qw) < 2) return; qw = innerWidth; WQ_SEAM = null; document.documentElement.style.removeProperty('--wlov'); wqTell('Recalibrating scanner', 1200); }); }
 function wsBite(y) {
   if (TVMODE || !WSH) return;
   const box = WSH.querySelector('.wsearch'); if (!box) return;
@@ -5502,16 +5509,22 @@ function wqFinish(t) {
     [g.l, g.r, g.bl, g.br].forEach(p => { p.style.opacity = 0; p.style.stroke = ''; }); if (g.gl) { g.gl.remove(); g.gl = null; }
     return false; });
 }
+let WQ_SAYK = '', WQ_LG = null;
 function wqFrame() {
   requestAnimationFrame(wqFrame);
   if (TVMODE || !WQ_Q || !WQ_Q.isConnected || WSOPEN || !WSH) return;
   const t = performance.now(); wqFinish(t);
   const inp = WSH.querySelector('input'); if (!inp) return;
   if (!WQ_LOG || !WQ_Q.contains(WQ_LOG)) { WQ_LOG = document.createElement('span'); WQ_LOG.className = 'wq-log'; WQ_LOG.innerHTML = '<span></span><span style="position:absolute;visibility:hidden"></span>'; WQ_CAR = document.createElement('b'); WQ_CAR.className = 'wq-car'; WQ_Q.appendChild(WQ_LOG); WQ_Q.appendChild(WQ_CAR); }
-  const fs = getComputedStyle(inp).fontSize, x0 = inp.offsetLeft; WQ_LOG.style.left = (x0 - U) + 'px'; WQ_LOG.style.paddingLeft = U + 'px'; WQ_LOG.style.fontSize = fs; WQ_LOG.style.right = (WQ_CNTEL ? WQ_CNTEL.offsetWidth + U * 3 : U * 12) + 'px';
-  const tx = WQ_LOG.firstChild, ms = WQ_LOG.lastChild, room = WQ_LOG.clientWidth - U * 1.6, still = WQ_RM.matches;
+  // the log's place and room are read a few times a second, not every frame: each read forced the page to lay out again
+  if (!WQ_LG || WQ_LG.log !== WQ_LOG || t - WQ_LG.t > 600) { const fs = getComputedStyle(inp).fontSize, x0 = inp.offsetLeft, rt = (WQ_CNTEL ? WQ_CNTEL.offsetWidth + U * 3 : U * 12) + 'px';
+    if (!WQ_LG || WQ_LG.x0 !== x0 || WQ_LG.fs !== fs || WQ_LG.rt !== rt || WQ_LG.log !== WQ_LOG) { WQ_LOG.style.left = (x0 - U) + 'px'; WQ_LOG.style.paddingLeft = U + 'px'; WQ_LOG.style.fontSize = fs; WQ_LOG.style.right = rt; }
+    WQ_LG = { t, x0, fs, rt, log: WQ_LOG, room: WQ_LOG.clientWidth - U * 1.6 }; }
+  const x0 = WQ_LG.x0, tx = WQ_LOG.firstChild, ms = WQ_LOG.lastChild, room = WQ_LG.room, still = WQ_RM.matches;
   const fit = s => { ms.textContent = s; if (ms.offsetWidth <= room) return s; const w = s.split(' '); while (w.length > 1) { w.pop(); ms.textContent = w.join(' ') + '…'; if (ms.offsetWidth <= room) break; } return w.join(' ').replace(/[,:]$/, '') + '…'; };
-  const say = (txt, col, blink) => { document.documentElement.classList.add('wq-has'); tx.textContent = fit(txt); WQ_CAR.style.background = col; WQ_CAR.style.left = (x0 + tx.offsetWidth + 3) + 'px'; WQ_CAR.style.opacity = blink && !still ? (Math.floor(t / blink) % 2 ? 1 : 0) : 1; };
+  // only measure when the words or the room change: measuring text every frame forced a layout each frame
+  const say = (txt, col, blink) => { const k = txt + '|' + room + '|' + x0; if (WQ_SAYK !== k) { WQ_SAYK = k; document.documentElement.classList.add('wq-has'); tx.textContent = fit(txt); WQ_CAR.style.left = (x0 + tx.offsetWidth + 3) + 'px'; }
+    if (WQ_CAR.__c !== col) { WQ_CAR.__c = col; WQ_CAR.style.background = col; } const ov = blink && !still ? (Math.floor(t / blink) % 2 ? 1 : 0) : 1; if (WQ_CAR.__o !== ov) { WQ_CAR.__o = ov; WQ_CAR.style.opacity = ov; } };
   if (WQ_BEAM) { const e = WQ_ENG && t - WQ_ENG.t < 160 ? WQ_ENG : null;
     if (e && !still) { const sw = (t % 260) / 260; WQ_BEAM.style.opacity = 1; WQ_BEAM.style.left = e.l + 'px'; WQ_BEAM.style.width = Math.max(0, (e.r - e.l) * sw) + 'px'; } else WQ_BEAM.style.opacity = 0; }
   const DK = document.documentElement.classList.contains('dark') ? '#D4D4D4' : '#0D0F12', dots = '.'.repeat(1 + Math.floor(t / 300) % 3);
