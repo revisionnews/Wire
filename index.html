@@ -1219,6 +1219,28 @@ html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.
 .wtg,.wt2 button{border:0 !important;background:#D0D0D0}
 .wtg.on{background:var(--tb);color:var(--tf)}
 .wt2 button.on{background:var(--ink);color:var(--paper)}
+</style>
+<style>
+/* Welcome intro (plays once per San Antonio day on plain visits) and the note that waits above the first story */
+html.wi-pre #view{visibility:hidden}
+html.wi .mast > #date,html.wi .mast > .who{opacity:0}
+html.wi .mast::after{opacity:0 !important}
+html.wi .wsh,html.wi #roll3d,html.wi .pins{opacity:0}
+html.wi .mast .ctr .logo,html.wi .mast .ctr .ws{opacity:0}
+html.wi .mast .ctr,html.wi .mast .who,html.wi .wsh{pointer-events:none !important}
+html.wi #alert{visibility:hidden !important}
+.wi-line{position:fixed;left:0;top:0;z-index:46;background:var(--ink,#0D0F12);pointer-events:none}
+.wi-note{position:fixed;left:0;top:0;z-index:43;box-sizing:border-box;pointer-events:none;font-family:'Hando',sans-serif;color:var(--ink,#0D0F12);text-align:center;opacity:0}
+.wi-note .k{font-weight:900;text-transform:uppercase;letter-spacing:.16em;font-size:.7em;margin-bottom:.9em}
+.wi-note p{margin:0 auto;max-width:22em;font-weight:700;line-height:1.34;color:var(--muted,var(--ink,#2a2a2a));opacity:.88;text-wrap:balance}
+.wi-note p + p{margin-top:.6em}
+.wi-note .w{display:inline-block;opacity:0;transform:perspective(900px) rotateX(80deg);transform-origin:50% 100%;transition:transform .34s cubic-bezier(.3,.8,.3,1),opacity .34s cubic-bezier(.3,.8,.3,1)}
+.wi-note .w.on{opacity:1;transform:none}
+.wi-note.fast .w.on.gone{transition-duration:.12s !important;transition-delay:0s !important}
+.wi-note .w.on.gone{opacity:0;transform:perspective(900px) rotateX(-80deg);transition-duration:.22s;transition-timing-function:ease-in}
+.wi-note .wi-go{all:unset;display:inline-block;margin-top:1.2em;font-family:'Hando',sans-serif;font-weight:900;font-size:.6em;letter-spacing:.16em;text-transform:uppercase;color:var(--ink,#0D0F12);border-bottom:2px solid var(--ink,#0D0F12);padding:.3em 0 .25em;cursor:pointer;pointer-events:auto;transition:opacity .22s}
+.wi-note .wi-go:focus-visible{outline:2px solid var(--ink,#0D0F12);outline-offset:4px}
+.wi-note .wi-go.gone{opacity:0;pointer-events:none}
 /* Press roll, per story: the top of each story curls over a drum just under the line, narrowing like the drum reference. No band, no dark shade. */
 .mast::before{display:none !important}
 html body #view.view{top:calc(var(--u)*14 + 7px) !important}
@@ -1237,7 +1259,25 @@ html:not(.tvm) .roll3d{background:var(--paper)}   /* the flat board slides under
 .roll3d .sin .mason > *,.roll3d .sin .copy > :not(.mason){position:absolute !important;margin:0 !important}
 .roll3d *,.roll3d *::before,.roll3d *::after{animation:none !important;transition:none !important}
 .roll3d .w{opacity:1 !important;transform:none !important}
-</style></head>
+</style>
+<script>
+// Decided before first paint: does this visit get the intro? Only a plain visit to the board, once per San Antonio calendar day.
+(function () {
+  var H = document.documentElement, play = false, day = '';
+  try {
+    var h = decodeURIComponent((location.hash || '').slice(1)), q = new URLSearchParams(location.search);
+    var themeOnly = !h || h.split('-').every(function (t) { return t === 'dark'; });
+    var tv = /\/code\/?$/.test(location.pathname) || /[?&]tv=1/.test(location.search);
+    try { if (sessionStorage.getItem('wireMode') === 'tv') tv = true; } catch (e) {}
+    var nav = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type || 'navigate';
+    day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
+    var seen = null; try { seen = localStorage.getItem('wireIntroDay'); } catch (e) {}
+    play = themeOnly && !q.get('s') && !tv && !matchMedia('(prefers-reduced-motion: reduce)').matches && nav === 'navigate' && seen !== day;
+  } catch (e) { play = false; }
+  if (play) { H.classList.add('wi', 'wi-pre'); window.WI_DAY = day; }
+})();
+</script>
+</head>
 <body>
 <div class="stage" id="stage">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="hgr" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter><filter id="satk" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix in="SourceGraphic" type="matrix" values="1 -1 0 0 0  0 1 -1 0 0  -1 0 1 0 0  0 0 0 1 0" result="a"/><feColorMatrix in="SourceGraphic" type="matrix" values="-1 1 0 0 0  0 -1 1 0 0  1 0 -1 0 0  0 0 0 1 0" result="b"/><feComposite in="a" in2="b" operator="arithmetic" k2="1" k3="1" result="d"/><feColorMatrix in="d" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  6.5 6.5 6.5 0 .43" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></svg>
@@ -4135,6 +4175,7 @@ function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U
 function render() {
   readU();
   if (!data) return;
+  const wo = off, wrt = performance.now();
   try { tagMore(data); } catch (e) {}
   speed = Number(data.scroll_speed) || 1.1;
   buildCopy(data); balanceCols();
@@ -4156,24 +4197,186 @@ function render() {
   if (data.alert) { al.textContent = data.alert; al.classList.add('on'); } else { al.classList.remove('on'); }
   updateStamp();
   setTimeout(startCmp, 30);
+  wiAfterRender(wo, wrt);   // the intro and the waiting note keep their place through a data refresh
 }
 
-// First load: the board opens empty, with all of its content waiting just below the screen, and glides up into place
-// before the normal roll takes over. Nothing on the cards animates; the whole sheet simply starts lower. Plays once per visit.
-let INTRO = false, INTRO_DONE = false;
-function intro() {
-  INTRO_DONE = true;
-  if (document.documentElement.classList.contains('boot') || POP || !track.animate) return;
-  const vh = view.clientHeight; if (!vh) return;
-  INTRO = true; const keep = speed; speed = 0; vel = 0; tvel = 0;
-  const tva = typeof TVA !== 'undefined' && TVA; if (tva) { tva.pause(); tva.currentTime = 0; }
-  const dur = 3200, a = track.animate([{ transform: 'translateY(' + vh + 'px)' }, { transform: 'translateY(0)' }], { duration: dur, easing: 'cubic-bezier(.25,.1,.25,1)', composite: 'add', fill: 'backwards' });
-  a.onfinish = () => { INTRO = false; speed = keep; lastIn = performance.now() - 3000; if (tva && tva === TVA) tva.play(); };
-  // hold the sheet below the screen until the page has fully loaded and drawn, then let it glide
-  a.pause(); a.currentTime = 0;
-  const go = () => setTimeout(() => requestAnimationFrame(() => a.play()), 350);
-  const fr = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  if (document.readyState === 'complete') fr.then(go); else addEventListener('load', () => fr.then(go), { once: true });
+// Welcome intro (once per San Antonio day, plain visits only) and the note that waits above the first story.
+// It moves the page's own header, board and search bar; the only new things on the page are the rule the mark draws on its way up
+// and the two notes. The board moves only through tick(); the notes are eaten right after the board is drawn, in the same frame.
+let INTRO = false, WI_ACTIVE = false, WI_ST = null, WI_MIN = 0, WI_N2 = false;
+const WI = { play: false, keep: 1.1, t0: 0, ready: false, G: null, landed: null, paused: null, R: null, B: null, EV: { o: null, t: 0, v: 0 }, note: null, note2: null, line: null, timers: [] };
+const wiCl = x => Math.max(0, Math.min(1, x)), wiK = (t, a, d) => wiCl((t - a) / d);
+const wiEio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, wiEo = x => 1 - Math.pow(1 - x, 3);
+const wiS = x => x * x * x - x * x * x * x / 2;   // integral of smoothstep from 0 to x
+const WI_GLIDE = 1200, WI_UP = 3, WI_CRUISE = 8, WI_HOLD = WI_GLIDE + 250 + 1500;
+const wiEls = () => { const mast = document.querySelector('.mast'), ctr = mast.querySelector('.ctr'); return { mast, ctr, logo: ctr.querySelector('.logo'), ws: ctr.querySelector('.ws'), date: document.getElementById('date'), who: mast.querySelector('.who') }; };
+const wiBars = () => [WSH, document.getElementById('roll3d'), document.querySelector('.pins')].filter(Boolean);
+// the lowest the board may go: the start of the roll during the intro, the waiting note after it, otherwise the first story
+const wiLow = () => WI_ST ? WI_ST.os : WI_N2 ? Math.min(0, WI_MIN) : 0;
+function wiNote(html) { const n = document.createElement('div'); n.className = 'wi-note'; n.innerHTML = html;
+  n.querySelectorAll('.k,p').forEach(el => { el.innerHTML = el.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' '); });
+  n.words = [...n.querySelectorAll('.w')]; document.body.appendChild(n); return n; }
+function wiFirstTop() { const f = wqFeed().sort((a, b) => a.t - b.t)[0]; return f ? f.el.getBoundingClientRect().top + off : 0; }
+function wiWordsAt(n) { const r0 = n.getBoundingClientRect(); n.words.forEach(w => { const r = w.getBoundingClientRect(); w._b = r.bottom; w._x = (r.left + r.width / 2 - r0.left) / Math.max(1, r0.width); }); }
+function wiGeo() {
+  const { mast, ctr } = wiEls(); ctr.style.translate = ''; ctr.style.scale = '';
+  const r = ctr.getBoundingClientRect(), m = mast.getBoundingClientRect(), st = document.getElementById('stage').getBoundingClientRect();
+  const ca = getComputedStyle(mast, '::after'), lh = parseFloat(ca.height) || 2;
+  const L = { l: m.left + (parseFloat(ca.left) || 0), r: m.right - (parseFloat(ca.right) || 0) }; L.t = m.bottom - (parseFloat(ca.bottom) || 0) - lh;
+  const s = Math.max(1, Math.min(1.75, st.width * .6 / r.width)), gap = Math.max(1, L.t - r.bottom), cy = st.top + st.height * .35;
+  return { r, L, lh, s, gap, cy, dx: st.left + st.width / 2 - (r.left + r.width / 2), dy0: cy - (r.top + r.height / 2) };
+}
+function wiPlace(g) { const R = WI.R, { ctr } = wiEls(), sc = R.s + (1 - R.s) * g, dy = R.dy0 * (1 - g), dx = R.dx * (1 - g);
+  ctr.style.translate = `${dx}px ${dy}px`; ctr.style.scale = sc;
+  const cy = R.r.top + R.r.height / 2 + dy, bot = cy + R.r.height * sc / 2;
+  return { lt: bot + (U * .9 + (R.gap - U * .9) * g), cx: R.r.left + R.r.width / 2 + dx }; }
+// where the bar, the first story and the notes sit: the welcome where the mark was, the waiting note centered above the first story
+function wiBarGeo() {
+  const br = WSH.querySelector('.wsearch').getBoundingClientRect(), ft = wiFirstTop(), mb = document.querySelector('.mast').getBoundingClientRect().bottom;
+  const fs = Math.max(16, Math.min(20, U * 2.3 + 6));
+  [WI.note, WI.note2].forEach(n => { if (!n) return; Object.assign(n.style, { left: br.left + 'px', width: br.width + 'px', fontSize: fs + 'px', padding: `0 ${U * 2}px`, opacity: 1 }); n._h = n.offsetHeight; });
+  if (WI.note) { const cy = WI.R ? WI.R.cy : innerHeight * .35; WI.note._t = Math.max(mb + U * 10, cy - WI.note._h / 2); WI.note.style.top = WI.note._t + 'px'; wiWordsAt(WI.note); }
+  const pad = Math.max(U * 12, 48);
+  if (WI.note2) { WI.note2._t = br.bottom + pad; WI.note2.style.top = WI.note2._t + 'px'; wiWordsAt(WI.note2); WI_MIN = Math.min(0, ft - (WI.note2._t + WI.note2._h + pad)); }
+  return { ft };
+}
+function wiRide(s) { const ST = WI_ST, P = ST.P, v1 = ST.v1, vc = ST.vc;
+  if (s < WI_UP) return ST.os + v1 * s + (vc - v1) * WI_UP * wiS(s / WI_UP);
+  if (s < WI_UP + P.tb) return P.ob + vc * (s - WI_UP);
+  const x = (s - WI_UP - P.tb) / P.td;
+  if (x < 1) return P.oc + v1 * P.td * x + (vc - v1) * P.td * (x - wiS(x));
+  return v1 * P.td * (x - 1); }
+function wiStartRoll() {
+  WI.B = wiBarGeo(); const note = WI.note;
+  const vb = Math.min(view.getBoundingClientRect().bottom, innerHeight) - 2, keep = WI.keep;
+  const os = WI.B.ft - vb, v1 = keep * U, vc = Math.max(v1 * 2, WI_CRUISE * U), ob = os + WI_UP * (v1 + vc) / 2;
+  // the slowdown starts as the story reaches the note and is spread over the whole way from there to the search bar
+  const oc = Math.max(ob, Math.min(0, WI.B.ft - (note._t + note._h))), tb = (oc - ob) / vc, td = -oc / ((v1 + vc) / 2);
+  WI_ST = { os, o: os, last: os, ts: performance.now(), t0: performance.now() + WI_HOLD, v1, vc, P: { ob, oc, tb, td } };
+  off = os; setOff(off);
+  requestAnimationFrame(() => document.documentElement.classList.remove('wi-pre'));
+  INTRO = false;
+}
+// put everything the intro touched back the way the site had it
+function wiRelease() {
+  const H = document.documentElement, E = wiEls();
+  WI_ACTIVE = false; WI_ST = null; INTRO = false; speed = WI.keep;
+  H.classList.remove('wi', 'wi-pre'); if (WI.line) WI.line.remove(); if (WI.note) { WI.note.remove(); WI.note = null; }
+  [E.logo, E.ws, E.date, E.who].forEach(n => n && (n.style.opacity = ''));
+  [WSH, E.who, E.ctr].forEach(n => { if (n) n.inert = false; });
+  E.ctr.style.translate = ''; E.ctr.style.scale = '';
+}
+function wiDone() {
+  wiRelease(); lastIn = performance.now() - 4000;
+  wiBars().forEach(n => { n.style.opacity = 1; });   // the bar finishes its fade, then lets go of its inline styles
+  setTimeout(() => wiBars().forEach(n => { n.style.transition = ''; n.style.opacity = ''; }), 1800);
+  wiWaiting();
+}
+// end at once: a story opened, the screen changed shape, the page came back from the back button, or there was nothing to show
+function wiAbort() {
+  if (!WI_ACTIVE) return;
+  wiRelease(); wiBars().forEach(n => { n.style.transition = ''; n.style.opacity = ''; });
+  off = 0; vel = 0; tvel = 0; lastIn = performance.now() - 4000; if (RC && RC.length) setOff(0);
+  wiWaiting();
+}
+// the intro's own visuals: the mark, the glide, the rule, the corners and the bar fading in; driven from tick()
+function wiFrame() {
+  if (!WI_ACTIVE || !WI.t0 || WI.paused !== null) return;
+  const t = performance.now() - WI.t0, E = wiEls();
+  if (!WI.R) WI.R = wiGeo();
+  E.logo.style.opacity = wiEo(wiK(t, 150, 650)); E.ws.style.opacity = wiEo(wiK(t, 450, 600));
+  [WSH, E.who, E.ctr].forEach(n => { if (n && !n.inert) n.inert = true; });   // keyboard can't reach what is hidden
+  if (WI.G === null && !WI.ready && t > 8000) return wiAbort();   // nothing to show: step aside and let the site show its own state
+  if (WI.G === null && WI.ready && t > 2300) { WI.G = t; wiStartRoll();
+    try { localStorage.setItem('wireIntroDay', window.WI_DAY || ''); } catch (e) {}
+    WI.note.words.forEach((w, i) => { w.style.transitionDelay = (WI_GLIDE + 250 + i * 30) + 'ms'; w.classList.add('on'); });
+    WI.timers.push(setTimeout(() => WI.note && WI.note.words.forEach(w => { w.style.transitionDelay = (w._x * 90).toFixed(0) + 'ms'; }), WI_GLIDE + 250 + WI.note.words.length * 30 + 400)); }
+  const R = WI.R, g = WI.G === null ? 0 : wiEio(wiK(t, WI.G, WI_GLIDE)), p = wiPlace(g);
+  const half = g * (R.L.r - R.L.l) / 2, cx = p.cx + ((R.L.l + R.L.r) / 2 - p.cx) * g;
+  Object.assign(WI.line.style, { left: (cx - half) + 'px', width: half * 2 + 'px', top: (g >= 1 ? R.L.t : p.lt) + 'px', height: R.lh + 'px', opacity: g > 0 ? 1 : 0 });
+  if (WI.G !== null && t >= WI.G + WI_GLIDE) { if (WI.landed === null) WI.landed = t; E.date.style.opacity = wiEo(wiK(t, WI.landed + 50, 550)); E.who.style.opacity = wiEo(wiK(t, WI.landed + 180, 550)); }
+  if (WI_ST && WI.B) {
+    // the search bar stays away until the story has covered the whole note, then fades in
+    const covered = WI.B.ft - off <= WI.note._t + 1;
+    wiBars().forEach(n => { n.style.transition = WI_ST.free ? 'opacity .45s ease' : 'opacity 1.6s cubic-bezier(.45,0,.25,1)'; n.style.opacity = covered ? 1 : 0; });
+    if (WI_ST.end) wiDone();
+  }
+}
+// the stories eat a note: clipped at the first story's top edge, each word flapping away just before the edge reaches it
+function wiEat(n, sy) {
+  n.style.clipPath = `inset(0 0 ${Math.max(0, n._t + n._h - sy).toFixed(1)}px 0)`;
+  const v = WI.EV.v, lead = U * 1.2 + Math.min(Math.max(0, v) * .05, U * 5);
+  n.classList.toggle('fast', v > U * 40);
+  n.words.forEach(w => { if (w.classList.contains('on')) w.classList.toggle('gone', sy < w._b + lead); });
+  const b = n.querySelector('.wi-go'); if (b) { const g = sy < b.getBoundingClientRect().bottom + lead; b.classList.toggle('gone', g); b.tabIndex = g ? -1 : 0; }
+}
+function wiEatNow(ts) {
+  if (!WI.B) return;
+  const EV = WI.EV; if (EV.o !== null && ts > EV.t) { const v = (off - EV.o) / ((ts - EV.t) / 1000); EV.v = EV.v * .5 + v * .5; } EV.o = off; EV.t = ts;
+  if (WI_ST && WI.note) wiEat(WI.note, WI.B.ft - off);
+  else if (WI_N2 && WI.note2) { const hide = WSOPEN || POP; WI.note2.style.visibility = hide ? 'hidden' : ''; if (!hide) wiEat(WI.note2, WI.B.ft - off); }
+}
+function wiWaiting() {
+  if (!WI.note2 || WI_N2) return;
+  if (!(RC && RC.length && WSH && WSH.querySelector('.wsearch'))) { setTimeout(wiWaiting, 120); return; }
+  WI.B = wiBarGeo();
+  WI.note2.style.visibility = ''; WI.note2.words.forEach(w => { w.style.transitionDelay = (w._x * 90).toFixed(0) + 'ms'; w.classList.add('on'); });
+  WI_N2 = true; wiEatNow(performance.now());
+}
+// called by tick() before it moves the board: who drives the board this frame
+function wiPre() {
+  if (WI_ST && !WI_ST.free && (dragY !== null || lastIn > WI_ST.ts || Math.abs(off - WI_ST.last) > .01)) { WI_ST.free = true; speed = WI.keep; }   // a hand on the board: it is the reader's
+  if (WI_ACTIVE && (!WI_ST || !WI_ST.free)) { if (speed) WI.keep = speed; speed = 0; vel = 0; tvel = 0; INTRO = !WI_ST; off = WI_ST ? (WI.paused === null ? wiRide(Math.max(0, (performance.now() - WI_ST.t0) / 1000)) : WI_ST.o) : 0; if (WI_ST) WI_ST.o = off; }
+}
+// called by tick() right after the board is drawn, in the same frame
+function wiPost(ts) {
+  if (WI_ST) { if (off >= 0) WI_ST.end = true; WI_ST.last = off; }
+  wiFrame(); wiEatNow(ts);
+}
+// a data refresh redraws the board and sends it to the top; while the intro plays or the waiting note shows, keep it where it was
+function wiAfterRender(o, rt) {
+  if (WI_ACTIVE && WI_ST) { const d = performance.now() - rt; WI_ST.t0 += d; WI_ST.ts += d; WI.t0 += d; off = o; setOff(off); WI.B.ft = wiFirstTop(); }
+  else if (WI_N2 && o < 0) { off = o; setOff(off); }
+  if (WI_N2) requestAnimationFrame(() => { WI.B = wiBarGeo(); });
+}
+function wiInit() {
+  const H = document.documentElement;
+  WI.play = H.classList.contains('wi');
+  // a story link, the archive, the /m/ redirect or TV mode never get the intro, even if the early check let it through
+  if (WI.play && (H.classList.contains('boot') || POP || TVMODE || BOOT_ID || BOOT_S)) { WI.play = false; H.classList.remove('wi', 'wi-pre'); }
+  WI_ACTIVE = WI.play;
+  if (WI.play) { INTRO = true;
+    WI.note = wiNote('<div class="k">Revision’s wire service</div><p>Local news, events and city business from San Antonio, in one feed.</p><p>We scan every story as it comes in, and people check it before it’s marked verified.</p><p>Let it roll, or scroll to take over.</p>');
+    WI.line = document.createElement('i'); WI.line.className = 'wi-line'; document.body.append(WI.line); }
+  if (!TVMODE) { const n2 = WI.note2 = wiNote('<div class="k">Revision’s wire service</div><p>Local news, events and city business from San Antonio, in one feed.</p><button type="button" class="wi-go">View archive</button>');
+    n2.style.visibility = 'hidden'; const go2 = n2.querySelector('.wi-go'); go2.tabIndex = -1;
+    go2.addEventListener('pointerdown', e => e.stopPropagation());
+    go2.addEventListener('click', () => { const c = cardFor('archive'); if (c) openStory(c, 'archive'); }); }
+  // a real change of screen shape re-measures before the glide, and ends the intro after it
+  let SW = innerWidth, SH = innerHeight;
+  addEventListener('resize', () => {
+    const big = Math.abs(innerWidth - SW) > 1 || Math.abs(innerHeight - SH) > 120; SW = innerWidth; SH = innerHeight;
+    if (WI_ACTIVE) { if (WI.G === null) { WI.R = null; setTimeout(() => { WI.R = null; }, 120); setTimeout(() => { WI.R = null; }, 400); } else if (big) wiAbort(); }
+    else if (WI_N2) requestAnimationFrame(() => { WI.B = wiBarGeo(); });
+  });
+  // a hidden tab holds the intro where it is and picks up from the same spot
+  document.addEventListener('visibilitychange', () => {
+    if (!WI_ACTIVE) return;
+    if (document.hidden) { if (WI.t0) WI.paused = performance.now(); return; }
+    if (WI.paused !== null) { const d = performance.now() - WI.paused; WI.paused = null; WI.t0 += d; if (WI_ST) { WI_ST.t0 += d; WI_ST.ts += d; } }
+  });
+  addEventListener('pageshow', e => { if (e.persisted && WI_ACTIVE) wiAbort(); });   // back button to a half played intro
+  (function wait() { if (data && RC && RC.length && copyH && WSH && WSH.querySelector('.wsearch')) { WI.ready = true; WI.keep = speed || WI.keep; if (!WI.play) wiWaiting();
+      // a story link that matches nothing used to leave the board hidden behind the boot screen: show the normal board instead
+      setTimeout(() => { if (H.classList.contains('boot') && !POP) { H.classList.remove('boot'); off = 0; vel = 0; tvel = 0; setOff(0); try { history.replaceState(null, '', location.pathname); } catch (e) {} } }, 2500);
+      return; } setTimeout(wait, 60); })();
+  if (WI.play) {
+    const fr = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    const begin = () => { if (!WI_ACTIVE || WI.t0 || document.hidden) return; WI.t0 = performance.now(); };
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) fr.then(begin); });   // opened in a background tab: waits until shown
+    const go = () => fr.then(begin);
+    if (document.readyState === 'complete') go(); else addEventListener('load', go, { once: true });
+  }
 }
 
 function updateStamp() {
@@ -4184,7 +4387,7 @@ function updateStamp() {
 }
 
 function tick(ts) {
-  wsUI();
+  wsUI(); wiPre();
   if (!last) last = ts;
   const dt = Math.min(0.1, (ts - last) / 1000); last = ts;
   const u = U;
@@ -4204,7 +4407,8 @@ function tick(ts) {
   // TV: the board steps a whole pixel at a time on the graphics chip; the drum follows on exactly those steps, drawn like the phone's,
   // so the only picture the TV keeps in graphics memory is the board itself (many small layers made it run out and blink)
   if (TVMODE) { const ro = Math.floor(off * DPR) / DPR; if (ro !== RLAST) { RLAST = ro; rollSync(ro); } }
-  else { rollSync(Math.round(off * DPR) / DPR + RSH); rollAlign(); if (typeof wsBite === 'function') wsBite(Math.round(off * DPR) / DPR); }
+  else { rollSync(Math.round(off * DPR) / DPR + RSH); rollAlign(); if (typeof wsBite === 'function' && !WI_ST) wsBite(Math.round(off * DPR) / DPR); }
+  wiPost(ts);
   requestAnimationFrame(tick);
 }
 
@@ -4217,7 +4421,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '202611271428';
+const BUILD = '202611271444';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 // Story numbers: each story's #day-order, given the first time it reached the board (numbers.json, kept by tools/story_numbers.py)
@@ -4312,6 +4516,7 @@ function glideTo(target, ms, done) {
   if (ms <= 0) { off = target; done && done(); } else requestAnimationFrame(step);
 }
 function openStory(card, id, instant) {
+  if (WI_ACTIVE) wiAbort();   // a story opening for any reason ends the intro first
   if (POP || !card) return;
   { const t = id === 'archive' ? 'Archive' : cardTitle(card); setTimeout(() => gc((BOOT_ID && BOOT_ID === id ? 'qr-scan/' : BOOT_S ? 'shared-link/' : 'open/') + (id === 'archive' ? 'archive' : slugOf(t)), t), 1500); }
   pinWin();
@@ -5173,7 +5378,7 @@ function wsBound() {
   if (!copyH) return;
   if (TVMODE || track.classList.contains('wsm')) { if (!track.classList.contains('wsm')) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } return; }
   const mx = wqBounded() ? wsMaxOff() : Infinity;
-  if (off < 0 || off > mx) { off = Math.max(0, Math.min(mx, off)); vel = 0; tvel = 0; }
+  const lo = wiLow(); if (off < lo || off > mx) { off = Math.max(lo, Math.min(mx, off)); vel = 0; tvel = 0; }
 }
 const wqAuto = () => dragY === null && performance.now() - lastIn > 1200 && Math.abs(vel) < U * 3;
 const wqTell = (txt, ms) => { WQ_NOTE = { txt, until: performance.now() + (ms || 1400) }; };
@@ -5505,6 +5710,7 @@ function wireTap() {
   }, true);
 }
 wireTap();
+wiInit();
 requestAnimationFrame(tick);
 if (document.fonts && document.fonts.status !== 'loaded' && document.fonts.ready) document.fonts.ready.then(() => { if (!window.__fontsDone) { window.__fontsDone = 1; render(); } });
 </script>
