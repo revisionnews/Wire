@@ -353,7 +353,7 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .story.sp .spl b{font-size:calc(var(--u)*2.16) !important}
 .story.sp .spl b.on{font-size:calc(var(--u)*2.7) !important}
 .story.sp h3{padding-right:calc(var(--u)*14) !important}
-.row.l-ev{border-top-width:calc(var(--u)*.8) !important;grid-template-columns:calc(var(--u)*9.6) minmax(0,1fr) !important}
+.row.l-ev{grid-template-columns:calc(var(--u)*9.6) minmax(0,1fr) !important}
 .row.l-ev .stub.cal{background:var(--blk) !important;color:var(--onblk);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.35);padding:calc(var(--u)*1) calc(var(--u)*.3) !important;text-align:center;border-left:0 !important;border-right:calc(var(--u)*.4) solid var(--ink) !important;line-height:1}
 .row.l-ev .stub.cal i{background:none !important;padding:0 !important;font:700 calc(var(--u)*1.25)/1 'Hando',sans-serif;letter-spacing:.2em;color:var(--onblk)}
 .row.l-ev .stub.cal b{flex:none;display:block;font:900 calc(var(--u)*5)/1 'Hando',sans-serif;margin:calc(var(--u)*.2) 0}
@@ -382,13 +382,13 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .story.cmp h3{height:auto !important;margin-bottom:calc(var(--u)*.8)}
 .story.cmp h3 .cmh,.story.cmp p.sum .cms{display:block;-webkit-line-clamp:unset}
 .story.cmp p.sum{flex:none;margin-bottom:0}
-.row.l-ev{border-top-width:calc(var(--u)*1.3) !important;border-right-width:var(--b) !important;border-bottom-width:var(--b) !important;border-left-width:var(--b) !important}
+.row.l-ev{border-width:calc(var(--u)*.4) !important}
 .tile{border-top-width:calc(var(--u)*1.3)}
 .story.cmp .spl{border-left-color:var(--pur) !important;border-bottom-color:var(--pur) !important}
 .story.cmp .tg,.story.cmp .tgb,.story.cmp .rw{border-color:var(--pur) !important}
 .story.cmp .tg{border-right:calc(var(--u)*.4) solid var(--pur)}
 .story.cmp{--pur:#A21CAF;border-width:calc(var(--u)*1.3) !important}
-.row.l-ev{border-top-width:calc(var(--u)*1.3) !important;border-right-width:calc(var(--u)*.3) !important;border-bottom-width:calc(var(--u)*.3) !important;border-left-width:calc(var(--u)*.3) !important;position:relative}
+.row.l-ev{border-width:calc(var(--u)*.4) !important;position:relative}
 .tile{border-width:calc(var(--u)*.3);border-top-width:calc(var(--u)*1.3)}
 .row.l-ev .stub.cal{border-right-width:calc(var(--u)*.3) !important}
 .row.l-ev .spl{position:absolute;right:0;top:0;display:flex;flex-direction:row;align-items:center;background:var(--paper);border-left:calc(var(--u)*.3) solid var(--ink);border-bottom:calc(var(--u)*.3) solid var(--ink);padding:calc(var(--u)*.3) calc(var(--u)*.65) calc(var(--u)*.35);gap:calc(var(--u)*.3);pointer-events:none;z-index:2}
@@ -425,7 +425,7 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 /* Event title (J2): one tab on the right of the card's top edge. The board's SPARC tag fades as the card is picked up. The calendar box
    (month and weekday over day and time) rises out of the stub, slides right and lands; its black bar then keeps going to the right edge,
    where the SPARC letters come back with the lit one spelled out in white. EVENT fills the space below. The stub folds away. */
-.popwrap .row.l-ev .evt{position:absolute;z-index:7;left:calc(-1 * var(--cbl));bottom:100%;width:var(--jw);height:var(--evh);display:flex;flex-direction:column;box-sizing:border-box;padding:0 !important;margin:0 !important;border:var(--cbl) solid #0D0F12;border-bottom:0;border-top:0;background:#fff;pointer-events:none;
+.popwrap .row.l-ev .evt{position:absolute;z-index:7;left:calc(-1 * var(--cbl));bottom:calc(100% + var(--cbt,0px) - var(--cbl,0px));width:var(--jw);height:var(--evh);display:flex;flex-direction:column;box-sizing:border-box;padding:0 !important;margin:0 !important;border:var(--cbl) solid #0D0F12;border-bottom:0;border-top:0;background:#fff;pointer-events:none;
   clip-path:inset(0 calc(100% - var(--cw)) 0 0);transform:translateY(var(--evh));opacity:0;
   transition:transform .3s cubic-bezier(.65,0,.35,1),opacity .1s ease,left .45s cubic-bezier(.65,0,.35,1),clip-path .45s cubic-bezier(.65,0,.35,1)}
 .popwrap .row.l-ev .evt.rise{transform:none;opacity:1}
@@ -444,7 +444,7 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .popwrap .row.l-ev .evt.bar .lt b{opacity:1}
 .popwrap .row.l-ev .evt .lt b.on{display:flex}
 .popwrap .row.l-ev .evt .lt .rest > span{display:block;white-space:nowrap;width:max-content}
-.popwrap .row.l-ev .evt .lt .rest{display:block;max-width:0;overflow:hidden;transition:max-width .45s cubic-bezier(.65,0,.35,1)}
+.popwrap .row.l-ev .evt .lt .rest{display:block;max-width:0;overflow:hidden;transition:max-width .34s cubic-bezier(.65,0,.35,1)}
 .popwrap .row.l-ev .evt.spell .lt b:not(.on){color:rgba(255,255,255,.3)}
 .popwrap .row.l-ev .evt.spell .lt .rest{max-width:var(--rw)}
 .popwrap .row.l-ev .evt .el .c1 b{font:900 calc(var(--u)*7.4)/.8 'Hando',sans-serif}
@@ -452,7 +452,7 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .popwrap .row.l-ev .evt .el em{margin-left:auto;padding-left:calc(var(--u)*2);align-self:center;font:900 calc(var(--u)*7.2)/.8 'Hando',sans-serif;font-style:normal;letter-spacing:.06em;margin-right:-.06em;text-transform:uppercase;color:var(--teal);opacity:0;transition:opacity .25s ease}
 .popwrap .row.l-ev .evt.ev .el em{opacity:1}
 .popwrap .row.l-ev.evx0{border-top-color:#fff !important;transition:border-top-color .3s ease}
-.popwrap .row.l-ev.evx{transition:grid-template-columns .45s cubic-bezier(.65,0,.35,1)}
+.popwrap .row.l-ev.evx{transition:grid-template-columns .34s cubic-bezier(.65,0,.35,1)}
 .popwrap .row.l-ev.evx{grid-template-columns:0px minmax(0,1fr) !important}
 .popwrap .row.l-ev .stub.cal{transition:opacity .15s ease,border-right-width .45s cubic-bezier(.65,0,.35,1)}
 .popwrap .row.l-ev .evt.ghost{visibility:hidden;transform:none !important;opacity:1 !important;clip-path:none !important;background:transparent !important;border-color:transparent !important;z-index:9}
@@ -466,17 +466,16 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .popwrap .row.l-ev .stub.cal.evmv > em{position:static !important;display:contents !important}.popwrap .row.l-ev .stub.cal.evmv .mo{left:0 !important;right:auto !important;top:0 !important;width:100% !important;height:var(--mh) !important;color:#fff !important;transition:height var(--md) cubic-bezier(.65,0,.35,1) !important;z-index:1}
 .popwrap .row.l-ev .stub.cal.evmv .mo .mt{position:absolute;white-space:nowrap;line-height:1;transition:left var(--md) cubic-bezier(.65,0,.35,1),top var(--md) cubic-bezier(.65,0,.35,1),font-size var(--md) cubic-bezier(.65,0,.35,1),letter-spacing var(--md) cubic-bezier(.65,0,.35,1)}
 .popwrap .row.l-ev .stub.cal.evmv .ex{display:inline-block;vertical-align:top;max-width:0;overflow:hidden;white-space:nowrap;transition:max-width var(--md) cubic-bezier(.65,0,.35,1)}
-.popwrap .row.l-ev .stub.cal:not(.evmv) .ex{display:none}.popwrap .row.l-ev::after{content:'';position:absolute;z-index:9;left:calc(-1 * var(--cbl,1px));right:calc(-1 * var(--cbl,1px));top:calc(-1 * var(--cbl,1px));height:var(--cbl,1px);background:#0D0F12;opacity:0;transition:opacity .3s ease;pointer-events:none}.popwrap .row.l-ev.evln::after{opacity:1;transition-delay:.3s}.popwrap .row.l-ev .stub.cal.evmv.full .ex{max-width:12em}.popwrap .row.l-ev .stub.cal.evmv > i,.popwrap .row.l-ev .stub.cal.evmv > b,.popwrap .row.l-ev .stub.cal.evmv .tm{z-index:3 !important}
+.popwrap .row.l-ev .stub.cal:not(.evmv) .ex{display:none}.popwrap .row.l-ev::after{content:'';position:absolute;z-index:9;left:calc(-1 * var(--cbl,1px));right:calc(-1 * var(--cbl,1px));top:calc(-1 * var(--cbt,1px));height:var(--cbl,1px);background:#0D0F12;opacity:0;transition:opacity .22s ease;pointer-events:none}.popwrap .row.l-ev.evln::after{opacity:1;transition-delay:.2s}.popwrap .row.l-ev .stub.cal.evmv.full .ex{max-width:12em}.popwrap .row.l-ev .stub.cal.evmv > i,.popwrap .row.l-ev .stub.cal.evmv > b,.popwrap .row.l-ev .stub.cal.evmv .tm{z-index:3 !important}
 .popwrap .row.l-ev .stub.cal.evmv::before,.popwrap .row.l-ev .stub.cal.evmv::after{content:'';position:absolute;z-index:2;width:max(1px,calc(var(--u)*.35));left:var(--sx);opacity:0;transition:opacity .2s ease}
 .popwrap .row.l-ev .stub.cal.evmv::before{top:var(--s1t);height:var(--s1h);background:rgba(255,255,255,.4)}
 .popwrap .row.l-ev .stub.cal.evmv::after{top:var(--s2t);height:var(--s2h);background:#0D0F12}
 .popwrap .row.l-ev .stub.cal.evmv.full::before,.popwrap .row.l-ev .stub.cal.evmv.full::after{opacity:1;transition-delay:.15s}
 .popwrap .row.l-ev .stub.cal.evmv.now,.popwrap .row.l-ev .stub.cal.evmv.now *{transition:none !important}
 .popwrap .row.l-ev .spl{transition:opacity .2s ease}.popwrap .row.l-ev.evs .spl{opacity:0}
-.popwrap .row.l-ev .rh{transition:padding-right .45s cubic-bezier(.65,0,.35,1)}.popwrap .row.l-ev.evx .rh{padding-right:calc(var(--u)*1.4) !important}
+.popwrap .row.l-ev .rh{transition:padding-right .34s cubic-bezier(.65,0,.35,1)}.popwrap .row.l-ev.evx .rh{padding-right:calc(var(--u)*1.4) !important}
 .popwrap .row.l-ev .evt.now,.popwrap .row.l-ev .evt.now *{transition:none !important}
-/* events: white date block, black on white */
-.row.l-ev{border-top-color:#0D0F12 !important}
+/* events: white date block, black on white. The outline is the same single stroke as every story (light on the dark board) */
 .row.l-ev .stub.cal{background:#fff !important;color:#0D0F12 !important}
 .row.l-ev .stub.cal i,.row.l-ev .stub.cal em{color:#0D0F12 !important}
 .row.l-ev .stub.cal b{color:#0D0F12 !important}
@@ -627,7 +626,7 @@ html.one .popwrap .story.sp .spl.spt2 .st{font-size:calc(var(--u)*4.7) !importan
 .bk{position:fixed;z-index:43;pointer-events:none;height:1.3em;font:900 calc(var(--u)*5)/1 'Hando',sans-serif;text-transform:uppercase;letter-spacing:.03em;color:#fff;display:flex;white-space:nowrap}
 html.one .bk{font-size:calc(var(--u)*7.4)}
 .bk .bx{position:relative;display:flex;align-items:center;height:100%;padding:0 .28em;gap:.18em}
-.bk .bg{position:absolute;inset:0;background:var(--red);transform-origin:50% 100%;transform:scaleY(0);transition:transform .45s cubic-bezier(.3,.7,.2,1)}
+.bk .bg{position:absolute;inset:0;background:var(--red);transform-origin:50% 100%;transform:scaleY(0);transition:transform .34s cubic-bezier(.3,.7,.2,1)}
 .bk.on .bg{transform:none}
 .bk .tx,.bk .dot,.bk .ag{position:relative;opacity:0;transition:opacity .22s ease}
 .bk.tx .tx,.bk.tx .dot{opacity:1}
@@ -650,7 +649,7 @@ html.one .ktab{font-size:calc(var(--u)*7.4)}
 .ktl i b{font:inherit;line-height:1;border:.1em solid currentColor;padding:.05em .16em;font-size:.6em}
 html.one .popdim{position:absolute;height:auto}
 .stage .mast{z-index:44}
-.popwrap{position:fixed;z-index:41;overflow:hidden;transition:left .45s cubic-bezier(.2,.7,.2,1),width .45s cubic-bezier(.2,.7,.2,1),top .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease;scrollbar-width:none}
+.popwrap{position:fixed;z-index:41;overflow:hidden;transition:left .34s cubic-bezier(.2,.7,.2,1),width .34s cubic-bezier(.2,.7,.2,1),top .34s cubic-bezier(.2,.7,.2,1),opacity .24s ease;scrollbar-width:none}
 .popwrap::-webkit-scrollbar{display:none}
 .popwrap.off{opacity:0}
 .popsrc{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1);background:var(--fig);border:var(--b) solid var(--ink);border-top:0}
@@ -1188,6 +1187,10 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 .refs .wqt b{display:flex;align-items:center;font:900 calc(var(--u)*1.465)/1 'Hando',sans-serif;letter-spacing:.05em;white-space:nowrap;padding:0 calc(var(--u)*.71)}.refs .wqt .bn{background:#0D0F12;color:#C9A46B}.refs .wqt .bn:empty{display:none}html.dark .refs .wqt .bn{background:#D4D4D4;color:#3A220E}
 .refs .wqt .lz{position:absolute;left:0;height:2px;width:0;top:0;background:#FFF6DC;box-shadow:0 0 6px 2px rgba(255,190,120,.9),0 0 14px 4px rgba(255,90,40,.6);opacity:0}
 html.dark .refs .wqt{border-color:#D4D4D4}.popwrap .wqt{display:none !important}
+.refs .wqp{flex:none;align-self:center;display:flex;align-items:stretch;height:calc(var(--u)*2.93);margin:0 0 0 auto;letter-spacing:0;text-transform:none;border:max(1px,calc(var(--u)*.22)) solid currentColor;background:transparent;color:inherit;opacity:.45;pointer-events:none;box-shadow:inset 0 1px 0 rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.18)}
+.refs .wqp b{display:flex;align-items:center;font:900 calc(var(--u)*1.465)/1 'Hando',sans-serif;letter-spacing:.05em;white-space:nowrap;padding:0 calc(var(--u)*.71);text-shadow:0 1px 0 rgba(255,255,255,.2)}
+.refs .wqp.on{background:#C9A46B;color:#3A220E;border-color:#0D0F12;box-shadow:none;opacity:1}.refs .wqp.on b{text-shadow:none}.refs .wqp.on .bn{background:#0D0F12;color:#C9A46B}
+html.dark .refs .wqp.on{border-color:#D4D4D4;color:#3A220E}html.dark .refs .wqp.on .bn{background:#D4D4D4;color:#3A220E}
 .refs .rw{min-width:0}
 .wq-beam{position:absolute;bottom:0;height:2px;background:#FF6A3C;box-shadow:0 0 6px 2px rgba(255,90,50,.75),0 0 16px 4px rgba(255,90,50,.35);pointer-events:none}
 
@@ -1203,7 +1206,7 @@ html.wq-has .wsh:not(.open) .wsearch input::placeholder{color:transparent}
 .wq-n .d{display:inline-block;overflow:hidden;height:1.15em;line-height:1.15em;vertical-align:bottom;font-weight:900;color:#0D0F12;font-variant-numeric:tabular-nums}
 .wq-n .d span{display:block}.wq-n .d .up{animation:wqUp .35s cubic-bezier(.2,.8,.2,1)}.wq-n .d .dn{animation:wqDn .35s cubic-bezier(.2,.8,.2,1)}@keyframes wqUp{from{transform:translateY(100%)}}@keyframes wqDn{from{transform:translateY(-100%)}}
 .wq-n small{font-size:.62em;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#6a6a6a}
-.wq-n{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;gap:.2em}.wq-n small{order:-1;line-height:1;font-size:.56em;text-align:center}.wq-n .kq{display:block;position:relative;overflow:hidden;height:1.15em;border:max(1px,calc(var(--u)*.16)) solid #4a4a4a}.wq-n .rn{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;white-space:nowrap;will-change:transform}.wq-n .it{font-size:.66em;font-weight:900;color:#6a6a6a;padding-right:1.4em}.wq-n .it b{color:#4a4a4a;margin-right:.45em}html.dark .wq-n .kq{border-color:#9a9a9a}html.dark .wq-n .it{color:#AAA}html.dark .wq-n .it b{color:#CFCFCF}
+.wq-n{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;gap:.2em}.wq-n small{order:-1;line-height:1;font-size:.56em;text-align:center}.wq-n .kq{display:block;position:relative;overflow:hidden;height:1.15em;border:max(1px,calc(var(--u)*.16)) solid #4a4a4a}.wq-n .rn{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;white-space:nowrap;will-change:transform}.wq-n .it{font-size:.66em;font-weight:900;color:#6a6a6a;padding:0 .25em}.wq-n .it:empty{display:none}.wq-n .it b{color:#4a4a4a;margin-right:.45em}html.dark .wq-n .kq{border-color:#9a9a9a}html.dark .wq-n .it{color:#AAA}html.dark .wq-n .it b{color:#CFCFCF}
 .wq-log{position:absolute;top:0;bottom:0;display:flex;align-items:center;overflow:hidden;font-family:'Hando',sans-serif;font-weight:700;color:#3a3a3a;white-space:pre}
 .wq-car{position:absolute;top:22%;bottom:22%;width:3px}
 .wq-glow{position:absolute;top:0;bottom:0;pointer-events:none}
@@ -1223,8 +1226,10 @@ html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the
 html,body{background:var(--paper) !important}
 .roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 6px);height:calc(var(--u)*4 + 3px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 3px);mask-image:linear-gradient(to bottom,transparent 0,#000 3px);overflow:hidden;pointer-events:none;z-index:5}
 .roll3d .drum{position:absolute;top:0;bottom:0}
+html:not(.tvm) .roll3d{background:var(--paper)}   /* the flat board slides under the roll-off band: hide it there, so its lines never show through the gaps between curled stories */
 .roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:50% 0}
 .roll3d .slc{contain:strict}
+.rbx{position:absolute;left:0;top:0;height:0;z-index:5;pointer-events:none;display:none;overflow:hidden}
 .roll3d .sin{contain:layout style}
 .roll3d .sin,.roll3d .sin .copy,.roll3d .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important}
 .roll3d .sin{position:absolute;left:0;right:0;top:0;height:0;transform-origin:0 0;will-change:auto !important}
@@ -3985,7 +3990,14 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setT
 window.addEventListener('load', () => setTimeout(qrSnap, 300));
 // Press roll: each story crossing the line gets its own small drum (8 slices over 60 degrees), centered on that story
 const RN = TVMODE ? 12 : (innerWidth < 900 || matchMedia('(pointer: coarse)').matches) ? 12 : 18, RPHI = 90 * Math.PI / 180;   // a full quarter turn, so the paper falls away over the roller
-let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0;
+// keep the drum's bottom showing exactly the paper the flat board shows just under it, so nothing jumps or repeats at the seam
+let RSH = 0;
+function rollAlign() { const v = RMAP.values().next().value; if (!v || !v.sl || !v.sl[0]) return; const x = v.sl[0], sc = x.sy * Math.cos(RPHI / RN / 2), bx = document.getElementById('roll3d').getBoundingClientRect(), kr = x.k.getBoundingClientRect();
+  if (!kr.height || sc <= 0) return; const err = (v.c.t + (bx.bottom - kr.top) / sc) - (bx.bottom - track.getBoundingClientRect().top); if (Math.abs(err) > .05 && Math.abs(err) < 12) RSH = Math.max(-6, Math.min(6, RSH - err)); }
+let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0, RIN = 0, RMS = 1;
+// the drum's inward pull at angle m. Off the TV it pulls in four and a half more pixels by the time the paper reaches the search bar's bottom edge,
+// growing smoothly from nothing where the paper is still flat, so the paper and the narrower bar finish on the same edge
+const rollSX = m => 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62)) - RIN * (1 - Math.cos(m)) / RMS;
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
 function rollDrum(c) {
   const box = document.getElementById('roll3d');
@@ -3999,19 +4011,20 @@ function rollDrum(c) {
     // one shared vanishing point (screen center, bottom of the roller) written into each face, so every browser draws it the same
     const hh = chord + 0.6, ox = RW / 2 - c.l, oy = hh, P = U * 100000;
     const m = (a0 + a1) / 2;
-    const sx = 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62));   // slight inward pull toward the screen center as the paper falls away
+    const sx = rollSX(m);   // slight inward pull toward the screen center as the paper falls away
     e.style.transform = `translateY(${(-RR * Math.sin(a0) + hh).toFixed(3)}px) scale(${sx.toFixed(5)},${Math.cos(m).toFixed(5)}) translateY(${(-hh).toFixed(3)}px)`;
 
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track';
     const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
     const k = rollClean(c.el.cloneNode(true)); k.style.left = c.l + 'px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px';
     (c.el.parentElement && c.el.parentElement.classList.contains('mason') ? ms : cp).appendChild(k);   // the archive list and end line roll too
+    if (!TVMODE) k.style.borderBottomColor = 'transparent';   // the bottom edge on the drum is drawn once, at a steady stroke, by rollSync
     e.appendChild(inn); d.appendChild(e); sl.push({ inn, k, a1, sy: chord / arc });
   }
   box.appendChild(d);
   return { d, sl };
 }
-function rollUnhook() { RMAP.forEach(v => { v.mo && v.mo.disconnect(); v.d.remove(); }); RMAP = new Map(); }
+function rollUnhook() { RMAP.forEach(v => { v.mo && v.mo.disconnect(); v.d.remove(); v.rb && v.rb.remove(); }); RMAP = new Map(); }
 let RLAST = null, TVA = null, TVD = 0;
 // TV: the scroll is a browser animation the graphics chip runs by itself, so it keeps gliding even when the TV's processor is busy.
 // The script only reads where it is, to keep the roll-off in step.
@@ -4028,6 +4041,13 @@ function rollIndex() {
   rollUnhook(); if (box) box.innerHTML = '';
   RH = box ? box.clientHeight : 0; RW = box ? box.clientWidth : 0; RR = RH / Math.sin(RPHI);
   RC = []; track.querySelectorAll('.copy > .wsearch, .copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { if (!el.offsetParent || el.classList.contains('wsoff')) return; const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
+  // the slice the search bar ends on (the same rule the scanner uses: the one before the last slice that is still visible),
+  // and how far the paper's edge sits from the screen center, so the extra pull there is exactly four and a half pixels
+  RIN = 0; RMS = 1;
+  if (!TVMODE && RR && box) { const ang = i => RPHI * (i + .5) / RN, hgt = i => (2 * RR * Math.sin(RPHI / RN / 2) + .6) * Math.cos(ang(i));
+    let i = RN - 1; while (i > 0 && hgt(i) < 1.3) i--; RMS = Math.max(.05, 1 - Math.cos(ang(Math.max(0, i - 1))));
+    let cl = 1e9; RC.forEach(c => { if (!c.el.classList.contains('wsearch') && c.w > 40) cl = Math.min(cl, c.l); });
+    const hw = RW / 2 - (tr.left - box.getBoundingClientRect().left + cl); if (cl < 1e9 && hw > 20) RIN = 4.5 / hw; }
 }
 function rollRefresh() {
   if (!RC.length) return;
@@ -4040,7 +4060,7 @@ setInterval(rollRefresh, 3000);
 function rollSync(o) {
   if (!RR) return;
   const arc = RR * RPHI, keep = new Set(RC.filter(c => c.t < o && c.b > o - arc));
-  RMAP.forEach((v, el) => { if (!keep.has(v.c)) { v.mo && v.mo.disconnect(); v.d.remove(); RMAP.delete(el); } });
+  RMAP.forEach((v, el) => { if (!keep.has(v.c)) { v.mo && v.mo.disconnect(); v.d.remove(); v.rb && v.rb.remove(); RMAP.delete(el); } });
   keep.forEach(c => {
     if (RMAP.has(c.el)) return;
     { const tr = track.getBoundingClientRect(), r = c.el.getBoundingClientRect(); c.t = r.top - tr.top; c.b = r.bottom - tr.top; c.l = r.left - tr.left; c.w = r.width; c.h = r.height; }   // fresh position the moment it reaches the roller
@@ -4058,7 +4078,57 @@ function rollSync(o) {
       v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); } }); }
   // each slice shows the stretch of paper that sits on its part of the drum
   // move each slice with top, not transform: no extra GPU layers, so the screen can never run out of video memory and blank out
-  RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = (x.sy * -(o - RR * x.a1)).toFixed(2) + 'px'; }));
+  RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = Math.round(x.sy * -(o - RR * x.a1)) + 'px'; }));   // whole pixels: the browser paints it there anyway, and now the edge overlay can match it exactly
+  // the drum squashes the paper, which thins a story's bottom edge to a hairline. Draw that same edge at full stroke where it
+  // really is on the drum, one piece across every face, growing to the bar's stroke as it nears the bar
+  if (!TVMODE) { const box = document.getElementById('roll3d'), bxr = box.getBoundingClientRect(), pr = box.parentElement.getBoundingClientRect(), cl = { t: bxr.top - pr.top, b: bxr.bottom - pr.top };
+    RMAP.forEach(v => { const c = v.c; if (!v.rb) { v.rb = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); v.rb.setAttribute('class', 'rbx'); v.rr = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); v.rb.appendChild(v.rr); v.rf = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); v.rb.appendChild(v.rf); box.parentElement.insertBefore(v.rb, box.nextSibling);   // beside the roll-off, above every drum, drawn as a vector so its thickness can grow by fractions of a pixel
+        const bs = getComputedStyle(c.el); v.bw = parseFloat(bs.borderBottomWidth) || 0; v.bc = bs.borderBottomColor; v.rr.setAttribute('fill', v.bc); }
+      // while the story's own bottom edge is still showing on the flat board under the roll-off, that is the line: draw nothing
+      const vt = bxr.bottom, flat = c.el.getBoundingClientRect().bottom - v.bw >= vt + 1.5;   // the flat board's line is only seen once all of it is below the band   // the roll-off band covers the top of the flat board
+      let on = false; if (v.bw > 0 && !flat) for (let n = 0; n < v.sl.length; n++) { const x = v.sl[n], a1 = x.a1, a0 = a1 - RPHI / RN, arc = RR * (a1 - a0), t0 = o - RR * a1, q = (c.b - t0) / arc;
+        if (q < -.25 || q > 1.25) continue;
+        { const e2 = x.inn.parentElement.getBoundingClientRect(), b2 = x.k.getBoundingClientRect().bottom; if (b2 < e2.top - .01 || b2 > e2.bottom + .01) continue; }
+        const e = x.inn.parentElement.getBoundingClientRect(), kr = x.k.getBoundingClientRect(), ys = kr.bottom;   // where this face really paints it: the paper's offset lands on whole pixels
+        // thickness by distance to the bar: the story's own stroke where it enters the roll-off, growing steadily to the bar's
+        // stroke over the last stretch, and full from there in
+        const sb = typeof WSH !== 'undefined' && WSH ? WSH.querySelector('.wsearch') : null, bar = sb ? sb.getBoundingClientRect().bottom : bxr.top,
+          dist = ys - bar, Tf = Math.max(1.5, v.bw), k = Math.max(0, Math.min(1, (U * 1.6 - dist) / (U * 1.1))), kk = k,   // a slow, even growth
+          T = v.bw + (Tf - v.bw) * kk, yb = ys - bxr.top, h = T;
+        let yt = yb + bxr.top - pr.top - h;   // sits on the painted edge (measured), never leaving a hairline above it
+        const bt = bar - pr.top, sr = sb ? sb.getBoundingClientRect() : null;
+        if (v.lock && yt > bt + 2) v.lock = null;   // fed back out: let go
+        if (v.lock) { on = true; break; }
+        // its ends draw in to the bar's sides as it closes in, at the same pace as it thickens
+        let ex = kr.left - pr.left, ew = kr.width; if (sr) { const bl = sr.left - pr.left, bw = sr.width; ex += (bl - ex) * kk; ew += (bw - ew) * kk; }
+        // reaching the bar: lock it under the bar's bottom, full stroke, the bar's width; from here nothing moves or trims
+        if (yt <= bt + .8) { v.lock = { x: sr ? sr.left - pr.left : ex, w: sr ? sr.width : ew, y0: bt, y1: bt + Math.max(1.5, v.bw) }; on = true; break; }
+        const y0 = Math.max(yt, bt), y1 = Math.min(y0 + h, cl.b + 4);   // may run just past the band, where the flat board takes over if (y1 <= y0) continue;   // never tucked behind the bar; on whole screen pixels so it never looks blurred thicker
+        v.cur = { x: ex, w: ew, y0, y1 }; v.gap = null;
+        // the paper between this story and the one under it is squashed to a hairline on the drum, so the two edges flicker
+        // between one thick line and two lines with a white sliver. Fill that sliver with ink as it closes, so they read as one line
+        { const nx = RC.filter(d => d !== c && d.t >= c.b - 1 && d.l < c.l + c.w && d.l + d.w > c.l).sort((p, q) => p.t - q.t)[0], v2 = nx && RMAP.get(nx.el);
+          if (v2) for (const x2 of v2.sl) { const e2 = x2.inn.parentElement.getBoundingClientRect(), k2 = x2.k.getBoundingClientRect(); if (k2.top < e2.top - .01 || k2.top > e2.bottom + .01) continue;
+            const sc2 = e2.height / Math.max(.01, x2.inn.parentElement.offsetHeight), tq2 = parseFloat(x2.inn.style.top) || 0, tb = (parseFloat(getComputedStyle(nx.el).borderTopWidth) || 0) * sc2,
+              yn = k2.top + (Math.round(tq2) - tq2) * sc2 - pr.top + .3, gp = yn - y1;
+            if (gp < 3 && gp > -2) v.gap = { y0: Math.min(y1, yn), y1: Math.max(y1, yn + tb), op: Math.max(0, Math.min(1, (3 - gp) / 2.2)) };
+            break; } }
+        on = true; break; }
+      // sliding under the band: until the drum shows it, keep the line exactly where the flat board had it
+      if (!on && !flat && !v.lock && v.bw > 0) { const rr2 = c.el.getBoundingClientRect(); if (rr2.bottom > bxr.top) { v.cur = { x: rr2.left - pr.left, w: rr2.width, y0: rr2.bottom - v.bw - pr.top, y1: rr2.bottom - pr.top, T: v.bw }; on = true; } }
+      const g = c.el.__wq, past = g && WQ_SEAM && WQ_SEAM.a && (o - RR * WQ_SEAM.a) >= c.b - 2;
+      if (v.lock && !on && !past) v.lock = null;
+      if (g && g.done && v.lock) { if (v.rb.style.display !== 'none') v.rb.style.display = 'none'; c.el.__edgeLock = true; return; }
+      if (!on && !(v.lock && g && !g.done)) { v.cur = null; v.lock = null; c.el.__edgeLock = false; if (g) g.rbx = 0; if (v.rb.style.display !== 'none') v.rb.style.display = 'none'; return; }
+      const r = v.lock || v.cur; if (g) g.rbx = 1; c.el.__edgeLock = !!v.lock; v.ct = 0;
+      Object.assign(v.rb.style, { display: 'block', left: '0px', top: cl.t + 'px', width: pr.width + 'px', height: (cl.b - cl.t + 4) + 'px' });
+      if (!v.lock && v.gap && v.cur) { const G = v.gap; v.rf.setAttribute('x', r.x.toFixed(2)); v.rf.setAttribute('width', r.w.toFixed(2)); v.rf.setAttribute('y', (G.y0 - cl.t).toFixed(3)); v.rf.setAttribute('height', Math.max(0, G.y1 - G.y0).toFixed(3)); v.rf.setAttribute('fill', v.bc); v.rf.style.opacity = G.op; v.rf.style.display = ''; }
+      else v.rf.style.display = 'none';
+      v.rr.setAttribute('x', r.x.toFixed(2)); v.rr.setAttribute('width', r.w.toFixed(2)); v.rr.setAttribute('y', (r.y0 - cl.t).toFixed(3)); v.rr.setAttribute('height', (r.y1 - r.y0).toFixed(3));
+      // the completed color fades in as the edge settles under the bar, then fades out with the flash
+      const col = g && g.col, mx = (a, b, k) => { const A = typeof wqHex === 'function' && wqHex(a), B = typeof wqHex === 'function' && wqHex(b); return A && B ? `rgb(${A.map((x, i) => Math.round(x + (B[i] - x) * k)).join(',')})` : a; };
+      if (g && g.fin > 0 && v.lock) { v.rr.setAttribute('fill', g.cc || col); v.rr.style.opacity = g.op == null ? 1 : g.op; }
+      else { v.rr.setAttribute('fill', col ? mx(v.bc, col, v.ct || 0) : v.bc); v.rr.style.opacity = 1; } }); }
 }
 let U = 10, DPR = window.devicePixelRatio || 1;
 function readU() { setTimeout(fitDate, 0); DPR = window.devicePixelRatio || 1; U = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 10; }
@@ -4110,8 +4180,7 @@ function updateStamp() {
   if (!data) return;
   const age = (Date.now() - new Date(data.generated_at).getTime()) / 3600000;
   const al = document.getElementById('alert');
-  if (age > 36) { al.textContent = 'Stale: data is over 36 hours old'; al.classList.add('on'); }
-  else if (!data.alert) al.classList.remove('on');
+  if (!data.alert && al.textContent.startsWith('Stale')) al.classList.remove('on');   // no stale-data bar
 }
 
 function tick(ts) {
@@ -4135,7 +4204,7 @@ function tick(ts) {
   // TV: the board steps a whole pixel at a time on the graphics chip; the drum follows on exactly those steps, drawn like the phone's,
   // so the only picture the TV keeps in graphics memory is the board itself (many small layers made it run out and blink)
   if (TVMODE) { const ro = Math.floor(off * DPR) / DPR; if (ro !== RLAST) { RLAST = ro; rollSync(ro); } }
-  else { rollSync(Math.round(off * DPR) / DPR); if (typeof wsBite === 'function') wsBite(Math.round(off * DPR) / DPR); }
+  else { rollSync(Math.round(off * DPR) / DPR + RSH); rollAlign(); if (typeof wsBite === 'function') wsBite(Math.round(off * DPR) / DPR); }
   requestAnimationFrame(tick);
 }
 
@@ -4148,11 +4217,11 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '1795772093';
+const BUILD = '202611271428';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 // Story numbers: each story's #day-order, given the first time it reached the board (numbers.json, kept by tools/story_numbers.py)
-let WQ_NOS = window.NOS_FALLBACK || {};
+let WQ_NOS = (window.NOS_FALLBACK && window.NOS_FALLBACK.nos) || window.NOS_FALLBACK || {};
 async function loadNos() { try { const r = await fetch('numbers.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(); if (j && j.nos) WQ_NOS = j.nos; } } catch (e) {} }
 async function load() {
   await loadNos();
@@ -4286,7 +4355,14 @@ function openStory(card, id, instant) {
   if (!REG) host.appendChild(src);
   const TABH = Math.round(u * (document.documentElement.classList.contains('one') ? 9 : 6.2));
   const pad = Math.round(u * 1.4); // room above the card for the Share and close tab, and for tags on its top edge
-  const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); clone.querySelectorAll('.wqt').forEach(x => x.remove());   // the scan tag belongs to the feed only wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
+  const SH = Math.round(u * (document.documentElement.classList.contains('one') ? 1.8 : 1.1)); clone.classList.add('pclone'); wrap.style.setProperty('--sh', SH + 'px'); wrap.style.setProperty('--shy', SH * 2 + 'px');
+  // the feed's scan tag stays in the feed; the open story gets its own engraved marker between SOURCES and the eye, in space already there:
+  // burnt paper with the board number once the story has been scanned, plain gray engraving with just the story number before that
+  clone.querySelectorAll('.wqt').forEach(x => x.remove());
+  { const sn = c.dataset.sn, rf = clone.querySelector('.refs'); if (sn && rf) { const done = !!c.__wqe, mk = document.createElement('span');
+      mk.className = 'wqp' + (done ? ' on' : ''); mk.setAttribute('title', done ? 'Scanned: board number and story number' : 'Story number (not scanned yet)');
+      mk.innerHTML = (done && c.dataset.no ? `<b class="bn">${c.dataset.no}</b>` : '') + `<b class="sn">${sn}</b>`;
+      clone.__wqp = mk; const hd = rf.querySelector('.sxb > .sxh'); if (hd) hd.appendChild(mk); } }   // in the SOURCES header row (built when the sources open), which already leaves room for the eye
   Object.assign(wrap.style, { left: cr0.left + 'px', top: (cr0.top - pad) + 'px', width: cr0.width + 'px', paddingTop: pad + 'px', paddingRight: '0px', paddingBottom: TABH + 'px', boxSizing: 'border-box' });
   stage.appendChild(wrap); POP.wrap = wrap; POP.card = c; c.style.visibility = 'hidden';
   if (!instant) requestAnimationFrame(() => dim.classList.add('on'));
@@ -4310,7 +4386,7 @@ function openStory(card, id, instant) {
   const inT = POP.ktab && POP.ktab.inside ? KTH : 0; if (inT) { wrap.style.paddingTop = (pad + inT) + 'px'; wrap.style.top = (parseFloat(wrap.style.top) - inT) + 'px'; }
   const glide = () => {
     if (instant) { wrap.style.top = (ctop - pad - inT) + 'px'; clone.classList.add('pbig', 'pnow'); done(); return; }
-    if (srx) srx.prep(); requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad - inT) + 'px'; clone.classList.add('pbig'); setTimeout(done, 460); }));
+    if (srx) srx.prep(); requestAnimationFrame(() => requestAnimationFrame(() => { wrap.classList.remove('glide'); wrap.style.top = (ctop - pad - inT) + 'px'; clone.classList.add('pbig'); setTimeout(done, 350); }));
   };
   const done = () => {
     if (!POP || POP.wrap !== wrap) return;
@@ -4461,7 +4537,7 @@ const KIND_M = { Sponsor: 'A paid placement from a local business or group. Revi
 const STAT_M = { Verified: 'Backed by an official page or two or more independent newsrooms.', Reported: 'From one outlet, and the facts match its page.', Unconfirmed: 'It matters, but a key fact is not confirmed yet.', Upcoming: 'Scheduled. It has not happened yet.', Confirmed: 'Confirmed by the agency or more than one source.' };
 const ARROW_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>';
 // Flaps: a copy of a box that turns on a hinge. Copies are placed over the real box, keep its look, and never take clicks.
-let FLAP = 260;
+let FLAP = 200;
 function flapCopy(el) {
   const k = el.cloneNode(true); k.classList.add('flp'); k.setAttribute('aria-hidden', 'true'); k.removeAttribute('id');
   k.querySelectorAll('mask[id], [id]').forEach(m => { const old = m.id; if (!old) return; const nw = old + 'f' + Math.floor(Math.random() * 1e6); m.id = nw; k.querySelectorAll('[mask],[fill],[clip-path]').forEach(x => ['mask', 'fill', 'clip-path'].forEach(at => { if (x.getAttribute(at) === `url(#${old})`) x.setAttribute(at, `url(#${nw})`); })); });
@@ -4559,7 +4635,7 @@ function srcExpand(clone, id) {
   const isDoc = r => /full document/i.test(r.n || '') || /\.pdf/i.test(r.url || '');
   const b = document.createElement('div'); b.className = 'sxb';
   b.innerHTML = `<div class="sxh">Sources<em>${rs.length}</em></div>` + rs.map(r => `<a class="sxs${isDoc(r) ? ' doc' : ''}" href="${esc(r.url || '#')}" target="_blank" rel="noopener"><b>${esc(r.n || '')}</b><i>${esc(r.t || r.n || '')}</i>${r.f ? `<span class="sxf">${esc(r.f)}</span>` : ''}<small>${esc([r.d, r.k].filter(Boolean).join(' / '))}</small><span class="sxgo"><span>${isDoc(r) ? 'Open the document' : 'Read on ' + esc(r.n || 'the source')}</span>${ARROW_SVG}</span></a>`).join('');
-  rw.appendChild(b);
+  rw.appendChild(b); if (clone.__wqp) b.querySelector('.sxh').appendChild(clone.__wqp);
   if (tgb) { const L = ['Verified', 'Reported', 'Unconfirmed']; if (ss && !L.includes(ss)) L.push(ss);
     const d = document.createElement('div'), V = TAGV, lv = { Verified: 3, Confirmed: 3, Reported: 2, Unconfirmed: 1, Upcoming: 2 }[ss] || 2;
     d.className = 'sxd' + (V ? ' tv' + V : '');
@@ -4642,8 +4718,8 @@ function breakingTab(clone, stage) {
   const el = document.createElement('div'); el.className = 'bk';
   el.innerHTML = `<div class="bx"><i class="bg"></i><span class="tx">Breaking</span>${day ? `<span class="ag"><span>${esc(day)}</span></span>` : ''}<i class="dot"></i></div>`;
   stage.appendChild(el);
-  const t1 = setTimeout(() => el.classList.add('on'), 300), t2 = setTimeout(() => el.classList.add('tx'), 700);
-  const T = { el, gone: 0, back() { clearTimeout(t1); clearTimeout(t2); el.classList.remove('tx'); setTimeout(() => el.classList.remove('on'), 260); setTimeout(() => { T.gone = 1; el.remove(); }, 760); } };
+  const t1 = setTimeout(() => el.classList.add('on'), 220), t2 = setTimeout(() => el.classList.add('tx'), 520);
+  const T = { el, gone: 0, back() { clearTimeout(t1); clearTimeout(t2); el.classList.remove('tx'); setTimeout(() => el.classList.remove('on'), 200); setTimeout(() => { T.gone = 1; el.remove(); }, 570); } };
   return T;
 }
 // SPARC stories: the card's own SPARC tag is the title. It waits until the story has fully landed and opened, then rises
@@ -4663,7 +4739,7 @@ function sparcTab(clone, stage) {
   { const cs = getComputedStyle(clone); spl.style.setProperty('--cbr', cs.borderRightWidth); spl.style.setProperty('--cbt', cs.borderTopWidth); }
   spl.classList.add('now', 'up', 'tx', 'sy'); const H = spl.offsetHeight; spl.style.setProperty('--rw', Math.ceil(rest.firstChild.scrollWidth + 1) + 'px'); on.style.setProperty('width', 'auto', 'important'); spl.style.setProperty('--bw', Math.ceil(on.getBoundingClientRect().width) + 'px'); on.style.removeProperty('width'); { const L = rest.querySelector('i:last-child'), R = document.createRange(); R.selectNodeContents(st); const wr = L.getBoundingClientRect().right, sr = R.getBoundingClientRect().right - (parseFloat(getComputedStyle(st).letterSpacing) || 0); spl.style.setProperty('--sd', (sr - wr).toFixed(2) + 'px'); } spl.classList.remove('up', 'tx', 'sy'); spl.offsetHeight; spl.classList.remove('now');
   const ph = document.createElement('div'); ph.style.cssText = `position:fixed;visibility:hidden;pointer-events:none;height:${H}px;width:1px`; stage.appendChild(ph);
-  const TX = 430, HF = 120, cls = spl.classList, cbr = parseFloat(spl.style.getPropertyValue('--cbr')) || 0, cbt = parseFloat(spl.style.getPropertyValue('--cbt')) || 0;
+  const TX = 320, HF = 90, cls = spl.classList, cbr = parseFloat(spl.style.getPropertyValue('--cbr')) || 0, cbt = parseFloat(spl.style.getPropertyValue('--cbt')) || 0;
   let q = [], started = false, dead = false, h0 = 0, UPX = '';
   const at = (ms, f) => q.push(setTimeout(f, ms));
   // Opening: the small tag first glides up, at its own size, out of its corner onto the card's top edge,
@@ -4731,7 +4807,7 @@ function eventTab(clone, stage) {
   const CW = clone.getBoundingClientRect().width, jw = Math.min(CW, Math.max(Math.round(CW * .74), Math.ceil(need)));
   g.style.setProperty('--jw', jw + 'px');
   const PR = () => { const r = clone.getBoundingClientRect(); return { x: r.left + cbl, y: r.top + parseFloat(cs.borderTopWidth) }; };
-  const o = PR(), gl = CW - jw - cbl;          // the title's left, in the card's inner coordinates
+  const o = PR(), gl = -cbl;          // the title's left, in the card's inner coordinates
   g.style.left = gl + 'px';
   const G = g.getBoundingClientRect(), gx = G.left + cbl, gy = G.top;  // inside the title's left stroke
   const rel = (r, ox, oy) => ({ x: r.left - ox, y: r.top - oy });
@@ -4774,7 +4850,7 @@ function eventTab(clone, stage) {
     // the short glide: up onto the top edge, closing to the title's height; the day, weekday and time draw up with it
     const k = (H - moH0) / Math.max(1, S.height - moH0);
     S0c = {}; K.forEach(n => S0c[n] = n === 'mt' ? S0[n] : { x: S0[n].x, y: moH0 + (S0[n].y - moH0) * k });
-    RISE0 = { x: HOME.x, y: -H, w: S.width, h: H, bl: 0, mh: moH0 };
+    RISE0 = { x: HOME.x, y: -H - Math.max(0, (parseFloat(cs.borderTopWidth) || 0) - cbl), w: S.width, h: H, bl: 0, mh: moH0 };
     stub.style.setProperty('--mbr', brw + 'px');
     stub.classList.add('evmv', 'now'); box(HOME);
     const L = spots(0, S0, 0); K.forEach(n => pos(el[n], L[n][0], L[n][1])); stub._i = 0;
@@ -4782,8 +4858,8 @@ function eventTab(clone, stage) {
     stub.style.setProperty('--s1t', (s1.top - G.top) + 'px'); stub.style.setProperty('--s1h', s1.height + 'px');
     stub.style.setProperty('--s2t', (s2.top - G.top) + 'px'); stub.style.setProperty('--s2h', s2.height + 'px');
     stub.offsetHeight; stub.classList.remove('now'); };
-  const WIDE = { x: gl, y: -H, w: jw, h: H, bl: cbl, mh: barH }, UPB = { x: -cbl, y: -H, w: cw, h: H, bl: cbl, mh: barH };
-  const MD = 380, RD = 320, XD = 640;
+  const YT = -H - Math.max(0, (parseFloat(cs.borderTopWidth) || 0) - cbl), WIDE = { x: gl, y: YT, w: jw, h: H, bl: cbl, mh: barH }, UPB = { x: -cbl, y: YT, w: cw, h: H, bl: cbl, mh: barH };
+  const MD = 300, RD = 240, XD = 470;
   let q = [], dead = false, started = false; const at = (ms, f) => q.push(setTimeout(f, ms));
   const wait = () => { if (dead) return; const w = clone.closest('.popwrap');
     if (w && w.classList.contains('srcs') && !w.classList.contains('glide')) { started = true;
@@ -4799,10 +4875,10 @@ function eventTab(clone, stage) {
     const fin = () => { T.gone = 1; g.remove(); ph.remove(); clone.classList.remove('evx0', 'evs'); };
     if (!started) { fin(); return 0; }
     let t = 0;
-    if (g.classList.contains('ev')) { g.classList.remove('ev'); t += 150; }
+    if (g.classList.contains('ev')) { g.classList.remove('ev'); t += 110; }
     at(t, () => { g.classList.remove('bar', 'spell'); stub.style.setProperty('--md', XD + 'ms'); go(UPB, 1, T1, false); clone.classList.remove('evx', 'evln'); }); t += XD + 20;
     at(t, () => { stub.style.setProperty('--md', RD + 'ms'); go(HOME, 0, S0, false); clone.classList.remove('evx0'); }); t += RD + 20;
-    at(t, () => clone.classList.remove('evs')); t += 200;
+    at(t, () => clone.classList.remove('evs')); t += 140;
     at(t, fin);
     return t + 30; } };
   return T;
@@ -4824,13 +4900,13 @@ function cardTitleTab(card, clone, stage) {
   const sr = src.getBoundingClientRect(), nr = nb.getBoundingClientRect(), s0 = parseFloat(getComputedStyle(src).fontSize) / parseFloat(getComputedStyle(nb).fontSize);
   const dx = (sr.left + sr.width / 2) - (nr.left + nr.width / 2), dy = (sr.top + sr.height / 2) - (nr.top + nr.height / 2);
   const k = Math.min(.9, Math.max(.05, 1 - (H / 2) / Math.max(1, dy))), ks = Math.min(.85, Math.max(0, 1 - H / Math.max(1, dy)));
-  const O = { duration: 700, delay: 80, easing: 'cubic-bezier(.3,.7,.2,1)', fill: 'both' };
+  const O = { duration: 520, delay: 60, easing: 'cubic-bezier(.3,.7,.2,1)', fill: 'both' };
   src.style.transition = 'none'; src.style.opacity = '0';
   const A = [
     nb.animate([{ transform: `translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) scale(${s0.toFixed(3)})`, color: c0, offset: 0 }, { color: c0, offset: Math.max(0, k - .04) }, { color: '#fff', offset: Math.min(1, k + .04) }, { transform: 'none', color: '#fff', offset: 1 }], O),
     bg.animate([{ transform: 'scaleY(0)', offset: 0 }, { transform: 'scaleY(0)', offset: ks }, { transform: 'scaleY(1)', offset: 1 }], O)
   ];
-  const t1 = setTimeout(() => { box.classList.add('open'); setTimeout(() => { if (box.classList.contains('open')) box.classList.add('full'); }, 520); }, 820);
+  const t1 = setTimeout(() => { box.classList.add('open'); setTimeout(() => { if (box.classList.contains('open')) box.classList.add('full'); }, 400); }, 610);
   const T = { el, gone: 0, back() { clearTimeout(t1); box.classList.remove('open', 'full'); setTimeout(() => { A.forEach(a => { a.playbackRate = 1.8; a.reverse(); }); A[0].onfinish = () => { src.style.opacity = ''; T.gone = 1; el.remove(); }; }, box.classList.contains('was') ? 260 : 180); } };
   return T;
 }
@@ -5103,7 +5179,12 @@ const wqAuto = () => dragY === null && performance.now() - lastIn > 1200 && Math
 const wqTell = (txt, ms) => { WQ_NOTE = { txt, until: performance.now() + (ms || 1400) }; };
 // the paper meets the bar on the same pixel: the bar sits over the thin, squeezed top slices of the drum, and its sides match the cards there
 function wqSeam() {
-  if (WQ_SEAM) return; const rl = document.getElementById('roll3d'), d = rl && rl.querySelector('.drum'); if (!d || !d.children.length || !RC.length) return;
+  if (WQ_SEAM) return; const rl = document.getElementById('roll3d'); if (!rl || !RC.length || !RR) return;
+  // measure on a drum that is rolling, or, before any story reaches the roller (the first seconds after load), on a test drum
+  // built from the widest card and taken away before the screen draws, so the bar sits at its final width from the first frame
+  let d = rl.querySelector('.drum'), probe = null;
+  if (!d || !d.children.length) { const c = RC.filter(c => !c.el.classList.contains('wsearch') && c.w > 40).sort((a, b) => a.l - b.l)[0]; if (!c || typeof rollDrum !== 'function') return; probe = rollDrum(c).d; d = probe; }
+  try {
   const rt = rl.getBoundingClientRect().top, sl = [...d.children]; let i = sl.length - 1; while (i > 0 && sl[i].getBoundingClientRect().height < 1.3) i--;
   // the bar covers the squeezed slices down to the first full one, and ends where the next slice starts, so the paper begins exactly at its corners
   const nx = sl[Math.max(0, i - 1)], ov = Math.round((nx.getBoundingClientRect().top - rt) * DPR) / DPR;
@@ -5111,10 +5192,11 @@ function wqSeam() {
   // where the paper's edge really is at that slice, measured, so the bar's sides and the scan lines sit on it
   let pl = 1e9; nx.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap').forEach(k => { const r = k.getBoundingClientRect(); if (r.width > 40) pl = Math.min(pl, r.left); });
   const rb = rl.getBoundingClientRect(), W = rb.left + rl.clientWidth / 2;
-  let sx = 1 / (1 + RR * (1 - Math.cos(RPHI * (i - .5) / RN)) / (U * 62));
+  let sx = typeof rollSX === 'function' ? rollSX(RPHI * (i - .5) / RN) : 1 / (1 + RR * (1 - Math.cos(RPHI * (i - .5) / RN)) / (U * 62));
   if (pl < 1e9 && W - cl0 > 1) sx = (W - pl) / (W - cl0);
-  WQ_SEAM = { ov, sx, wsi: Math.round((W - (W - cl0) * sx - rb.left) * DPR) / DPR };
-  document.documentElement.style.setProperty('--wlov', (-ov) + 'px'); wsPlace();
+  WQ_SEAM = { ov, sx, a: RPHI * Math.max(1, i) / RN, wsi: Math.round((W - (W - cl0) * sx - rb.left) * DPR) / DPR };   // a: the drum angle at the bar's bottom edge
+  } finally { if (probe) probe.remove(); }
+  document.documentElement.style.setProperty('--wlov', (-WQ_SEAM.ov) + 'px'); wsPlace();
 }
 addEventListener('resize', () => { WQ_SEAM = null; document.documentElement.style.removeProperty('--wlov'); wqTell('Recalibrating scanner', 1200); });
 function wsBite(y) {
@@ -5137,15 +5219,21 @@ function wsBite(y) {
     // the side strokes climb the bar and meet at the top middle exactly when the last of the card is in
     const o2 = g.w / 2, l = Math.max(o2, X(o.c.l) + o2), r = Math.min(BW - o2, X(o.c.l + o.c.w) - o2), m = (l + r) / 2, S = (H - o2) + (m - l);
     Object.assign(g, { l0: l, r0: r, m, H });
-    if (g.fin && o.p >= 1) return;
+    // the scan completes the moment the story's bottom edge closes the bar, not a frame later
+    const p = el.__edgeLock || (WQ_SEAM && WQ_SEAM.a && (y - RR * WQ_SEAM.a) >= o.c.b) ? Math.max(1, o.p) : o.p;   // the edge locking under the bar completes the scan
+    if (g.fin && p >= 1) return;
     g.l.setAttribute('d', `M${l} ${H}V${o2}H${m}`); g.r.setAttribute('d', `M${r} ${H}V${o2}H${m}`);
-    const dash = `${(wqCl(o.p) * S).toFixed(1)} ${(S * 2).toFixed(1)}`; [g.l, g.r].forEach(p => { p.style.opacity = 1; p.style.stroke = ''; p.setAttribute('stroke-dasharray', dash); });
-    // its bottom edge closes the loop along the bottom of the bar as the last of it goes in
-    const yb = H - o2, half = m - l, kb = wqCl(1 - (o.c.b - top) / (U * 7));
+    const dash = `${(wqCl(p) * S).toFixed(1)} ${(S * 2).toFixed(1)}`, sk = ''; [g.l, g.r].forEach(q => { q.style.opacity = 1; q.style.stroke = sk; q.setAttribute('stroke-dasharray', dash); });   // the color fades in as the story's edge settles under the bar
+    // no loading line along the bottom: only the side strokes climb and meet at the top. The story's own bottom edge becomes the
+    // bar's bottom line the moment it arrives there, as the scan finishes, and that one line lights up with the rest
+    const yb = H - o2;
     g.bl.setAttribute('d', `M${l - o2} ${yb}H${m}`); g.br.setAttribute('d', `M${r + o2} ${yb}H${m}`);
-    [g.bl, g.br].forEach(p => { p.style.opacity = 1; p.style.stroke = ''; p.setAttribute('stroke-dasharray', `${((half + o2) * kb).toFixed(1)} ${(half * 3).toFixed(1)}`); });
-    if (o.p >= 1 && !g.fin) { if (WQ_MV && WQ_MV.dir > 0 && o.p < 1.08) { g.fin = now; WQ_FINS.push(g); } else { g.fin = -1; [g.l, g.r, g.bl, g.br].forEach(p => p.style.opacity = 0); } }
-    if (o.p < 1) g.fin = 0;
+    // as the story's bottom edge reaches the bar's bottom edge, the bar takes that line as its own and holds it,
+    // so the box reads closed from then until the scan completes and the whole outline lights up
+    const held = false;   // no added bottom line: the story's own bottom edge keeps its full stroke through the roll-off (see rollDrum) and closes the box itself
+    [g.bl, g.br].forEach(p => { p.style.opacity = held ? 1 : 0; p.style.stroke = ''; p.setAttribute('stroke-dasharray', 'none'); });
+    if (p >= 1 && !g.fin) { if (WQ_MV && WQ_MV.dir > 0 && o.p < 1.08) { g.fin = now; g.kill = 0; g.spd = wqAuto() ? 1 : Math.abs(vel) > U * 220 ? .16 : .26; WQ_FINS.forEach(o => { if (o !== g) o.kill = 1; }); WQ_FINS.push(g); } else { g.fin = -1; [g.l, g.r, g.bl, g.br].forEach(q => q.style.opacity = 0); } }
+    if (p < 1) { g.fin = 0; g.done = 0; g.op = null; }
   });
   // strokes of cards no longer in the bar go away
   const keep = new Set(); going.forEach(o => { const g = o.c.el.__wq; if (g) [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)); }); WQ_FINS.forEach(g => [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)));
@@ -5163,10 +5251,13 @@ function wsBite(y) {
   // moved by the feed itself, so they crawl with the slow automatic scroll and spin out fast when a hand feeds the board
   if (!WQ_CNTEL || !WQ_Q.contains(WQ_CNTEL)) { const inp = WSH.querySelector('input'); WQ_CNTEL = document.createElement('div'); WQ_CNTEL.className = 'wq-n'; WQ_CNTEL.style.right = U * 1.4 + 'px'; WQ_CNTEL.style.fontSize = getComputedStyle(inp).fontSize;
     WQ_CNTEL.innerHTML = '<small>Scanned</small><span class="kq"><span class="rn"><span class="it"></span><span class="it"></span></span></span>'; WQ_Q.appendChild(WQ_CNTEL); WQ_CNT = null; WQ_RX = 0; }
-  if (cur && cur.c) { const bn = +cur.c.el.dataset.no || 0, sn = cur.c.el.dataset.sn || '', key = bn + sn;
-    if (key !== WQ_CNT) { WQ_CNTEL.querySelectorAll('.rn .it').forEach(x => x.innerHTML = `<b>${bn}</b>${sn}`); WQ_CNT = key; WQ_CNTB = bn; } }
-  { const rn = WQ_CNTEL.querySelector('.rn'), half = rn.scrollWidth / 2 || 1, dy = WQ_LY2 === null ? 0 : y - WQ_LY2; WQ_LY2 = y;
-    WQ_RX = ((WQ_RX + dy * .45) % half + half) % half; rn.style.transform = `translateX(${(-WQ_RX).toFixed(2)}px)`; }
+  // only the story the scanner is on right now, and only if it has a story number: no story on the scanner, or no number, and the box is empty
+  // one pass per story: the number enters at the box's right edge the moment the story touches the scanner, and has
+  // just left past the left edge when the story is fully scanned, so its travel across the box is the story's travel through the bar
+  { const on = going.filter(o => o.p > 0 && o.p < 1).sort((a, b) => b.p - a.p)[0], bn = on ? +on.c.el.dataset.no || 0 : 0, sn = on ? on.c.el.dataset.sn || '' : '', key = sn ? bn + sn : '';
+    const its = WQ_CNTEL.querySelectorAll('.rn .it'), rn = WQ_CNTEL.querySelector('.rn'), kq = WQ_CNTEL.querySelector('.kq');
+    if (key !== WQ_CNT) { its.forEach((x, i) => x.innerHTML = sn && !i ? `<b>${bn}</b>${sn}` : ''); WQ_CNT = key; WQ_CNTB = bn; WQ_RX = its[0].offsetWidth; }
+    const bw = kq.clientWidth, p = on && sn ? on.p : 1; rn.style.transform = `translateX(${(bw - p * (bw + WQ_RX)).toFixed(2)}px)`; WQ_LY2 = y; }
   // a story earns its tag once it is fully scanned; pulled back out of the bar, the tag is engraved row by row
   // as it crosses the scan line, with the laser running along the bar's edge above it
   let eng = null;
@@ -5188,14 +5279,21 @@ function wsBite(y) {
   WQ_REP = rep; WQ_N = n;
 }
 // the closed loop flashes the story's tag color, glowing softly inward from its edges, then fades
+function wqHex(c) { if (Array.isArray(c)) return c; const m = /^#([0-9a-f]{6})$/i.exec(String(c || '').trim()); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : wqRgb(c); }
+function wqMix(a, b, k) { const A = wqHex(a), B = wqHex(b); return A && B ? `rgb(${A.map((x, i) => Math.round(x + (B[i] - x) * k)).join(',')})` : b; }
 function wqFinish(t) {
   WQ_FINS = WQ_FINS.filter(g => {
-    const e = t - g.fin, o2 = g.w / 2, still = WQ_RM.matches;
+    const e = (t - g.fin) / (g.spd || 1), o2 = g.w / 2, still = WQ_RM.matches;   // sc < 1: a quick flash when fed by hand
     if (!g.gl && !still) { g.gl = document.createElement('i'); g.gl.className = 'wq-glow'; WQ_Q.appendChild(g.gl); }
-    const fade = wqCl(1 - (e - 420) / 380), op = still ? (e < 420 ? 1 : 0) : (e < 420 ? 1 : fade);
-    [g.l, g.r, g.bl, g.br].forEach(p => { p.setAttribute('stroke-dasharray', 'none'); p.style.stroke = g.col; p.style.opacity = op; });
-    if (g.gl) { const c3 = wqRgb(g.col) || [43, 43, 43]; Object.assign(g.gl.style, { left: (g.l0 - o2) + 'px', width: (g.r0 - g.l0 + g.w) + 'px', boxShadow: `inset 0 0 ${(U * 1.8).toFixed(1)}px rgba(${c3.join(',')},.55)`, opacity: op }); }
-    if (e < 800) return true;
+    // starts the moment the story's edge locks under the bar: the color and its glow fade in over about a frame, hold,
+    // then the whole outline (strokes locked in place, never trimmed) fades out with the color
+    const kin = still ? 1 : wqCl((e + 60) / 600), fade = wqCl(1 - (e - 900) / 480), op = still ? (e < 900 ? 1 : 0) : (e < 900 ? 1 : fade), gop = still ? op : Math.min(op, kin);
+    const cc = wqMix(g.sc, g.col, kin); g.cc = cc;
+    [g.l, g.r, g.bl, g.br].forEach(p => { p.setAttribute('stroke-dasharray', 'none'); p.style.stroke = cc; p.style.opacity = (p === g.bl || p === g.br) && g.rbx ? 0 : op; });   // the story's own held edge is the bottom line
+    g.op = op;
+    if (g.gl) { const c3 = wqHex(g.col) || [43, 43, 43]; Object.assign(g.gl.style, { left: (g.l0 - o2) + 'px', width: (g.r0 - g.l0 + g.w) + 'px', boxShadow: `inset 0 0 ${(U * 2.4).toFixed(1)}px rgba(${c3.join(',')},.85)`, opacity: gop }); }
+    if (e < 1400 && !g.kill) return true;   // a newer story's flash ends this one: one flash per story
+    g.done = 1; g.op = 0;
     [g.l, g.r, g.bl, g.br].forEach(p => { p.style.opacity = 0; p.style.stroke = ''; }); if (g.gl) { g.gl.remove(); g.gl = null; }
     return false; });
 }
@@ -5249,6 +5347,10 @@ function wsPlace() {
   view.style.removeProperty('top'); if (rl) rl.style.removeProperty('top');
   const vb = view.offsetTop, rb = rl ? rl.offsetTop : vb;
   WSH.style.top = rb + 'px';
+  // the bar is only shown once its true width is measured, so it never appears at a guessed width and then snaps
+  if (!WQ_SEAM && typeof RC !== 'undefined' && RC.length && RR) { WSH.style.top = rb + 'px'; wqSeam(); if (WQ_SEAM) return; }
+  if (!WQ_SEAM && !WS_SHOWN) { WSH.style.visibility = 'hidden'; if (!WS_SHOWT) WS_SHOWT = setTimeout(() => { WS_SHOWN = 1; if (WSH) WSH.style.visibility = ''; }, 4000); }
+  else if (!WS_SHOWN) { WS_SHOWN = 1; WSH.style.visibility = ''; }
   // the box is exactly as wide as the paper at the top of the roll-off, so the stories roll straight into it
   { const rh = rl ? rl.clientHeight : 0, m = (Math.PI / 2) * (1 - .5 / 12), sx = 1 / (1 + rh * (1 - Math.cos(m)) / (U * 62)), W = (rl ? rl.clientWidth : innerWidth) / 2;
     WSH.style.setProperty('--wsi', (WQ_SEAM ? WQ_SEAM.wsi : Math.round((W - (W - U * 2.2) * sx) * DPR) / DPR) + 'px'); BITEK = null; }
@@ -5257,7 +5359,7 @@ function wsPlace() {
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
   wsShift();
 }
-let WSBV = 0, WSVB = 0, WSRB = 0, WSMIN = 0, WSPRE = 0;
+let WSBV = 0, WSVB = 0, WSRB = 0, WSMIN = 0, WSPRE = 0; let WS_SHOWN = 0, WS_SHOWT = 0;
 function wsShift() {
   if (!WSH) return; const rl = document.getElementById('roll3d'), top = WSD - WSBV;
   WSH.style.transform = WSBV ? `translateY(${-WSBV}px)` : ''; WSH.style.clipPath = WSBV ? `inset(${WSBV}px 0 0 0)` : '';
