@@ -1,6 +1,6 @@
 {
 "months": {
-"2026-11": 143
+"2026-11": 148
 },
 "nos": {
 "18-wheeler-explosion-on-i-35-killed-a-local-trucker-medical-examiner-s": {
@@ -46,6 +46,10 @@
 "bexar-county-s-felony-veterans-treatment-court-graduates-a-class-of-12": {
 "day": "2026-11-24",
 "no": "11.030.0"
+},
+"black-friday-shoppers-split-between-early-store-lines-and-online-deals": {
+"day": "2026-11-27",
+"no": "11.145.0"
 },
 "black-furday-free-pet-adoptions-at-animal-care-services": {
 "day": "2026-11-25",
@@ -411,6 +415,10 @@
 "day": "2026-11-24",
 "no": "11.094.0"
 },
+"san-antonio-families-host-air-force-trainees-for-thanksgiving-in-the-5": {
+"day": "2026-11-27",
+"no": "11.147.0"
+},
 "san-antonio-fc-signs-defender-mitchell-taintor-to-a-multi-year-extensi": {
 "day": "2026-11-25",
 "no": "11.108.0"
@@ -467,6 +475,10 @@
 "day": "2026-11-24",
 "no": "11.096.0"
 },
+"sunny-67-on-black-friday-and-72-saturday-before-a-windy-cooler-sunday": {
+"day": "2026-11-27",
+"no": "11.148.0"
+},
 "texas-lutheran-and-trinity-learn-their-d-iii-playoff-paths": {
 "day": "2026-11-24",
 "no": "11.080.0"
@@ -474,6 +486,10 @@
 "texas-posts-its-largest-enrollment-drop-on-record": {
 "day": "2026-11-24",
 "no": "11.041.0"
+},
+"thanksgiving-return-rush-peaks-sunday-with-about-20-000-flying-out-of": {
+"day": "2026-11-27",
+"no": "11.144.0"
 },
 "thanksgiving-travel-rush-hits-san-antonio-s-airport-with-about-130-000": {
 "day": "2026-11-25",
@@ -554,6 +570,10 @@
 "waymo-has-no-plans-to-widen-its-service-area": {
 "day": "2026-11-24",
 "no": "11.097.0"
+},
+"wembanyama-scores-44-with-16-rebounds-but-spurs-fall-116-to-111-in-por": {
+"day": "2026-11-27",
+"no": "11.146.0"
 },
 "wembanyama-scores-50-with-19-rebounds-as-spurs-rout-pelicans-114-to-91": {
 "day": "2026-11-24",
