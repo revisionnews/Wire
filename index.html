@@ -1086,7 +1086,25 @@ html.one .wt2 button{font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.5) 0}
 /* Search option B: the box and its tags sit together in one gray panel, no outlines */
 .wsh .wsearch{border:0 !important;background:#BDBDBD}
 .wsh.open{background:#BDBDBD;left:calc(var(--u)*2.2) !important;right:calc(var(--u)*2.2) !important;padding:0 0 calc(var(--u)*.2) !important}
-.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*4);pointer-events:none;display:none;contain:strict;overflow:hidden}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;-webkit-mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x,var(--bm3) var(--m3,0px) 0/310px 100% repeat-x;-webkit-mask-composite:source-in,source-in;mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x,var(--bm3) var(--m3,0px) 0/310px 100% repeat-x;mask-composite:intersect,intersect}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform;opacity:.15}.wsbite .sin.bc{opacity:1;filter:url(#satk) saturate(1.8)}.wsbite .sin.bc *{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important}.wsbite .sin.bc svg,.wsbite .sin.bc img{visibility:hidden !important}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
+.wsh{padding:0 var(--wsi,calc(var(--u)*2.2)) !important}
+/* scanner */
+.wsbite{display:none !important}.roll3d{-webkit-mask-image:none !important;mask-image:none !important}
+html:not(.tvm) .copy.tail{visibility:hidden}
+.wsh:not(.open) .wsearch{margin-bottom:var(--wlov,0px) !important}
+.wq{position:absolute;inset:0;pointer-events:none;overflow:hidden;font-style:normal}
+.wsh.open .wq{opacity:0;transition:opacity .15s}
+html.wq-has .wsh:not(.open) .wsearch input::placeholder{color:transparent}
+.wq-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wq-n{position:absolute;top:0;bottom:0;display:flex;align-items:center;gap:.35em;font-family:'Hando',sans-serif;font-weight:700;color:#4a4a4a;white-space:nowrap}
+.wq-n .d{display:inline-block;overflow:hidden;height:1.15em;line-height:1.15em;vertical-align:bottom;font-weight:900;color:#0D0F12;font-variant-numeric:tabular-nums}
+.wq-n .d span{display:block}.wq-n .d .up{animation:wqUp .35s cubic-bezier(.2,.8,.2,1)}.wq-n .d .dn{animation:wqDn .35s cubic-bezier(.2,.8,.2,1)}@keyframes wqUp{from{transform:translateY(100%)}}@keyframes wqDn{from{transform:translateY(-100%)}}
+.wq-n small{font-size:.62em;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#6a6a6a}
+.wq-log{position:absolute;top:0;bottom:0;display:flex;align-items:center;overflow:hidden;font-family:'Hando',sans-serif;font-weight:700;color:#3a3a3a;white-space:pre}
+.wq-car{position:absolute;top:22%;bottom:22%;width:3px}
+.wq-glow{position:absolute;top:0;bottom:0;pointer-events:none}
+html.dark .wq-log{color:#CFCFCF}html.dark .wq-n{color:#AAA}html.dark .wq-n .d{color:#EEE}html.dark .wq-n small{color:#999}
+@media (prefers-reduced-motion:reduce){.wq-n .d .up,.wq-n .d .dn{animation:none}}
+html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*4);pointer-events:none;display:none;contain:strict;overflow:hidden}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;-webkit-mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x,var(--bm3) var(--m3,0px) 0/310px 100% repeat-x;-webkit-mask-composite:source-in,source-in;mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x,var(--bm3) var(--m3,0px) 0/310px 100% repeat-x;mask-composite:intersect,intersect}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform;opacity:.15}.wsbite .sin.bc{opacity:1;filter:url(#satk) saturate(1.8)}.wsbite .sin.bc *{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important}.wsbite .sin.bc svg,.wsbite .sin.bc img{visibility:hidden !important}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
 .wsh.open .wsearch{margin-bottom:0 !important;border-bottom:2px solid rgba(0,0,0,.16) !important}
 .wsh .wtags{padding:calc(var(--u)*1.2) !important;gap:calc(var(--u)*.9) !important}
 .wsh .wt2{gap:calc(var(--u)*.9) !important}
@@ -3998,7 +4016,7 @@ function tick(ts) {
   const idle = (ts - lastIn) / 1000 - 1.2, k = dragY !== null ? 0 : Math.max(0, Math.min(1, idle / 2.2)), auto = k * k * (3 - 2 * k);
   off += wsEat(speed * u * auto * dt + vel * dt);
   if (track.classList.contains('wsm')) { const mx = Math.max(WSMIN, copyH - view.clientHeight + U * 6); if (off < WSMIN || off > mx) { off = Math.max(WSMIN, Math.min(off, mx)); vel = 0; tvel = 0; } }
-  else if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; }
+  else wsBound();
   // Whole device pixels only, so fine detail like QR codes never shimmers between pixels
   // TV: the feed is one GPU layer that slides by fractions of a pixel, so the TV never redraws it to move it.
   // Only the roll-off band is redrawn, and only when the feed has moved a whole pixel.
@@ -4021,7 +4039,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '20261126093232';
+const BUILD = '1795763551';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -4047,7 +4065,7 @@ load(); setInterval(load, 10 * 60 * 1000);
 // Mouse wheel and drag. Both ease in and out, then the board drifts on by itself again
 view.addEventListener('wheel', e => { if (TVMODE) return; if (INTRO) { e.preventDefault(); return; } e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
 view.addEventListener('pointerdown', e => { if (TVMODE || INTRO) return; if (e.target && e.target.closest && e.target.closest('.wsearch')) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
-view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += wsEat(dy); if (copyH) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
+view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += wsEat(dy); wsBound(); tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
 const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cursor = ''; lastIn = performance.now(); tvel = Math.max(-5000, Math.min(5000, tvel)); vel = tvel; };
 view.addEventListener('pointerup', endDrag); view.addEventListener('pointercancel', endDrag);
 
@@ -4586,7 +4604,7 @@ function wsOn() { return !TVMODE && WSOPEN; }
 function wsAny() { return !!(WQ || WF || WP); }
 function wsFocused() { const a = document.activeElement; return !!(a && a.closest && a.closest('.wsh')); }
 function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); }
-function setOff(v) { off = v; if (copyH && !track.classList.contains('wsm')) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); wsBite(y); }
+function setOff(v) { off = v; wsBound(); const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); wsBite(y); }
 // The search bar swallows the stories: while a card passes the top of the roll, its side strokes and a little of its color run up into the bar
 let BITEK = null, BITERC = null, BITEY = 0;
 // two ragged noise strips; they slide past each other as the board moves (and drift slowly with time), so the edge keeps changing
@@ -4601,30 +4619,145 @@ let BITEK = null, BITERC = null, BITEY = 0;
   { let x = 0, r = ''; const W = 310; while (x < W) { const w = 12 + Math.random() * 42, a = .04 + .96 * Math.pow(Math.random(), 1.4); r += `<rect x='${x.toFixed(1)}' y='0' width='${(w + 1).toFixed(1)}' height='100' fill='white' fill-opacity='${a.toFixed(2)}'/>`; x += w; }
     const tail = `<use href='%23p' x='-${W}'/><use href='%23p' x='${W}'/>`; r = `<g id='p'>${r}</g>`;
     document.documentElement.style.setProperty('--bm3', `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} 100' preserveAspectRatio='none'><defs><filter id='b' filterUnits='userSpaceOnUse' x='-20' y='-10' width='${W + 40}' height='120'><feGaussianBlur stdDeviation='9 6'/></filter></defs><g filter='url(%23b)'>${r}${tail}</g></svg>")`); } })();
+// The search bar is a scanner. Each story that rolls off the board into the bar is traced: its side strokes climb the bar as it is fed
+// in and meet at the top middle the moment the last of it is in; its bottom edge closes the loop; the loop then flashes the story's tag
+// color and the count of stories scanned today ticks up. The bar's text reports what the scanner is doing.
+const WQ_PIL = { S: 'Sports', P: 'Politics', A: 'Art', R: 'Revolution', C: 'Community' };
+const WQ_GLOSS = { update: 'ongoing story', breaking: 'happening now', event: 'open to the public', announcement: 'official notice', memo: 'city memo to council', ccr: 'council member request', meeting: 'public meeting', compare: 'coverage compared', warning: 'safety notice', result: 'final result', vote: 'official vote', decision: 'official decision', deadline: 'time limit', money: 'budget item', sponsor: 'paid placement', story: 'board story' };
+const WQ_STAT = { verified: 'verified, two sources or official', reported: 'reported, one outlet checked', unconfirmed: 'not confirmed yet', upcoming: 'scheduled, not happened yet', confirmed: 'confirmed by the agency' };
+const WQ_RM = matchMedia('(prefers-reduced-motion: reduce)');
+let WQ_Q = null, WQ_SEAM = null, WQ_CNT = -1, WQ_CNTEL = null, WQ_SVG = null, WQ_REP = null, WQ_LOG = null, WQ_CAR = null, WQ_LY = null, WQ_MV = null, WQ_FINS = [], WQ_EDGE = '', WQ_N = 0, WQ_NOTE = null, WQ_HS = null;
+const wqCl = x => Math.max(0, Math.min(1, x));
+function wqRgb(c) { const m = (c || '').match(/[\d.]+/g); return m && m.length >= 3 && !(m.length > 3 && +m[3] === 0) ? m.slice(0, 3).map(Number) : null; }
+function wqTag(el) { const t = el.querySelector('.tgb'), ts = t ? getComputedStyle(t) : null; let col = ts ? ts.backgroundColor : ''; const c3 = wqRgb(col); if (!c3 || c3.every(v => v > 250)) col = '#2B2B2B'; return { t, col }; }
+function wqLines(el) {
+  const { t, col } = wqTag(el), tx = q => t && t.querySelector(q) ? t.querySelector(q).textContent.trim() : '', k = el.classList;
+  let lab = tx('b'); if (!lab) lab = k.contains('l-ev') ? 'Event' : k.contains('l-memo') ? 'Memo' : k.contains('l-meet') ? 'Meeting' : k.contains('cmp') ? 'Compare' : 'Story';
+  const stat = tx('i'), out = [lab.charAt(0).toUpperCase() + lab.slice(1).toLowerCase() + ': ' + (WQ_GLOSS[lab.toLowerCase()] || 'board story')];
+  if (stat) out.push('Status: ' + (WQ_STAT[stat.toLowerCase()] || stat.toLowerCase()));
+  return { col, lines: out };
+}
+// today's feed: every card on the board but the bar itself and the repeat copies
+const wqFeed = () => RC.filter(c => !c.el.classList.contains('wsearch') && !c.el.closest('.tail'));
+const wqOv = () => WQ_SEAM ? WQ_SEAM.ov : 0;
+// the feed ends once the last story of today is fully scanned
+function wsMaxOff() { const f = wqFeed(), lb = f.length ? Math.max(...f.map(c => c.b)) : copyH; return Math.max(0, lb + RR * RPHI - U * 1.6 - wqOv() + 1); }
+const wqBounded = () => !TVMODE && typeof RC !== 'undefined' && RC.length && RR && !track.classList.contains('wsm');
+// keep the offset inside today's feed; the board never wraps into its end or the archive
+function wsBound() {
+  if (!copyH) return;
+  if (TVMODE || track.classList.contains('wsm')) { if (!track.classList.contains('wsm')) { while (off >= copyH) off -= copyH; while (off < 0) off += copyH; } return; }
+  const mx = wqBounded() ? wsMaxOff() : Infinity;
+  if (off < 0 || off > mx) { off = Math.max(0, Math.min(mx, off)); vel = 0; tvel = 0; }
+}
+const wqAuto = () => dragY === null && performance.now() - lastIn > 1200 && Math.abs(vel) < U * 3;
+const wqTell = (txt, ms) => { WQ_NOTE = { txt, until: performance.now() + (ms || 1400) }; };
+// the paper meets the bar on the same pixel: the bar sits over the thin, squeezed top slices of the drum, and its sides match the cards there
+function wqSeam() {
+  if (WQ_SEAM) return; const rl = document.getElementById('roll3d'), d = rl && rl.querySelector('.drum'); if (!d || !d.children.length || !RC.length) return;
+  const rt = rl.getBoundingClientRect().top, sl = [...d.children]; let i = sl.length - 1; while (i > 0 && sl[i].getBoundingClientRect().height < 1.3) i--;
+  const ov = Math.ceil((sl[i].getBoundingClientRect().top - rt) * DPR) / DPR, m = RPHI * (i + .5) / RN, sx = 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62)), W = rl.clientWidth / 2;
+  const tl = track.getBoundingClientRect().left; let cl0 = 1e9; RC.forEach(c => { if (!c.el.classList.contains('wsearch') && c.w > 40) cl0 = Math.min(cl0, c.l + tl); }); if (cl0 >= 1e9) cl0 = U * 2.2;
+  WQ_SEAM = { ov, sx, wsi: Math.round((W - (W - cl0) * sx) * DPR) / DPR };
+  document.documentElement.style.setProperty('--wlov', (-ov) + 'px'); wsPlace();
+}
+addEventListener('resize', () => { WQ_SEAM = null; document.documentElement.style.removeProperty('--wlov'); wqTell('Recalibrating scanner', 1200); });
 function wsBite(y) {
   if (TVMODE || !WSH) return;
   const box = WSH.querySelector('.wsearch'); if (!box) return;
-  let L = box.querySelector('.wsbite'); if (!L) { L = document.createElement('i'); L.className = 'wsbite'; L.setAttribute('aria-hidden', 'true'); box.appendChild(L); }
-  if (WSOPEN || typeof RC === 'undefined' || !RR) { if (BITEK !== '') { BITEK = ''; L.classList.remove('on'); } return; }
-  const top = y - RR * RPHI + U * 1.6, hit = RC.filter(c => c.t < top - 1 && c.b > top + 1 && !c.el.classList.contains('wsearch'));
-  if (BITERC !== RC || Math.abs(y - BITEY) > U * 30) { BITERC = RC; BITEK = null; } BITEY = y;
-  const key = hit.map(c => RC.indexOf(c)).join(',');
-  { const t = performance.now() / 1000; L.style.setProperty('--m1', (y * .45 + t * 3).toFixed(1) + 'px'); L.style.setProperty('--m2', (-y * .3 - t * 2).toFixed(1) + 'px'); L.style.setProperty('--m3', (y * .18 + t * 6).toFixed(1) + 'px'); }
-  const D = 1, grow = () => { const mx = L.clientHeight || U * 4, rr = U * 3.5; [...L.children].forEach((e, i) => { const c = hit[i]; if (!c) return;
-    const d = Math.max(0, Math.min(top - c.t, c.b - top)), H = Math.min(1, d / rr) * mx, row = Math.max(D, top - c.t);
-    e.style.height = H.toFixed(1) + 'px'; e.style.visibility = H < .6 ? 'hidden' : ''; const tf = `translateY(${H.toFixed(2)}px) scale(${e._sx},${(Math.max(H, 1) / D).toFixed(3)}) translateY(${(-row).toFixed(2)}px)`; for (const x of e.children) x.style.transform = tf; }); };
-  if (key === BITEK) { if (hit.length) grow(); return; } BITEK = key;
-  if (!hit.length) { L.classList.remove('on'); L.innerHTML = ''; return; }
-  const rl = document.getElementById('roll3d'), rb = rl.getBoundingClientRect(), tr = track.getBoundingClientRect(), br = box.getBoundingClientRect();
-  const m = RPHI * (RN - .5) / RN, sx = 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62)), RWh = rb.width / 2;
-  const X = x => rb.left + RWh + (tr.left - rb.left + x - RWh) * sx - br.left;
-  L.innerHTML = '';
-  hit.forEach(c => { const l = X(c.l), r = X(c.l + c.w), e = document.createElement('b'); e.style.left = l.toFixed(1) + 'px'; e.style.width = (r - l).toFixed(1) + 'px'; e._sx = ((r - l) / c.w).toFixed(5);
-    const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track'; const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
-    const k = c.el.cloneNode(true); k.classList.remove('in', 'out'); k.style.width = c.w + 'px'; k.style.height = c.h + 'px'; ms.appendChild(k);
-    const inn2 = inn.cloneNode(true); inn2.classList.add('bc'); e.appendChild(inn2); e.appendChild(inn); L.appendChild(e); });
-  L.classList.add('on'); grow();
+  if (!WQ_Q || !box.contains(WQ_Q)) { WQ_Q = document.createElement('i'); WQ_Q.className = 'wq'; WQ_Q.setAttribute('aria-hidden', 'true'); box.appendChild(WQ_Q); WQ_SVG = WQ_CNTEL = WQ_LOG = null; }
+  if (WSOPEN || typeof RC === 'undefined' || !RR || !RC.length) return;
+  wqSeam();
+  const top = y - RR * RPHI + U * 1.6 + wqOv(), pOf = c => (top - c.t) / Math.max(1, c.b - c.t), feed = wqFeed(), now = performance.now();
+  const going = feed.filter(c => c.el.offsetParent).map(c => ({ c, p: pOf(c) })).filter(o => o.p > 0 && o.p < 1.25);
+  if (WQ_LY !== null && Math.abs(y - WQ_LY) > .01) WQ_MV = { dir: y > WQ_LY ? 1 : -1, t: now }; WQ_LY = y;
+  const rl = document.getElementById('roll3d'), rb = rl.getBoundingClientRect(), br = box.getBoundingClientRect(), tr = track.getBoundingClientRect();
+  const sx = WQ_SEAM ? WQ_SEAM.sx : 1, RW2 = rb.width / 2, X = x => rb.left + RW2 + (tr.left - rb.left + x - RW2) * sx - br.left, H = br.height, BW = br.width;
+  if (!WQ_SVG || !WQ_Q.contains(WQ_SVG)) { WQ_SVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); WQ_SVG.setAttribute('class', 'wq-svg'); WQ_Q.appendChild(WQ_SVG); }
+  const mk = (g, k) => { const pa = document.createElementNS('http://www.w3.org/2000/svg', 'path'); pa.setAttribute('class', k.length > 1 ? 'lnb' : 'ln'); pa.setAttribute('fill', 'none'); pa.setAttribute('stroke', g.sc); pa.setAttribute('stroke-width', g.w); WQ_SVG.appendChild(pa); g[k] = pa; };
+  going.forEach(o => {
+    const el = o.c.el; let g = el.__wq;
+    if (!g || !WQ_SVG.contains(g.l)) { const cs = getComputedStyle(el); let sc = cs.borderLeftColor; if (!wqRgb(sc)) sc = '#0D0F12';
+      g = el.__wq = { sc, col: wqTag(el).col, w: Math.max(1.5, parseFloat(cs.borderLeftWidth) || 2), fin: 0 }; ['l', 'r', 'bl', 'br'].forEach(k => mk(g, k)); }
+    // the side strokes climb the bar and meet at the top middle exactly when the last of the card is in
+    const o2 = g.w / 2, l = Math.max(o2, X(o.c.l) + o2), r = Math.min(BW - o2, X(o.c.l + o.c.w) - o2), m = (l + r) / 2, S = (H - o2) + (m - l);
+    Object.assign(g, { l0: l, r0: r, m, H });
+    if (g.fin && o.p >= 1) return;
+    g.l.setAttribute('d', `M${l} ${H}V${o2}H${m}`); g.r.setAttribute('d', `M${r} ${H}V${o2}H${m}`);
+    const dash = `${(wqCl(o.p) * S).toFixed(1)} ${(S * 2).toFixed(1)}`; [g.l, g.r].forEach(p => { p.style.opacity = 1; p.style.stroke = ''; p.setAttribute('stroke-dasharray', dash); });
+    // its bottom edge closes the loop along the bottom of the bar as the last of it goes in
+    const yb = H - o2, half = m - l, kb = wqCl(1 - (o.c.b - top) / (U * 7));
+    g.bl.setAttribute('d', `M${l - o2} ${yb}H${m}`); g.br.setAttribute('d', `M${r + o2} ${yb}H${m}`);
+    [g.bl, g.br].forEach(p => { p.style.opacity = 1; p.style.stroke = ''; p.setAttribute('stroke-dasharray', `${((half + o2) * kb).toFixed(1)} ${(half * 3).toFixed(1)}`); });
+    if (o.p >= 1 && !g.fin) { if (WQ_MV && WQ_MV.dir > 0 && o.p < 1.08) { g.fin = now; WQ_FINS.push(g); } else { g.fin = -1; [g.l, g.r, g.bl, g.br].forEach(p => p.style.opacity = 0); } }
+    if (o.p < 1) g.fin = 0;
+  });
+  // strokes of cards no longer in the bar go away
+  const keep = new Set(); going.forEach(o => { const g = o.c.el.__wq; if (g) [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)); }); WQ_FINS.forEach(g => [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)));
+  [...WQ_SVG.querySelectorAll('path')].forEach(n => { if (!keep.has(n)) n.remove(); });
+  // the count: stories scanned so far today, never the size of the feed
+  const n = feed.filter(c => top >= c.b).length;
+  if (!WQ_CNTEL || !WQ_Q.contains(WQ_CNTEL)) { const inp = WSH.querySelector('input'); WQ_CNTEL = document.createElement('div'); WQ_CNTEL.className = 'wq-n'; WQ_CNTEL.style.right = U * 1.4 + 'px'; WQ_CNTEL.style.fontSize = getComputedStyle(inp).fontSize; WQ_CNTEL.innerHTML = '<span class="d"><span>0</span></span><small>scanned</small>'; WQ_Q.appendChild(WQ_CNTEL); WQ_CNT = -1; }
+  if (n !== WQ_CNT) { WQ_CNTEL.querySelector('.d').innerHTML = `<span class="${WQ_CNT < 0 ? '' : n > WQ_CNT ? 'up' : 'dn'}">${n}</span>`; WQ_CNT = n; }
+  WQ_EDGE = off <= .5 ? 'top' : off >= wsMaxOff() - .5 ? 'end' : '';
+  // the report: one story at a time, only while the board drifts on its own
+  let rep = WQ_REP;
+  if (rep) { rep.p = pOf(rep.c); if (rep.p <= 0 || (rep.p >= 1 && !rep.done)) { if (rep.p >= 1) rep.done = now; else rep = null; } if (rep && !rep.off && !wqAuto()) rep.off = now; if (rep && rep.done && now - rep.done > 900) rep = null; }
+  if (!rep && wqAuto() && WQ_MV && WQ_MV.dir > 0) { const nx = going.filter(o => o.p < .25).sort((a, b) => a.p - b.p)[0]; if (nx) rep = Object.assign({ c: nx.c, p: nx.p }, wqLines(nx.c.el)); }
+  WQ_REP = rep; WQ_N = n;
 }
+// the closed loop flashes the story's tag color, glowing softly inward from its edges, then fades
+function wqFinish(t) {
+  WQ_FINS = WQ_FINS.filter(g => {
+    const e = t - g.fin, o2 = g.w / 2, still = WQ_RM.matches;
+    if (!g.gl && !still) { g.gl = document.createElement('i'); g.gl.className = 'wq-glow'; WQ_Q.appendChild(g.gl); }
+    const fade = wqCl(1 - (e - 420) / 380), op = still ? (e < 420 ? 1 : 0) : (e < 420 ? 1 : fade);
+    [g.l, g.r, g.bl, g.br].forEach(p => { p.setAttribute('stroke-dasharray', 'none'); p.style.stroke = g.col; p.style.opacity = op; });
+    if (g.gl) { const c3 = wqRgb(g.col) || [43, 43, 43]; Object.assign(g.gl.style, { left: (g.l0 - o2) + 'px', width: (g.r0 - g.l0 + g.w) + 'px', boxShadow: `inset 0 0 ${(U * 1.8).toFixed(1)}px rgba(${c3.join(',')},.55)`, opacity: op }); }
+    if (e < 800) return true;
+    [g.l, g.r, g.bl, g.br].forEach(p => { p.style.opacity = 0; p.style.stroke = ''; }); if (g.gl) { g.gl.remove(); g.gl = null; }
+    return false; });
+}
+function wqFrame() {
+  requestAnimationFrame(wqFrame);
+  if (TVMODE || !WQ_Q || !WQ_Q.isConnected || WSOPEN || !WSH) return;
+  const t = performance.now(); wqFinish(t);
+  const inp = WSH.querySelector('input'); if (!inp) return;
+  if (!WQ_LOG || !WQ_Q.contains(WQ_LOG)) { WQ_LOG = document.createElement('span'); WQ_LOG.className = 'wq-log'; WQ_LOG.innerHTML = '<span></span><span style="position:absolute;visibility:hidden"></span>'; WQ_CAR = document.createElement('b'); WQ_CAR.className = 'wq-car'; WQ_Q.appendChild(WQ_LOG); WQ_Q.appendChild(WQ_CAR); }
+  const fs = getComputedStyle(inp).fontSize, x0 = inp.offsetLeft; WQ_LOG.style.left = (x0 - U) + 'px'; WQ_LOG.style.paddingLeft = U + 'px'; WQ_LOG.style.fontSize = fs; WQ_LOG.style.right = (WQ_CNTEL ? WQ_CNTEL.offsetWidth + U * 3 : U * 12) + 'px';
+  const tx = WQ_LOG.firstChild, ms = WQ_LOG.lastChild, room = WQ_LOG.clientWidth - U * 1.6, still = WQ_RM.matches;
+  const fit = s => { ms.textContent = s; if (ms.offsetWidth <= room) return s; const w = s.split(' '); while (w.length > 1) { w.pop(); ms.textContent = w.join(' ') + '…'; if (ms.offsetWidth <= room) break; } return w.join(' ').replace(/[,:]$/, '') + '…'; };
+  const say = (txt, col, blink) => { document.documentElement.classList.add('wq-has'); tx.textContent = fit(txt); WQ_CAR.style.background = col; WQ_CAR.style.left = (x0 + tx.offsetWidth + 3) + 'px'; WQ_CAR.style.opacity = blink && !still ? (Math.floor(t / blink) % 2 ? 1 : 0) : 1; };
+  const DK = document.documentElement.classList.contains('dark') ? '#D4D4D4' : '#0D0F12', dots = '.'.repeat(1 + Math.floor(t / 300) % 3);
+  if (WQ_NOTE && t < WQ_NOTE.until) return say(WQ_NOTE.txt, DK, 0);
+  if (WQ_EDGE === 'end') return say('End of today’s feed. All stories scanned', DK, 520);
+  // a hand on the board
+  const hand = WQ_MV && !wqAuto() && t - WQ_MV.t < 700, fast = Math.abs(vel) > U * 220;
+  if (hand) {
+    WQ_REP = null;
+    if (!WQ_HS || WQ_HS.dir !== WQ_MV.dir) WQ_HS = { dir: WQ_MV.dir, n0: WQ_N, t0: t };
+    const d = Math.abs(WQ_N - WQ_HS.n0), early = t - WQ_HS.t0 < 650;
+    if (WQ_MV.dir > 0) return say(early ? 'Manual override' : fast ? `Fast feed${d ? ', ' + d + ' scanned by hand' : dots}` : `Manual scanning${d ? ', ' + d + ' in' : dots}`, DK, 70);
+    return say(WQ_EDGE === 'top' ? 'Start of today’s feed' : early ? 'Reversing the feed' : `Feeding out${d ? ', ' + d + ' rewound' : dots}`, DK, 70);
+  }
+  if (dragY !== null) return say('Feed held', DK, 520);
+  WQ_HS = null;
+  if (!wqAuto() && lastIn > 0 && t - lastIn < 1500) return say(`Restarting automatic scanning${dots}`, DK, 300);
+  const rep = WQ_REP;
+  if (lastIn > 0 && t - lastIn < 2300 && !rep) return say('Automatic scanning resumed', DK, 0);
+  if (WQ_EDGE === 'top' && !rep) return say('Start of today’s feed. Scanning begins', DK, 520);
+  if (!rep || rep.off) return say('Next story ready to scan', DK, 520);
+  // one story: detected, two plain facts typed in, then the load to 100
+  const p = wqCl(rep.p), col = rep.col;
+  if (rep.done) return say('100%. Scan complete', col, 0);
+  if (p < .08) return say(`Story detected. Beginning scan${dots}`, col, 0);
+  if (p >= .8) return say(`Loading ${Math.min(99, Math.floor(p * 100))}%`, col, 0);
+  const L = rep.lines.map(fit), n = L.length, span = .72 / n, i = Math.min(n - 1, Math.floor((p - .08) / span)), lp = wqCl((p - .08 - i * span) / (span * .7)), s = L[i];
+  say(s.slice(0, Math.round(s.length * lp)), col, lp > 0 && lp < 1 ? 0 : 480);
+}
+requestAnimationFrame(wqFrame);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) wqTell('Welcome back. Resuming scan', 1800); });
+addEventListener('pointerover', e => { if (e.pointerType === 'mouse' && WSH && !WSOPEN && e.target.closest && e.target.closest('.wsearch') && !(WQ_NOTE && performance.now() < WQ_NOTE.until)) wqTell('Click to search what has been scanned', 1600); });
 // Place the locked box (and the tags when open) between the masthead and the roll-off
 function wsPlace() {
   const rl = document.getElementById('roll3d');
@@ -4635,7 +4768,7 @@ function wsPlace() {
   WSH.style.top = rb + 'px';
   // the box is exactly as wide as the paper at the top of the roll-off, so the stories roll straight into it
   { const rh = rl ? rl.clientHeight : 0, m = (Math.PI / 2) * (1 - .5 / 12), sx = 1 / (1 + rh * (1 - Math.cos(m)) / (U * 62)), W = (rl ? rl.clientWidth : innerWidth) / 2;
-    WSH.style.setProperty('--wsi', Math.round((W - (W - U * 2.2) * sx) * DPR) / DPR + 'px'); BITEK = null; }
+    WSH.style.setProperty('--wsi', (WQ_SEAM ? WQ_SEAM.wsi : Math.round((W - (W - U * 2.2) * sx) * DPR) / DPR) + 'px'); BITEK = null; }
   const box = WSH.querySelector('.wsearch'), tg = WSH.querySelector('.wtags');
   const h = box.offsetHeight + parseFloat(getComputedStyle(box).marginBottom || 0) + (WSOPEN ? tg.offsetHeight + U * .7 : 0);
   WSD = h; WSVB = vb; WSRB = rb; if (WSOPEN) WSBV = 0; WSBV = Math.min(WSBV, h);
@@ -4715,6 +4848,7 @@ function wsOpen() {
   if (TVMODE || WSOPEN || wsBusy || !WSH) return;
   gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
+  { const i = WSH.querySelector('input'); if (i) { i.dataset.ph = i.dataset.ph || i.placeholder; i.placeholder = 'Scanner paused. Search today’s feed'; } }
   WSPRE = off; const c = WSD; WSOPEN = true; WSH.classList.add('open'); WSBV = 0; wsPlace();
   const fold = Object.assign(wsFold(), { c, o: WSD }); fold.tg.style.opacity = '0';
   wsSlide(c, WSD, 420, true, null, fold);
@@ -4730,6 +4864,7 @@ function wsClose() {
   WQ = ''; WF = ''; WP = ''; const inp = WSH.querySelector('input'); if (inp) inp.value = '';
   WSH.querySelectorAll('.wtags .on').forEach(x => x.classList.remove('on')); { const em = WSH.querySelector('.wsn'); if (em) em.textContent = ''; }
   const o = WSD, fold = wsFold();
+  { const i = WSH.querySelector('input'); if (i && i.dataset.ph) i.placeholder = i.dataset.ph; } wqTell('Search closed. Resuming scan', 1600);
   WSOPEN = false; WSH.classList.remove('open'); wsPlace(); const c = WSD; WSH.classList.add('open');
   Object.assign(fold, { c, o });
   // All at once: the matches fade away, the tags fold up, and the full feed rolls back in from the bottom,
