@@ -4139,7 +4139,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '1795765246';
+const BUILD = '1795766013';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 async function load() {
@@ -5110,7 +5110,7 @@ function wsBite(y) {
   const mk = (g, k) => { const pa = document.createElementNS('http://www.w3.org/2000/svg', 'path'); pa.setAttribute('class', k.length > 1 ? 'lnb' : 'ln'); pa.setAttribute('fill', 'none'); pa.setAttribute('stroke', g.sc); pa.setAttribute('stroke-width', g.w); WQ_SVG.appendChild(pa); g[k] = pa; };
   going.forEach(o => {
     const el = o.c.el; let g = el.__wq;
-    if (!g || !WQ_SVG.contains(g.l)) { const cs = getComputedStyle(el); let sc = cs.borderLeftColor; if (!wqRgb(sc)) sc = '#0D0F12';
+    if (!g || !WQ_SVG.contains(g.l)) { const cs = getComputedStyle(el); let sc = cs.borderLeftColor; if (!wqRgb(sc)) sc = '#0D0F12'; if (document.documentElement.classList.contains('dark')) sc = '#D4D4D4';   // inverted colors: the trace is white so it reads on the dark bar
       g = el.__wq = { sc, col: wqTag(el).col, w: Math.max(1.5, parseFloat(cs.borderLeftWidth) || 2), fin: 0 }; ['l', 'r', 'bl', 'br'].forEach(k => mk(g, k)); }
     // the side strokes climb the bar and meet at the top middle exactly when the last of the card is in
     const o2 = g.w / 2, l = Math.max(o2, X(o.c.l) + o2), r = Math.min(BW - o2, X(o.c.l + o.c.w) - o2), m = (l + r) / 2, S = (H - o2) + (m - l);
