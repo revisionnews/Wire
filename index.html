@@ -433,8 +433,8 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .popwrap .row.l-ev .evt .eb,.popwrap .row.l-ev .evt .el{display:flex;align-items:stretch;white-space:nowrap;box-sizing:border-box;margin:0 calc(-1 * var(--cbl));padding:0 calc(var(--u)*1.6 + var(--cbl))}
 .popwrap .row.l-ev .evt .eb{flex:none;height:calc(var(--u)*4.2);background:#0D0F12;color:#fff;font:900 calc(var(--u)*2.15)/1 'Hando',sans-serif;letter-spacing:.18em;text-transform:uppercase}
 .popwrap .row.l-ev .evt .el{flex:1;color:#0D0F12}
-.popwrap .row.l-ev .evt .c1{flex:none;width:var(--c1w);display:flex;align-items:center}
-.popwrap .row.l-ev .evt .c2{flex:none;width:var(--c2w);display:flex;align-items:center}
+.popwrap .row.l-ev .evt .c1{flex:none;width:var(--c1w);display:flex;align-items:center;justify-content:center}
+.popwrap .row.l-ev .evt .c2{flex:none;width:var(--c2w);display:flex;align-items:center;justify-content:center}
 .popwrap .row.l-ev .evt .el .c1,.popwrap .row.l-ev .evt .el .c2{align-items:flex-end;padding-bottom:calc(var(--u)*1.5)}
 .popwrap .row.l-ev .evt .sep{flex:none;width:max(1px,calc(var(--u)*.35));margin:0 calc(var(--u)*1.4);align-self:stretch}
 .popwrap .row.l-ev .evt .eb .sep{background:rgba(255,255,255,.4);margin-top:calc(var(--u)*1)}
@@ -471,6 +471,11 @@ html.pub .story.top .rank{opacity:1;color:var(--c)}
 .popwrap .row.l-ev .stub.cal.evmv::before{top:var(--s1t);height:var(--s1h);background:rgba(255,255,255,.4)}
 .popwrap .row.l-ev .stub.cal.evmv::after{top:var(--s2t);height:var(--s2h);background:#0D0F12}
 .popwrap .row.l-ev .stub.cal.evmv.full::before,.popwrap .row.l-ev .stub.cal.evmv.full::after{opacity:1;transition-delay:.15s}
+.popwrap .row.l-ev .stub.cal .sx2{display:none}
+.popwrap .row.l-ev .stub.cal.evmv > .sx2{display:block !important;z-index:2;width:max(1px,calc(var(--u)*.35)) !important;left:var(--sx2) !important;opacity:0;transition:opacity .2s ease;text-decoration:none}
+.popwrap .row.l-ev .stub.cal.evmv > .sx2.a{top:var(--s3t) !important;height:var(--s3h) !important;background:rgba(255,255,255,.4)}
+.popwrap .row.l-ev .stub.cal.evmv > .sx2.b{top:var(--s4t) !important;height:var(--s4h) !important;background:#0D0F12}
+.popwrap .row.l-ev .stub.cal.evmv.full > .sx2{opacity:1;transition-delay:.15s}
 .popwrap .row.l-ev .stub.cal.evmv.now,.popwrap .row.l-ev .stub.cal.evmv.now *{transition:none !important}
 .popwrap .row.l-ev .spl{transition:opacity .2s ease}.popwrap .row.l-ev.evs .spl{opacity:0}
 .popwrap .row.l-ev .rh{transition:padding-right .34s cubic-bezier(.65,0,.35,1)}.popwrap .row.l-ev.evx .rh{padding-right:calc(var(--u)*1.4) !important}
@@ -1192,7 +1197,7 @@ html.dark .refs .wqt{border-color:#D4D4D4}.popwrap .wqt{display:none !important}
 .refs .wqp.on{background:#C9A46B;color:#3A220E;border-color:#0D0F12;box-shadow:none;opacity:1}.refs .wqp.on b{text-shadow:none}.refs .wqp.on .bn{background:#0D0F12;color:#C9A46B}
 html.dark .refs .wqp.on{border-color:#D4D4D4;color:#3A220E}html.dark .refs .wqp.on .bn{background:#D4D4D4;color:#3A220E}
 .refs .rw{min-width:0}
-.wq-beam{position:absolute;bottom:0;height:2px;background:#FF6A3C;box-shadow:0 0 6px 2px rgba(255,90,50,.75),0 0 16px 4px rgba(255,90,50,.35);pointer-events:none}
+.wq-beam{position:absolute;bottom:0;height:2px;z-index:7;background:transparent;filter:blur(.4px);pointer-events:none}
 
 /* scanner */
 .wsbite{display:none !important}.roll3d{-webkit-mask-image:none !important;mask-image:none !important}
@@ -1209,7 +1214,29 @@ html.wq-has .wsh:not(.open) .wsearch input::placeholder{color:transparent}
 .wq-n{display:inline-flex;flex-direction:column;align-items:stretch;justify-content:center;gap:.2em}.wq-n small{order:-1;line-height:1;font-size:.56em;text-align:center}.wq-n .kq{display:block;position:relative;overflow:hidden;height:1.15em;border:max(1px,calc(var(--u)*.16)) solid #4a4a4a}.wq-n .rn{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;white-space:nowrap;will-change:transform}.wq-n .it{font-size:.66em;font-weight:900;color:#6a6a6a;padding:0 .25em}.wq-n .it:empty{display:none}.wq-n .it b{color:#4a4a4a;margin-right:.45em}html.dark .wq-n .kq{border-color:#9a9a9a}html.dark .wq-n .it{color:#AAA}html.dark .wq-n .it b{color:#CFCFCF}
 .wq-log{position:absolute;top:0;bottom:0;display:flex;align-items:center;overflow:hidden;font-family:'Hando',sans-serif;font-weight:700;color:#3a3a3a;white-space:pre}
 .wq-car{position:absolute;top:22%;bottom:22%;width:3px}
+/* desktop: a darker, larger glass; the ticker matches it and its box is pressed into the bar; the status reads like a lit display */
+html:not(.one) .wsh .wsearch > svg:not(.wq-svg),html:not(.one) .wsh .wsearch .wq svg.wq-ic2{width:calc(var(--u)*3.7);height:calc(var(--u)*3.7);color:#4a4a4a}
+.wsh .wsearch .wq svg.wq-ic2{position:absolute;right:auto;bottom:auto;top:50%;transform:translateY(-50%);margin:0}
+html:not(.one) .wq-n small{color:#4a4a4a}
+html:not(.one) .wq-n{gap:.07em}html:not(.one) .wq-n .kq{border-color:#4a4a4a;background:rgba(0,0,0,.035);box-shadow:inset 0 1px 1.5px rgba(0,0,0,.16)}html:not(.one) .wq-n .rn{top:.09em}
+html:not(.one) .wq-n .rn{color:#4a4a4a}
+html:not(.one) .wq-log{color:#6E6E6E;text-shadow:none;padding-top:.32em}   /* barely set off from the bar, as if shown on its own screen */
+html:not(.one) .wq-car{top:36%;bottom:26%}
+html.dark:not(.one) .wq-log{color:#E8E8E8}
 .wq-glow{position:absolute;top:0;bottom:0;pointer-events:none}
+html:not(.one) .wq-glow{display:none}
+.wq-gut{position:absolute;top:-1px;bottom:-1px;background:var(--paper);pointer-events:none}
+.wq-hd{fill:#FFF6E0;filter:drop-shadow(0 0 3px rgba(255,150,80,.95))}
+.wq-det{position:absolute;height:calc(var(--u)*2.2);background:linear-gradient(to bottom,rgba(224,110,100,.85) 0,rgba(224,110,100,.85) 2px,rgba(224,110,100,.3) 3px,rgba(224,110,100,0) 100%);opacity:0;pointer-events:none;z-index:7}
+.wq-cgf{position:absolute;height:max(2px,calc(var(--u)*.3));pointer-events:none;z-index:8;opacity:0}
+.wsh.open .wq-cgf{display:none}
+.wq-cgd,.wq-cgu{position:absolute;height:calc(var(--u)*2.4);pointer-events:none;z-index:7;opacity:0}
+.wq-cgu{-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.wsh.open .wq-cgd,.wsh.open .wq-cgu{display:none}
+.wq-bgl{position:absolute;height:calc(var(--u)*1.3);opacity:0;pointer-events:none;z-index:7;-webkit-mask-image:linear-gradient(to bottom,#000,transparent);mask-image:linear-gradient(to bottom,#000,transparent)}
+.wq-spk{position:absolute;width:1.5px;height:1.5px;border-radius:50%;background:#FFD9C8;opacity:0;pointer-events:none;z-index:8}
+.wq-lip{position:absolute;height:calc(var(--u)*2);pointer-events:none;z-index:6;opacity:0;background:linear-gradient(to bottom,rgba(16,16,16,.78),rgba(16,16,16,.42) 30%,rgba(16,16,16,.12) 65%,rgba(16,16,16,0))}
+html.one .wq-lip,.wsh.open .wq-lip,html.tvm .wq-lip{display:none}
 html.dark .wq-log{color:#CFCFCF}html.dark .wq-n{color:#AAA}html.dark .wq-n .d{color:#EEE}html.dark .wq-n small{color:#999}
 @media (prefers-reduced-motion:reduce){.wq-n .d .up,.wq-n .d .dn{animation:none}}
 html.pub .roll3d{-webkit-mask-image:none !important;mask-image:none !important}.wsh .wsearch{position:relative;overflow:hidden}.wsbite{position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*4);pointer-events:none;display:none;contain:strict;overflow:hidden}.wsbite.on{display:block}.wsbite b{position:absolute;bottom:0;height:0;overflow:hidden;-webkit-mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x,var(--bm3) var(--m3,0px) 0/310px 100% repeat-x;-webkit-mask-composite:source-in,source-in;mask:var(--bm) var(--m1,0px) 100%/170px 100% repeat-x,var(--bm2) var(--m2,0px) 100%/233px 100% repeat-x,var(--bm3) var(--m3,0px) 0/310px 100% repeat-x;mask-composite:intersect,intersect}.wsbite .sin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform;opacity:.15}.wsbite .sin.bc{opacity:1;filter:url(#satk) saturate(1.8)}.wsbite .sin.bc *{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important}.wsbite .sin.bc svg,.wsbite .sin.bc img{visibility:hidden !important}.wsbite .sin,.wsbite .sin .copy,.wsbite .sin .mason{padding:0 !important;margin:0 !important;border:0 !important;columns:auto !important;column-count:auto !important;background:none !important}.wsbite .sin .mason{position:relative;height:0}.wsbite .sin .mason > *{position:absolute !important;margin:0 !important;left:0;top:0}.wsbite *,.wsbite *::before,.wsbite *::after{animation:none !important;transition:none !important}.wsh .wsearch{margin-bottom:0 !important}.wsh.open{left:var(--wsi,calc(var(--u)*2.2)) !important;right:var(--wsi,calc(var(--u)*2.2)) !important}
@@ -1248,7 +1275,9 @@ html body #view.view > #track{margin-top:2px}   /* the feed starts 2px under the
 html,body{background:var(--paper) !important}
 .roll3d{position:absolute;left:0;right:0;top:calc(var(--u)*10 + 6px);height:calc(var(--u)*4 + 3px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 3px);mask-image:linear-gradient(to bottom,transparent 0,#000 3px);overflow:hidden;pointer-events:none;z-index:5}
 .roll3d .drum{position:absolute;top:0;bottom:0}
-html:not(.tvm) .roll3d{background:var(--paper)}   /* the flat board slides under the roll-off band: hide it there, so its lines never show through the gaps between curled stories */
+html:not(.tvm) .roll3d{background:var(--paper)}
+/* the drum's faces are drawn by the graphics chip and can slip past the band's own edge; clip it hard, and let the story fade in over its top 2px so nothing creeps up into the search bar */
+html.pub:not(.tvm) .roll3d{clip-path:inset(0)}   /* the flat board slides under the roll-off band: hide it there, so its lines never show through the gaps between curled stories */
 .roll3d .slc{position:absolute;left:0;right:0;bottom:0;overflow:hidden;transform-origin:50% 0}
 .roll3d .slc{contain:strict}
 .rbx{position:absolute;left:0;top:0;height:0;z-index:5;pointer-events:none;display:none;overflow:hidden}
@@ -1272,7 +1301,9 @@ html:not(.tvm) .roll3d{background:var(--paper)}   /* the flat board slides under
     var nav = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type || 'navigate';
     day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
     var seen = null; try { seen = localStorage.getItem('wireIntroDay'); } catch (e) {}
-    play = themeOnly && !q.get('s') && !tv && !matchMedia('(prefers-reduced-motion: reduce)').matches && (q.get('intro') === '1' || (nav === 'navigate' && seen !== day));
+    play = themeOnly && !q.get('s') && !tv && !matchMedia('(prefers-reduced-motion: reduce)').matches && q.get('intro') !== '0' && (q.get('intro') === '1' || nav === 'navigate');   // every fresh open (a new tab, a typed or followed link) gets the intro; a reload or back does not
+    // a reload or back in the same tab picks the board up where the reader left it (the tab remembers it until it is closed)
+    if (nav === 'reload' || nav === 'back_forward') { try { var so = sessionStorage.getItem('wireOff'); if (so !== null && isFinite(+so)) window.WI_RS = +so; } catch (e) {} }
   } catch (e) { play = false; }
   if (play) { H.classList.add('wi', 'wi-pre'); window.WI_DAY = day; }
 })();
@@ -4038,29 +4069,66 @@ function rollAlign() { const v = RMAP.values().next().value; if (!v || !v.sl || 
 let RC = [], RMAP = new Map(), RR = 0, RH = 0, RW = 0, RIN = 0, RMS = 1;
 // the drum's inward pull at angle m. Off the TV it pulls in four and a half more pixels by the time the paper reaches the search bar's bottom edge,
 // growing smoothly from nothing where the paper is still flat, so the paper and the narrower bar finish on the same edge
-const rollSX = m => 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62)) - RIN * (1 - Math.cos(m)) / RMS;
+const rollSX0 = m => 1 / (1 + RR * (1 - Math.cos(m)) / (U * 62));
+// off the TV the paper's side edge bends into the search bar along one true quarter ellipse: straight up where it leaves the flat board,
+// level where it meets the bar's bottom corner, and the same pull it always had at the bar (so the bar still lines up). Every part of
+// the story (text, fill, sides) is pulled by the same rule, so the whole corner is one smooth round, never two bends
+let RCX = null;
+// the bend is complete a little before the bar, so by the time the paper reaches the bar it is already exactly the bar's width
+// and slides straight in underneath it; it never runs sideways into the bar's corner
+const RQ = .86;
+const rollSX = m => { if (!RCX) return rollSX0(m) - RIN * m / RMS; const Y = Math.min(1, RR * Math.sin(m) / (RCX.Yb * RQ)); return 1 - RCX.D * (1 - Math.sqrt(Math.max(0, 1 - Y * Y))) / RCX.HW; };
 const rollClean = k => { k.classList.remove('in', 'out'); return k; };
+// two flat markers in each copy, along the story's painted top and bottom edges: measuring them tells where a face paints those
+// edges. (Measuring the whole copy no longer works once a face has perspective: the parts far off the face fly out of all proportion)
+function rollMk(x, k, c) { if (!c.bwk) { const cs = getComputedStyle(c.el); c.bwk = [parseFloat(cs.borderTopWidth) || 0, parseFloat(cs.borderLeftWidth) || 0, parseFloat(cs.borderBottomWidth) || 0]; }
+  const [bt, bl] = c.bwk, st = `position:absolute;display:block;left:${-bl}px;width:${c.w}px;height:0;margin:0;padding:0;border:0;pointer-events:none;`;
+  x.mt = document.createElement('rb-m'); x.mt.style.cssText = st + `top:${-bt}px`; x.mb = x.mk = document.createElement('rb-m'); x.mk.style.cssText = st + `top:${c.h - bt}px`; k.append(x.mt, x.mk); }
+// desktop scanner D: a story in one of two columns rolls toward its own column's scanner, so both its sides bend in
+// off for now: both columns follow one vanishing point at the screen's center
+const ROLL_COLS = false;
+function rollColOn(c) { try { return ROLL_COLS && !TVMODE && WQ_V === 'D' && innerWidth >= 900 && RW && c.w < RW * .7 && !c.el.classList.contains('wsearch'); } catch (e) { return false; } }
+function rollColX(c, m) { const Y = Math.min(1, RR * Math.sin(m) / (RCX.Yb * RQ)); return 1 - RCX.D * (1 - Math.sqrt(Math.max(0, 1 - Y * Y))) / (c.w / 2); }
+function rollMkSz(x, c) { if (!x.mk || !c.bwk) return; x.mt.style.width = x.mk.style.width = c.w + 'px'; x.mk.style.top = (c.h - c.bwk[0]) + 'px'; }
 function rollDrum(c) {
   const box = document.getElementById('roll3d');
   const d = document.createElement('div'); d.className = 'drum';
   d.style.left = '0px'; d.style.right = '0px';   // drum spans the feed so copies sit on the exact same pixel grid as the real cards
   const sl = [];
+  // D: this story's column center on the drum, which its faces bend in toward
+  const col = RCX && rollColOn(c), ccx = col ? track.getBoundingClientRect().left - box.getBoundingClientRect().left + c.l + c.w / 2 : 0, SX = m => col ? rollColX(c, m) : rollSX(m);
   for (let i = 0; i < RN; i++) {
     const a0 = RPHI * i / RN, a1 = RPHI * (i + 1) / RN, arc = RR * (a1 - a0), chord = 2 * RR * Math.sin((a1 - a0) / 2);
     const e = document.createElement('div'); e.className = 'slc';
-    e.style.height = (chord + 0.6) + 'px';   // flat face between two points on the drum, so neighbouring faces meet exactly
+    // flat face between two points on the drum; it runs on past its top edge, under the next face, by a pixel and a half of the
+    // screen however squashed it is, so the next face's soft edge always lies on paper of the same story and never shows a light crack
+    const ext = i === RN - 1 ? .6 : Math.min(chord * .9, Math.max(.6, 1.5 / ((window.devicePixelRatio || 1) * Math.cos((a0 + a1) / 2))));   // the top face has nothing above it to tuck under
+    e.style.height = (chord + ext) + 'px';
     // one shared vanishing point (screen center, bottom of the roller) written into each face, so every browser draws it the same
-    const hh = chord + 0.6, ox = RW / 2 - c.l, oy = hh, P = U * 100000;
+    const hh = chord + ext, ox = RW / 2 - c.l, oy = hh, P = U * 100000;
     const m = (a0 + a1) / 2;
-    const sx = rollSX(m);   // slight inward pull toward the screen center as the paper falls away
-    e.style.transform = `translateY(${(-RR * Math.sin(a0) + hh).toFixed(3)}px) scale(${sx.toFixed(5)},${Math.cos(m).toFixed(5)}) translateY(${(-hh).toFixed(3)}px)`;
+    const sx = SX(m);   // slight inward pull toward the screen center (or, in D, the column's center) as the paper falls away
+    if (col) e.style.transformOrigin = `${ccx.toFixed(2)}px 0`;
+    if (TVMODE || i === 0) e.style.transform = `translateY(${(-RR * Math.sin(a0) + hh).toFixed(3)}px) scale(${sx.toFixed(5)},${Math.cos(m).toFixed(5)}) translateY(${(-hh).toFixed(3)}px)`;
+    else {
+      // off the TV each face above the first is a true trapezoid: its bottom edge is pulled in exactly as much as the top of the face
+      // below it, and its top as much as the bottom of the face above, so a story's sides run down the drum as one smooth line
+      // instead of a dashed staircase. A slight perspective does it, drawn by the graphics chip; the face's height on screen is unchanged
+      const sB = SX(a0), sT = SX(a1), g = (sB / sT - 1) / -chord, cm = Math.cos(m);
+      e.style.transformOrigin = `${col ? ccx.toFixed(2) + 'px' : '50%'} ${hh.toFixed(3)}px`;
+      e.style.transform = `translateY(${(-RR * Math.sin(a0)).toFixed(3)}px) matrix3d(${sB.toFixed(6)},0,0,0,0,${cm.toFixed(6)},0,${g.toFixed(8)},0,0,1,0,0,0,0,1)`;
+    }
 
     const inn = document.createElement('div'); inn.className = 'track sin'; inn.id = 'track';
     const cp = document.createElement('div'); cp.className = 'copy'; const ms = document.createElement('div'); ms.className = 'mason'; cp.appendChild(ms); inn.appendChild(cp);
-    const k = rollClean(c.el.cloneNode(true)); k.style.left = c.l + 'px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px';
+    const k = rollClean(c.el.cloneNode(true)); k.style.translate = '';   // a column's own shift is already in c.t; the copy must not carry it twice
+    k.style.left = c.l + 'px'; k.style.top = c.t + 'px'; k.style.width = c.w + 'px'; k.style.height = c.h + 'px';
     (c.el.parentElement && c.el.parentElement.classList.contains('mason') ? ms : cp).appendChild(k);   // the archive list and end line roll too
+    if (c.op === undefined) { const bg = getComputedStyle(c.el).backgroundColor; c.op = /rgba\(.*,\s*0\)|transparent/.test(bg) ? 'var(--paper)' : ''; }
+    if (c.op) k.style.backgroundColor = c.op;   // see-through stories get the paper as their own floor on the drum, so a face tucked under the next never shows its words through it
     if (!TVMODE) k.style.borderBottomColor = 'transparent';   // the bottom edge on the drum is drawn once, at a steady stroke, by rollSync
-    e.appendChild(inn); d.appendChild(e); sl.push({ inn, k, a1, sy: chord / arc });
+    const xs = {}; rollMk(xs, k, c);
+    e.appendChild(inn); d.appendChild(e); sl.push({ mk: xs.mk, mt: xs.mt,  inn, k, a1, sy: chord / arc, cm: Math.cos(m), d: ext - .6 });   // d: the face's extra run past its top, which the paper inside drops by so nothing else moves
   }
   box.appendChild(d);
   return { d, sl };
@@ -4084,17 +4152,28 @@ function rollIndex() {
   RC = []; track.querySelectorAll('.copy > .wsearch, .copy .mason > *, .copy > .arch, .copy > .endcap').forEach(el => { if (!el.offsetParent || el.classList.contains('wsoff')) return; const r = el.getBoundingClientRect(); RC.push({ el, t: r.top - tr.top, b: r.bottom - tr.top, l: r.left - tr.left, w: r.width, h: r.height }); });
   // the slice the search bar ends on (the same rule the scanner uses: the one before the last slice that is still visible),
   // and how far the paper's edge sits from the screen center, so the extra pull there is exactly four and a half pixels
-  RIN = 0; RMS = 1;
+  RIN = 0; RMS = 1; RCX = null;
   if (!TVMODE && RR && box) { const ang = i => RPHI * (i + .5) / RN, hgt = i => (2 * RR * Math.sin(RPHI / RN / 2) + .6) * Math.cos(ang(i));
-    let i = RN - 1; while (i > 0 && hgt(i) < 1.3) i--; RMS = Math.max(.05, 1 - Math.cos(ang(Math.max(0, i - 1))));
+    let i = RN - 1; while (i > 0 && hgt(i) < 1.3) i--; RMS = Math.max(.05, ang(Math.max(0, i - 1)));
     let cl = 1e9; RC.forEach(c => { if (!c.el.classList.contains('wsearch') && c.w > 40) cl = Math.min(cl, c.l); });
-    const hw = RW / 2 - (tr.left - box.getBoundingClientRect().left + cl); if (cl < 1e9 && hw > 20) RIN = 4.5 / hw; }
+    const hw = RW / 2 - (tr.left - box.getBoundingClientRect().left + cl); if (cl < 1e9 && hw > 20) { RIN = 4.5 / hw; const mS = RPHI * Math.max(1, i) / RN; RCX = { HW: hw, Yb: RR * Math.sin(mS), D: hw * (1 - rollSX0(RMS)) + 4.5 }; } }
 }
+// the band under the bar is paper too: give it the very same paper and grain as the page behind it, lined up to the pixel,
+// so the texture runs on unbroken instead of turning flat and light in a straight line under the bar
+function rollPaper() { const box = document.getElementById('roll3d'); if (!box || TVMODE) return;
+  let a = box.parentElement; while (a && a !== document.documentElement && getComputedStyle(a).backgroundImage === 'none') a = a.parentElement; if (!a) return;
+  const cs = getComputedStyle(a), br = box.getBoundingClientRect(), fx = cs.backgroundAttachment.split(',')[0].trim() === 'fixed', ar = a === document.documentElement || a === document.body ? { left: 0, top: 0 } : a.getBoundingClientRect();
+  const dx = fx ? br.left : br.left - ar.left, dy = fx ? br.top : br.top - ar.top, n = cs.backgroundImage.split(/,(?![^(]*\))/).length;
+  box.style.backgroundColor = cs.backgroundColor !== 'rgba(0, 0, 0, 0)' ? cs.backgroundColor : 'var(--paper)';
+  box.style.backgroundImage = cs.backgroundImage; box.style.backgroundSize = cs.backgroundSize; box.style.backgroundRepeat = cs.backgroundRepeat;
+  const ps = cs.backgroundPosition.split(','); box.style.backgroundPosition = Array.from({ length: n }, (_, i) => { const [x, y] = (ps[i] || ps[0] || '0px 0px').trim().split(/\s+/); return `calc(${x} - ${dx.toFixed(2)}px) calc(${y || '0px'} - ${dy.toFixed(2)}px)`; }).join(','); }
+addEventListener('resize', () => setTimeout(rollPaper, 60));
 function rollRefresh() {
+  rollPaper();
   if (!RC.length) return;
   const tr = track.getBoundingClientRect();
   RC.forEach(c => { const r = c.el.getBoundingClientRect(); c.t = r.top - tr.top; c.b = r.bottom - tr.top; c.l = r.left - tr.left; c.w = r.width; c.h = r.height; });
-  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }) });
+  RMAP.forEach(v => { const c = v.c; v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; rollMkSz(x, c); }) });
 }
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => setTimeout(rollRefresh, 50));
 setInterval(rollRefresh, 3000);
@@ -4108,7 +4187,8 @@ function rollSync(o) {
     const v = Object.assign(rollDrum(c), { c, mo: null });
     if (c.el.classList.contains('cmp')) {
       let q = 0;
-      v.mo = new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; v.sl.forEach(x => { x.k.innerHTML = c.el.innerHTML; x.k.className = c.el.className; rollClean(x.k); }); }); });
+      v.mo = new MutationObserver(recs => { if (recs.every(r => r.target === c.el && r.type === 'attributes' && r.attributeName === 'style')) return;   // the card's own shift is not a change to its contents
+        if (q) return; q = requestAnimationFrame(() => { q = 0; v.sl.forEach(x => { x.k.innerHTML = c.el.innerHTML; x.k.className = c.el.className; rollClean(x.k); rollMk(x, x.k, c); }); }); });
       v.mo.observe(c.el, { subtree: true, childList: true, characterData: true, attributes: true });
     }
     RMAP.set(c.el, v);
@@ -4116,10 +4196,10 @@ function rollSync(o) {
   // keep every drum on the same pixels as its card, even after something moved the card (an open story, a search, new fonts)
   if (RMAP.size) { const tr = track.getBoundingClientRect(); RMAP.forEach(v => { const c = v.c, r = c.el.getBoundingClientRect(), t = r.top - tr.top, l = r.left - tr.left;
     if (Math.abs(t - c.t) > .3 || Math.abs(l - c.l) > .3 || Math.abs(r.height - c.h) > .3) { c.t = t; c.b = r.bottom - tr.top; c.l = l; c.w = r.width; c.h = r.height;
-      v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; }); } }); }
+      v.sl.forEach(x => { x.k.style.left = c.l + 'px'; x.k.style.top = c.t + 'px'; x.k.style.width = c.w + 'px'; x.k.style.height = c.h + 'px'; rollMkSz(x, c); }); } }); }
   // each slice shows the stretch of paper that sits on its part of the drum
   // move each slice with top, not transform: no extra GPU layers, so the screen can never run out of video memory and blank out
-  RMAP.forEach(v => v.sl.forEach(x => { if (!x.sc) { x.inn.style.transform = `scaleY(${x.sy.toFixed(5)})`; x.sc = 1; } x.inn.style.top = Math.round(x.sy * -(o - RR * x.a1)) + 'px'; }));   // whole pixels: the browser paints it there anyway, and now the edge overlay can match it exactly
+  RMAP.forEach(v => v.sl.forEach(x => { const v = x.sy * -(o - RR * x.a1) + x.d, t = (Math.round(v * x.cm * DPR * 8) / (x.cm * DPR * 8)).toFixed(4); if (x.tt !== t) { x.tt = t; x.inn.style.transform = `translateY(${t}px) scaleY(${x.sy.toFixed(5)})`; } }));   // moved by a transform, not top: a transform keeps the fraction of a pixel, so the text glides with the board instead of hopping a whole pixel at a time   // on the screen's own pixels as seen on this face (its squash included), so text glides with the board instead of hopping whole pixels
   // the drum squashes the paper, which thins a story's bottom edge to a hairline. Draw that same edge at full stroke where it
   // really is on the drum, one piece across every face, growing to the bar's stroke as it nears the bar
   if (!TVMODE) { const box = document.getElementById('roll3d'), bxr = box.getBoundingClientRect(), pr = box.parentElement.getBoundingClientRect(), cl = { t: bxr.top - pr.top, b: bxr.bottom - pr.top };
@@ -4129,8 +4209,8 @@ function rollSync(o) {
       const vt = bxr.bottom, flat = c.el.getBoundingClientRect().bottom - v.bw >= vt + 1.5;   // the flat board's line is only seen once all of it is below the band   // the roll-off band covers the top of the flat board
       let on = false; if (v.bw > 0 && !flat) for (let n = 0; n < v.sl.length; n++) { const x = v.sl[n], a1 = x.a1, a0 = a1 - RPHI / RN, arc = RR * (a1 - a0), t0 = o - RR * a1, q = (c.b - t0) / arc;
         if (q < -.25 || q > 1.25) continue;
-        { const e2 = x.inn.parentElement.getBoundingClientRect(), b2 = x.k.getBoundingClientRect().bottom; if (b2 < e2.top - .01 || b2 > e2.bottom + .01) continue; }
-        const e = x.inn.parentElement.getBoundingClientRect(), kr = x.k.getBoundingClientRect(), ys = kr.bottom;   // where this face really paints it: the paper's offset lands on whole pixels
+        { const e2 = x.inn.parentElement.getBoundingClientRect(), b2 = x.mk.getBoundingClientRect().bottom; if (b2 < e2.top - .01 || b2 > e2.bottom + .01) continue; }
+        const e = x.inn.parentElement.getBoundingClientRect(), kr = x.mk.getBoundingClientRect(), ys = kr.bottom;   // where this face really paints it: the paper's offset lands on whole pixels
         // thickness by distance to the bar: the story's own stroke where it enters the roll-off, growing steadily to the bar's
         // stroke over the last stretch, and full from there in
         const sb = typeof WSH !== 'undefined' && WSH ? WSH.querySelector('.wsearch') : null, bar = sb ? sb.getBoundingClientRect().bottom : bxr.top,
@@ -4141,15 +4221,17 @@ function rollSync(o) {
         if (v.lock && yt > bt + 2) v.lock = null;   // fed back out: let go
         if (v.lock) { on = true; break; }
         // its ends draw in to the bar's sides as it closes in, at the same pace as it thickens
-        let ex = kr.left - pr.left, ew = kr.width; if (sr) { const bl = sr.left - pr.left, bw = sr.width; ex += (bl - ex) * kk; ew += (bw - ew) * kk; }
+        // the box it closes: the whole bar, or in two columns (desktop scanner B or D) just this story's own part of it
+        const g0 = c.el.__wq, cb = sr && typeof WQ_TWO !== 'undefined' && WQ_TWO && g0 && g0.l0 != null ? { x: sr.left - pr.left + g0.l0 - g0.w / 2, w: g0.r0 - g0.l0 + g0.w } : sr ? { x: sr.left - pr.left, w: sr.width } : null;
+        let ex = kr.left - pr.left, ew = kr.width; if (cb) { ex += (cb.x - ex) * kk; ew += (cb.w - ew) * kk; }
         // reaching the bar: lock it under the bar's bottom, full stroke, the bar's width; from here nothing moves or trims
-        if (yt <= bt + .8) { v.lock = { x: sr ? sr.left - pr.left : ex, w: sr ? sr.width : ew, y0: bt, y1: bt + Math.max(1.5, v.bw) }; on = true; break; }
+        if (yt <= bt + .8) { v.lock = { x: cb ? cb.x : ex, w: cb ? cb.w : ew, y0: bt, y1: bt + Math.max(1.5, v.bw) }; on = true; break; }
         const y0 = Math.max(yt, bt), y1 = Math.min(y0 + h, cl.b + 4);   // may run just past the band, where the flat board takes over if (y1 <= y0) continue;   // never tucked behind the bar; on whole screen pixels so it never looks blurred thicker
         v.cur = { x: ex, w: ew, y0, y1 }; v.gap = null;
         // the paper between this story and the one under it is squashed to a hairline on the drum, so the two edges flicker
         // between one thick line and two lines with a white sliver. Fill that sliver with ink as it closes, so they read as one line
         { const nx = RC.filter(d => d !== c && d.t >= c.b - 1 && d.l < c.l + c.w && d.l + d.w > c.l).sort((p, q) => p.t - q.t)[0], v2 = nx && RMAP.get(nx.el);
-          if (v2) for (const x2 of v2.sl) { const e2 = x2.inn.parentElement.getBoundingClientRect(), k2 = x2.k.getBoundingClientRect(); if (k2.top < e2.top - .01 || k2.top > e2.bottom + .01) continue;
+          if (v2) for (const x2 of v2.sl) { { const q2 = (nx.t - (o - RR * x2.a1)) / (RR * RPHI / RN); if (q2 < -.25 || q2 > 1.25) continue; } const e2 = x2.inn.parentElement.getBoundingClientRect(), k2 = x2.mt.getBoundingClientRect(); if (k2.top < e2.top - .01 || k2.top > e2.bottom + .01) continue;
             const sc2 = e2.height / Math.max(.01, x2.inn.parentElement.offsetHeight), tq2 = parseFloat(x2.inn.style.top) || 0, tb = (parseFloat(getComputedStyle(nx.el).borderTopWidth) || 0) * sc2,
               yn = k2.top + (Math.round(tq2) - tq2) * sc2 - pr.top + .3, gp = yn - y1;
             if (gp < 3 && gp > -2) v.gap = { y0: Math.min(y1, yn), y1: Math.max(y1, yn + tb), op: Math.max(0, Math.min(1, (3 - gp) / 2.2)) };
@@ -4168,7 +4250,12 @@ function rollSync(o) {
       v.rr.setAttribute('x', r.x.toFixed(2)); v.rr.setAttribute('width', r.w.toFixed(2)); v.rr.setAttribute('y', (r.y0 - cl.t).toFixed(3)); v.rr.setAttribute('height', (r.y1 - r.y0).toFixed(3));
       // the completed color fades in as the edge settles under the bar, then fades out with the flash
       const col = g && g.col, mx = (a, b, k) => { const A = typeof wqHex === 'function' && wqHex(a), B = typeof wqHex === 'function' && wqHex(b); return A && B ? `rgb(${A.map((x, i) => Math.round(x + (B[i] - x) * k)).join(',')})` : a; };
-      if (g && g.fin > 0 && v.lock) { v.rr.setAttribute('fill', g.cc || col); v.rr.style.opacity = g.op == null ? 1 : g.op; }
+      if (g && g.fin > 0 && v.lock && g.side !== undefined) {
+        // B: the bottom lights from the story's outer edge and fades out toward the middle, like the top
+        if (!v.gd) { const df = document.createElementNS('http://www.w3.org/2000/svg', 'defs'); v.gd = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient'); v.gd.id = 'rbg' + Math.random().toString(36).slice(2, 8); v.gd.innerHTML = '<stop offset="0"/><stop offset=".5"/><stop offset="1"/>'; df.appendChild(v.gd); v.rb.prepend(df); }
+        v.gd.setAttribute('x1', g.side ? 1 : 0); v.gd.setAttribute('x2', g.side ? 0 : 1); [...v.gd.children].forEach((st, i) => { st.setAttribute('stop-color', g.cc || col); st.setAttribute('stop-opacity', [1, .42, 0][i]); });
+        v.rr.setAttribute('fill', `url(#${v.gd.id})`); v.rr.style.opacity = g.op == null ? 1 : g.op; }
+      else if (g && g.fin > 0 && v.lock) { v.rr.setAttribute('fill', g.cc || col); v.rr.style.opacity = g.op == null ? 1 : g.op; }
       else { v.rr.setAttribute('fill', col ? mx(v.bc, col, v.ct || 0) : v.bc); v.rr.style.opacity = 1; } }); }
 }
 let U = 10, DPR = window.devicePixelRatio || 1;
@@ -4225,8 +4312,8 @@ function wiGeo() {
   const r = ctr.getBoundingClientRect(), m = mast.getBoundingClientRect(), st = document.getElementById('stage').getBoundingClientRect();
   const ca = getComputedStyle(mast, '::after'), lh = parseFloat(ca.height) || 2;
   const L = { l: m.left + (parseFloat(ca.left) || 0), r: m.right - (parseFloat(ca.right) || 0) }; L.t = m.bottom - (parseFloat(ca.bottom) || 0) - lh;
-  const s = Math.max(1, Math.min(1.75, st.width * .6 / r.width)), gap = Math.max(1, L.t - r.bottom), cy = st.top + st.height * .35;
-  return { r, L, lh, s, gap, cy, dx: st.left + st.width / 2 - (r.left + r.width / 2), dy0: cy - (r.top + r.height / 2) };
+  const one = document.documentElement.classList.contains('one'), s = Math.max(1, Math.min(1.75, st.width * .6 / r.width)), gap = Math.max(1, L.t - r.bottom), cy = st.top + st.height * (one ? .35 : .5), ncy = st.top + st.height * (one ? .35 : .3);   // desktop: the mark sits in the middle, the words a little higher
+  return { r, L, lh, s, gap, cy, ncy, dx: st.left + st.width / 2 - (r.left + r.width / 2), dy0: cy - (r.top + r.height / 2) };
 }
 function wiPlace(g) { const R = WI.R, { ctr } = wiEls(), sc = R.s + (1 - R.s) * g, dy = R.dy0 * (1 - g), dx = R.dx * (1 - g);
   ctr.style.translate = `${dx}px ${dy}px`; ctr.style.scale = sc;
@@ -4237,7 +4324,7 @@ function wiBarGeo() {
   const br = WSH.querySelector('.wsearch').getBoundingClientRect(), ft = wiFirstTop(), mb = document.querySelector('.mast').getBoundingClientRect().bottom;
   const fs = Math.max(16, Math.min(20, U * 2.3 + 6));
   [WI.note, WI.note2].forEach(n => { if (!n) return; Object.assign(n.style, { left: br.left + 'px', width: br.width + 'px', fontSize: fs + 'px', padding: `0 ${U * 2}px`, opacity: 1 }); n._h = n.offsetHeight; });
-  if (WI.note) { const cy = WI.R ? WI.R.cy : innerHeight * .35; WI.note._t = Math.max(mb + U * 10, cy - WI.note._h / 2); WI.note.style.top = WI.note._t + 'px'; wiWordsAt(WI.note); }
+  if (WI.note) { const cy = WI.R ? WI.R.ncy : innerHeight * .35; WI.note._t = Math.max(mb + U * 10, cy - WI.note._h / 2); WI.note.style.top = WI.note._t + 'px'; wiWordsAt(WI.note); }
   const pad = Math.max(U * 12, 48);
   if (WI.note2) { WI.note2._t = br.bottom + pad; WI.note2.style.top = WI.note2._t + 'px'; wiWordsAt(WI.note2); WI_MIN = Math.min(0, ft - (WI.note2._t + WI.note2._h + pad)); }
   return { ft };
@@ -4257,7 +4344,13 @@ function wiStartRoll() {
   const os = WI.B.ft - vb, v1 = keep * U, vc = Math.max(v1 * 2, WI_CRUISE * U), ob = os + WI_UP * (v1 + vc) / 2;
   // the slowdown starts as the story reaches the note and is spread over the whole way from there to the search bar
   const oc = Math.max(ob, Math.min(0, WI.B.ft - (note._t + note._h))), tb = (oc - ob) / vc, td = -oc / ((v1 + vc) / 2);
-  WI_ST = { os, o: os, last: os, ts: performance.now(), t0: performance.now() + WI_HOLD, v1, vc, P: { ob, oc, tb, td } };
+  WI_ST = { os, o: os, last: os, ts: performance.now(), t0: performance.now() + WI_GLIDE - 150, v1, vc, P: { ob, oc, tb, td } };
+  // two columns: the column holding story 1 leads; the other follows behind and catches up as the lead story reaches the words
+  WI_ST.lag = null;
+  if (innerWidth >= 900) { const cards = [...track.querySelectorAll('.copy:not(.tail) .mason > *')].filter(e => e.offsetParent), vr = view.getBoundingClientRect(), mid = vr.left + vr.width / 2;
+    const one = cards.find(e => !e.classList.contains('wsearch'));   // story 1: the first story in the feed, the one marked 1
+    if (one) { const lead = one.getBoundingClientRect().left + one.offsetWidth / 2 > mid, back = cards.filter(e => { const r = e.getBoundingClientRect(); return r.width < vr.width * .7 && (r.left + r.width / 2 > mid) !== lead; });
+      if (back.length) WI_ST.lag = { els: back, s: lead ? 0 : 1, L0: one.offsetHeight / 3 }; } }   // the other column starts a third of story 1's height behind it
   off = os; setOff(off);
   requestAnimationFrame(() => document.documentElement.classList.remove('wi-pre'));
   INTRO = false;
@@ -4334,16 +4427,25 @@ function wiPre() {
   if (WI_ACTIVE && (!WI_ST || !WI_ST.free)) { if (speed) WI.keep = speed; speed = 0; vel = 0; tvel = 0; INTRO = !WI_ST; off = WI_ST ? (WI.paused === null ? wiRide(Math.max(0, (performance.now() - WI_ST.t0) / 1000)) : WI_ST.o) : 0; if (WI_ST) WI_ST.o = off; }
 }
 // called by tick() right after the board is drawn, in the same frame
+// the trailing column keeps its distance for good: both columns run at one speed, so it reaches the scanner later, by the same gap
+function wiLag() { const G = WI_ST && WI_ST.lag; if (!G || G.done) return; G.done = 1; G.els.forEach(e => { e.style.translate = ''; });
+  if (!colOn()) return; COLLAG[G.s] = G.L0; COLT[G.s] = G.L0; colSet(G.s, G.L0); }
 function wiPost(ts) {
-  if (WI_ST) { if (off >= 0) WI_ST.end = true; WI_ST.last = off; }
+  if (WI_ST) { wiLag(); if (off >= 0) WI_ST.end = true; WI_ST.last = off; }
   wiFrame(); wiEatNow(ts);
 }
 // a data refresh redraws the board and sends it to the top; while the intro plays or the waiting note shows, keep it where it was
 function wiAfterRender(o, rt) {
+  requestAnimationFrame(colReapply);
+  if (window.WI_RS != null && !WI_ACTIVE && !POP && !TVMODE) { let mx = 1e9; try { mx = wsMaxOff(); } catch (e) {} off = Math.max(0, Math.min(mx, window.WI_RS)); setOff(off);
+    if (!window.WI_RST) window.WI_RST = setTimeout(() => { window.WI_RS = null; }, 8000); }   // held a few seconds, so the live data's redraw right after load keeps the place too
   if (WI_ACTIVE && WI_ST) { const d = performance.now() - rt; WI_ST.t0 += d; WI_ST.ts += d; WI.t0 += d; off = o; setOff(off); WI.B.ft = wiFirstTop(); }
   else if (WI_N2 && o < 0) { off = o; setOff(off); }
   if (WI_N2) requestAnimationFrame(() => { WI.B = wiBarGeo(); });
 }
+// remember where the board is in this tab, so a reload comes back to the same place
+setInterval(() => { if (!TVMODE && !WI_ACTIVE && window.WI_RS == null) try { sessionStorage.setItem('wireOff', String(Math.round(off))); } catch (e) {} }, 1000);
+addEventListener('pagehide', () => { if (!TVMODE && !WI_ACTIVE && window.WI_RS == null) try { sessionStorage.setItem('wireOff', String(Math.round(off))); } catch (e) {} });
 function wiInit() {
   const H = document.documentElement;
   WI.play = H.classList.contains('wi');
@@ -4426,7 +4528,7 @@ function clock() {
 }
 
 // New versions reach phones without a hard refresh: when version.txt changes, reload once the reader is not inside a story
-const BUILD = '202611271517';
+const BUILD = '202611272114';
 function verCheck() { if (/__BUILD/.test(BUILD)) return; fetch('version.txt?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.text() : '').then(v => { v = (v || '').trim(); if (v && v !== BUILD && !POP && !document.querySelector('.wkey') && !WSOPEN) location.reload(); }).catch(() => {}); }
 setTimeout(verCheck, 4000); setInterval(verCheck, 5 * 60000); document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
 // Story numbers: each story's #day-order, given the first time it reached the board (numbers.json, kept by tools/story_numbers.py)
@@ -4454,7 +4556,9 @@ layout(); clock(); setInterval(clock, 1000);
 load(); setInterval(load, 10 * 60 * 1000);
 
 // Mouse wheel and drag. Both ease in and out, then the board drifts on by itself again
-view.addEventListener('wheel', e => { if (TVMODE) return; if (INTRO) { e.preventDefault(); return; } e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
+view.addEventListener('wheel', e => { if (TVMODE) return; if (INTRO) { e.preventDefault(); return; }
+  if (colOn() && !WSOPEN && !POP && !WI_ACTIVE) { e.preventDefault(); const bx = WSH.querySelector('.wsearch').getBoundingClientRect(), sd = e.clientX > bx.left + WQ_GUT.m ? 1 : 0, dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    COLT[sd] -= dy; WQ_MV = { dir: dy > 0 ? 1 : -1, t: performance.now() }; COLHAND = performance.now(); if (!COLRAF) COLRAF = requestAnimationFrame(colStep); return; } e.preventDefault(); const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY; tvel = Math.max(-2200, Math.min(2200, tvel + dy * 1.5)); lastIn = performance.now(); }, { passive: false });
 view.addEventListener('pointerdown', e => { if (TVMODE || INTRO) return; if (e.target && e.target.closest && e.target.closest('.wsearch')) return; dragY = e.clientY; dragT = performance.now(); tvel = 0; vel = 0; lastIn = performance.now(); view.setPointerCapture(e.pointerId); view.style.cursor = 'grabbing'; });
 view.addEventListener('pointermove', e => { if (dragY === null) return; const now = performance.now(), dy = dragY - e.clientY, dts = Math.max(8, now - dragT) / 1000; off += wsEat(dy); wsBound(); tvel = tvel * 0.4 + (dy / dts) * 0.6; dragY = e.clientY; dragT = now; lastIn = now; });
 const endDrag = () => { if (dragY === null) return; dragY = null; view.style.cursor = ''; lastIn = performance.now(); tvel = Math.max(-5000, Math.min(5000, tvel)); vel = tvel; };
@@ -5002,7 +5106,7 @@ function eventTab(clone, stage) {
   clone.classList.add('evs');
   // the finished title, laid out but hidden: it says where every piece lands; only its SPARC letters and EVENT ever show
   const g = document.createElement('div'); g.className = 'evt ghost now bar spell';
-  g.innerHTML = `<div class="eb"><span class="c1">${esc(mo)}</span><i class="sep"></i><span class="c2">${esc(wd)}</span><span class="lt">${lets}</span></div><div class="el"><span class="c1"><b>${esc(day)}</b></span><i class="sep"></i><span class="c2"><strong>${esc(tm)}</strong></span><em>Event</em></div>`;
+  g.innerHTML = `<div class="eb"><span class="c1">${esc(mo)}</span><i class="sep"></i><span class="c2">${esc(wd)}</span><i class="sep s2"></i><span class="lt">${lets}</span></div><div class="el"><span class="c1"><b>${esc(day)}</b></span><i class="sep"></i><span class="c2"><strong>${esc(tm)}</strong></span><i class="sep s2"></i><em>Event</em></div>`;
   const cs = getComputedStyle(clone), H = Math.round(U * 13.6), cbl = parseFloat(cs.borderLeftWidth) || 0, cbr = parseFloat(cs.borderRightWidth) || 0;
   clone.style.setProperty('--cbl', cbl + 'px'); clone.style.setProperty('--cbt', cs.borderTopWidth); clone.style.setProperty('--evh', H + 'px');
   clone.appendChild(g);
@@ -5025,7 +5129,7 @@ function eventTab(clone, stage) {
   const F1 = { mt: getComputedStyle(c1[0]), wd: getComputedStyle(c2[0]), dy: getComputedStyle(c1[1].firstChild), tm: getComputedStyle(c2[1].firstChild) };
   const barH = g.querySelector('.eb').getBoundingClientRect().height;
   const cw = Math.ceil(c2[1].getBoundingClientRect().right + U * 1.6 - G.left);
-  const s1 = g.querySelector('.eb .sep').getBoundingClientRect(), s2 = g.querySelector('.el .sep').getBoundingClientRect();
+  const s1 = g.querySelector('.eb .sep').getBoundingClientRect(), s2 = g.querySelector('.el .sep').getBoundingClientRect(), s3 = g.querySelector('.eb .s2').getBoundingClientRect(), s4 = g.querySelector('.el .s2').getBoundingClientRect();
   g.classList.remove('bar', 'spell'); g.offsetHeight; g.classList.remove('now');
   const brw = parseFloat(getComputedStyle(stub).borderRightWidth) || 0;
   // wrap the month's text so the band and its words move on their own; add the rest of each short name, folded shut
@@ -5067,6 +5171,10 @@ function eventTab(clone, stage) {
     stub.style.setProperty('--sx', (s2.left - G.left - cbl) + 'px');
     stub.style.setProperty('--s1t', (s1.top - G.top) + 'px'); stub.style.setProperty('--s1h', s1.height + 'px');
     stub.style.setProperty('--s2t', (s2.top - G.top) + 'px'); stub.style.setProperty('--s2h', s2.height + 'px');
+    // a second rule right of the weekday and the time closes the calendar off from the event's own label
+    stub.style.setProperty('--sx2', (s3.left - G.left - cbl) + 'px'); stub.style.setProperty('--s3t', (s3.top - G.top) + 'px'); stub.style.setProperty('--s3h', s3.height + 'px');
+    stub.style.setProperty('--s4t', (s4.top - G.top) + 'px'); stub.style.setProperty('--s4h', s4.height + 'px');
+    if (!stub.querySelector(':scope > .sx2')) { const a = document.createElement('u'); a.className = 'sx2 a'; const b2 = document.createElement('u'); b2.className = 'sx2 b'; stub.append(a, b2); }
     stub.offsetHeight; stub.classList.remove('now'); };
   const YT = -H - Math.max(0, (parseFloat(cs.borderTopWidth) || 0) - cbl), WIDE = { x: gl, y: YT, w: jw, h: H, bl: cbl, mh: barH }, UPB = { x: -cbl, y: YT, w: cw, h: H, bl: cbl, mh: barH };
   const MD = 300, RD = 240, XD = 470;
@@ -5339,7 +5447,25 @@ function wsOn() { return !TVMODE && WSOPEN; }
 function wsAny() { return !!(WQ || WF || WP); }
 function wsFocused() { const a = document.activeElement; return !!(a && a.closest && a.closest('.wsh')); }
 function pinWin() { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); }
-function setOff(v) { off = v; wsBound(); const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); wsBite(y); }
+// Desktop scanner D: each column is its own feed. Both share the automatic roll (one speed), but each can sit at its own place:
+// COLX[s] is how far column s trails the board (pushed down), set by the intro's stagger and by a hand scrolling over that column
+let COLHAND = 0, COLX = [0, 0], COLT = [0, 0], COLLAG = [0, 0], COLRAF = 0;
+const colOn = () => WQ_V === 'D' && !TVMODE && innerWidth >= 900 && !!WQ_GUT && typeof RC !== 'undefined' && RC.length;
+const colEls = s => [...track.querySelectorAll('.copy .mason > *')].filter(e => { const c = RC.find(c => c.el === e); return c ? (c.side ? 1 : 0) === s : false; });
+function colSet(s, v) { const d = v - COLX[s]; if (Math.abs(d) < .01) return; COLX[s] = v;
+  RC.forEach(c => { if (c.side === undefined || c.el.classList.contains('wsearch') || (c.side ? 1 : 0) !== s) return; c.t += d; c.b += d; c.el.style.translate = Math.abs(v) > .01 ? `0 ${v.toFixed(2)}px` : '';
+    // its copies on the drum move with it, in the same frame
+    const rv = typeof RMAP !== 'undefined' && RMAP.get(c.el); if (rv && rv.sl) rv.sl.forEach(x => { x.k.style.top = c.t + 'px'; if (x.k.style.translate) x.k.style.translate = ''; }); }); }
+function colBound() { if (!colOn()) return; const F = wqFeed();
+  for (let s = 0; s < 2; s++) { const mine = F.filter(c => (c.side ? 1 : 0) === s && c.side !== undefined && c.w < RW * .7); if (!mine.length) continue;
+    const mx = Math.max(...mine.map(c => c.b)) - COLX[s] + RR * RPHI - U * 1.6 - wqOv() + 1, lo = wiLow() - COLLAG[s];
+    let t = off - COLX[s]; if (t > mx) colSet(s, off - mx); else if (t < lo) colSet(s, off - lo); COLT[s] = Math.min(Math.max(COLT[s], off - mx), off - lo); } }
+function colStep() { COLRAF = 0; if (!colOn()) return; let more = false;
+  for (let s = 0; s < 2; s++) { const d = COLT[s] - COLX[s]; if (Math.abs(d) > .3) { colSet(s, COLX[s] + d * .2); more = true; } else colSet(s, COLT[s]); }
+  setOff(off); if (more) COLRAF = requestAnimationFrame(colStep); }
+// after the board is drawn again, its columns go back where they were
+function colReapply() { if (!colOn()) { COLX = [0, 0]; COLT = [0, 0]; return; } const k = COLX.slice(); COLX = [0, 0]; k.forEach((v, s) => colSet(s, v)); }
+function setOff(v) { off = v; wsBound(); colBound(); const y = Math.round(off * DPR) / DPR; track.style.transform = `translateY(${-y}px)`; if (typeof rollSync === 'function') rollSync(y); wsBite(y); }
 // The search bar swallows the stories: while a card passes the top of the roll, its side strokes and a little of its color run up into the bar
 let BITEK = null, BITERC = null, BITEY = 0;
 // two ragged noise strips; they slide past each other as the board moves (and drift slowly with time), so the edge keeps changing
@@ -5361,7 +5487,36 @@ const WQ_PIL = { S: 'Sports', P: 'Politics', A: 'Art', R: 'Revolution', C: 'Comm
 const WQ_GLOSS = { update: 'ongoing story', breaking: 'happening now', event: 'open to the public', announcement: 'official notice', memo: 'city memo to council', ccr: 'council member request', meeting: 'public meeting', compare: 'coverage compared', warning: 'safety notice', result: 'final result', vote: 'official vote', decision: 'official decision', deadline: 'time limit', money: 'budget item', sponsor: 'paid placement', story: 'board story' };
 const WQ_STAT = { verified: 'verified, two sources or official', reported: 'reported, one outlet checked', unconfirmed: 'not confirmed yet', upcoming: 'scheduled, not happened yet', confirmed: 'confirmed by the agency' };
 const WQ_RM = matchMedia('(prefers-reduced-motion: reduce)');
-let WQ_RX = 0, WQ_LY2 = null, WQ_CNTB = 0, WQ_RANKRC = null, WQ_ENG = null, WQ_BEAM = null, WQ_Q = null, WQ_SEAM = null, WQ_CNT = -1, WQ_CNTEL = null, WQ_SVG = null, WQ_REP = null, WQ_LOG = null, WQ_CAR = null, WQ_LY = null, WQ_MV = null, WQ_FINS = [], WQ_EDGE = '', WQ_N = 0, WQ_NOTE = null, WQ_HS = null;
+// desktop two-column scanner, chosen per build: '' (one shared bar, as now), 'B' (each story lasered in from its outer edge),
+// 'D' (one scanner per column, the clicked one opens the search)
+const WQ_V = '__WQV__'.length === 1 ? '__WQV__' : 'D';   // D is the desktop design
+let WQ_TWO = false, WQ_GUT = null, WQ_GUTEL = null, WQ_CNTEL2 = null, WQ_CNT2 = null, WQ_RX2 = 0, WQ_SIDE = 0, WQ_GO = null, WQ_OK = 0, WQ_DETR = null;
+// the scan line's offset for a given track position, and how far a card is through the scanner
+const wqYAt = top => top + RR * RPHI - U * 1.6 - wqOv();
+function wqP(el) { const c = RC.find(c => c.el === el); if (!c || !RR) return -1; const top = Math.round(off * DPR) / DPR - RR * RPHI + U * 1.6 + wqOv(); return (top - c.t) / Math.max(1, c.b - c.t); }
+// glide the board to an offset in about half a second (the automatic roll waits), then go on
+function wqGo(y, msg, cb) { const y0 = off, t0 = performance.now(), d = 460; WQ_GO = { msg };
+  const step = n => { const k = Math.min(1, (n - t0) / d), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    vel = 0; tvel = 0; lastIn = performance.now(); setOff(y0 + (y - y0) * e); if (k < 1) requestAnimationFrame(step); else { setTimeout(() => { WQ_GO = null; }, 500); cb && cb(); } };
+  requestAnimationFrame(step); }
+// settle the stories in the scanner: drop them back out below the bar (under 44% in, or when asked), or swallow them the rest of the way.
+// Returns false when nothing is in the scanner, so the caller goes straight on
+function wqSettle(mode, cb, only) {
+  if (TVMODE || !RR || typeof RC === 'undefined' || WQ_GO) return false;
+  const going = wqFeed().filter(c => c.el.offsetParent && (!only || c.el === only)).map(c => ({ c, p: wqP(c.el) })).filter(o => o.p > 0 && o.p < 1);
+  if (!going.length) return false;
+  const out = mode === 'out' || going.some(o => o.p < .44);
+  const y = out ? Math.min(...going.map(o => wqYAt(o.c.t - 3))) : Math.max(...going.map(o => wqYAt(o.c.b + 1)));
+  wqGo(Math.max(0, Math.min(wsMaxOff(), y)), out ? (only ? 'Story released. Opening' : 'Story released. Scanner clear') : 'Finishing scan', cb); return true;
+}
+// a fading stroke: full color at the story's outer edge, thinning to nothing toward the middle of the bar
+function wqGrad(g, col, x1, x2) { if (!g.gd || !g.gd.isConnected) { let df = WQ_SVG.querySelector('defs'); if (!df) { df = document.createElementNS('http://www.w3.org/2000/svg', 'defs'); WQ_SVG.prepend(df); }
+    g.gid = 'wqg' + Math.random().toString(36).slice(2, 8); g.gd = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient'); g.gd.id = g.gid; g.gd.setAttribute('gradientUnits', 'userSpaceOnUse');
+    g.gd.innerHTML = '<stop offset="0"/><stop offset=".5"/><stop offset="1"/>'; df.appendChild(g.gd); }
+  g.gd.setAttribute('x1', x1); g.gd.setAttribute('x2', x2); g.gd.setAttribute('y1', 0); g.gd.setAttribute('y2', 0);
+  if (g.gcol !== col) { g.gcol = col; [...g.gd.children].forEach((st, i) => { st.setAttribute('stop-color', col); st.setAttribute('stop-opacity', [1, .42, 0][i]); }); }
+  return `url(#${g.gid})`; }
+let WQ_DET = 0, WQ_DETEL = null, WQ_LASTDONE = null, WQ_RX = 0, WQ_LY2 = null, WQ_CNTB = 0, WQ_RANKRC = null, WQ_ENG = null, WQ_BEAM = null, WQ_Q = null, WQ_SEAM = null, WQ_CNT = -1, WQ_CNTEL = null, WQ_SVG = null, WQ_REP = null, WQ_LOG = null, WQ_CAR = null, WQ_LY = null, WQ_MV = null, WQ_FINS = [], WQ_EDGE = '', WQ_N = 0, WQ_NOTE = null, WQ_HS = null;
 const wqCl = x => Math.max(0, Math.min(1, x));
 function wqRgb(c) { const m = (c || '').match(/[\d.]+/g); return m && m.length >= 3 && !(m.length > 3 && +m[3] === 0) ? m.slice(0, 3).map(Number) : null; }
 function wqTag(el) { const t = el.querySelector('.tgb'), ts = t ? getComputedStyle(t) : null; let col = ts ? ts.backgroundColor : ''; const c3 = wqRgb(col); if (!c3 || c3.every(v => v > 250)) col = '#2B2B2B'; return { t, col }; }
@@ -5385,7 +5540,7 @@ function wsBound() {
   const mx = wqBounded() ? wsMaxOff() : Infinity;
   const lo = wiLow(); if (off < lo || off > mx) { off = Math.max(lo, Math.min(mx, off)); vel = 0; tvel = 0; }
 }
-const wqAuto = () => dragY === null && performance.now() - lastIn > 1200 && Math.abs(vel) < U * 3;
+const wqAuto = () => dragY === null && performance.now() - lastIn > 1200 && Math.abs(vel) < U * 3 && performance.now() - (typeof COLHAND === 'undefined' ? 0 : COLHAND) > 1200;
 const wqTell = (txt, ms) => { WQ_NOTE = { txt, until: performance.now() + (ms || 1400) }; };
 // the paper meets the bar on the same pixel: the bar sits over the thin, squeezed top slices of the drum, and its sides match the cards there
 function wqSeam() {
@@ -5400,9 +5555,10 @@ function wqSeam() {
   const nx = sl[Math.max(0, i - 1)], ov = Math.round((nx.getBoundingClientRect().top - rt) * DPR) / DPR;
   const tl = track.getBoundingClientRect().left; let cl0 = 1e9; RC.forEach(c => { if (!c.el.classList.contains('wsearch') && c.w > 40) cl0 = Math.min(cl0, c.l + tl); }); if (cl0 >= 1e9) cl0 = U * 2.2;
   // where the paper's edge really is at that slice, measured, so the bar's sides and the scan lines sit on it
-  let pl = 1e9; nx.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap').forEach(k => { const r = k.getBoundingClientRect(); if (r.width > 40) pl = Math.min(pl, r.left); });
+  // on the TV the faces are flat, so the paper's edge is measured; elsewhere a face is a trapezoid whose top edge is pulled in by rollSX at its angle
+  let pl = 1e9; if (TVMODE) nx.querySelectorAll('.mason > *, .copy > .arch, .copy > .endcap').forEach(k => { const r = k.getBoundingClientRect(); if (r.width > 40) pl = Math.min(pl, r.left); });
   const rb = rl.getBoundingClientRect(), W = rb.left + rl.clientWidth / 2;
-  let sx = typeof rollSX === 'function' ? rollSX(RPHI * (i - .5) / RN) : 1 / (1 + RR * (1 - Math.cos(RPHI * (i - .5) / RN)) / (U * 62));
+  let sx = typeof rollSX === 'function' ? rollSX(TVMODE ? RPHI * (i - .5) / RN : RPHI * Math.max(1, i) / RN) : 1 / (1 + RR * (1 - Math.cos(RPHI * (i - .5) / RN)) / (U * 62));
   if (pl < 1e9 && W - cl0 > 1) sx = (W - pl) / (W - cl0);
   WQ_SEAM = { ov, sx, a: RPHI * Math.max(1, i) / RN, wsi: Math.round((W - (W - cl0) * sx - rb.left) * DPR) / DPR };   // a: the drum angle at the bar's bottom edge
   } finally { if (probe) probe.remove(); }
@@ -5420,22 +5576,59 @@ function wsBite(y) {
   const top = y - RR * RPHI + U * 1.6 + wqOv(), pOf = c => (top - c.t) / Math.max(1, c.b - c.t), feed = wqFeed(), now = performance.now();
   const going = feed.filter(c => c.el.offsetParent).map(c => ({ c, p: pOf(c) })).filter(o => o.p > 0 && o.p < 1.25);
   if (WQ_LY !== null && Math.abs(y - WQ_LY) > .01) WQ_MV = { dir: y > WQ_LY ? 1 : -1, t: now }; WQ_LY = y;
+  // a story reaching the scanner on its way in: the bar's bottom edge flashes red for a moment
+  going.forEach(o => { const el = o.c.el; if (o.p > 0 && o.p < .6 && !el.__wqin) { el.__wqin = 1; if (WQ_MV && WQ_MV.dir > 0) { WQ_DET = now; WQ_DETR = WQ_V === 'D' && WQ_GUT ? (o.c.side ? [WQ_GUT.r, 0] : [0, null]) : null; } } });
   const rl = document.getElementById('roll3d'), rb = rl.getBoundingClientRect(), br = box.getBoundingClientRect(), tr = track.getBoundingClientRect();
-  const sx = WQ_SEAM ? WQ_SEAM.sx : 1, RW2 = rb.width / 2, X = x => rb.left + RW2 + (tr.left - rb.left + x - RW2) * sx - br.left, H = br.height, BW = br.width;
+  const sx = WQ_SEAM ? WQ_SEAM.sx : 1, RW2 = rb.width / 2, H = br.height, BW = br.width;
+  // a point on the bar: the whole board is pulled in toward the screen's center; in D each column is pulled toward its own center,
+  // so both of its sides bend into its own scanner (see rollColX)
+  const X = (x, c) => { const cc = c && rollColOn(c); if (cc && RCX) { const cx = tr.left + c.l + c.w / 2 - br.left, s2 = 1 - RCX.D / (c.w / 2); return cx + (tr.left + x - br.left - cx) * s2; } return rb.left + RW2 + (tr.left - rb.left + x - RW2) * sx - br.left; };
   if (!WQ_SVG || !WQ_Q.contains(WQ_SVG)) { WQ_SVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); WQ_SVG.setAttribute('class', 'wq-svg'); WQ_Q.appendChild(WQ_SVG); }
+  // two columns: where they sit on the bar, and the gap between them
+  WQ_TWO = !!WQ_V && innerWidth >= 900 && feed.some(c => c.el.offsetParent && c.w < BW * .7); WQ_GUT = null;
+  if (WQ_TWO) { let lr = 0, rl = BW; feed.forEach(c => { if (!c.el.offsetParent) return; const a = X(c.l, c), b = X(c.l + c.w, c); if (c.w >= BW * .7) { c.side = 0; return; } c.side = (a + b) / 2 > BW / 2 ? 1 : 0; if (c.side) rl = Math.min(rl, a); else lr = Math.max(lr, b); }); if (rl > lr) WQ_GUT = { l: lr, r: rl, m: (lr + rl) / 2 }; }
+  if (WQ_V === 'D') { if (!WQ_GUTEL || !WQ_Q.contains(WQ_GUTEL)) { WQ_GUTEL = document.createElement('i'); WQ_GUTEL.className = 'wq-gut'; WQ_Q.prepend(WQ_GUTEL); }
+    if (WQ_GUT) { WQ_GUTEL.style.display = ''; WQ_GUTEL.style.left = WQ_GUT.l + 'px'; WQ_GUTEL.style.width = (WQ_GUT.r - WQ_GUT.l) + 'px'; } else WQ_GUTEL.style.display = 'none'; }
+  // which scanner has a story under it, and how strongly the arrival light shows (rises as a story enters, holds, then eases off)
+  { const U2 = [0, 0], S2 = [0, 0], band = rb.height + 2;
+    feed.forEach(c => { if (!c.el.offsetParent) return; const sd = WQ_V === 'D' && WQ_GUT && c.side ? 1 : 0, h = Math.max(1, c.b - c.t), p = pOf(c);
+      if (p > -band / h && p < 1.02) U2[sd] = 1;
+      const a = p * h;   // how many pixels of the story are in
+      if (a > 0 && p < 1) { const k = a < U * 1.5 ? a / (U * 1.5) : a < U * 7 ? 1 : Math.max(0, 1 - (a - U * 7) / (U * 9)); S2[sd] = Math.max(S2[sd], k); } });
+    WQ_DS = S2;
+    // the shadow follows the story being read: it comes in slowly over the first part of the story and is gone just before the story ends
+    const LI = [0, 0]; feed.forEach(c => { if (!c.el.offsetParent) return; const sd = WQ_V === 'D' && WQ_GUT && c.side ? 1 : 0, p = pOf(c); if (p <= 0 || p >= 1) return;
+      const k = Math.min(1, p / .35) * Math.min(1, Math.max(0, (.96 - p) / .14)); LI[sd] = Math.max(LI[sd], k * k * (3 - 2 * k)); });
+    WQ_UND = LI;
+    // the finishing glow: it starts as the story's tag and sources reach the scan line, and builds to full by the last tenth
+    const CG = [null, null]; feed.forEach(c => { if (!c.el.offsetParent) return; const el = c.el, sd = WQ_V === 'D' && WQ_GUT && c.side ? 1 : 0, p = pOf(c); if (p <= 0 || p >= .995 || el.__edgeLock) return;   // done: the finish takes over
+      if (el.__rft === undefined) { const r = el.querySelector('.refs'), a = el.getBoundingClientRect(); el.__rft = r ? (r.getBoundingClientRect().top - a.top) / Math.max(1, a.height) : .7; if (!(el.__rft > 0 && el.__rft < 1)) el.__rft = .7; }
+      const q = (p - el.__rft) / Math.max(.05, 1 - el.__rft); if (q <= 0) return; if (!CG[sd] || q > CG[sd].q) CG[sd] = { q: Math.min(1, q), col: wqTag(el).col }; });
+    WQ_CG = CG; }
   const mk = (g, k) => { const pa = document.createElementNS('http://www.w3.org/2000/svg', 'path'); pa.setAttribute('class', k.length > 1 ? 'lnb' : 'ln'); pa.setAttribute('fill', 'none'); pa.setAttribute('stroke', g.sc); pa.setAttribute('stroke-width', g.w); WQ_SVG.appendChild(pa); g[k] = pa; };
   going.forEach(o => {
     const el = o.c.el; let g = el.__wq;
     if (!g || !WQ_SVG.contains(g.l)) { const cs = getComputedStyle(el); let sc = cs.borderLeftColor; if (!wqRgb(sc)) sc = '#0D0F12'; if (document.documentElement.classList.contains('dark')) sc = '#D4D4D4';   // inverted colors: the trace is white so it reads on the dark bar
       g = el.__wq = { sc, col: wqTag(el).col, w: Math.max(1.5, parseFloat(cs.borderLeftWidth) || 2), fin: 0 }; ['l', 'r', 'bl', 'br'].forEach(k => mk(g, k)); }
     // the side strokes climb the bar and meet at the top middle exactly when the last of the card is in
-    const o2 = g.w / 2, l = Math.max(o2, X(o.c.l) + o2), r = Math.min(BW - o2, X(o.c.l + o.c.w) - o2), m = (l + r) / 2, S = (H - o2) + (m - l);
+    const o2 = g.w / 2, l = Math.max(o2, X(o.c.l, o.c) + o2), r = Math.min(BW - o2, X(o.c.l + o.c.w, o.c) - o2), m = (l + r) / 2, S = (H - o2) + (m - l);
     Object.assign(g, { l0: l, r0: r, m, H });
     // the scan completes the moment the story's bottom edge closes the bar, not a frame later
     const p = el.__edgeLock || (WQ_SEAM && WQ_SEAM.a && (y - RR * WQ_SEAM.a) >= o.c.b) ? Math.max(1, o.p) : o.p;   // the edge locking under the bar completes the scan
     if (g.fin && p >= 1) return;
     g.l.setAttribute('d', `M${l} ${H}V${o2}H${m}`); g.r.setAttribute('d', `M${r} ${H}V${o2}H${m}`);
-    const dash = `${(wqCl(p) * S).toFixed(1)} ${(S * 2).toFixed(1)}`, sk = ''; [g.l, g.r].forEach(q => { q.style.opacity = 1; q.style.stroke = sk; q.setAttribute('stroke-dasharray', dash); });   // the color fades in as the story's edge settles under the bar
+    const dash = `${(wqCl(p) * S).toFixed(1)} ${(S * 2).toFixed(1)}`, sk = ''; [g.l, g.r].forEach(q => { q.style.opacity = 1; q.style.stroke = sk; q.setAttribute('stroke-dasharray', dash); });
+    g.side = undefined; g.cl2 = WQ_TWO ? o.c.side : 0;
+    if (WQ_V === 'B' && WQ_TWO) {
+      // B: lasered in from the story's outer edge, up its outside and along the top to where the story ends; never down the middle.
+      // The top run fades toward the middle of the bar, and a bright point rides the tip of the line
+      const side = o.c.side, out = side ? r : l, inn = side ? l : r, SB = (H - o2) + Math.abs(r - l), s2 = wqCl(p) * SB;
+      Object.assign(g, { side, out, inn });
+      g.l.setAttribute('d', `M${out} ${H}V${o2}H${inn}`); g.l.setAttribute('stroke-dasharray', `${s2.toFixed(1)} ${(SB * 2).toFixed(1)}`); g.l.style.stroke = wqGrad(g, g.sc, out, inn); g.r.style.opacity = 0;
+      if (!g.hd || !g.hd.isConnected) { g.hd = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); g.hd.setAttribute('class', 'wq-hd'); WQ_SVG.appendChild(g.hd); }
+      const hx = s2 < H - o2 ? out : out + (side ? -1 : 1) * (s2 - (H - o2)), hy = s2 < H - o2 ? H - s2 : o2, fadeT = s2 < H - o2 ? 1 : 1 - .8 * (s2 - (H - o2)) / Math.max(1, Math.abs(r - l));
+      g.hd.setAttribute('r', Math.max(1.8, g.w * 1.2)); g.hd.setAttribute('cx', hx.toFixed(1)); g.hd.setAttribute('cy', hy.toFixed(1)); g.hd.style.opacity = p > 0 && p < 1 ? fadeT : 0;
+    } else if (g.hd) { g.hd.remove(); g.hd = null; }   // the color fades in as the story's edge settles under the bar
     // no loading line along the bottom: only the side strokes climb and meet at the top. The story's own bottom edge becomes the
     // bar's bottom line the moment it arrives there, as the scan finishes, and that one line lights up with the rest
     const yb = H - o2;
@@ -5444,14 +5637,15 @@ function wsBite(y) {
     // so the box reads closed from then until the scan completes and the whole outline lights up
     const held = false;   // no added bottom line: the story's own bottom edge keeps its full stroke through the roll-off (see rollDrum) and closes the box itself
     [g.bl, g.br].forEach(p => { p.style.opacity = held ? 1 : 0; p.style.stroke = ''; p.setAttribute('stroke-dasharray', 'none'); });
-    if (p >= 1 && !g.fin) { if (WQ_MV && WQ_MV.dir > 0 && o.p < 1.08) { g.fin = now; g.kill = 0; g.spd = wqAuto() ? 1 : Math.abs(vel) > U * 220 ? .16 : .26; WQ_FINS.forEach(o => { if (o !== g) o.kill = 1; }); WQ_FINS.push(g); } else { g.fin = -1; [g.l, g.r, g.bl, g.br].forEach(q => q.style.opacity = 0); } }
-    if (p < 1) { g.fin = 0; g.done = 0; g.op = null; }
+    if (p >= 1 && !g.fin) { if (WQ_MV && WQ_MV.dir > 0 && o.p < 1.08) { g.fin = now; g.kill = 0; g.spd = wqAuto() ? 1 : Math.abs(vel) > U * 220 ? .16 : .26; WQ_FINS.forEach(o => { if (o !== g && (!WQ_TWO || o.cl2 === g.cl2)) o.kill = 1; }); WQ_FINS.push(g); g.sw = 1; wqSwallow(el, true); WQ_UP[WQ_V === 'D' && WQ_GUT ? (g.cl2 || 0) : 0] = { t: now, col: g.col, spd: Math.max(.6, g.spd || 1) }; /* a hand-fed finish is quicker, but still long enough to see */ if (g.hd) g.hd.style.opacity = 0; } else { g.fin = -1; [g.l, g.r, g.bl, g.br].forEach(q => q.style.opacity = 0); } }
+    if (p < 1) { g.fin = 0; g.done = 0; g.op = null; if (g.sw) { g.sw = 0; wqSwallow(el, false); } }
   });
   // strokes of cards no longer in the bar go away
   const keep = new Set(); going.forEach(o => { const g = o.c.el.__wq; if (g) [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)); }); WQ_FINS.forEach(g => [g.l, g.r, g.bl, g.br].forEach(p => keep.add(p)));
   [...WQ_SVG.querySelectorAll('path')].forEach(n => { if (!keep.has(n)) n.remove(); });
+  if (WQ_V) { going.forEach(o => { const g = o.c.el.__wq; if (g) { g.hd && keep.add(g.hd); g.gd && keep.add(g.gd); } }); WQ_FINS.forEach(g => { g.hd && keep.add(g.hd); g.gd && keep.add(g.gd); g.gv && keep.add(g.gv); }); /* the finishing fade gradient too, or its strokes vanish */ WQ_SVG.querySelectorAll('circle, linearGradient').forEach(n => { if (!keep.has(n)) n.remove(); }); }
   // scan numbers: stories are scanned in the order their bottoms reach the scan line, so the 10th one in is #10, and the counter reads 10
-  if (WQ_RANKRC !== RC) { WQ_RANKRC = RC; [...feed].sort((a, b) => a.b - b.b || a.l - b.l).forEach((c, i) => { const n = String(i + 1), el = c.el;
+  if (WQ_RANKRC !== RC) { WQ_RANKRC = RC; (() => { const fs = feed.filter(c => !c.el.classList.contains('wsearch')), top = fs[0]; return top ? [top, ...fs.slice(1).sort((a, b) => a.b - b.b || a.l - b.l)] : fs; })().forEach((c, i) => { /* the board's top story is always 1; the rest count in the order they reach the scanner */ const n = String(i + 1), el = c.el;
       if (el.dataset.no === n) return; el.dataset.no = n; el.__wt = undefined;
       const all = [el]; const v = typeof RMAP !== 'undefined' && RMAP.get(el); if (v && v.sl) v.sl.forEach(x => x.k && all.push(x.k));
       all.forEach(k => { const b = k.querySelector('.wqt .bn'); if (b) b.textContent = n; }); }); }
@@ -5466,33 +5660,57 @@ function wsBite(y) {
   // only the story the scanner is on right now, and only if it has a story number: no story on the scanner, or no number, and the box is empty
   // one pass per story: the number enters at the box's right edge the moment the story touches the scanner, and has
   // just left past the left edge when the story is fully scanned, so its travel across the box is the story's travel through the bar
-  { const on = going.filter(o => o.p > 0 && o.p < 1).sort((a, b) => b.p - a.p)[0], bn = on ? +on.c.el.dataset.no || 0 : 0, sn = on ? on.c.el.dataset.sn || '' : '', key = sn ? bn + sn : '';
+  { const on = going.filter(o => o.p > 0 && o.p < 1 && !(WQ_V === 'D' && WQ_GUT && !o.c.side)).sort((a, b) => b.p - a.p)[0], bn = on ? +on.c.el.dataset.no || 0 : 0, sn = on ? on.c.el.dataset.sn || '' : '', key = sn ? bn + sn : '';
     const its = WQ_CNTEL.querySelectorAll('.rn .it'), rn = WQ_CNTEL.querySelector('.rn'), kq = WQ_CNTEL.querySelector('.kq');
     if (key !== WQ_CNT) { its.forEach((x, i) => x.innerHTML = sn && !i ? `<b>${bn}</b>${sn}` : ''); WQ_CNT = key; WQ_CNTB = bn; WQ_RX = its[0].offsetWidth; }
     const bw = kq.clientWidth, p = on && sn ? on.p : 1; rn.style.transform = `translateX(${(bw - p * (bw + WQ_RX)).toFixed(2)}px)`; WQ_LY2 = y; }
+  // D: the left scanner has its own ticker, at its own right end
+  if (WQ_V === 'D' && WQ_GUT) {
+    if (!WQ_CNTEL2 || !WQ_Q.contains(WQ_CNTEL2)) { WQ_CNTEL2 = WQ_CNTEL.cloneNode(true); WQ_Q.appendChild(WQ_CNTEL2); WQ_CNT2 = null; }
+    WQ_CNTEL2.style.display = ''; WQ_CNTEL2.style.right = (BW - WQ_GUT.l + U * 1.4) + 'px';
+    const on = going.filter(o => o.p > 0 && o.p < 1 && !o.c.side).sort((a, b) => b.p - a.p)[0], bn = on ? +on.c.el.dataset.no || 0 : 0, sn = on ? on.c.el.dataset.sn || '' : '', key = sn ? bn + sn : '';
+    const its = WQ_CNTEL2.querySelectorAll('.rn .it'), rn = WQ_CNTEL2.querySelector('.rn'), kq = WQ_CNTEL2.querySelector('.kq');
+    if (key !== WQ_CNT2) { its.forEach((x, i) => x.innerHTML = sn && !i ? `<b>${bn}</b>${sn}` : ''); WQ_CNT2 = key; WQ_RX2 = its[0].offsetWidth; }
+    const bw = kq.clientWidth, p = on && sn ? on.p : 1; rn.style.transform = `translateX(${(bw - p * (bw + WQ_RX2)).toFixed(2)}px)`;
+  } else if (WQ_CNTEL2) WQ_CNTEL2.style.display = 'none';
   // a story earns its tag once it is fully scanned; pulled back out of the bar, the tag is engraved row by row
   // as it crosses the scan line, with the laser running along the bar's edge above it
   let eng = null;
-  feed.forEach(c => { const el = c.el; if (el.__wqt === undefined) el.__wqt = el.querySelector('.wqt'); const tg = el.__wqt; if (!tg) return;
-    if (!el.__wqe) { if (top >= c.b) el.__wqe = 1; else return; }
+  feed.forEach(c => { const el = c.el; if (top < c.t - 1) el.__wqin = 0; if (el.__wqt === undefined) el.__wqt = el.querySelector('.wqt'); const tg = el.__wqt; if (!tg) return;
+    if (!el.__wqe) { if (top >= c.b) el.__wqe = 1; else {
+      // the first time in: the laser burns the tag as it crosses the scan line (it is under the bar, so only the laser shows), and from then on it is engraved
+      if (!tg.__o) { const a = el.getBoundingClientRect(), b = tg.getBoundingClientRect(); tg.__o = { t: b.top - a.top, b: b.bottom - a.top, l: b.left - a.left, r: b.right - a.left }; }
+      const o = tg.__o, tT = c.t + o.t, tB = c.t + o.b, q = (tB - top) / Math.max(1, tB - tT);
+      if (q <= 0) el.__wqe = 1; else { if (q < 1) eng = { no: el.dataset.no, l: X(c.l + o.l, c), r: X(c.l + o.r, c), q, el }; return; } } }
     if (!tg.__o) { const a = el.getBoundingClientRect(), b = tg.getBoundingClientRect(); tg.__o = { t: b.top - a.top, b: b.bottom - a.top, l: b.left - a.left, r: b.right - a.left }; }
     const o = tg.__o, tT = c.t + o.t, tB = c.t + o.b, q = wqCl((tB - top) / Math.max(1, tB - tT)), k = q.toFixed(3);
     if (tg.__q !== k) { tg.__q = k; const cp = q >= 1 ? 'none' : `inset(${(100 * (1 - q)).toFixed(1)}% 0 0 0)`;
       const all = [tg]; const v = typeof RMAP !== 'undefined' && RMAP.get(el); if (v && v.sl) v.sl.forEach(x => { const t2 = x.k && x.k.querySelector('.wqt'); if (t2) all.push(t2); });
       all.forEach(t => { t.style.clipPath = cp; const lz = t.querySelector('.lz'); if (lz) { lz.style.opacity = q > 0 && q < 1 ? 1 : 0; lz.style.top = ((1 - q) * (o.b - o.t) - 1).toFixed(1) + 'px'; } }); }
-    if (q > 0 && q < 1 && WQ_MV && WQ_MV.dir < 0) eng = { no: el.dataset.no, l: X(c.l + o.l), r: X(c.l + o.r), q }; });
-  if (!WQ_BEAM || !WQ_Q.contains(WQ_BEAM)) { WQ_BEAM = document.createElement('i'); WQ_BEAM.className = 'wq-beam'; WQ_Q.appendChild(WQ_BEAM); }
-  if (eng) { WQ_ENG = Object.assign(eng, { t: now }); } else if (WQ_ENG && now - WQ_ENG.t > 500) WQ_ENG = null;
+    if (q > 0 && q < 1) eng = { no: el.dataset.no, l: X(c.l + o.l, c), r: X(c.l + o.r, c), q, el }; });   // the laser runs whichever way the tag crosses
+  // the laser lives on the scanner's housing, not inside the bar, so it can sit right on the tag's edge as the tag comes out from under the bar
+  if (!WQ_BEAM || WQ_BEAM.parentElement !== WSH) { if (WQ_BEAM) WQ_BEAM.remove(); WQ_BEAM = document.createElement('i'); WQ_BEAM.className = 'wq-beam'; WSH.appendChild(WQ_BEAM); }
+  // the laser is drawn from the tag's own place on the scan line in this same frame, so it keeps pace at any speed; held still, it goes out
+  if (eng) { eng.t = WQ_ENG && Math.abs(WQ_ENG.q - eng.q) < 1e-4 ? WQ_ENG.t : now; WQ_ENG = eng; } else WQ_ENG = null;
   WQ_EDGE = off <= .5 ? 'top' : off >= wsMaxOff() - .5 ? 'end' : '';
   // the report: one story at a time, only while the board drifts on its own
-  let rep = WQ_REP;
-  if (rep) { rep.p = pOf(rep.c); if (rep.p <= 0 || (rep.p >= 1 && !rep.done)) { if (rep.p >= 1) rep.done = now; else rep = null; } if (rep && !rep.off && !wqAuto()) rep.off = now; if (rep && rep.done && now - rep.done > 900) rep = null; }
-  if (!rep && wqAuto() && WQ_MV && WQ_MV.dir > 0) { const nx = going.filter(o => o.p < .25).sort((a, b) => a.p - b.p)[0]; if (nx) rep = Object.assign({ c: nx.c, p: nx.p }, wqLines(nx.c.el)); }
-  WQ_REP = rep; WQ_N = n;
+  const upRep = (rep, pick) => {
+    if (rep) { rep.p = pOf(rep.c); { const g0 = rep.c.el.__wq; if (g0 && g0.fin > 0 && !rep.done) { rep.p = 1; rep.done = now; } }   /* the readout finishes the moment the scan does */
+      if (rep.p <= 0 || (rep.p >= 1 && !rep.done)) { if (rep.p >= 1) rep.done = now; else rep = null; } if (rep && !rep.off && !wqAuto()) rep.off = now; if (rep && rep.done && now - rep.done > 1700) rep = null; }
+    if (!rep && wqAuto() && WQ_MV && WQ_MV.dir > 0) { const nx = going.filter(o => o.p < .5 && pick(o)).sort((a, b) => a.p - b.p)[0]; if (nx) rep = Object.assign({ c: nx.c, p: nx.p }, wqLines(nx.c.el)); }
+    return rep; };
+  // D: each scanner follows the stories of its own column
+  if (WQ_V === 'D' && WQ_GUT) { WQ_REP = upRep(WQ_REP && WQ_REP.c.side ? null : WQ_REP, o => !o.c.side); WQ_REP2 = upRep(WQ_REP2, o => !!o.c.side); }
+  else { WQ_REP = upRep(WQ_REP, () => true); WQ_REP2 = null; }
+  WQ_N = n;
 }
 // the closed loop flashes the story's tag color, glowing softly inward from its edges, then fades
 function wqHex(c) { if (Array.isArray(c)) return c; const m = /^#([0-9a-f]{6})$/i.exec(String(c || '').trim()); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : wqRgb(c); }
 function wqMix(a, b, k) { const A = wqHex(a), B = wqHex(b); return A && B ? `rgb(${A.map((x, i) => Math.round(x + (B[i] - x) * k)).join(',')})` : b; }
+// the last sliver of a finished story, still curling under the bar, is swallowed the moment its scan completes, so the finish
+// light never rises while part of the story is still showing below the bar
+function wqSwallow(el, on) { const v = typeof RMAP !== 'undefined' && RMAP.get(el); if (!v || !v.sl) return;
+  v.sl.forEach(x => { if (!x.k) return; x.k.style.transition = on ? 'opacity .1s linear' : ''; x.k.style.opacity = on ? '0' : ''; }); if (v.rb) v.rb.style.opacity = on ? '0' : ''; }
 function wqFinish(t) {
   WQ_FINS = WQ_FINS.filter(g => {
     const e = (t - g.fin) / (g.spd || 1), o2 = g.w / 2, still = WQ_RM.matches;   // sc < 1: a quick flash when fed by hand
@@ -5500,40 +5718,128 @@ function wqFinish(t) {
     // starts the moment the story's edge locks under the bar: the color and its glow fade in over about a frame, hold,
     // then the whole outline (strokes locked in place, never trimmed) fades out with the color
     const kin = still ? 1 : wqCl((e + 60) / 600), fade = wqCl(1 - (e - 900) / 480), op = still ? (e < 900 ? 1 : 0) : (e < 900 ? 1 : fade), gop = still ? op : Math.min(op, kin);
-    const cc = wqMix(g.sc, g.col, kin); g.cc = cc;
+    const cc = WQ_V === 'B' ? wqMix(g.sc, g.col, kin) : g.sc; g.cc = cc;   // the color now lives in the finishing glow under the bar
     [g.l, g.r, g.bl, g.br].forEach(p => { p.setAttribute('stroke-dasharray', 'none'); p.style.stroke = cc; p.style.opacity = (p === g.bl || p === g.br) && g.rbx ? 0 : op; });   // the story's own held edge is the bottom line
     g.op = op;
-    if (g.gl) { const c3 = wqHex(g.col) || [43, 43, 43]; Object.assign(g.gl.style, { left: (g.l0 - o2) + 'px', width: (g.r0 - g.l0 + g.w) + 'px', boxShadow: `inset 0 0 ${(U * 2.4).toFixed(1)}px rgba(${c3.join(',')},.85)`, opacity: gop }); }
-    if (e < 1400 && !g.kill) return true;   // a newer story's flash ends this one: one flash per story
+    if (g.side !== undefined) {
+      // B: the outer side lights solid; the top and the bottom light too, fading out toward the middle with no hard end; no inner side
+      const u = wqGrad(g, cc, g.out, g.inn); g.l.setAttribute('d', `M${g.inn} ${o2}H${g.out}V${g.H - o2}H${g.inn}`); g.l.style.stroke = u; g.r.style.opacity = 0; g.bl.style.opacity = 0; g.br.style.opacity = 0;
+      if (g.gl) { const c3 = wqHex(g.col) || [43, 43, 43], cs = c3.join(','); Object.assign(g.gl.style, { left: (g.l0 - o2) + 'px', width: (g.r0 - g.l0 + g.w) + 'px', boxShadow: 'none', background: `linear-gradient(${g.side ? 'to left' : 'to right'}, rgba(${cs},.6), rgba(${cs},.2) 40%, rgba(${cs},0) 85%)`, opacity: gop }); }
+    }
+    else {
+      // the finishing light rising up the bar erases the outline as it passes: both sides trim from the bottom up, then the top
+      // trims in from both ends to the top center where they met; the story's bottom edge goes as the light leaves it
+      // the finished flash climbs the bar: it wipes the two sides from the bottom up as it passes, and when it reaches the top it takes the top line with it
+      const k = still ? (e < 300 ? 0 : 1) : wqCl(e * (g.spd || 1) / Math.max(.6, g.spd || 1) / 450), ez = x => x * x * (3 - 2 * x), fy = ez(Math.max(0, (k - .15) / .85));
+      // the sides fade out under the flash (a soft edge just below it, never a hard cut); the top line fades as the flash reaches it
+      if (!g.gv || !g.gv.isConnected) { let df = WQ_SVG.querySelector('defs'); if (!df) { df = document.createElementNS('http://www.w3.org/2000/svg', 'defs'); WQ_SVG.prepend(df); }
+        g.gv = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient'); g.gv.id = 'wqv' + Math.random().toString(36).slice(2, 8); g.gv.setAttribute('gradientUnits', 'userSpaceOnUse'); g.gv.setAttribute('x1', 0); g.gv.setAttribute('x2', 0); g.gv.setAttribute('y2', 0);
+        g.gv.innerHTML = '<stop/><stop/><stop/><stop/>'; df.appendChild(g.gv); }
+      g.gv.setAttribute('y1', g.H);
+      const sf = .06, st = [[0, fy > 0 ? 0 : 1], [Math.max(0, fy - sf), fy > 0 ? 0 : 1], [Math.min(1, fy + .02), 1], [1, 1]];
+      [...g.gv.children].forEach((x, i) => { x.setAttribute('offset', st[i][0].toFixed(3)); x.setAttribute('stop-color', g.sc); x.setAttribute('stop-opacity', st[i][1]); });
+      const top = 1 - wqCl((k - .9) / .1);   // the top line stays whole until the flash reaches it, then goes at once
+      [g.l, g.r].forEach(p => { p.setAttribute('stroke-dasharray', 'none'); p.style.stroke = `url(#${g.gv.id})`; p.style.opacity = top.toFixed(3); });
+      g.op = Math.max(0, 1 - k * 5);
+      if (g.gl) g.gl.style.opacity = 0;
+    }
+    if (e * (g.spd || 1) / Math.max(.6, g.spd || 1) < (g.side !== undefined ? 1400 : 470) && !g.kill) return true;   // a newer story's flash ends this one: one flash per story
     g.done = 1; g.op = 0;
-    [g.l, g.r, g.bl, g.br].forEach(p => { p.style.opacity = 0; p.style.stroke = ''; }); if (g.gl) { g.gl.remove(); g.gl = null; }
+    [g.l, g.r, g.bl, g.br].forEach(p => { p.style.opacity = 0; p.style.stroke = ''; }); if (g.gl) { g.gl.remove(); g.gl = null; } if (g.gv) { g.gv.remove(); g.gv = null; }
     return false; });
 }
-let WQ_SAYK = '', WQ_LG = null;
+let WQ_CG = [null, null], WQ_UP = [null, null], WQ_CGE = [null, null], WQ_BGL = null, WQ_SPK = null, WQ_DETS = [null, null], WQ_LIPS = [null, null], WQ_DS = [0, 0], WQ_UND = [0, 0], WQ_SAYK = '', WQ_LG = null, WQ_B1 = null, WQ_B2 = null, WQ_IC2 = null, WQ_REP2 = null, WQ_LDS = [null, null];
 function wqFrame() {
   requestAnimationFrame(wqFrame);
   if (TVMODE || !WQ_Q || !WQ_Q.isConnected || WSOPEN || !WSH) return;
   const t = performance.now(); wqFinish(t);
   const inp = WSH.querySelector('input'); if (!inp) return;
-  if (!WQ_LOG || !WQ_Q.contains(WQ_LOG)) { WQ_LOG = document.createElement('span'); WQ_LOG.className = 'wq-log'; WQ_LOG.innerHTML = '<span></span><span style="position:absolute;visibility:hidden"></span>'; WQ_CAR = document.createElement('b'); WQ_CAR.className = 'wq-car'; WQ_Q.appendChild(WQ_LOG); WQ_Q.appendChild(WQ_CAR); }
-  // the log's place and room are read a few times a second, not every frame: each read forced the page to lay out again
-  if (!WQ_LG || WQ_LG.log !== WQ_LOG || t - WQ_LG.t > 600) { const fs = getComputedStyle(inp).fontSize, x0 = inp.offsetLeft, rt = (WQ_CNTEL ? WQ_CNTEL.offsetWidth + U * 3 : U * 12) + 'px';
-    if (!WQ_LG || WQ_LG.x0 !== x0 || WQ_LG.fs !== fs || WQ_LG.rt !== rt || WQ_LG.log !== WQ_LOG) { WQ_LOG.style.left = (x0 - U) + 'px'; WQ_LOG.style.paddingLeft = U + 'px'; WQ_LOG.style.fontSize = fs; WQ_LOG.style.right = rt; }
-    WQ_LG = { t, x0, fs, rt, log: WQ_LOG, room: WQ_LOG.clientWidth - U * 1.6 }; }
-  const x0 = WQ_LG.x0, tx = WQ_LOG.firstChild, ms = WQ_LOG.lastChild, room = WQ_LG.room, still = WQ_RM.matches;
-  const fit = s => { ms.textContent = s; if (ms.offsetWidth <= room) return s; const w = s.split(' '); while (w.length > 1) { w.pop(); ms.textContent = w.join(' ') + '…'; if (ms.offsetWidth <= room) break; } return w.join(' ').replace(/[,:]$/, '') + '…'; };
-  // only measure when the words or the room change: measuring text every frame forced a layout each frame
-  const say = (txt, col, blink) => { const k = txt + '|' + room + '|' + x0; if (WQ_SAYK !== k) { WQ_SAYK = k; document.documentElement.classList.add('wq-has'); tx.textContent = fit(txt); WQ_CAR.style.left = (x0 + tx.offsetWidth + 3) + 'px'; }
-    if (WQ_CAR.__c !== col) { WQ_CAR.__c = col; WQ_CAR.style.background = col; } const ov = blink && !still ? (Math.floor(t / blink) % 2 ? 1 : 0) : 1; if (WQ_CAR.__o !== ov) { WQ_CAR.__o = ov; WQ_CAR.style.opacity = ov; } };
-  if (WQ_BEAM) { const e = WQ_ENG && t - WQ_ENG.t < 160 ? WQ_ENG : null;
-    if (e && !still) { const sw = (t % 260) / 260; WQ_BEAM.style.opacity = 1; WQ_BEAM.style.left = e.l + 'px'; WQ_BEAM.style.width = Math.max(0, (e.r - e.l) * sw) + 'px'; } else WQ_BEAM.style.opacity = 0; }
+  const two = WQ_V === 'D' && !!WQ_GUT, one = document.documentElement.classList.contains('one');
+  // one readout per scanner: in D the right scanner has its own glass, status line and caret, the same design as the left
+  const mkB = () => { const log = document.createElement('span'); log.className = 'wq-log'; log.innerHTML = '<span></span><span style="position:absolute;visibility:hidden"></span>'; const car = document.createElement('b'); car.className = 'wq-car'; WQ_Q.appendChild(log); WQ_Q.appendChild(car); return { log, car, k: '' }; };
+  if (!WQ_LOG || !WQ_Q.contains(WQ_LOG)) { WQ_B1 = mkB(); WQ_LOG = WQ_B1.log; WQ_CAR = WQ_B1.car; WQ_LG = null; }
+  if (two && (!WQ_B2 || !WQ_Q.contains(WQ_B2.log))) { WQ_B2 = mkB(); const g0 = inp.parentElement.querySelector('svg'); WQ_IC2 = g0 ? g0.cloneNode(true) : document.createElement('i'); WQ_IC2.classList.add('wq-ic2'); WQ_Q.appendChild(WQ_IC2); WQ_LG = null; }
+  if (WQ_B2) { const d = two ? '' : 'none'; if (WQ_B2.log.style.display !== d) { WQ_B2.log.style.display = WQ_B2.car.style.display = WQ_IC2.style.display = d; } }
+  // places and room are read a few times a second, not every frame: each read forced the page to lay out again
+  if (!WQ_LG || WQ_LG.log !== WQ_LOG || WQ_LG.two !== two || t - WQ_LG.t > 600) { const fs0 = parseFloat(getComputedStyle(inp).fontSize) || 16, fs = (one ? fs0 : fs0 * .86) + 'px', x0 = inp.offsetLeft, W = WQ_Q.clientWidth;
+    const place = (log, x, rt) => { log.style.left = (x - U) + 'px'; log.style.paddingLeft = U + 'px'; log.style.fontSize = fs; log.style.right = rt + 'px'; };
+    place(WQ_B1.log, x0, two && WQ_CNTEL2 ? W - WQ_GUT.l + WQ_CNTEL2.offsetWidth + U * 3 : WQ_CNTEL ? WQ_CNTEL.offsetWidth + U * 3 : U * 12);
+    let x2 = 0; if (two) { const g0 = inp.parentElement.querySelector('svg'); x2 = WQ_GUT.r + x0; WQ_IC2.style.left = (WQ_GUT.r + (g0 ? g0.getBoundingClientRect().left - WQ_Q.getBoundingClientRect().left : U * 2)) + 'px'; place(WQ_B2.log, x2, WQ_CNTEL ? WQ_CNTEL.offsetWidth + U * 3 : U * 12); }
+    WQ_LG = { t, x0, x2, two, log: WQ_LOG, r1: WQ_B1.log.clientWidth - U * 1.6, r2: two ? WQ_B2.log.clientWidth - U * 1.6 : 0 }; }
+  const still = WQ_RM.matches, CO = one ? 1 : .55;   // the caret: a touch dimmer on desktop
+  const mkSay = (B, x0, room) => { const tx = B.log.firstChild, ms = B.log.lastChild;
+    const fit = s => { ms.textContent = s; if (ms.offsetWidth <= room) return s; const w = s.split(' '); while (w.length > 1) { w.pop(); ms.textContent = w.join(' ') + '…'; if (ms.offsetWidth <= room) break; } return w.join(' ').replace(/[,:]$/, '') + '…'; };
+    // only measure when the words or the room change: measuring text every frame forced a layout each frame
+    const say = (txt, col, blink) => { const k = txt + '|' + room + '|' + x0; if (B.k !== k) { B.k = k; document.documentElement.classList.add('wq-has'); tx.textContent = fit(txt); B.car.style.left = (x0 + tx.offsetWidth + 3) + 'px'; }
+      if (B.car.__c !== col) { B.car.__c = col; B.car.style.background = col; } const ov = blink && !still ? (Math.floor(t / blink) % 2 ? CO : 0) : CO; if (B.car.__o !== ov) { B.car.__o = ov; B.car.style.opacity = ov; } };
+    return { fit, say }; };
+  const S1 = mkSay(WQ_B1, WQ_LG.x0, WQ_LG.r1), S2 = two ? mkSay(WQ_B2, WQ_LG.x2, WQ_LG.r2) : null;
+  const say = (txt, col, blink) => { S1.say(txt, col, blink); if (S2) S2.say(txt, col, blink); };   // a message about the whole board shows on both
+  if (WQ_BEAM) { const e = WQ_ENG && t - WQ_ENG.t < 220 ? WQ_ENG : null;
+    // the laser rasters the tag in four passes, back and forth; where it is comes from how far the tag has crossed, never from the clock
+    if (e && !still) { const k = e.q * 4, n = Math.min(3, Math.floor(k)), f = k - n, x = (n % 2 ? 1 - f : f) * 100;
+      const hb = WSH.getBoundingClientRect(), bb = WQ_Q.getBoundingClientRect(); let yt = bb.bottom;
+      // the tag's edge where it shows on the drum, just below the bar: the laser sits right on it, with no gap
+      const v = typeof RMAP !== 'undefined' && e.el && RMAP.get(e.el); if (v && v.sl) { let m = 1e9; v.sl.forEach(x => { const tg = x.k && x.k.querySelector('.wqt'); if (!tg) return; const r = tg.getBoundingClientRect(); if (r.height > .3 && r.bottom > bb.bottom - .5 && r.top < m) m = r.top; }); if (m < bb.bottom + U * 2) yt = Math.max(bb.bottom, m); }
+      WQ_BEAM.style.opacity = 1; WQ_BEAM.style.left = (e.l + bb.left - hb.left) + 'px'; WQ_BEAM.style.width = Math.max(0, e.r - e.l) + 'px'; WQ_BEAM.style.top = (yt - hb.top - 1) + 'px'; WQ_BEAM.style.bottom = 'auto';
+      // a light-red point with a longer trail behind it; it lights the paper under it, and now and then a tiny spark jumps up
+      const R = 'rgba(206,78,68,', dir = n % 2 ? 1 : -1, tl = Math.max(0, Math.min(100, x + dir * 48));
+      const g = (a1, a2, a3) => dir < 0
+        ? `linear-gradient(90deg, ${R}0) 0%, ${R}0) ${tl.toFixed(1)}%, ${R}${a3}) ${Math.max(tl, x - 6).toFixed(1)}%, ${R}${a2}) ${Math.max(tl, x - 1).toFixed(1)}%, ${R}${a1}) ${x.toFixed(1)}%, ${R}0) ${Math.min(100, x + 2).toFixed(1)}%, ${R}0) 100%)`
+        : `linear-gradient(90deg, ${R}0) 0%, ${R}0) ${Math.max(0, x - 2).toFixed(1)}%, ${R}${a1}) ${x.toFixed(1)}%, ${R}${a2}) ${Math.min(tl, x + 1).toFixed(1)}%, ${R}${a3}) ${Math.min(tl, x + 6).toFixed(1)}%, ${R}0) ${tl.toFixed(1)}%, ${R}0) 100%)`;
+      WQ_BEAM.style.background = g(.95, .62, .36);
+      if (!WQ_BGL || WQ_BGL.parentElement !== WSH) { WQ_BGL = document.createElement('i'); WQ_BGL.className = 'wq-bgl'; WSH.appendChild(WQ_BGL); WQ_SPK = [0, 1, 2].map(() => { const k = document.createElement('i'); k.className = 'wq-spk'; WSH.appendChild(k); return k; }); }
+      Object.assign(WQ_BGL.style, { opacity: 1, left: WQ_BEAM.style.left, width: WQ_BEAM.style.width, top: (yt - hb.top + 1) + 'px', background: g(.42, .26, .12) });
+      const px = e.l + bb.left - hb.left + (e.r - e.l) * x / 100;
+      WQ_SPK.forEach((k, i) => { const ph = ((t / 90) + i * 1.7) % 4; const on = ph < 1 && ((Math.floor(t / 360) + i) % 3 === 0); k.style.opacity = on ? (.55 * (1 - ph)).toFixed(2) : 0; k.style.left = (px + (i - 1) * 2.5 - dir * 3) + 'px'; k.style.top = (yt - hb.top - 2 - ph * 3.5) + 'px'; }); }
+    else { WQ_BEAM.style.opacity = 0; if (WQ_BGL) WQ_BGL.style.opacity = 0; if (WQ_SPK) WQ_SPK.forEach(k => k.style.opacity = 0); } }
+  // per scanner, on the housing just under the bar: the red light (its glow falls down onto the incoming story) and the shadow the paper
+  // turns away into. The light is tied to how far the story is into the scanner, so it lasts longer on a slow feed and is brief on a fast one;
+  // the shadow shows only while a story is under that scanner, and comes and goes slowly
+  { const nS = two ? 2 : 1, hb = WSH.getBoundingClientRect(), bb = WQ_Q.getBoundingClientRect(), W = bb.width;
+    for (let s = 0; s < 2; s++) {
+      if (!WQ_DETS[s] || WQ_DETS[s].parentElement !== WSH) { WQ_DETS[s] = document.createElement('i'); WQ_DETS[s].className = 'wq-det'; WSH.appendChild(WQ_DETS[s]); WQ_DETS[s].__v = 0; }
+      if (!WQ_LIPS[s] || WQ_LIPS[s].parentElement !== WSH) { WQ_LIPS[s] = document.createElement('i'); WQ_LIPS[s].className = 'wq-lip'; WSH.appendChild(WQ_LIPS[s]); }
+      const D = WQ_DETS[s], Lp = WQ_LIPS[s];
+      if (s >= nS) { D.style.display = Lp.style.display = 'none'; continue; } D.style.display = Lp.style.display = '';
+      const [l0, r0] = two ? (s ? [WQ_GUT.r, W] : [0, WQ_GUT.l]) : [0, W], k = [bb.left - hb.left + l0, r0 - l0, bb.bottom - hb.top].map(v => v.toFixed(1)).join();
+      if (D.__k !== k) { D.__k = k; const [L, Wd, T] = k.split(','); Object.assign(D.style, { left: L + 'px', width: Wd + 'px', top: T + 'px' }); Object.assign(Lp.style, { left: L + 'px', width: Wd + 'px', top: T + 'px' }); }
+      D.__v += ((still ? 0 : WQ_DS[s]) - D.__v) * .18; const op = Math.max(0, .5 * D.__v); if (Math.abs((D.__o || 0) - op) > .004) { D.__o = op; D.style.opacity = op.toFixed(3); }
+      Lp.__v = (Lp.__v || 0) + (WQ_UND[s] - (Lp.__v || 0)) * .25; const lo = Lp.__v.toFixed(3); if (Lp.style.opacity !== lo) Lp.style.opacity = lo;
+      // the finishing glow along this scanner's bottom edge: shining down onto the story in its tag color, building with the scan;
+      // over the last tenth it swings to shine up into the bar, and at the finish it shoots up through the bar and is gone
+      if (!WQ_CGE[s] || WQ_CGE[s].d.parentElement !== WSH) { const d = document.createElement('i'), u = document.createElement('i'); d.className = 'wq-cgd'; u.className = 'wq-cgu'; WSH.append(d, u); WQ_CGE[s] = { d, u }; }
+      const E = WQ_CGE[s], G = WQ_CG[s], UP = WQ_UP[s], bh = bb.height, ez = k => k * k * (3 - 2 * k);
+      let dn = 0, up = 0, rise = 0, col = G ? G.col : UP ? UP.col : '#888';
+      if (G && !still) { const q = G.q; dn = q < .9 ? .55 * ez(q / .9) : .55 * (1 - ez((q - .9) / .1)); up = q < .9 ? 0 : .6 * ez((q - .9) / .1); }
+      // the finish: light thrown up off the scanner's edge, a soft trail that reaches up the bar and thins out as it goes, never a moving band
+      let lift = 0, fk = -1; if (UP && !still) { const a = (t - UP.t) / (UP.spd || 1); if (a < 450) { const k = a / 450; fk = k; up = Math.max(up, .15 * (1 - ez(Math.max(0, (k - .3) / .7)))); lift = Math.max(.001, ez(Math.max(0, (k - .15) / .85))); rise = 1; col = UP.col; dn = Math.max(0, dn * (1 - k)); } else WQ_UP[s] = null; }
+      const [L, Wd, T] = D.__k.split(',').map(Number), c3 = (wqHex(col) || [140, 140, 140]).join(',');
+      if (E.d.__c !== c3) { E.d.__c = c3; E.d.style.background = `linear-gradient(to bottom, rgba(${c3},.9), rgba(${c3},.35) 30%, rgba(${c3},0))`; E.u.style.background = `linear-gradient(to top, rgba(${c3},.85), rgba(${c3},.3) 35%, rgba(${c3},0))`; }
+      Object.assign(E.d.style, { left: L + 'px', width: Wd + 'px', top: T + 'px', opacity: dn.toFixed(3) });
+      { const fr = Math.max(.35, rise || (G ? .35 + .3 * Math.max(0, (G.q - .9) / .1) : .35)), pc = v => (v * 100).toFixed(1) + '%';
+        // at the finish the light leaves the bottom edge and travels up the bar: its tail lifts off the edge, its glow trails above it and thins to nothing at the top
+        E.u.style.background = lift > 0 ? (() => { const b = lift;   // a faint colored haze on both sides of the climbing line
+            return `linear-gradient(to top, rgba(${c3},0) ${pc(Math.max(0, b - .4))}, rgba(${c3},.2) ${pc(Math.max(0, b - .15))}, rgba(${c3},.34) ${pc(b)}, rgba(${c3},.18) ${pc(b + .15)}, rgba(${c3},.05) ${pc(b + .32)}, rgba(${c3},0) ${pc(b + .45)})`; })()
+          : `linear-gradient(to top, rgba(${c3},.8) 0, rgba(${c3},.42) ${pc(fr * .22)}, rgba(${c3},.16) ${pc(fr * .55)}, rgba(${c3},.05) ${pc(fr * .8)}, rgba(${c3},0) ${pc(fr)})`;
+        // full width at the bottom edge, drawing in toward the middle as it rises
+        const tp = 'linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)';   // straight up the full width, no taper
+        if (E.u.__tp !== tp) { E.u.__tp = tp; E.u.style.webkitMaskImage = E.u.style.maskImage = tp; }
+        Object.assign(E.u.style, { left: L + 'px', width: Wd + 'px', top: (T - bh) + 'px', height: bh + 'px', opacity: up.toFixed(3) });
+        // the flash itself: the colored bottom line, the full width of this scanner, travelling up to the top line
+        if (!E.f || E.f.parentElement !== WSH) { E.f = document.createElement('i'); E.f.className = 'wq-cgf'; WSH.appendChild(E.f); }
+        const B = s ? WQ_B2 : WQ_B1, lg = B && B.log;
+        if (fk >= 0) { const fq = Math.max(0, (fk - .15) / .85), y = ez(fq) * bh, fo = fk < .88 ? 1 : 1 - (fk - .88) / .12;   // lights at the bottom edge first, then climbs
+          Object.assign(E.f.style, { left: L + 'px', width: Wd + 'px', top: (T - y - 1) + 'px', opacity: (fo * .25).toFixed(3), background: `linear-gradient(90deg, rgba(${c3},.35), rgb(${c3}) 12%, rgb(${c3}) 88%, rgba(${c3},.35))`, boxShadow: `0 0 ${(U * 1.6).toFixed(1)}px ${(U * .5).toFixed(1)}px rgba(${c3},.55), 0 0 ${(U * 3.2).toFixed(1)}px ${(U * 1).toFixed(1)}px rgba(${c3},.22)` });   // a soft colored glow above and below the line
+        } else { if (E.f.style.opacity !== '0') E.f.style.opacity = 0; if (lg && lg.style.clipPath) lg.style.clipPath = ''; } } } }
   const DK = document.documentElement.classList.contains('dark') ? '#D4D4D4' : '#0D0F12', dots = '.'.repeat(1 + Math.floor(t / 300) % 3);
   if (WQ_NOTE && t < WQ_NOTE.until) return say(WQ_NOTE.txt, DK, 0);
+  if (WQ_GO) return say(WQ_GO.msg, DK, 0);
   if (WQ_EDGE === 'end') return say('End of today’s feed. All stories scanned', DK, 520);
   // a hand on the board
   const hand = WQ_MV && !wqAuto() && t - WQ_MV.t < 700, fast = Math.abs(vel) > U * 220;
   if (hand) {
-    WQ_REP = null;
+    WQ_REP = null; WQ_REP2 = null;
     if (!WQ_HS || WQ_HS.dir !== WQ_MV.dir) WQ_HS = { dir: WQ_MV.dir, n0: WQ_N, t0: t };
     const d = Math.abs(WQ_N - WQ_HS.n0), early = t - WQ_HS.t0 < 650;
     if (WQ_MV.dir > 0) return say(early ? 'Manual override' : fast ? `Fast feed${d ? ', ' + d + ' scanned by hand' : dots}` : `Manual scanning${d ? ', ' + d + ' in' : dots}`, DK, 70);
@@ -5542,17 +5848,22 @@ function wqFrame() {
   if (dragY !== null) return say('Feed held', DK, 520);
   WQ_HS = null;
   if (!wqAuto() && lastIn > 0 && t - lastIn < 1500) return say(`Restarting automatic scanning${dots}`, DK, 300);
-  const rep = WQ_REP;
-  if (lastIn > 0 && t - lastIn < 2300 && !rep) return say('Automatic scanning resumed', DK, 0);
-  if (WQ_EDGE === 'top' && !rep) return say('Start of today’s feed. Scanning begins', DK, 520);
-  if (!rep || rep.off) return say('Next story ready to scan', DK, 520);
-  // one story: detected, two plain facts typed in, then the load to 100
-  const p = wqCl(rep.p), col = rep.col;
-  if (rep.done) return say('100%. Scan complete', col, 0);
-  if (p < .08) return say(`Story detected. Beginning scan${dots}`, col, 0);
-  if (p >= .8) return say(`Loading ${Math.min(99, Math.floor(p * 100))}%`, col, 0);
-  const L = rep.lines.map(fit), n = L.length, span = .72 / n, i = Math.min(n - 1, Math.floor((p - .08) / span)), lp = wqCl((p - .08 - i * span) / (span * .7)), s = L[i];
-  say(s.slice(0, Math.round(s.length * lp)), col, lp > 0 && lp < 1 ? 0 : 480);
+  // each scanner reports the story it is reading, on its own
+  const story = (S, rep, slot) => {
+    if (lastIn > 0 && t - lastIn < 2300 && !rep) return S.say('Automatic scanning resumed', DK, 0);
+    if (WQ_EDGE === 'top' && !rep) return S.say('Start of today’s feed. Scanning begins', DK, 520);
+    // between two stories: the last one's completion stays up, so no line flashes past too fast to read
+    const LD = WQ_LDS[slot];
+    if ((!rep || rep.off) && LD && t - LD.t < 2600) return S.say(LD.txt, LD.col, 0);
+    if (!rep || rep.off) return S.say('Next story ready to scan', DK, 520);
+    // one story: detected, two plain facts typed in, then the load to 100
+    const p = wqCl(rep.p), col = rep.col;
+    if (rep.done) { const no = rep.c.el.dataset.no, txt = `${no ? 'Story ' + no : 'Story'} scanned. Next up`; if (!LD || LD.d !== rep.done) WQ_LDS[slot] = { d: rep.done, t, txt, col }; else LD.t = t; return S.say(txt, col, 0); }
+    if (p < .08) return S.say(`Story detected. Beginning scan${dots}`, col, 0);
+    if (p >= .8) return S.say(`Loading ${Math.min(99, Math.floor(p * 100))}%`, col, 0);
+    const L = rep.lines.map(S.fit), n = L.length, span = .72 / n, i = Math.min(n - 1, Math.floor((p - .08) / span)), lp = wqCl((p - .08 - i * span) / (span * .7)), s = L[i];
+    S.say(s.slice(0, Math.round(s.length * lp)), col, lp > 0 && lp < 1 ? 0 : 480); };
+  story(S1, WQ_REP, 0); if (S2) story(S2, WQ_REP2, 1);
 }
 requestAnimationFrame(wqFrame);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) wqTell('Welcome back. Resuming scan', 1800); });
@@ -5649,10 +5960,16 @@ function wsFold() {
 }
 function wsOpen() {
   if (TVMODE || WSOPEN || wsBusy || !WSH) return;
+  // two columns: the stories on the scanner settle first (dropped back out, or swallowed), then the search opens
+  if (WQ_V && WQ_TWO && !WQ_OK) { if (WQ_GO) return; if (wqSettle('auto', () => { WQ_OK = 1; wsOpen(); WQ_OK = 0; })) return; }
   gc('search/open', 'Search opened');
   if (wsKeep === null) wsKeep = speed; speed = 0; vel = 0; tvel = 0; lastIn = performance.now();
   { const i = WSH.querySelector('input'); if (i) { i.dataset.ph = i.dataset.ph || i.placeholder; i.placeholder = 'Scanner paused. Search today’s feed'; } }
   WSPRE = off; const c = WSD; WSOPEN = true; WSH.classList.add('open'); WSBV = 0; wsPlace();
+  // D: the scanner that was clicked is the one that opens, spreading across to fill the whole bar
+  if (WQ_V === 'D' && WQ_GUT && WSH.animate) { const r = WSH.getBoundingClientRect(), bx = WSH.querySelector('.wsearch').getBoundingClientRect(), cx = bx.left + WQ_GUT.m;
+    const from = WQ_SIDE ? `inset(0 0 0 ${Math.max(0, cx - r.left).toFixed(1)}px)` : `inset(0 ${Math.max(0, r.right - cx).toFixed(1)}px 0 0)`;
+    WSH.animate([{ clipPath: from }, { clipPath: 'inset(0 0 0 0)' }], { duration: 380, easing: 'cubic-bezier(.2,.8,.2,1)' }); }
   const fold = Object.assign(wsFold(), { c, o: WSD }); fold.tg.style.opacity = '0';
   wsSlide(c, WSD, 420, true, null, fold);
   pinWin(); setTimeout(pinWin, 60); setTimeout(pinWin, 300);
@@ -5706,6 +6023,7 @@ if (!IN_ART) {
 }
 function wireTap() {
   let sx = 0, sy = 0, st = 0, moving = false, lastDrag = 0;
+  document.addEventListener('pointerdown', e => { if (WQ_V === 'D' && WQ_GUT && e.target.closest && e.target.closest('.wsh')) { const bx = WSH.querySelector('.wsearch').getBoundingClientRect(); WQ_SIDE = e.clientX > bx.left + WQ_GUT.m ? 1 : 0; } }, true);
   view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; st = performance.now(); moving = Math.abs(vel) > 60 || Math.abs(tvel) > 60 || st - lastDrag < 350; }, true);
   view.addEventListener('pointermove', e => { if (e.buttons && Math.hypot(e.clientX - sx, e.clientY - sy) > 6) lastDrag = performance.now(); }, true);
   view.addEventListener('pointerup', e => {
@@ -5714,11 +6032,15 @@ function wireTap() {
     const el = document.elementFromPoint(e.clientX, e.clientY);
     if (el && el.closest('.wsearch')) return;
     if (wsFocused()) { const card0 = el && el.closest('#track .copy .mason > *'); const q0 = card0 && card0.querySelector('[data-u]'); if (!q0) return; const id0 = q0.dataset.u.split('#')[1] || ''; document.activeElement.blur(); pinWin(); setTimeout(() => { pinWin(); const c = cardFor(id0) && card0.isConnected ? card0 : cardFor(id0); if (c) openStory(c, id0); }, 420); return; }
-    const card = el && el.closest('#track .copy .mason > *, #track .copy > .arch');
+    let card = el && el.closest('#track .copy .mason > *, #track .copy > .arch');
+    // a tap on the part of a story rolling into the scanner counts as a tap on that story
+    if (!card && WQ_V && el && el.closest('#roll3d') && typeof RMAP !== 'undefined') RMAP.forEach(v => { if (!card && v.sl.some(x => x.k && x.k.contains(el))) card = v.c.el; });
     const q = card && card.querySelector('[data-u]');
     if (!q || !q.dataset.u) return;
     const id = q.dataset.u.split('#')[1] || '';
     if (card.classList.contains('arch')) { openStory(card, 'archive'); return; }
+    // a story on the scanner drops back out first, so it opens whole, never cut or covered by the bar
+    if (WQ_V && !WQ_GO) { const p = wqP(card); if (p > 0 && p < 1 && wqSettle('out', () => openStory(card, id), card)) return; }
     openStory(card, id);
   }, true);
 }
